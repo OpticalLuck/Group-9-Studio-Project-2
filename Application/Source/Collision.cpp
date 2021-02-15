@@ -102,13 +102,13 @@ float Collision::getZmax()
 
 float Collision::getDiffX(Collision* box1, Collision* box2)
 {
-    float XDiff_1 = (box2->getXmax() - box1->getXmin());
-    float XDiff_2 = (box1->getXmax() - box2->getXmin());
+    float XDiff_1 = box2->getXmax() - box1->getXmin();
+    float XDiff_2 = box1->getXmax() - box2->getXmin();
 
     std::cout << "XDiff1 = " << XDiff_1 << ", XDiffer2 = " << XDiff_2 << std::endl;
     if (XDiff_1 > XDiff_2)
     {
-        return XDiff_2;
+        return XDiff_2 * -1;
     }
     else
     {
