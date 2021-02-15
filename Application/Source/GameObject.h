@@ -16,12 +16,12 @@ public:
     ~GameObject();
 
     virtual void Draw(Renderer* renderer, bool EnableLight);
-    
+
     //Mutators
     void SetID(unsigned int ID);
     void SetMesh(Mesh* mesh);
     void SetTexture(std::string TextureID);
-    
+
     //Transformation - Orders does not matter as it is handled in renderer
     void SetTranslate(Vector3 Translate);
     void SetRotate(Vector3 Rotate);
@@ -45,9 +45,6 @@ private:
     //Basic Object Values
     unsigned int ID;
     Mesh* mesh;
-
-    //Collision
-    Collision* CollisionBox;
 
     GameObject* Parent;
     std::vector<GameObject*> Child;

@@ -151,13 +151,13 @@ Then generate the VBO/IBO and store them in Mesh object
 \return Pointer to mesh storing VBO/IBO of cube
 */
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateCube(const std::string &meshName, float lengthX, float lengthY, float lengthZ)
+Mesh* MeshBuilder::GenerateCube(const std::string &meshName, Color color, float lengthX, float lengthY, float lengthZ)
 {
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<unsigned> index_buffer_data;
 
-	v.color.Set(0.0f, 1.0f, 0.0f);
+	v.color = color;
 	v.pos.Set((lengthX * 0.5), (lengthY * -0.5), (lengthZ * 0.5));
 	vertex_buffer_data.push_back(v);
 
@@ -170,7 +170,6 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, float lengthX, floa
 	v.pos.Set((lengthX * -0.5), (lengthY * 0.5), (lengthZ * 0.5));
 	vertex_buffer_data.push_back(v);
 
-	v.color.Set(1.0f, 0.0f, 0.0f);
 	v.pos.Set((lengthX * 0.5), (lengthY * -0.5), (lengthZ * -0.5));
 	vertex_buffer_data.push_back(v);
 
@@ -184,21 +183,41 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, float lengthX, floa
 	vertex_buffer_data.push_back(v);
 
 	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(0);
 	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(6);
 	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(4);
 	index_buffer_data.push_back(6);
 	index_buffer_data.push_back(7);
 	index_buffer_data.push_back(5);
-	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(4);
 	index_buffer_data.push_back(1);
-	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(0);
-	index_buffer_data.push_back(6);
 	index_buffer_data.push_back(4);
 	index_buffer_data.push_back(5);
-	index_buffer_data.push_back(0);
 	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(3);
 
 	Mesh *mesh = new Mesh(meshName);
 
@@ -209,7 +228,7 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, float lengthX, floa
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer); //bind index buffer
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index_buffer_data), index_buffer_data, GL_STATIC_DRAW);
-	mesh->mode = Mesh::DRAW_MODE::DRAW_TRIANGLE_STRIP;
+	mesh->mode = Mesh::DRAW_MODE::DRAW_TRIANGLES;
 	mesh->indexSize = index_buffer_data.size();
 	return mesh;
 }

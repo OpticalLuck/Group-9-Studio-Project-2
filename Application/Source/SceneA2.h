@@ -29,7 +29,7 @@ private:
 
 	GOManager goManager;
 	GameObject* Axis;
-	GameObject* Quad;
+	Character* Cube[2];
 	Character* NPC;
 	Light* lights[1];
 };

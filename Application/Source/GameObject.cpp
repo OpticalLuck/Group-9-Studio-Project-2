@@ -50,6 +50,7 @@ void GameObject::Draw(Renderer* renderer, bool EnableLight)
 }
 
 
+
 void GameObject::SetID(unsigned int ID)
 {
 	this->ID = ID;
