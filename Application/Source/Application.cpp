@@ -1,4 +1,3 @@
-
 #include "Application.h"
 
 //Include GLEW
@@ -12,6 +11,7 @@
 #include <stdlib.h>
 
 #include "SceneA2.h"
+#include "SceneTest.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -184,7 +184,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene* scene1 = new SceneA2();
+	Scene* scene1 = new SceneTest();
 	Scene* scene = scene1;
 	scene1->Init();
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
