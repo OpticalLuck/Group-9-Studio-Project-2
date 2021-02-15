@@ -27,7 +27,7 @@ void SceneA2::Init()
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 
 	Cube[0] = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[0]->Init(Vector3(5, 0, 0), Vector3(0.5f, 0.5f, 0.5f));
+	Cube[0]->Init(Vector3(5, 0, 1), Vector3(0.5f, 0.5f, 1.5f));
 	Cube[1] = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->Init(Vector3(0, 0, 0), Vector3(0.5f, 0.5f, 0.5f));
 
@@ -122,29 +122,30 @@ void SceneA2::Update(double dt)
 		Cube[0]->SetTranslate(Vector3(Cube[0]->GetTranslate()) + speed * direction);
 		Cube[0]->Update(dt);
 
+		Collision* object = Cube[0]->GetCollBox();
+		Collision* target = Cube[1]->GetCollBox();
+		//X plane
+		float XDiff = Collision::getDiffX(object, target);
+		//Y plane
+		float YDiff = Collision::getDiffY(object, target);
+		//Z plane
+		float ZDiff = Collision::getDiffZ(object, target);
+
+		std::cout << "X = " << XDiff << ", Y = " << YDiff << ", Z = " << ZDiff << std::endl;
 		if (Collision::CheckCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox()))
 		{
-			Collision* object = Cube[0]->GetCollBox();
-			Collision* target = Cube[1]->GetCollBox();
 			Vector3 Movement = Vector3(0, 0, 0);
-			//X plane
-			float XDiff = Collision::getDiffX(object, target);
-			//Y plane
-			float YDiff = Collision::getDiffY(object, target);
-			//Z plane
-			float ZDiff = Collision::getDiffZ(object, target);
-
-			if (XDiff < YDiff && XDiff < ZDiff)
+			if (abs(XDiff) < abs(ZDiff) && abs(XDiff) < abs(YDiff))
 			{
 				Movement += Vector3(XDiff, 0, 0);
 			}
-			if (YDiff < XDiff && YDiff < ZDiff)
+			if (abs(YDiff) < abs(XDiff) && abs(YDiff) < abs(ZDiff))
 			{
-				//Movement += Vector3(0, YDiff, 0);
+				Movement += Vector3(0, YDiff, 0);
 			}
-			if (ZDiff < XDiff && ZDiff < YDiff)
+			if (abs(ZDiff) < abs(XDiff) && abs(ZDiff) < abs(YDiff))
 			{
-				//5Movement += Vector3(0, 0, ZDiff);
+				Movement += Vector3(0, 0, ZDiff);
 			}
 			//move position back until side just touch
 			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Movement);

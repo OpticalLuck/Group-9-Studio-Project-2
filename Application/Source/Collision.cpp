@@ -72,7 +72,6 @@ bool Collision::CheckCollision(Collision* box1, Collision* box2)
 float Collision::getXmin()
 {
     return position.x - halfsize.x;
-
 }
 
 float Collision::getXmax()
@@ -104,11 +103,9 @@ float Collision::getDiffX(Collision* box1, Collision* box2)
 {
     float XDiff_1 = box2->getXmax() - box1->getXmin();
     float XDiff_2 = box1->getXmax() - box2->getXmin();
-
-    std::cout << "XDiff1 = " << XDiff_1 << ", XDiffer2 = " << XDiff_2 << std::endl;
     if (XDiff_1 > XDiff_2)
     {
-        return XDiff_2 * -1;
+        return XDiff_2 * - 1;
     }
     else
     {
@@ -118,11 +115,11 @@ float Collision::getDiffX(Collision* box1, Collision* box2)
 
 float Collision::getDiffY(Collision* box1, Collision* box2)
 {
-    float YDiff_1 = abs(box2->getYmax() - box1->getYmin());
-    float YDiff_2 = abs(box2->getYmin() - box1->getYmax());
+    float YDiff_1 = box2->getYmax() - box1->getYmin();
+    float YDiff_2 = box1->getYmax() - box2->getYmin();
     if (YDiff_1 > YDiff_2)
     {
-        return YDiff_2;
+        return YDiff_2 * -1;
     }
     else
     {
@@ -132,11 +129,12 @@ float Collision::getDiffY(Collision* box1, Collision* box2)
 
 float Collision::getDiffZ(Collision* box1, Collision* box2)
 {
-    float ZDiff_1 = abs(box2->getZmax() - box1->getZmin());
-    float ZDiff_2 = abs(box2->getZmin() - box1->getZmax());
+    float ZDiff_1 = box2->getZmax() - box1->getZmin();
+    float ZDiff_2 = box1->getZmax() - box2->getZmin();
+
     if (ZDiff_1 > ZDiff_2)
     {
-        return ZDiff_2;
+        return ZDiff_2 * -1;
     }
     else
     {
