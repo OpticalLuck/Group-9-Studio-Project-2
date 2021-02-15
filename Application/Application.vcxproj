@@ -147,10 +147,10 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\CameraVer2.cpp" />
-    <ClCompile Include="Source\Component.cpp" />
-    <ClCompile Include="Source\Entity.cpp" />
-    <ClCompile Include="source\EntityManager.cpp" />
+    <ClCompile Include="Source\Character.cpp" />
+    <ClCompile Include="Source\Collision.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
+    <ClCompile Include="Source\GOManager.cpp" />
     <ClCompile Include="source\Light.cpp" />
     <ClCompile Include="Source\LoadCSV.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -167,10 +167,10 @@
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\CameraVer2.h" />
-    <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\Entity.h" />
-    <ClInclude Include="source\EntityManager.h" />
+    <ClInclude Include="Source\Character.h" />
+    <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\GOManager.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadCSV.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
