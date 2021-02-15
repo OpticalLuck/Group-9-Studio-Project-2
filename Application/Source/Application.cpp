@@ -11,8 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//#include "Scene2.h"
-#include "SceneText.h"
+#include "SceneA2.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -25,8 +24,8 @@ unsigned Application::m_height;
 float lastX = 400, lastY = 300; //Middle of screen
 float Application::FOV = 45;
 
-float Application::xoffset = 0;
-float Application::yoffset = 0;
+double Application::xoffset = 0;
+double Application::yoffset = 0;
 
 
 //Define an error callback
@@ -111,7 +110,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		Application::xoffset += xpos - lastX;
 		Application::yoffset += lastY - ypos;
 
-		
 		lastX = xpos;
 		lastY = ypos;
 	}
@@ -186,11 +184,9 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene*scene1 = new SceneText();
-	//Scene* scene2 = new Scene2();
+	Scene*scene1 = new SceneA2();
 	Scene* scene = scene1;
 	scene1->Init();
-	//scene2->Init();
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
@@ -204,19 +200,13 @@ void Application::Run()
 		glfwSwapBuffers(m_window);
 
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
-		if (IsKeyPressed(VK_F1))
-			scene = scene1;
-		//else if (IsKeyPressed(VK_F2))
-			//scene = scene2;
 		
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene1->Exit();
-	//scene2->Exit();
 	delete scene1;
-	//delete scene2;
 }
 
 void Application::Exit()

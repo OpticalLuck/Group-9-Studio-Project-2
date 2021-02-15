@@ -24,8 +24,8 @@ public:
 	static unsigned m_height;
 	static float FOV;
 
-	static float xoffset;
-	static float yoffset;
+	static double xoffset;
+	static double yoffset;
 private:
 
 	//Declare a window object

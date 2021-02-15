@@ -12,7 +12,7 @@ public:
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
 
-	virtual void UpdateMousePos(float xoffset, float yoffset) = 0;
+	virtual void UpdateMousePos(double xoffset, double yoffset) = 0;
 };
 
 #endif

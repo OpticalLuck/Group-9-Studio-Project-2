@@ -227,7 +227,7 @@ void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 	glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void Renderer::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey)
 {
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
@@ -249,9 +249,8 @@ void Renderer::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey
 	glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::AddTransformation(Vector3 Translate, Vector3 Pos, Vector3 Rotation, Vector3 Scale)
+void Renderer::AddTransformation(Vector3 Translate, Vector3 Rotation, Vector3 Scale)
 {
-	modelStack.Translate(Pos.x, Pos.y, Pos.z);
 	modelStack.Translate(Translate.x, Translate.y, Translate.z);
 	modelStack.Rotate(Rotation.y, 0, 1, 0);
 	modelStack.Rotate(Rotation.x, 1, 0, 0);
@@ -274,21 +273,6 @@ void Renderer::AddRotate(float x, float y, float z)
 void Renderer::AddScale(float x, float y, float z)
 {
 	modelStack.Scale(x, y, z);
-}
-
-void Renderer::AddTransformation(Vector3 Translate, Vector3 Pos, Vector3 Rotation, Vector3 Scale, Vector3 PivotRotate)
-{
-	modelStack.Translate(Pos.x, Pos.y, Pos.z);
-	modelStack.Translate(Translate.x, Translate.y, Translate.z);
-	modelStack.Rotate(Rotation.y, 0, 1, 0);
-	modelStack.Rotate(Rotation.x, 1, 0, 0);
-	modelStack.Rotate(Rotation.z, 0, 0, 1);
-	modelStack.Translate(0, (Pos.y + Translate.y) * -1, 0);
-	modelStack.Rotate(PivotRotate.x, 1, 0, 0);
-	modelStack.Rotate(PivotRotate.y, 0, 1, 0);
-	modelStack.Rotate(PivotRotate.z, 0, 0, 1);
-	modelStack.Translate(0, (Pos.y + Translate.y), 0);
-	modelStack.Scale(Scale.x, Scale.y, Scale.z);
 }
 
 void Renderer::PushTransform()

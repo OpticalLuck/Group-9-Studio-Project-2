@@ -15,12 +15,11 @@ public:
 	CameraVer2();
 	~CameraVer2();
 	void Init(Vector3 position = Vector3(0, 3, 8), const Vector3& view = Vector3(1, 0, 0), const Vector3& up = Vector3(0, 1, 0));
-	void Update(float x_offset, float y_offset);
+	void Update(double x_offset, double y_offset);
 	void Updatemovement(double dt);
 	void SetTarget(Vector3 target);
 	void SetPosition(Vector3 position);
 	void SetView(Vector3 view);
-	void Reset();
 	void Jump(double dt);
 	void ToggleMode(CAMERA_MODE mode);
 	void ToggleAnimation(float distance);
@@ -35,6 +34,7 @@ public:
 	const Vector3& GetUp();
 	const CAMERA_MODE& GetPrevMode();
 	const CAMERA_MODE& GetMode();
+	std::string GetStrMode() const;
 	
 private:
 	Vector3 position;

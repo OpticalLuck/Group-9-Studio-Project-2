@@ -4,7 +4,7 @@
 
 CameraVer2::CameraVer2():
 	target(Vector3(0,0,0)),
-	mode(FIRST_PERSON),
+	mode(FREE_VIEW),
 	sensitivity(0.05f),
 	speed(5.f),
 	distance(8.f),
@@ -26,7 +26,7 @@ void CameraVer2::Init(Vector3 position, const Vector3& view, const Vector3& up)
 	this->up = up.Normalized();
 }
 
-void CameraVer2::Update(float x_offset, float y_offset)
+void CameraVer2::Update(double x_offset, double y_offset)
 {
 	if (Controls)
 	{
@@ -216,11 +216,8 @@ void CameraVer2::Jump(double dt)
 
 void CameraVer2::ToggleMode(CAMERA_MODE mode)
 {
-	if (this->mode != mode)
-	{
-		prev_mode = this->mode;
-		this->mode = mode;
-	}
+	prev_mode = this->mode;
+	this->mode = mode;
 }
 
 void CameraVer2::ToggleAnimation(float distance)
@@ -310,5 +307,20 @@ const CameraVer2::CAMERA_MODE& CameraVer2::GetMode()
 {
 	// TODO: insert return statement here
 	return mode;
+}
+
+std::string CameraVer2::GetStrMode() const
+{
+	switch (mode)
+	{
+	case FIRST_PERSON:
+		return "First Person";
+	case THIRD_PERSON:
+		return "Third Person";
+	case FREE_VIEW:
+		return "Free View";
+	case ANIMATION:
+		return "Animation";
+	};
 }
 

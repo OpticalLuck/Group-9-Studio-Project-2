@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -145,11 +145,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\A1FG.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\CameraVer2.cpp" />
-    <ClCompile Include="Source\Character.cpp" />
-    <ClCompile Include="Source\Environment.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="source\EntityManager.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\Light.cpp" />
     <ClCompile Include="Source\LoadCSV.cpp" />
@@ -160,18 +160,16 @@
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\MeshList.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
-    <ClCompile Include="Source\SceneText.cpp" />
+    <ClCompile Include="Source\SceneA2.cpp" />
     <ClCompile Include="Source\shader.cpp" />
-    <ClCompile Include="Source\SkyBox.cpp" />
-    <ClCompile Include="Source\Text.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\A1FG.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\CameraVer2.h" />
-    <ClInclude Include="Source\Character.h" />
-    <ClInclude Include="Source\Environment.h" />
+    <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="source\EntityManager.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadCSV.h" />
@@ -183,10 +181,8 @@
     <ClInclude Include="Source\MeshList.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneText.h" />
+    <ClInclude Include="Source\SceneA2.h" />
     <ClInclude Include="Source\shader.hpp" />
-    <ClInclude Include="Source\SkyBox.h" />
-    <ClInclude Include="Source\Text.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>
