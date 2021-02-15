@@ -17,41 +17,21 @@ SceneA2::~SceneA2()
 void SceneA2::Init()
 {
 	renderer = new Renderer();
-
-	Axis = new GameObject(MeshBuilder::GenerateAxes("Axes", 1000, 1000, 1000));
-	for (int i = 0; i < 4; i++)
-	{
-		lights[i] = new Light(renderer->GetprogramID(), i);
-	}
-
-	//meshlist
+	//Init Meshlist
 	meshlist = new MeshList();
+	//Create Light
+	lights[0] = new Light(renderer->GetprogramID(), 0);
+	
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
-	//Set target as control character
-	//camera.SetTarget();
+
+	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
+	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	NPC =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
-		           Vector3(10, 9, -10),
-				   Color(1, 1, 1),
-				   1.f, 1.f, 0.01f, 0.001f,
-				   Vector3(0.f, 1.f, 0.f));
-
-	lights[1]->Set(Light::LIGHT_POINT,
-				   Vector3(10, 9, 10),
-				   Color(1, 1, 1),
-				   1.f, 1.f, 0.01f, 0.001f,
-				   Vector3(0.f, 1.f, 0.f));
-
-	lights[2]->Set(Light::LIGHT_POINT,
-				   Vector3(-10, 9, -10),
-				   Color(1, 1, 1),
-				   1.f, 1.f, 0.01f, 0.001f,
-				   Vector3(0.f, 1.f, 0.f));
-
-	lights[3]->Set(Light::LIGHT_POINT,
-				   Vector3(-10, 9, 10),
+		           Vector3(0, 8, 0),
 				   Color(1, 1, 1),
 				   1.f, 1.f, 0.01f, 0.001f,
 				   Vector3(0.f, 1.f, 0.f));
@@ -93,10 +73,7 @@ void SceneA2::Update(double dt)
 
 	camera.Updatemovement(dt);
 
-	if (Application::IsKeyPressed('F'))
-	{
-	}
-	//Button Click
+	//LMB Click
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{
 		bLButtonState = true;
@@ -105,33 +82,26 @@ void SceneA2::Update(double dt)
 	{
 		bLButtonState = false;
 	}
-	else if (Application::IsMousePressed(0))
-	{
-	}
-	else
-	{
-	}
 }
 
 void SceneA2::Render()
 {
-
 	renderer->Reset();
 
 	//Camera
 	renderer->SetCamera(camera);
-	Axis->Draw(renderer, false);
+
+
+	//Axis->Draw(renderer, false);
+	//Quad->Draw(renderer, true);
 
 	//Light
-	for (int i = 0; i < 4; i++) 
-	{
-		renderer->SetLight(lights[i]);
-	}
+	renderer->SetLight(lights[0]);
+	
 }
 
 void SceneA2::Exit()
 {
-
 }
 
 void SceneA2::UpdateMousePos(double xoffset, double yoffset)

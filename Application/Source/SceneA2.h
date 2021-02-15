@@ -6,21 +6,11 @@
 #include "MeshList.h"
 #include "CameraVer2.h"
 #include "Light.h"
-#include "GameObject.h"
+#include "GOManager.h"
 
 class SceneA2 : public Scene
 {
 public:
-	enum Text_Type
-	{
-		ButtonInteract,
-		World_KillGreen,
-		Screen_KillGreen,
-		ImposterText,
-		Lever,
-		UI,
-		TEXT_TOTAL
-	};
 	SceneA2();
 	~SceneA2();
 
@@ -35,9 +25,13 @@ private:
 	double fps;
 	Renderer* renderer;
 	MeshList* meshlist;
-	GameObject * Axis;
 	CameraVer2 camera;
-	Light* lights[4];
+
+	GOManager goManager;
+	GameObject* Axis;
+	GameObject* Quad;
+	Character* NPC;
+	Light* lights[1];
 };
 
 #endif
