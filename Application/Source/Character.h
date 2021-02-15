@@ -2,7 +2,8 @@
 #include "GameObject.h"
 #include "Collision.h"
 class Character : public GameObject
-{
+{ //Child of GameObject
+
 public:
 	Character(unsigned int ID, Mesh* mesh);
 	~Character();

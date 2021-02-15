@@ -8,7 +8,8 @@ GameObject::GameObject() :
 	Translation(Vector3(0, 0, 0)),
 	Scale(Vector3(1, 1, 1)),
 	Rotation(Vector3(0, 0, 0)),
-	Parent(nullptr)
+	Parent(nullptr),
+	ID(999)
 {
 }
 

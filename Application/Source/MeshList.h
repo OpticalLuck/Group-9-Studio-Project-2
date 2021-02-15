@@ -8,6 +8,7 @@ public:
 	{
 		MESH_AXIS = 0,
 		MESH_QUAD,
+		MESH_HEAD,
 		MESH_CUBE,
 		TOTAL_MESH
 	};
