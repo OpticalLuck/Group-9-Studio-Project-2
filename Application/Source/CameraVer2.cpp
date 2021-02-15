@@ -28,6 +28,8 @@ void CameraVer2::Init(Vector3 position, const Vector3& view, const Vector3& up)
 
 void CameraVer2::Update(double x_offset, double y_offset)
 {
+
+	// When controls
 	if (Controls)
 	{
 		Mtx44 RotateYaw;
@@ -38,6 +40,7 @@ void CameraVer2::Update(double x_offset, double y_offset)
 		float AvailableDOWN = Math::RadianToDegree(acosf(view.Dot(-up))) - 0.4f;
 	
 		float Angle = y_offset * sensitivity;
+		//Clamps angle to maximum AvailableDOWN/UP
 		Angle = Math::Clamp(Angle, -AvailableDOWN, AvailableUP);
 
 		Mtx44 RotatePitch;
@@ -47,6 +50,7 @@ void CameraVer2::Update(double x_offset, double y_offset)
 
 		if (mode == THIRD_PERSON)
 		{
+			//reverses first person camera
 			position = target + distance * -view;
 		}
 
