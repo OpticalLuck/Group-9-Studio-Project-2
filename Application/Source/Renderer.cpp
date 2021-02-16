@@ -252,8 +252,8 @@ void Renderer::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, flo
 void Renderer::AddTransformation(Vector3 Translate, Vector3 Rotation, Vector3 Scale)
 {
 	modelStack.Translate(Translate.x, Translate.y, Translate.z);
-	modelStack.Rotate(Rotation.y, 0, 1, 0);
 	modelStack.Rotate(Rotation.x, 1, 0, 0);
+	modelStack.Rotate(Rotation.y, 0, 1, 0);
 	modelStack.Rotate(Rotation.z, 0, 0, 1);
 	modelStack.Scale(Scale.x, Scale.y, Scale.z);
 }

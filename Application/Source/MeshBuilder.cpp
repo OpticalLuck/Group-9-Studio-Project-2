@@ -206,12 +206,14 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, Color color, float 
 	index_buffer_data.push_back(4);
 	index_buffer_data.push_back(5);
 	index_buffer_data.push_back(1);
+
 	index_buffer_data.push_back(4);
 	index_buffer_data.push_back(0);
 	index_buffer_data.push_back(6);
 	index_buffer_data.push_back(0);
 	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(6);
+
 	index_buffer_data.push_back(1);
 	index_buffer_data.push_back(5);
 	index_buffer_data.push_back(7);
@@ -229,6 +231,107 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, Color color, float 
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index_buffer_data), index_buffer_data, GL_STATIC_DRAW);
 	mesh->mode = Mesh::DRAW_MODE::DRAW_TRIANGLES;
+	mesh->indexSize = index_buffer_data.size();
+	return mesh;
+}
+
+Mesh* MeshBuilder::GenerateWireCube(const std::string& meshName, Color color, float lengthX, float lengthY, float lengthZ)
+{
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<unsigned> index_buffer_data;
+
+	v.color = color;
+	v.pos.Set((lengthX * 0.5), (lengthY * -0.5), (lengthZ * 0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * 0.5), (lengthY * 0.5), (lengthZ * 0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * -0.5), (lengthY * -0.5), (lengthZ * 0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * -0.5), (lengthY * 0.5), (lengthZ * 0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * 0.5), (lengthY * -0.5), (lengthZ * -0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * 0.5), (lengthY * 0.5), (lengthZ * -0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * -0.5), (lengthY * -0.5), (lengthZ * -0.5));
+	vertex_buffer_data.push_back(v);
+
+	v.pos.Set((lengthX * -0.5), (lengthY * 0.5), (lengthZ * -0.5));
+	vertex_buffer_data.push_back(v);
+
+	{
+		index_buffer_data.push_back(0);
+		index_buffer_data.push_back(1);
+		
+		index_buffer_data.push_back(2);
+		index_buffer_data.push_back(3);
+		
+		index_buffer_data.push_back(3);
+		index_buffer_data.push_back(0);
+
+		index_buffer_data.push_back(1);
+		index_buffer_data.push_back(4);
+
+		index_buffer_data.push_back(4);
+		index_buffer_data.push_back(5);
+
+		index_buffer_data.push_back(5);
+		index_buffer_data.push_back(6);
+
+		index_buffer_data.push_back(6);
+		index_buffer_data.push_back(7);
+
+		index_buffer_data.push_back(7);
+		index_buffer_data.push_back(2);
+
+		index_buffer_data.push_back(2);
+		index_buffer_data.push_back(0);
+
+		index_buffer_data.push_back(0);
+		index_buffer_data.push_back(4);
+
+		index_buffer_data.push_back(4);
+		index_buffer_data.push_back(6);
+
+		index_buffer_data.push_back(6);
+		index_buffer_data.push_back(2);
+
+		index_buffer_data.push_back(6);
+		index_buffer_data.push_back(0);
+		
+		index_buffer_data.push_back(1);
+		index_buffer_data.push_back(3);
+
+		index_buffer_data.push_back(3);
+		index_buffer_data.push_back(7);
+
+		index_buffer_data.push_back(7);
+		index_buffer_data.push_back(5);
+
+		index_buffer_data.push_back(5);
+		index_buffer_data.push_back(1);
+
+		index_buffer_data.push_back(3);
+		index_buffer_data.push_back(5);
+	}
+	
+	Mesh *mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, mesh->colorBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(color_buffer_data_1), color_buffer_data_1, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer); //bind index buffer
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index_buffer_data), index_buffer_data, GL_STATIC_DRAW);
+	mesh->mode = Mesh::DRAW_MODE::DRAW_LINES;
 	mesh->indexSize = index_buffer_data.size();
 	return mesh;
 }

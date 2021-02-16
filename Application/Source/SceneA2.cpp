@@ -22,16 +22,15 @@ void SceneA2::Init()
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 
-	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 3, -8), Vector3(0, 0, 1), Vector3(0, 1, 0));
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 
 	Cube[0] = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[0]->Init(Vector3(5, 0, 1), Vector3(0.5f, 0.5f, 1.5f));
-	Cube[1] = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->Init(Vector3(0, 0, 0), Vector3(0.5f, 0.5f, 0.5f));
+	Cube[0]->Init(Vector3(5, 0, 5), Vector3(0, 0, 0));
 
-	Cube[0]->AddChild(Cube[1]);
+	Cube[1] = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Cube[1]->Init();
 
 	NPC =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
@@ -96,19 +95,21 @@ void SceneA2::Update(double dt)
 
 		if(Application::IsKeyPressed('I'))
 		{
-			direction = direction + Vector3(0, 0, -1);
+			direction = direction + Vector3(0, 0, 1);
+
 		}
 		if(Application::IsKeyPressed('K'))
 		{
-			direction = direction + Vector3(0, 0, 1);
+			direction = direction + Vector3(0, 0, -1);
+
 		}
 		if(Application::IsKeyPressed('J'))
 		{
-			direction = direction + Vector3(-1, 0, 0);
+			direction = direction + Vector3(1, 0, 0);
 		}
 		if(Application::IsKeyPressed('L'))
 		{
-			direction = direction + Vector3(1, 0, 0);
+			direction = direction + Vector3(-1, 0, 0);
 		}
 		if (Application::IsKeyPressed('U'))
 		{
@@ -119,6 +120,32 @@ void SceneA2::Update(double dt)
 			direction = direction + Vector3(0, -1, 0);
 		}
 
+		if (Application::IsKeyPressed('T'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(speed * 10, 0, 0));
+		}
+		if (Application::IsKeyPressed('G'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-speed * 10, 0, 0));
+
+		}
+		if (Application::IsKeyPressed('F'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -speed * 10));
+		}
+		if (Application::IsKeyPressed('H'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, speed * 10));
+
+		}
+		if (Application::IsKeyPressed('R'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, speed * 10, 0));
+		}
+		if (Application::IsKeyPressed('Y'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -speed * 10, 0));
+		}
 		Cube[0]->SetTranslate(Vector3(Cube[0]->GetTranslate()) + speed * direction);
 		Cube[0]->Update(dt);
 
@@ -131,31 +158,30 @@ void SceneA2::Update(double dt)
 		//Z plane
 		float ZDiff = Collision::getDiffZ(object, target);
 
-		std::cout << "X = " << XDiff << ", Y = " << YDiff << ", Z = " << ZDiff << std::endl;
-		if (Collision::CheckCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox()))
+		//if (Collision::CheckAABBCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox()))
+		//{
+		//	Vector3 Movement = Vector3(0, 0, 0);
+		//	if (abs(XDiff) < abs(ZDiff) && abs(XDiff) < abs(YDiff))
+		//	{
+		//		Movement += Vector3(XDiff, 0, 0);
+		//	}
+		//	if (abs(YDiff) < abs(XDiff) && abs(YDiff) < abs(ZDiff))
+		//	{
+		//		Movement += Vector3(0, YDiff, 0);
+		//	}
+		//	if (abs(ZDiff) < abs(XDiff) && abs(ZDiff) < abs(YDiff))
+		//	{
+		//		Movement += Vector3(0, 0, ZDiff);
+		//	}
+		//	//move position back until side just touch
+		//	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Movement);
+		//	Cube[0]->Update(dt);
+		//}
+
+		if (Collision::CheckOBBCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox()))
 		{
-			Vector3 Movement = Vector3(0, 0, 0);
-			if (abs(XDiff) < abs(ZDiff) && abs(XDiff) < abs(YDiff))
-			{
-				Movement += Vector3(XDiff, 0, 0);
-			}
-			if (abs(YDiff) < abs(XDiff) && abs(YDiff) < abs(ZDiff))
-			{
-				Movement += Vector3(0, YDiff, 0);
-			}
-			if (abs(ZDiff) < abs(XDiff) && abs(ZDiff) < abs(YDiff))
-			{
-				Movement += Vector3(0, 0, ZDiff);
-			}
-			//move position back until side just touch
-			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Movement);
-			Cube[0]->Update(dt);
 		}
-
 	}
-
-	//Cube[0]->UpdateColBox();
-	//Cube[1]->UpdateColBox();
 }
 
 void SceneA2::Render()
