@@ -16,6 +16,8 @@ SceneTest::~SceneTest()
 
 void SceneTest::Init()
 {
+	x_width = 30;
+
 	renderer = new Renderer();
 	//Init Meshlist
 	meshlist = new MeshList();
@@ -27,12 +29,24 @@ void SceneTest::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	Quad->SetScale(Vector3(20, 20, 20));
+
 	NPC =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
-	text = new Text();
-	text->SetMode(Text::STATIC_SCREENTEXT);
-	text->SetText("Press F to Eject Pink Guy");
-	text->SetTranslate(Vector3(-1.f, 4, 0));
+	text[0] = new Text();
+	text[0]->SetMode(Text::STATIC_SCREENTEXT);
+	text[0]->SetText("Press F to Eject Pink Guy");
+	text[0]->SetTranslate(Vector3(-1.f, 4, 0));	
+	
+	text[1] = new Text();
+	text[1]->SetMode(Text::STATIC_SCREENTEXT);
+	text[1]->SetText("Walking");
+	text[1]->SetTranslate(Vector3(-1.f, 4, 0));	
+	
+	text[2] = new Text();
+	text[2]->SetMode(Text::STATIC_SCREENTEXT);
+	text[2]->SetText("Sprinting");
+	text[2]->SetTranslate(Vector3(-1.f, 4, 0));
 
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
@@ -46,6 +60,9 @@ void SceneTest::Init()
 void SceneTest::Update(double dt)
 {
 	fps = 1.f / dt;
+
+	
+
 	static bool bLButtonState = false;
 	//Debug controls
 	{
@@ -87,6 +104,40 @@ void SceneTest::Update(double dt)
 	{
 		bLButtonState = false;
 	}
+
+
+	camera.SetSprintState(false);
+	if (Application::IsKeyPressed(VK_SHIFT) && (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D')))
+	{
+		//using stamina bar
+		if (x_width > 0)
+		{
+			//can sprint
+			//set canSprint in cameraver2 to true
+			
+			camera.SetSprintState(true);
+			x_width -= 0.3;
+		}
+		//else
+		//{
+		//	camera.SetSprintState(false);
+		//}
+	}
+	else
+	{
+		//recharging stamina bar
+		if (x_width < 30)
+		{
+			//camera.SetSprintState(false);
+			x_width += 0.3;
+		}
+		//else
+		//{
+		//	camera.SetSprintState(true);
+		//}
+	}
+
+	std::cout << camera.GetSpeed() << std::endl;
 }
 
 void SceneTest::Render()
@@ -97,14 +148,24 @@ void SceneTest::Render()
 	renderer->SetCamera(camera);
 
 
-	//Axis->Draw(renderer, false);
-	//Quad->Draw(renderer, true);
+	Axis->Draw(renderer, false);
+	Quad->Draw(renderer, true);
+	renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_QUAD), 40, 10, x_width, 1);
 
 	//Light
 	renderer->SetLight(lights[0]);
 	
 	//Test TextonScreen
-	text->Draw(renderer, false);
+	//text[0]->Draw(renderer, false);
+
+	if (camera.GetSprintState() == false)
+	{
+		text[1]->Draw(renderer, false);
+	}
+	else
+	{
+		text[2]->Draw(renderer, false);
+	}
 }
 
 void SceneTest::Exit()

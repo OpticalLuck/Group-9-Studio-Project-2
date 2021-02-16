@@ -24,6 +24,7 @@ public:
 
 private:
 	double fps;
+	float x_width;
 	Renderer* renderer;
 	MeshList* meshlist;
 	CameraVer2 camera;
@@ -32,7 +33,7 @@ private:
 	GameObject* Axis;
 	GameObject* Quad;
 	Character* NPC;
-	Text* text;
+	Text* text[3];
 	Light* lights[1];
 };
 
