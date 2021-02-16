@@ -11,7 +11,10 @@
 #include <stdlib.h>
 
 #include "SceneA2.h"
+
+//TODO!! REMOVE TESTING SCENES
 #include "SceneTest.h"
+#include "SceneNPCTest.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -184,9 +187,18 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
+	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	Scene* scene1 = new SceneA2();
-	Scene* scene = scene1;
+	Scene* scene2 = new SceneTest();
+	Scene* scene3 = new SceneNPCTest();
+	Scene* scene4 = NULL;
+	Scene* scene5 = NULL;
+	Scene* scene = scene3;
 	scene1->Init();
+	scene2->Init();
+	scene3->Init();
+	//scene4->Init();
+	//scene5->Init();
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
@@ -206,6 +218,10 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();
 	delete scene1;
+	delete scene2;
+	delete scene3;
+	delete scene4;
+	delete scene5;
 }
 
 void Application::Exit()

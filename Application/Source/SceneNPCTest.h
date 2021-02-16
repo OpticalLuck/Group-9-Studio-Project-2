@@ -31,7 +31,8 @@ private:
 	GOManager goManager;
 	GameObject* Axis;
 	GameObject* Quad;
-	Character* NPC;
+	Character* MainCharacter;
+	NPC* npc;
 	Light* lights[1];
 };
 

@@ -11,7 +11,8 @@ CameraVer2::CameraVer2():
 	IsKeyPressed(false),
 	IsJump(false),
 	IsGround(true),
-	Controls(true)
+	Controls(true),
+	IsSprintable(false)
 {
 }
 
@@ -36,8 +37,8 @@ void CameraVer2::Update(double x_offset, double y_offset)
 		RotateYaw.SetToRotation(-x_offset * sensitivity, 0, 1, 0);
 		view = RotateYaw * view;
 
-		float AvailableUP = Math::RadianToDegree(acosf(view.Dot(up))) - 0.4f;
-		float AvailableDOWN = Math::RadianToDegree(acosf(view.Dot(-up))) - 0.4f;
+		float AvailableUP = Math::RadianToDegree(acosf(view.Dot(up))) -0.04 ;
+		float AvailableDOWN = Math::RadianToDegree(acosf(view.Dot(-up))) -0.04;
 	
 		float Angle = y_offset * sensitivity;
 		//Clamps angle to maximum AvailableDOWN/UP
@@ -115,7 +116,7 @@ void CameraVer2::Updatemovement(double dt)
 		{
 			IsKeyPressed = false;
 		}
-		if (Application::IsKeyPressed(VK_LSHIFT))
+		if (Application::IsKeyPressed(VK_LSHIFT) && IsSprintable == true)
 		{
 			speed = 10.0f;
 		}
@@ -157,6 +158,11 @@ void CameraVer2::SetPosition(Vector3 position)
 void CameraVer2::SetView(Vector3 view)
 {
 	this->view = view.Normalized();
+}
+
+void CameraVer2::SetSprintState(bool sprintable)
+{
+	this->IsSprintable = sprintable;
 }
 
 void CameraVer2::Jump(double dt)
@@ -328,3 +334,22 @@ std::string CameraVer2::GetStrMode() const
 	};
 }
 
+const bool CameraVer2::GetSprintState()
+{
+	return IsSprintable;
+}
+
+const float CameraVer2::GetSpeed()
+{
+	return speed;
+}
+
+const float CameraVer2::GetPosX()
+{
+	return position.x;
+}
+
+const float CameraVer2::GetPosZ()
+{
+	return position.z;
+}

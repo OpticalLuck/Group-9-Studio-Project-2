@@ -10,6 +10,8 @@ public:
 		MESH_QUAD,
 		MESH_HEAD,
 		MESH_CUBE,
+		MESH_STAMINABAR,
+		MESH_ICON,
 		TOTAL_MESH
 	};
 

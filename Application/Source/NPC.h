@@ -19,8 +19,13 @@ public:
 	NPC(unsigned int id, Mesh* mesh);
 	~NPC();
 	
-	bool inRadius;
+	void Update(double dt);
 	
+
+	bool inRadius();
+	//Sets the ObjectToLookAt to allow for calculations revolving around looking
+	void SetObjectToLookAt(GameObject* obj);
+
 	enum BODYPART
 	{
 		HEAD,
@@ -32,8 +37,13 @@ public:
 private:
 	bool canMove, talking;
 	float radius;
-	Vector3 direction;
-	std::string speech;
+	//Vector3 defaultdirection;
+	//Bunch of words they will say
+	std::vector<std::string> speech;
+	//Array pointer pointing to each part as a seperate gameobj
 	GameObject* BodyArr[TOTALPART];
-	MeshList meshlist;
+	//Refers to the object it mainly interacts with
+	GameObject* objectToLookAt;
+
+	void BuildMeshes(Mesh* mesh);
 };

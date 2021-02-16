@@ -27,8 +27,10 @@ void SceneNPCTest::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-	NPC =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
-
+	MainCharacter = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc->SetRotate(Vector3(0, 90, 0));
+	//npc->SetTranslate(Vector3(0,0,1));
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
 		           Vector3(0, 8, 0),
@@ -82,6 +84,9 @@ void SceneNPCTest::Update(double dt)
 	{
 		bLButtonState = false;
 	}
+	MainCharacter->SetTranslate(camera.GetPosition());
+	npc->SetObjectToLookAt(MainCharacter);
+	npc->Update(dt);
 }
 
 void SceneNPCTest::Render()
@@ -92,8 +97,11 @@ void SceneNPCTest::Render()
 	renderer->SetCamera(camera);
 
 
-	//Axis->Draw(renderer, false);
+	Axis->Draw(renderer, false);
 	//Quad->Draw(renderer, true);
+
+	MainCharacter->Draw(renderer, false);
+	npc->Draw(renderer, false);
 
 	//Light
 	renderer->SetLight(lights[0]);

@@ -26,6 +26,8 @@ public:
 	void SetTarget(Vector3 target);
 	void SetPosition(Vector3 position);
 	void SetView(Vector3 view);
+
+	void SetSprintState(bool sprintable);
 	
 	//Camera jumps
 	void Jump(double dt);
@@ -47,6 +49,12 @@ public:
 	const CAMERA_MODE& GetPrevMode();
 	const CAMERA_MODE& GetMode();
 	std::string GetStrMode() const;
+
+	const bool GetSprintState();
+	const float GetSpeed();
+	const float GetPosX();
+	const float GetPosZ();
+
 	
 private:
 	Vector3 position;
@@ -54,7 +62,7 @@ private:
 	Vector3 up;
 	Vector3 target;
 	CAMERA_MODE mode, prev_mode;
-	float sensitivity, speed, distance;
-	bool IsKeyPressed, IsJump, IsGround, Controls;
+	float sensitivity, speed, distance, pos_x, pos_z;
+	bool IsKeyPressed, IsJump, IsGround, Controls, IsSprintable;
 };
 
