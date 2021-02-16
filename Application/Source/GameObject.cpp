@@ -9,7 +9,7 @@ GameObject::GameObject() :
 	Scale(Vector3(1, 1, 1)),
 	Rotation(Vector3(0, 0, 0)),
 	Parent(nullptr),
-	ID(999)
+	ID(0)
 {
 }
 
