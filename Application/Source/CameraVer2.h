@@ -52,6 +52,9 @@ public:
 
 	const bool GetSprintState();
 	const float GetSpeed();
+	const float GetPosX();
+	const float GetPosZ();
+
 	
 private:
 	Vector3 position;
@@ -59,7 +62,7 @@ private:
 	Vector3 up;
 	Vector3 target;
 	CAMERA_MODE mode, prev_mode;
-	float sensitivity, speed, distance;
+	float sensitivity, speed, distance, pos_x, pos_z;
 	bool IsKeyPressed, IsJump, IsGround, Controls, IsSprintable;
 };
 

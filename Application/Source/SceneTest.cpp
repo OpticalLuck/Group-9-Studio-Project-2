@@ -17,6 +17,7 @@ SceneTest::~SceneTest()
 void SceneTest::Init()
 {
 	x_width = 30;
+	mapOpen = false;
 
 	renderer = new Renderer();
 	//Init Meshlist
@@ -60,9 +61,6 @@ void SceneTest::Init()
 void SceneTest::Update(double dt)
 {
 	fps = 1.f / dt;
-
-	
-
 	static bool bLButtonState = false;
 	//Debug controls
 	{
@@ -91,6 +89,12 @@ void SceneTest::Update(double dt)
 		{
 			Application::DisableCursor();
 		}
+
+		if (Application::IsKeyPressed('M'))
+		{
+			mapOpen = !mapOpen;
+		}
+
 	}
 
 	camera.Updatemovement(dt);
@@ -110,34 +114,20 @@ void SceneTest::Update(double dt)
 	if (Application::IsKeyPressed(VK_SHIFT) && (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D')))
 	{
 		//using stamina bar
-		if (x_width > 0)
+		if (x_width >= 0)
 		{
-			//can sprint
-			//set canSprint in cameraver2 to true
-			
 			camera.SetSprintState(true);
 			x_width -= 0.3;
 		}
-		//else
-		//{
-		//	camera.SetSprintState(false);
-		//}
 	}
 	else
 	{
 		//recharging stamina bar
-		if (x_width < 30)
+		if (x_width <= 30)
 		{
-			//camera.SetSprintState(false);
 			x_width += 0.3;
 		}
-		//else
-		//{
-		//	camera.SetSprintState(true);
-		//}
 	}
-
-	std::cout << camera.GetSpeed() << std::endl;
 }
 
 void SceneTest::Render()
@@ -150,7 +140,16 @@ void SceneTest::Render()
 
 	Axis->Draw(renderer, false);
 	Quad->Draw(renderer, true);
-	renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_QUAD), 40, 10, x_width, 1);
+
+	if (mapOpen == false)
+	{
+		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, x_width, 1);
+	}
+	else
+	{
+		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_QUAD), 40, 30, 50, 50);
+		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_ICON), 40 + camera.GetPosX(), 30 - camera.GetPosZ(), 1, 1);
+	}
 
 	//Light
 	renderer->SetLight(lights[0]);
@@ -158,6 +157,7 @@ void SceneTest::Render()
 	//Test TextonScreen
 	//text[0]->Draw(renderer, false);
 
+	//text to check if player is sprinting or walking
 	if (camera.GetSprintState() == false)
 	{
 		text[1]->Draw(renderer, false);

@@ -343,3 +343,13 @@ const float CameraVer2::GetSpeed()
 {
 	return speed;
 }
+
+const float CameraVer2::GetPosX()
+{
+	return position.x;
+}
+
+const float CameraVer2::GetPosZ()
+{
+	return position.z;
+}

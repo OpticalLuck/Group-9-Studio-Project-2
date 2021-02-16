@@ -25,6 +25,7 @@ public:
 private:
 	double fps;
 	float x_width;
+	bool mapOpen;
 	Renderer* renderer;
 	MeshList* meshlist;
 	CameraVer2 camera;
