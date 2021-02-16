@@ -23,7 +23,6 @@ public:
 	
 
 	bool inRadius();
-
 	//Sets the ObjectToLookAt to allow for calculations revolving around looking
 	void SetObjectToLookAt(GameObject* obj);
 
@@ -38,7 +37,7 @@ public:
 private:
 	bool canMove, talking;
 	float radius;
-	Vector3 direction;
+	//Vector3 defaultdirection;
 	//Bunch of words they will say
 	std::vector<std::string> speech;
 	//Array pointer pointing to each part as a seperate gameobj

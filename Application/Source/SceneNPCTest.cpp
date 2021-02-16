@@ -30,6 +30,7 @@ void SceneNPCTest::Init()
 	MainCharacter = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc->SetRotate(Vector3(0, 90, 0));
+	//npc->SetTranslate(Vector3(0,0,1));
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
 		           Vector3(0, 8, 0),

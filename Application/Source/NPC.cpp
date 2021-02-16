@@ -9,6 +9,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	canMove = talking = 0;
 	objectToLookAt = NULL;
 	radius = 40.f;
+	//defaultdirection = GetRotate();
 }
 
 NPC::~NPC()
@@ -28,23 +29,31 @@ void NPC::Update(double dt)
 			
 			//Reset the origin
 			Mtx44 rotation;
-			rotation.SetToRotation(GetRotate().x, 1, 0, 0);
-			rotation.SetToRotation(GetRotate().y, 0, 1, 0);
-			rotation.SetToRotation(GetRotate().z, 0, 0, 1);
-			Vector3 objectdiff = (objectToLookAt->GetTranslate() - GetTranslate()).Normalized();
+			//rotation.SetToRotation(-GetRotate().x, 1, 0, 0);
+			rotation.SetToRotation(-GetRotate().y, 0, 1, 0);
+			//rotation.SetToRotation(-GetRotate().z, 0, 0, 1);
+			Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate());
 			//move object to be at tested position for calculations
+			//std::cout << objectdiff.x << "," << objectdiff.z << " ";
 			objectdiff = rotation * objectdiff;
-
+			//std::cout << objectdiff.x << "," << objectdiff.z << "\n";
+			
 			//about the y axis
 			float ycosine = objectdiff.x;
 			float ytangent = objectdiff.z / objectdiff.x;
 			float yangle = Math::RadianToDegree(std::atanf(ytangent));
-			std::cout << GetRotate().y << "\n";
-			if (yangle < 0) {
+
+			if (objectdiff.z < 0) {
+				
+				yangle = -yangle;
+			}
+
+			if (ycosine < 0) {
+				std::cout << "nice" << "\n";
 				yangle = 180 + yangle;
 			}
 
-			SetRotate(Vector3(0, yangle, 0));
+			BodyArr[HEAD]->SetRotate(Vector3(0, -yangle, 0));
 			//yangle = Math::Clamp(yangle, 0.f, 100.f);
 			/*
 			Mtx44 rotation;
@@ -79,6 +88,7 @@ bool NPC::inRadius()
 	return false;
 }
 
+
 void NPC::SetObjectToLookAt(GameObject* obj)
 {
 	objectToLookAt = obj;
@@ -99,4 +109,8 @@ void NPC::BuildMeshes(Mesh* mesh)
 
 	BodyArr[HEAD] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
 	AddChild(BodyArr[HEAD]);
+	BodyArr[LARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
+	BodyArr[HEAD]->AddChild(BodyArr[LARM]);
+	BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
+	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
 }
