@@ -55,7 +55,6 @@ void SceneTest::Init()
 	text[2]->SetText("Sprinting");
 	text[2]->SetTranslate(Vector3(0.f, 4, 0));
 	
-	
 	text[3] = new Text();
 	text[3]->SetMode(Text::STATIC_SCREENTEXT);
 	text[3]->SetText("Press E to Interact");
@@ -121,11 +120,11 @@ void SceneTest::Update(double dt)
 		bLButtonState = false;
 	}
 
-
+	//Stamina Bar
 	camera.SetSprintState(false);
 	if (Application::IsKeyPressed(VK_SHIFT) && (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D')))
 	{
-		//using stamina bar
+		//Using Stamina Bar
 		if (x_width >= 0)
 		{
 			camera.SetSprintState(true);
@@ -134,7 +133,7 @@ void SceneTest::Update(double dt)
 	}
 	else
 	{
-		//recharging stamina bar
+		//Recharging Stamina Bar
 		if (x_width <= 30)
 		{
 			x_width += 0.3;
@@ -155,6 +154,7 @@ void SceneTest::Render()
 	Axis->Draw(renderer, false);
 	Quad->Draw(renderer, true);
 
+	//Proximity
 	for (int i = 0; i < sizeof(Item) / sizeof(Item[0]); i++)
 	{
 		Item[i]->Draw(renderer, true);
@@ -165,6 +165,7 @@ void SceneTest::Render()
 		}
 	}
 
+	//2D Real-Time Map
 	if (mapOpen == false)
 	{
 		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, x_width, 1);
@@ -178,15 +179,14 @@ void SceneTest::Render()
 	//Light
 	renderer->SetLight(lights[0]);
 	
-	//Test TextonScreen
 	//text[0]->Draw(renderer, false);
 
-	//text to check if player is sprinting or walking
-	if (camera.GetSprintState() == false)
+	//Text to check if player Sprinting/Running Status
+	if (camera.GetSprintState() == false)  //Walking
 	{
-		text[1]->Draw(renderer, false);
+		text[1]->Draw(renderer, false); 
 	}
-	else
+	else                                   //Sprinting
 	{
 		text[2]->Draw(renderer, false);
 	}
