@@ -16,6 +16,8 @@ public:
 	void Update(double dt);
 
 	Collision* GetCollBox();
+
+	bool IsWithinRangeOf(GameObject* item);
 private:
 	Collision* CollisionBox;
 };

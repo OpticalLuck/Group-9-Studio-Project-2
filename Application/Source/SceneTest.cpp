@@ -32,7 +32,13 @@ void SceneTest::Init()
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 	Quad->SetScale(Vector3(20, 20, 20));
 
-	NPC =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	Item[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Item[0]->SetTranslate(Vector3(3, 3, 0));
+	
+	Item[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Item[1]->SetTranslate(Vector3(-6, 3, 2));
+
+	character =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
 	text[0] = new Text();
 	text[0]->SetMode(Text::STATIC_SCREENTEXT);
@@ -48,6 +54,12 @@ void SceneTest::Init()
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Sprinting");
 	text[2]->SetTranslate(Vector3(-1.f, 4, 0));
+	
+	
+	text[3] = new Text();
+	text[3]->SetMode(Text::STATIC_SCREENTEXT);
+	text[3]->SetText("Press E to interact with item");
+	text[3]->SetTranslate(Vector3(20, 20, 0));
 
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
@@ -128,6 +140,8 @@ void SceneTest::Update(double dt)
 			x_width += 0.3;
 		}
 	}
+
+	character->SetTranslate(camera.GetPosition());
 }
 
 void SceneTest::Render()
@@ -140,6 +154,16 @@ void SceneTest::Render()
 
 	Axis->Draw(renderer, false);
 	Quad->Draw(renderer, true);
+
+	for (int i = 0; i < sizeof(Item) / sizeof(Item[0]); i++)
+	{
+		Item[i]->Draw(renderer, true);
+
+		if (character->IsWithinRangeOf(Item[i]))
+		{
+			text[3]->Draw(renderer, true);
+		}
+	}
 
 	if (mapOpen == false)
 	{
