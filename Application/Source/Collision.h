@@ -20,15 +20,13 @@ public:
 	//Getter
 	Vector3 GetPos();
 	Vector3 Gethalfsize();
-	float GetYaw();
-	float GetPitch();
-	float GetRoll();
-	Vector3 GetFront();
-	Vector3 GetRight();
-	Vector3 GetUp();
+	Vector3 GetRotation();
 	Mesh* GetCollMesh();
 	static bool CheckAABBCollision(Collision* box1, Collision* box2);
 	static bool CheckOBBCollision(Collision* box1, Collision* box2);
+	Vector3 GetFront();
+	Vector3 GetUp();
+	Vector3 GetRight();
 	float getXmin();
 	float getXmax();
 	float getYmin();
@@ -38,16 +36,18 @@ public:
 	static float getDiffX(Collision* box1, Collision* box2);
 	static float getDiffY(Collision* box1, Collision* box2);
 	static float getDiffZ(Collision* box1, Collision* box2);
+	static Vector3 getDiff(Vector3 axis, Collision* box1, Collision* box2);
+	float GetLowestVal(Vector3 axis);
+	float GetHighestVal(Vector3 axis);
 
 private:
 	Vector3 position;
 	Vector3 halfsize;
 
 	//x,y,z rotation
-	float yaw, pitch, roll;
-	Vector3 DefFront, DefRight, DefUp;
-	Vector3 Front, Right, Up;
-
+	Vector3 Rotation;
+	Vector3 Front, Up, Right;
+	Vector3 Vertices[8];
 
 	Mesh* BoxFrame;
 

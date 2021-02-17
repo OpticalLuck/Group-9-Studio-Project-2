@@ -193,7 +193,7 @@ void Application::Run()
 	Scene* scene3 = new SceneNPCTest();
 	Scene* scene4 = NULL;
 	Scene* scene5 = NULL;
-	Scene* scene = scene3;
+	Scene* scene = scene1;
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
