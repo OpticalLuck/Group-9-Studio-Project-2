@@ -252,9 +252,9 @@ void Renderer::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, flo
 void Renderer::AddTransformation(Vector3 Translate, Vector3 Rotation, Vector3 Scale)
 {
 	modelStack.Translate(Translate.x, Translate.y, Translate.z);
-	modelStack.Rotate(Rotation.x, 1, 0, 0);
-	modelStack.Rotate(Rotation.y, 0, 1, 0);
 	modelStack.Rotate(Rotation.z, 0, 0, 1);
+	modelStack.Rotate(Rotation.y, 0, 1, 0);
+	modelStack.Rotate(Rotation.x, 1, 0, 0);
 	modelStack.Scale(Scale.x, Scale.y, Scale.z);
 }
 
@@ -265,9 +265,9 @@ void Renderer::AddTranslate(float x, float y, float z)
 
 void Renderer::AddRotate(float x, float y, float z)
 {
-	modelStack.Rotate(x, 1, 0, 0);
-	modelStack.Rotate(y, 0, 1, 0);
 	modelStack.Rotate(z, 0, 0, 1);
+	modelStack.Rotate(y, 0, 1, 0);
+	modelStack.Rotate(x, 1, 0, 0);
 }
 
 void Renderer::AddScale(float x, float y, float z)

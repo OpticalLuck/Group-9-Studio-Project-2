@@ -146,87 +146,16 @@ void SceneA2::Update(double dt)
 		}
 		Cube[0]->SetTranslate(Vector3(Cube[0]->GetTranslate()) + speed * direction);
 		Cube[0]->Update(dt);
-
-		Collision* object = Cube[0]->GetCollBox();
-		Collision* target = Cube[1]->GetCollBox();
-		////X plane
-		//float XDiff = Collision::getDiffX(object, target);
-		////Y plane
-		//float YDiff = Collision::getDiffY(object, target);
-		////Z plane
-		//float ZDiff = Collision::getDiffZ(object, target);
-		//AABB RESOLUTION
-		//if (Collision::CheckAABBCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox()))
-		//{
-		//	Vector3 Movement = Vector3(0, 0, 0);
-		//	if (abs(XDiff) < abs(ZDiff) && abs(XDiff) < abs(YDiff))
-		//	{
-		//		Movement += Vector3(XDiff, 0, 0);
-		//	}
-		//	if (abs(YDiff) < abs(XDiff) && abs(YDiff) < abs(ZDiff))
-		//	{
-		//		Movement += Vector3(0, YDiff, 0);
-		//	}
-		//	if (abs(ZDiff) < abs(XDiff) && abs(ZDiff) < abs(YDiff))
-		//	{
-		//		Movement += Vector3(0, 0, ZDiff);
-		//	}
-		//	//move position back until side just touch
-		//	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Movement);
-		//	Cube[0]->Update(dt);
-		//}
 		
 		//OBB RESOLUTION
-		
-		if (Collision::CheckOBBCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox()))
+		Info isCollided = Collision::CheckOBBCollision(Cube[0]->GetCollBox(), Cube[1]->GetCollBox());
+
+		if (isCollided.Collided)
 		{
 			Vector3 Movement = Vector3(0, 0, 0);
-			Vector3 aupdiff = Collision::getDiff(object->GetUp(), object, target);
-			Vector3 bupdiff = Collision::getDiff(target->GetUp(), object, target);
-			Vector3 afrontdiff = Collision::getDiff(object->GetFront(), object, target);
-			Vector3 bfrontdiff = Collision::getDiff(target->GetFront(), object, target);
-			Vector3 arightdiff = Collision::getDiff(object->GetRight(), object, target);
-			Vector3 brightdiff = Collision::getDiff(target->GetRight(), object, target);
-			
-			Vector3 cross1dif = Collision::getDiff(object->GetUp().Cross(target->GetUp()), object, target);
-			Vector3 cross2dif = Collision::getDiff(object->GetUp().Cross(target->GetRight()), object, target);
-			Vector3 cross3dif = Collision::getDiff(object->GetUp().Cross(target->GetFront()), object, target);
-			
-			if (fabs(afrontdiff.Length()) < fabs(aupdiff.Length()) &&
-				fabs(afrontdiff.Length()) < fabs(bupdiff.Length()) &&
-				fabs(afrontdiff.Length()) < fabs(arightdiff.Length()) &&
-				fabs(afrontdiff.Length()) < fabs(brightdiff.Length()) &&
-				fabs(afrontdiff.Length()) < fabs(bfrontdiff.Length()))
-			{
-				Movement += afrontdiff;
-			}
-			if (fabs(bfrontdiff.Length()) < fabs(aupdiff.Length()) &&
-				fabs(bfrontdiff.Length()) < fabs(bupdiff.Length()) &&
-				fabs(bfrontdiff.Length()) < fabs(arightdiff.Length()) &&
-				fabs(bfrontdiff.Length()) < fabs(brightdiff.Length()) &&
-				fabs(bfrontdiff.Length()) < fabs(afrontdiff.Length()))
-			{
-				Movement += bfrontdiff;
-			}
-
-			if (fabs(arightdiff.Length()) < fabs(aupdiff.Length()) &&
-				fabs(arightdiff.Length()) < fabs(bupdiff.Length()) &&
-				fabs(arightdiff.Length()) < fabs(brightdiff.Length()) &&
-				fabs(arightdiff.Length()) < fabs(afrontdiff.Length()) &&
-				fabs(arightdiff.Length()) < fabs(bfrontdiff.Length()))
-			{
-				Movement += arightdiff;
-			}
-			if (fabs(brightdiff.Length()) < fabs(aupdiff.Length()) &&
-				fabs(brightdiff.Length()) < fabs(bupdiff.Length()) &&
-				fabs(brightdiff.Length()) < fabs(arightdiff.Length()) &&
-				fabs(brightdiff.Length()) < fabs(bfrontdiff.Length()) &&
-				fabs(brightdiff.Length()) < fabs(afrontdiff.Length()))
-			{
-				Movement += brightdiff;
-			}
-
-
+			Vector3 Distance = Cube[0]->GetCollBox()->GetPos() - Cube[1]->GetCollBox()->GetPos();
+			float magnitude = (Distance).Dot(isCollided.Axis);
+			Movement += magnitude * isCollided.Axis;
 			//move position back until side just touch
 			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Movement);
 			Cube[0]->Update(dt);
