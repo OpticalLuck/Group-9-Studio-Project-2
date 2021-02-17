@@ -71,7 +71,10 @@ void NPC::BuildMeshes(Mesh* mesh)
 }
 
 //identifier
+//x = 0, y = 1, z = 2
 float AngleBetween(Vector3 difference, int axis);
+
+
 
 void NPC::RotateTowardsCharacter(GameObject* parttorotate)
 {
@@ -81,22 +84,26 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate)
 	//rotmatrix.SetToIdentity();
 	rotationx.SetToRotation(-(GetRotate().x + 90), 1, 0, 0);
 	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
-	rotationz.SetToRotation(-(GetRotate().z + 90), 0, 0, 1);
 	
 	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate()).Normalized();
 	//move object to be at tested position for calculations
 	//Vector3 rotate = GetRotate();
-
 	Vector3 objectdiffx = rotationx * objectdiff;
-	Vector3 objectdiffy = rotationy * objectdiff;
+	float xangle = AngleBetween(objectdiffx, 0) + 90;
+
+	Vector3 objectdiffy = rotationy * objectdiff ;
+	float yangle = AngleBetween(objectdiffy, 1) + 90;
+
+	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 	Vector3 objectdiffz = rotationz * objectdiff;
 
+	
 
 
+	//TO DO : GET IT TO LOCATE CAMERA PROPERLY
 	//calculations 
-	float xangle = AngleBetween(objectdiffx, 0) + 90;
-	float yangle = AngleBetween(objectdiffy, 1) + 90;
-	float zangle = AngleBetween(objectdiffz, 2) + 90;
+	float zangle = AngleBetween(objectdiffz, 2) ;
+	std::cout << zangle << "\n";
 
 	parttorotate->SetRotate(Vector3(0, yangle , 0));
 	
@@ -128,19 +135,19 @@ float AngleBetween(Vector3 difference, int axis) {
 	}
 	else {
 		sine = difference.y;
-		cosine = difference.x;
+		cosine = difference.z;
 	}
 
 	float tangent = sine / cosine;
 	float angle = Math::RadianToDegree(std::atanf(tangent));
 
-	//std::cout << angle << "\n";
+	//std::cout << sine << "\n";
 	if (sine < 0) {
 
 		angle = -angle;
 	}
-
-	if (cosine < 0) {
+	
+	if (cosine < 0 ) {
 		//std::cout << "nice" << "\n";
 		angle = 180 + angle;
 	}
