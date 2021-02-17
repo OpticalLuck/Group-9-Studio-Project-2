@@ -58,8 +58,8 @@ void SceneTest::Init()
 	
 	text[3] = new Text();
 	text[3]->SetMode(Text::STATIC_SCREENTEXT);
-	text[3]->SetText("Press E to interact with item");
-	text[3]->SetTranslate(Vector3(20, 20, 0));
+	text[3]->SetText("Press E to Interact");
+	text[3]->SetTranslate(Vector3(27.5, 12.5, 0));
 
 	{
 	lights[0]->Set(Light::LIGHT_POINT,

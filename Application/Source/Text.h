@@ -12,6 +12,7 @@ public:
         DIALOGUE_SCREENTEXT,
         TOTAL_MODE
     };
+
     Text();
     ~Text();
 
