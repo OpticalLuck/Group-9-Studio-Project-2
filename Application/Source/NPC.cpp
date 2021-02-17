@@ -26,7 +26,7 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (true) {
 			//BodyArr[HEAD]->
-			
+			RotateTowardsCharacter();
 			
 
 
@@ -60,35 +60,48 @@ void NPC::BuildMeshes(Mesh* mesh)
 	MeshList meshlist;
 
 	BodyArr[HEAD] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	AddChild(BodyArr[HEAD]);
 	BodyArr[LARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
+	BodyArr[RARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
+	this->AddChild(BodyArr[HEAD]); 
 	BodyArr[HEAD]->AddChild(BodyArr[LARM]);
+	BodyArr[HEAD]->AddChild(BodyArr[RARM]);
 	BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
-	BodyArr[LARM]->SetTranslate(Vector3(1,0,0));
+	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
+	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 }
 
 //identifier
 float AngleBetween(Vector3 difference, int axis);
 
-void NPC::RotateTowardsCharacter()
+void NPC::RotateTowardsCharacter(GameObject* parttorotate)
 {
 
 	//Reset the origin
-	Mtx44 rotation;
-	rotation.SetToRotation(-GetRotate().x, 1, 0, 0);
-	rotation.SetToRotation(-GetRotate().y, 0, 1, 0);
-	rotation.SetToRotation(-GetRotate().z, 0, 0, 1);
-	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate());
-	//move object to be at tested position for calculations
-	objectdiff = rotation * objectdiff;
-
-	//calculations about the y axis
+	Mtx44 rotationx, rotationy, rotationz;
+	//rotmatrix.SetToIdentity();
+	rotationx.SetToRotation(-(GetRotate().x + 90), 1, 0, 0);
+	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
+	rotationz.SetToRotation(-(GetRotate().z + 90), 0, 0, 1);
 	
-	float xangle = AngleBetween(objectdiff, 0);
-	float yangle = AngleBetween(objectdiff, 1);
-	float zangle = AngleBetween(objectdiff, 2);
+	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate()).Normalized();
+	//move object to be at tested position for calculations
+	//Vector3 rotate = GetRotate();
 
-	BodyArr[HEAD]->SetRotate(Vector3(xangle, 0, 0));
+	Vector3 objectdiffx = rotationx * objectdiff;
+	Vector3 objectdiffy = rotationy * objectdiff;
+	Vector3 objectdiffz = rotationz * objectdiff;
+
+
+
+	//calculations 
+	float xangle = AngleBetween(objectdiffx, 0) + 90;
+	float yangle = AngleBetween(objectdiffy, 1) + 90;
+	float zangle = AngleBetween(objectdiffz, 2) + 90;
+
+	parttorotate->SetRotate(Vector3(0, yangle , 0));
+	
+
+	
 
 }
 
@@ -120,13 +133,15 @@ float AngleBetween(Vector3 difference, int axis) {
 
 	float tangent = sine / cosine;
 	float angle = Math::RadianToDegree(std::atanf(tangent));
+
+	//std::cout << angle << "\n";
 	if (sine < 0) {
 
 		angle = -angle;
 	}
 
 	if (cosine < 0) {
-		std::cout << "nice" << "\n";
+		//std::cout << "nice" << "\n";
 		angle = 180 + angle;
 	}
 

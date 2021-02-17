@@ -50,5 +50,5 @@ private:
 	//Smaller Functions for small 
 
 	//Rotate head towards character
-	void RotateTowardsCharacter();
+	void RotateTowardsCharacter(GameObject* parttorotate);
 };
