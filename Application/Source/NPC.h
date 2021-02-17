@@ -46,4 +46,9 @@ private:
 	GameObject* objectToLookAt;
 
 	void BuildMeshes(Mesh* mesh);
+
+	//Smaller Functions for small processes
+
+	//Rotate gameobj part towards character
+	void RotateTowardsCharacter(GameObject* parttorotate);
 };

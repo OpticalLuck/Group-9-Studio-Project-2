@@ -28,3 +28,15 @@ Collision* Character::GetCollBox()
 {
 	return CollisionBox;
 }
+
+bool Character::IsWithinRangeOf(GameObject* item)
+{
+	//getTranslate() by itself access the position of Character, while item->GetTranslate() access the position of the item parameter that is passed in
+	if ((GetTranslate().x >= item->GetTranslate().x - 3 && GetTranslate().x <= item->GetTranslate().x + 3)
+		&& (GetTranslate().y >= item->GetTranslate().y - 3 && GetTranslate().y <= item->GetTranslate().y + 3)
+		&& (GetTranslate().z >= item->GetTranslate().z - 3 && GetTranslate().z <= item->GetTranslate().z + 3))
+	{
+		return true;
+	}
+	return false;
+}
