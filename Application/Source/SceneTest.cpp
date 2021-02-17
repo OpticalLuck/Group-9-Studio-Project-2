@@ -48,12 +48,12 @@ void SceneTest::Init()
 	text[1] = new Text();
 	text[1]->SetMode(Text::STATIC_SCREENTEXT);
 	text[1]->SetText("Walking");
-	text[1]->SetTranslate(Vector3(-1.f, 4, 0));	
+	text[1]->SetTranslate(Vector3(0.f, 4, 0));	
 	
 	text[2] = new Text();
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Sprinting");
-	text[2]->SetTranslate(Vector3(-1.f, 4, 0));
+	text[2]->SetTranslate(Vector3(0.f, 4, 0));
 	
 	
 	text[3] = new Text();
