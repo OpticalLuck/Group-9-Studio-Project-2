@@ -40,21 +40,27 @@ void SceneTest::Init()
 
 	character =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
+	//FPS Render
+	std::ostringstream ss;
+	ss << "FPS: " << fps;
 	text[0] = new Text();
 	text[0]->SetMode(Text::STATIC_SCREENTEXT);
-	text[0]->SetText("Press F to Eject Pink Guy");
-	text[0]->SetTranslate(Vector3(-1.f, 4, 0));	
-	
+	text[0]->SetText(ss.str());
+	text[0]->SetTranslate(Vector3(0.f, 0, 0));	
+
+	//Status: Walking
 	text[1] = new Text();
 	text[1]->SetMode(Text::STATIC_SCREENTEXT);
 	text[1]->SetText("Walking");
 	text[1]->SetTranslate(Vector3(0.f, 4, 0));	
 	
+	//Status: Sprinting
 	text[2] = new Text();
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Sprinting");
 	text[2]->SetTranslate(Vector3(0.f, 4, 0));
 	
+	//Interaction
 	text[3] = new Text();
 	text[3]->SetMode(Text::STATIC_SCREENTEXT);
 	text[3]->SetText("Press E to Interact");
@@ -72,6 +78,7 @@ void SceneTest::Init()
 void SceneTest::Update(double dt)
 {
 	fps = 1.f / dt;
+
 	static bool bLButtonState = false;
 	//Debug controls
 	{
@@ -141,6 +148,11 @@ void SceneTest::Update(double dt)
 	}
 
 	character->SetTranslate(camera.GetPosition());
+
+	//FPS Update
+	std::ostringstream ss;
+	ss << "FPS: " << fps;
+	text[0]->SetText(ss.str());
 }
 
 void SceneTest::Render()
@@ -179,7 +191,8 @@ void SceneTest::Render()
 	//Light
 	renderer->SetLight(lights[0]);
 	
-	//text[0]->Draw(renderer, false);
+	//FPS
+	text[0]->Draw(renderer, false);
 
 	//Text to check if player Sprinting/Running Status
 	if (camera.GetSprintState() == false)  //Walking
