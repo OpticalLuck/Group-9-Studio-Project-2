@@ -109,7 +109,7 @@ void CameraVer2::Updatemovement(double dt)
 				position += GetUp() * dt * speed;
 				target += GetUp() * dt * speed;
 			}
-			if (Application::IsKeyPressed(VK_LSHIFT)) {
+			if (Application::IsKeyPressed(VK_LCONTROL)) {
 				position -= GetUp() * dt * speed;
 				target -= GetUp() * dt * speed;
 			}
@@ -127,14 +127,15 @@ void CameraVer2::Updatemovement(double dt)
 			{
 				IsKeyPressed = false;
 			}
-			if (Application::IsKeyPressed(VK_LSHIFT) && IsSprintable == true)
-			{
-				speed = 10.0f;
-			}
-			else
-			{
-				speed = 5.0f;
-			}
+		}
+
+		if (Application::IsKeyPressed(VK_LSHIFT) && IsSprintable == true)
+		{
+			speed = 10.0f;
+		}
+		else
+		{
+			speed = 5.0f;
 		}
 
 		if(mode == THIRD_PERSON)

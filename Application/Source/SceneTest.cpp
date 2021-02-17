@@ -117,6 +117,8 @@ void SceneTest::Update(double dt)
 
 	camera.Updatemovement(dt);
 
+	std::cout << camera.GetSpeed() << std::endl;
+
 	//LMB Click
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{

@@ -18,6 +18,7 @@ public:
 	Collision* GetCollBox();
 
 	bool IsWithinRangeOf(GameObject* item);
+
 private:
 	Collision* CollisionBox;
 };

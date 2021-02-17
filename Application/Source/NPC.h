@@ -47,8 +47,8 @@ private:
 
 	void BuildMeshes(Mesh* mesh);
 
-	//Smaller Functions for small 
+	//Smaller Functions for small processes
 
-	//Rotate head towards character
+	//Rotate gameobj part towards character
 	void RotateTowardsCharacter(GameObject* parttorotate);
 };
