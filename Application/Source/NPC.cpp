@@ -26,7 +26,7 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (true) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter();
+			RotateTowardsCharacter(BodyArr[HEAD]);
 			
 
 
