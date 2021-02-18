@@ -35,6 +35,8 @@ public:
 	};
 
 private:
+	
+
 	bool canMove, talking;
 	float radius;
 	//Vector3 defaultdirection;
@@ -50,7 +52,7 @@ private:
 	//Smaller Functions for small processes
 
 	//Rotate gameobj part towards character
-	//Maximum angle is how many degrees from the front they can move.
-	// cannot be more than 180
+	//Maximum angle is how many degrees from the front they can move.	
+	//cannot be more than 180	
 	void RotateTowardsCharacter(GameObject* parttorotate, double dt ,float maximumangle = 180 );
 };
