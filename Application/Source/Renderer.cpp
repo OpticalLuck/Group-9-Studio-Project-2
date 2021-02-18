@@ -3,8 +3,7 @@
 #include "shader.hpp"
 #include "Application.h"
 
-Renderer::Renderer() :
-	m_vertexArrayID(0)
+Renderer::Renderer() 
 {
 	//Load Vertex and fragment shaders
 	programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
@@ -34,7 +33,6 @@ Renderer::Renderer() :
 	Parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(programID, "material.kShininess");
 	Mesh::SetMaterialLoc(Parameters[U_MATERIAL_AMBIENT], Parameters[U_MATERIAL_DIFFUSE], Parameters[U_MATERIAL_SPECULAR], Parameters[U_MATERIAL_SHININESS]);
 	Parameters[U_LIGHTENABLED] = glGetUniformLocation(programID, "lightEnabled");
-
 	Parameters[U_NUMLIGHTS] = glGetUniformLocation(programID, "numLights");
 
 	// Get a handle for our "colorTexture" uniform
@@ -47,7 +45,7 @@ Renderer::Renderer() :
 	
 	glUseProgram(programID);
 	// Make sure you pass uniform parameters after glUseProgram()
-	glUniform1i(Parameters[U_NUMLIGHTS], 5);
+	glUniform1i(Parameters[U_NUMLIGHTS], 2);
 
 }
 
@@ -62,8 +60,6 @@ void Renderer::Reset()
 {
 	//Clear color & depth buffer every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	viewStack.LoadIdentity();
-	modelStack.LoadIdentity();
 }
 
 void Renderer::RenderMesh(Mesh* mesh, bool enableLight)
@@ -287,35 +283,41 @@ void Renderer::PopTransform()
 
 void Renderer::SetCamera(CameraVer2 camera)
 {
-	//viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
+	Vector3 Target = camera.GetView() + camera.GetPosition();
 	viewStack.LookAt(camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z, 
-				     camera.GetPosition().x + camera.GetView().x, camera.GetPosition().y + camera.GetView().y, camera.GetPosition().z + camera.GetView().z,
-					 camera.GetUp().x, camera.GetUp().y, camera.GetUp().z);
+					Target.x, Target.y, Target.z,
+					camera.GetUp().x, camera.GetUp().y, camera.GetUp().z);
 	Mtx44 projection;
 	projection.SetToPerspective(Application::FOV, 4.f / 3.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
 }
 
-void Renderer::SetLight(Light* light)
+void Renderer::SetLight(Light* light, CameraVer2 camera)
 {
-	if (light->type == light->LIGHT_DIRECTIONAL)
+	if (light->type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir = light->position;
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(light-> parameters[light->U_LIGHT_POSITION], 1, &lightDirection_cameraspace.x);
+		glUniform3fv(light->parameters[Light::U_LIGHT_POSITION], 1, &lightDirection_cameraspace.x);
 	}
-	else if (light->type == light->LIGHT_SPOT)
+	else if (light->type == Light::LIGHT_SPOT)
 	{
-		Vector3 lightPosition_cameraspace = viewStack.Top() * light->position;
-		glUniform3fv(light->parameters[light->U_LIGHT_POSITION], 1, &lightPosition_cameraspace.x);
+		Vector3 lightPosition_cameraspace = viewStack.Top() * (light->position - camera.GetPosition()) ;
+		glUniform3fv(light->parameters[Light::U_LIGHT_POSITION], 1, &lightPosition_cameraspace.x);
 		Vector3 spotDirection_cameraspace = viewStack.Top() * light->spotDirection;
-		glUniform3fv(light->parameters[light->U_LIGHT_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+		glUniform3fv(light->parameters[Light::U_LIGHT_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
 	}
 	else
 	{
 		Vector3 lightPosition_cameraspace = viewStack.Top() * light->position;
-		glUniform3fv(light->parameters[light->U_LIGHT_POSITION], 1, &lightPosition_cameraspace.x);
+		glUniform3fv(light->parameters[Light::U_LIGHT_POSITION], 1, &lightPosition_cameraspace.x);
 	}
+}
+
+void Renderer::LoadIdentity()
+{
+	viewStack.LoadIdentity();
+	modelStack.LoadIdentity();
 }
 
 unsigned Renderer::GetprogramID()

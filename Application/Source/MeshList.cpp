@@ -8,6 +8,8 @@ MeshList::MeshList()
 
 	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));
 
+	meshlist[MESH_FLOOR] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));
+	meshlist[MESH_FLOOR]->textureID = LoadTGA("Image//Floor.tga");
 	meshlist[MESH_CUBE] = MeshBuilder::GenerateCube("Cube", Color(1.f, 1.f, 1.f), 1.f, 1.f, 1.f);
 	//// </PRIMATIVES> 
 

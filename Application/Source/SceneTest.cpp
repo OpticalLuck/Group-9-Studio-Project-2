@@ -26,8 +26,6 @@ void SceneTest::Init()
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 	
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
-	
-
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -191,10 +189,10 @@ void SceneTest::Update(double dt)
 void SceneTest::Render()
 {
 	renderer->Reset();
+	renderer->LoadIdentity();
 
 	//Camera
 	renderer->SetCamera(camera);
-
 
 	Axis->Draw(renderer, false);
 
@@ -245,7 +243,8 @@ void SceneTest::Render()
 	}
 
 	//Light
-	renderer->SetLight(lights[0]);
+	renderer->SetLight(lights[0], camera
+	);
 	
 	//FPS
 	text[0]->Draw(renderer, false);

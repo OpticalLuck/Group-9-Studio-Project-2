@@ -12,6 +12,10 @@ public:
 		MESH_CUBE,
 
 		//NPC
+
+		//Environment
+		MESH_FLOOR,
+		
 		MESH_HEAD,
 
 		//UI
