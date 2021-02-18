@@ -9,7 +9,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	canMove = talking = 0;
 	objectToLookAt = NULL;
 	SetRadius(10.f);
-	//defaultdirection = GetRotate();
+	defaultdirection = GetRotate();
 }
 
 NPC::~NPC()
@@ -29,12 +29,12 @@ void NPC::Update(double dt)
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
 			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
-			
 
 
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
+			MoveInDir(defaultdirection);
 		}
 	}
 }
@@ -45,6 +45,12 @@ void NPC::Update(double dt)
 void NPC::SetObjectToLookAt(GameObject* obj)
 {
 	objectToLookAt = obj;
+}
+
+void NPC::SetDefaultDir(Vector3 def)
+{
+	defaultdirection = def;
+	SetRotate(def);
 }
 
 void NPC::BuildMeshes(Mesh* mesh)
@@ -89,13 +95,15 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
 	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 	
-	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate());
+	Vector3 objectdiff = (objectToLookAt->GetTranslate() - (BodyArr[HEAD]->GetTranslate() + GetTranslate())) ;
 	//move object to be at tested position for calculations
 	
 	//Vector3 rotate = GetRotate();
 	Vector3 objectdiffx = rotationx * objectdiff;
-	Vector3 objectdiffy = rotationy * objectdiff ;
+	Vector3 objectdiffy = rotationy * objectdiff;
 	Vector3 objectdiffz = rotationz * objectdiff;
+	//Move projected object with position
+	
 
 
 	//calculations 
@@ -105,10 +113,10 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	
 	//std::cout << yangle << "\n";
 
-	
 	//x angle bounds move with y angle
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
 	objectdiffx = rotationx * objectdiffx;
+	objectdiffx = rotationy * objectdiffx;
 
 	//y angle boundaries
 	if ( (yangle < -maximumangle && yangle > -180)) {
@@ -119,7 +127,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	}
 
 	float xangle = AngleBetween(objectdiffx, 0);
-	
 	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
 }
 
@@ -148,7 +155,27 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 
 
 	parttorotate->SetRotate(Vector3(partx, party, partz));
+	std::cout << party << "\n";
+}
 
+void NPC::MoveInDir(Vector3 rot)
+{
+	Mtx44 rotation;
+	rotation.SetToRotation(rot.y, 0, 1, 0);
+
+	Vector3 direction(0,0,1);
+	//std::cout << rot.y << " ";
+	direction = rotation * direction;
+	//std::cout << direction << "\n";
+
+	Vector3 part;
+	part.x = GetTranslate().x;
+	part.y = GetTranslate().y;
+	part.z = GetTranslate().z;
+
+	part = part + direction * dt;
+
+	this->SetTranslate(part);
 }
 
 // 0 = X, 1 = Y, 2 = Z
