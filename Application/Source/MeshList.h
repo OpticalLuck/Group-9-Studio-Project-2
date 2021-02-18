@@ -6,16 +6,23 @@ class MeshList
 public:
 	enum MESH_TYPE
 	{
+		//PRIMATIVES
 		MESH_AXIS = 0,
 		MESH_QUAD,
+		MESH_CUBE,
+
+		//NPC
 
 		//Environment
 		MESH_FLOOR,
 		
 		MESH_HEAD,
-		MESH_CUBE,
+
+		//UI
 		MESH_STAMINABAR,
 		MESH_ICON,
+
+		//TOTAL NUMBER OF MESHES
 		TOTAL_MESH
 	};
 

@@ -186,12 +186,12 @@ void Application::Run()
 {
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
-	Scene* scene1 = new SceneCity();
-	//Scene* scene2 = new SceneTest();
-	//Scene* scene3 = new SceneNPCTest();
-	//xScene* scene4 = NULL;
-	//xScene* scene5 = NULL;
-	Scene* scene = scene1;
+	Scene* scene1 = new SceneA2();
+	Scene* scene2 = new SceneTest();
+	Scene* scene3 = new SceneNPCTest();
+	Scene* scene4 = NULL;
+	Scene* scene5 = NULL;
+	Scene* scene = scene2;
 	scene1->Init();
 	//scene2->Init();
 	//scene3->Init();

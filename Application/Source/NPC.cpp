@@ -24,9 +24,9 @@ void NPC::Update(double dt)
 	if (canMove || true) {
 
 		//if objecttolookat is within range
-		if (true) {
+		if (inRadius() || true) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD]);
+			RotateTowardsCharacter(BodyArr[HEAD], dt, 90.f);
 			
 
 
@@ -66,6 +66,7 @@ void NPC::BuildMeshes(Mesh* mesh)
 	BodyArr[HEAD]->AddChild(BodyArr[LARM]);
 	BodyArr[HEAD]->AddChild(BodyArr[RARM]);
 	BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
+	BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
 	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
 	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 }
@@ -76,38 +77,73 @@ float AngleBetween(Vector3 difference, int axis);
 
 
 
-void NPC::RotateTowardsCharacter(GameObject* parttorotate)
+void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maximumangle)
 {
 
 	//Reset the origin
 	Mtx44 rotationx, rotationy, rotationz;
 	//rotmatrix.SetToIdentity();
-	rotationx.SetToRotation(-(GetRotate().x + 90), 1, 0, 0);
+	rotationx.SetToRotation(-(GetRotate().x), 1, 0, 0);
 	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
+	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 	
-	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate()).Normalized();
+	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate());
 	//move object to be at tested position for calculations
+	
 	//Vector3 rotate = GetRotate();
 	Vector3 objectdiffx = rotationx * objectdiff;
-	float xangle = AngleBetween(objectdiffx, 0) + 90;
-
 	Vector3 objectdiffy = rotationy * objectdiff ;
-	float yangle = AngleBetween(objectdiffy, 1) + 90;
-
-	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 	Vector3 objectdiffz = rotationz * objectdiff;
 
-	
 
-
-	//TO DO : GET IT TO LOCATE CAMERA PROPERLY
 	//calculations 
-	float zangle = AngleBetween(objectdiffz, 2) ;
-	std::cout << zangle << "\n";
 
-	parttorotate->SetRotate(Vector3(0, yangle , 0));
+
+	float yangle = AngleBetween(objectdiffy, 1) + 90;
 	
+	//std::cout << yangle << "\n";
 
+	
+	//x angle bounds move with y angle
+	rotationx.SetToRotation(-yangle, 0, 1, 0);
+	objectdiffx = rotationx * objectdiffx;
+
+	//y angle boundaries
+	if ( (yangle < -maximumangle && yangle > -180)) {
+		yangle = -maximumangle;
+	}
+	else if ((yangle > maximumangle && yangle < 180)) {
+		yangle = maximumangle;
+	}
+	
+	
+	
+	float xangle = AngleBetween(objectdiffx, 0);
+
+	//parttorotate->SetRotate(Vector3(xangle, yangle , 0));
+	float partx, party, partz, rotSPEED;
+	partx = parttorotate->GetRotate().x;
+	party = parttorotate->GetRotate().y;
+	partz = parttorotate->GetRotate().z;
+	rotSPEED = 100.f;
+
+
+	if (party < yangle - 1) {
+		party += rotSPEED * dt;
+	}
+	else if (party > yangle + 1) {
+		party -= rotSPEED * dt;
+	}
+
+	if (partx < xangle - 1) {
+		partx += rotSPEED * dt;
+	}
+	else if (partx > xangle + 1) {
+		partx -= rotSPEED * dt;
+	}
+
+
+	parttorotate->SetRotate(Vector3(partx, party, partz));
 	
 
 }
@@ -141,11 +177,7 @@ float AngleBetween(Vector3 difference, int axis) {
 	float tangent = sine / cosine;
 	float angle = Math::RadianToDegree(std::atanf(tangent));
 
-	//std::cout << sine << "\n";
-	if (sine < 0) {
-
-		angle = -angle;
-	}
+	
 	
 	if (cosine < 0 ) {
 		//std::cout << "nice" << "\n";

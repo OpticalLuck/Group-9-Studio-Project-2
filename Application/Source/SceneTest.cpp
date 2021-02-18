@@ -27,6 +27,8 @@ void SceneTest::Init()
 	
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	
+
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -65,6 +67,11 @@ void SceneTest::Init()
 	text[3]->SetMode(Text::STATIC_SCREENTEXT);
 	text[3]->SetText("Press E to Interact");
 	text[3]->SetTranslate(Vector3(27.5, 12.5, 0));
+
+	text[4] = new Text();
+	text[4]->SetMode(Text::STATIC_SCREENTEXT);
+	text[4]->SetText("Item Acquired.");
+	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
 
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
@@ -117,8 +124,6 @@ void SceneTest::Update(double dt)
 
 	camera.Updatemovement(dt);
 
-	std::cout << camera.GetSpeed() << std::endl;
-
 	//LMB Click
 	if (!bLButtonState && Application::IsMousePressed(0))
 	{
@@ -155,6 +160,9 @@ void SceneTest::Update(double dt)
 	std::ostringstream ss;
 	ss << "FPS: " << fps;
 	text[0]->SetText(ss.str());
+
+
+	std::cout << "Collectible Count: " + std::to_string(character->getCollectibleCount()) << std::endl;
 }
 
 void SceneTest::Render()
@@ -175,7 +183,21 @@ void SceneTest::Render()
 
 		if (character->IsWithinRangeOf(Item[i]))
 		{
-			text[3]->Draw(renderer, true);
+			if (Item[i]->getActive() == true) //text to pickup item
+				text[3]->Draw(renderer, true);
+			else
+				text[4]->Draw(renderer, true);
+
+			//TODO: Shift functionality from current scene over to character
+			if (Application::IsKeyPressed('E')) //code to stop rendering item once it has been picked up
+			{
+				if (Item[i]->getActive())
+				{
+					Item[i]->SetActive(false);
+					character->IncrementCollectible();
+				}
+				//TODO: Delete item from world once it has been picked up
+			}
 		}
 	}
 
