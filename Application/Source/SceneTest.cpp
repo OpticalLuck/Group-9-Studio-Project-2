@@ -66,11 +66,6 @@ void SceneTest::Init()
 	text[3]->SetText("Press E to Interact");
 	text[3]->SetTranslate(Vector3(27.5, 12.5, 0));
 
-	text[4] = new Text();
-	text[4]->SetMode(Text::STATIC_SCREENTEXT);
-	text[4]->SetText("Item Acquired.");
-	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
-
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
 		           Vector3(0, 8, 0),
@@ -121,6 +116,8 @@ void SceneTest::Update(double dt)
 	}
 
 	camera.Updatemovement(dt);
+
+	std::cout << camera.GetSpeed() << std::endl;
 
 	//LMB Click
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -178,16 +175,7 @@ void SceneTest::Render()
 
 		if (character->IsWithinRangeOf(Item[i]))
 		{
-			if (Item[i]->getActive() == true) //text to pickup item
-				text[3]->Draw(renderer, true);
-			else
-				text[4]->Draw(renderer, true);
-
-			if (Application::IsKeyPressed('E')) //code to stop rendering item once it has been picked up
-			{
-				Item[i]->SetActive(false);
-			}
-			
+			text[3]->Draw(renderer, true);
 		}
 	}
 
