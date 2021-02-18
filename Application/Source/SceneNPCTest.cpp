@@ -85,6 +85,7 @@ void SceneNPCTest::Update(double dt)
 		bLButtonState = false;
 	}
 	MainCharacter->SetTranslate(camera.GetPosition());
+	MainCharacter->IsWithinRangeOf(npc);
 	npc->SetObjectToLookAt(MainCharacter);
 	npc->Update(dt);
 }

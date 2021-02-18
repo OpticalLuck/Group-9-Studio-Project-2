@@ -21,24 +21,25 @@ NPC::~NPC()
 
 void NPC::Update(double dt)
 {
+	this->dt = dt;
+
 	if (canMove || true) {
 
 		//if objecttolookat is within range
-		if (inRadius() || true) {
+		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], dt, 90.f);
+			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
 			
 
 
 		}
-
+		else {
+			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
+		}
 	}
 }
 
-bool NPC::inRadius()
-{
-	return false;
-}
+
 
 
 void NPC::SetObjectToLookAt(GameObject* obj)
@@ -71,13 +72,14 @@ void NPC::BuildMeshes(Mesh* mesh)
 	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 }
 
+
 //identifier
 //x = 0, y = 1, z = 2
 float AngleBetween(Vector3 difference, int axis);
 
 
 
-void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maximumangle)
+void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 {
 
 	//Reset the origin
@@ -121,7 +123,7 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	float xangle = AngleBetween(objectdiffx, 0);
 
 	//parttorotate->SetRotate(Vector3(xangle, yangle , 0));
-	float partx, party, partz, rotSPEED;
+	/*float partx, party, partz, rotSPEED;
 	partx = parttorotate->GetRotate().x;
 	party = parttorotate->GetRotate().y;
 	partz = parttorotate->GetRotate().z;
@@ -143,8 +145,36 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	}
 
 
-	parttorotate->SetRotate(Vector3(partx, party, partz));
+	parttorotate->SetRotate(Vector3(partx, party, partz));*/
 	
+	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
+}
+
+void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
+{
+	float partx, party, partz, rotSPEED;
+	partx = parttorotate->GetRotate().x;
+	party = parttorotate->GetRotate().y;
+	partz = parttorotate->GetRotate().z;
+	rotSPEED = 100.f;
+
+
+	if (party < rotate.y - 1) {
+		party += rotSPEED * dt;
+	}
+	else if (party > rotate.y + 1) {
+		party -= rotSPEED * dt;
+	}
+
+	if (partx < rotate.x - 1) {
+		partx += rotSPEED * dt;
+	}
+	else if (partx > rotate.x + 1) {
+		partx -= rotSPEED * dt;
+	}
+
+
+	parttorotate->SetRotate(Vector3(partx, party, partz));
 
 }
 

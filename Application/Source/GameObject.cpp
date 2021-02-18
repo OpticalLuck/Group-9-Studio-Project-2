@@ -123,6 +123,12 @@ GameObject* GameObject::GetChild(int idx)
 	return Child.at(idx);
 }
 
+bool GameObject::GetInRange(GameObject* obj, float distance)
+{
+	
+	return (abs((this->GetTranslate() - obj->GetTranslate()).Length()) < distance );
+}
+
 bool GameObject::getActive()
 {
 	return IsActive;
@@ -131,6 +137,11 @@ bool GameObject::getActive()
 int GameObject::getCurrentFlag()
 {
 	return flag;
+}
+
+void GameObject::SetCurrentFlag(int flag_enum)
+{
+	flag = flag_enum;
 }
 
 void GameObject::Update(double dt)

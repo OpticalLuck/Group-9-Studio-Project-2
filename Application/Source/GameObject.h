@@ -46,11 +46,27 @@ public:
     Vector3 GetScale();
     //gets the child from the vector array at a certain id (like an array)
     GameObject* GetChild(int idx);
+    //returns whether this object is within a certain range of another
+    bool GetInRange(GameObject* obj, float distance);
 
     //returns the render activeness of the gameobj
     bool getActive();
+
+    //to talk about states
+    enum FLAGS {
+        FLAG0,      //usually idle state
+        FLAG1,      //usually basic interaction state
+        FLAG2,      //usually big and difficult and specific interaction state
+        FLAG3,      //extra specifc state
+        TOTALFLAGS  //total number of flags
+    };
+
+
     //Get the current objects flag
     int getCurrentFlag();
+    void SetCurrentFlag(int flag_enum);
+
+
 
     virtual void Update(double dt);
 
@@ -65,15 +81,8 @@ private:
     //Transformation
     Vector3 Translation, Rotation, Scale;
     bool IsActive;
-
-    //to talk about states
-    enum FLAGS {
-        FLAG0,      //usually idle state
-        FLAG1,      //usually basic interaction state
-        FLAG2,      //usually big and difficult and specific interaction state
-        FLAG3,      //extra specifc state
-        TOTALFLAGS  //total number of flags
-    };
+    float interactRadius;
+    
 
     int flag;
 };

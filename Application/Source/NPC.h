@@ -22,7 +22,7 @@ public:
 	void Update(double dt);
 	
 
-	bool inRadius();
+
 	//Sets the ObjectToLookAt to allow for calculations revolving around looking
 	void SetObjectToLookAt(GameObject* obj);
 
@@ -36,6 +36,7 @@ public:
 
 private:
 	
+	double dt;
 
 	bool canMove, talking;
 	float radius;
@@ -51,8 +52,10 @@ private:
 
 	//Smaller Functions for small processes
 
+
 	//Rotate gameobj part towards character
 	//Maximum angle is how many degrees from the front they can move.	
 	//cannot be more than 180	
-	void RotateTowardsCharacter(GameObject* parttorotate, double dt ,float maximumangle = 180 );
+	void RotateTowardsCharacter(GameObject* parttorotate,float maximumangle = 180 );
+	void RotateToVector(GameObject* parttorotate, Vector3 rotate);
 };
