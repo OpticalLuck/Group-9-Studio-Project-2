@@ -16,6 +16,8 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale, Vector3 
 	SetRotate(rotation);
 	SetScale(scale);
 	CollisionBox = new Collision(position, CollSize * 0.5f);
+
+	collectibleCount = 0;
 }
 
 void Character::Update(double dt)
@@ -39,4 +41,14 @@ bool Character::IsWithinRangeOf(GameObject* item)
 		return true;
 	}
 	return false;
+}
+
+int Character::getCollectibleCount()
+{
+	return collectibleCount;
+}
+
+void Character::IncrementCollectible()
+{
+	collectibleCount += 1;
 }

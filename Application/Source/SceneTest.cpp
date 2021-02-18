@@ -27,6 +27,8 @@ void SceneTest::Init()
 	
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	
+
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -158,6 +160,9 @@ void SceneTest::Update(double dt)
 	std::ostringstream ss;
 	ss << "FPS: " << fps;
 	text[0]->SetText(ss.str());
+
+
+	std::cout << "Collectible Count: " + std::to_string(character->getCollectibleCount()) << std::endl;
 }
 
 void SceneTest::Render()
@@ -183,9 +188,15 @@ void SceneTest::Render()
 			else
 				text[4]->Draw(renderer, true);
 
+			//TODO: Shift functionality from current scene over to character
 			if (Application::IsKeyPressed('E')) //code to stop rendering item once it has been picked up
 			{
-				Item[i]->SetActive(false);
+				if (Item[i]->getActive())
+				{
+					Item[i]->SetActive(false);
+					character->IncrementCollectible();
+				}
+				//TODO: Delete item from world once it has been picked up
 			}
 		}
 	}

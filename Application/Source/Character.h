@@ -18,8 +18,11 @@ public:
 	Collision* GetCollBox();
 
 	bool IsWithinRangeOf(GameObject* item);
+	int getCollectibleCount();
+	void IncrementCollectible();
 
 private:
 	Collision* CollisionBox;
+	int collectibleCount;
 };
 
