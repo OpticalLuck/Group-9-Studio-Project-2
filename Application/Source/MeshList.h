@@ -8,6 +8,10 @@ public:
 	{
 		MESH_AXIS = 0,
 		MESH_QUAD,
+
+		//Environment
+		MESH_FLOOR,
+		
 		MESH_HEAD,
 		MESH_CUBE,
 		MESH_STAMINABAR,

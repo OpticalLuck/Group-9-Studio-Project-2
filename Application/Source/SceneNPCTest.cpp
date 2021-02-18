@@ -104,7 +104,7 @@ void SceneNPCTest::Render()
 	npc->Draw(renderer, false);
 
 	//Light
-	renderer->SetLight(lights[0]);
+	renderer->SetLight(lights[0], camera);
 	
 }
 

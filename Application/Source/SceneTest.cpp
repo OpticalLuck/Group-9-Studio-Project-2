@@ -191,7 +191,8 @@ void SceneTest::Render()
 	}
 
 	//Light
-	renderer->SetLight(lights[0]);
+	renderer->SetLight(lights[0], camera
+	);
 	
 	//FPS
 	text[0]->Draw(renderer, false);

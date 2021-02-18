@@ -49,7 +49,8 @@ public:
 	void PopTransform();
 
 	void SetCamera(CameraVer2 camera);
-	void SetLight(Light* light);
+	void SetLight(Light* light, CameraVer2 camera);
+	void LoadIdentity();
 	unsigned GetprogramID();
 
 private:
