@@ -127,3 +127,13 @@ bool GameObject::getActive()
 {
 	return IsActive;
 }
+
+int GameObject::getCurrentFlag()
+{
+	return flag;
+}
+
+void GameObject::Update(double dt)
+{
+	//does nothing
+}

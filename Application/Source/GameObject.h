@@ -47,8 +47,12 @@ public:
     //gets the child from the vector array at a certain id (like an array)
     GameObject* GetChild(int idx);
 
-    //returns the activeness of the gameobj
+    //returns the render activeness of the gameobj
     bool getActive();
+    //Get the current objects flag
+    int getCurrentFlag();
+
+    virtual void Update(double dt);
 
 private:
     //Basic Object Values
@@ -61,4 +65,15 @@ private:
     //Transformation
     Vector3 Translation, Rotation, Scale;
     bool IsActive;
+
+    //to talk about states
+    enum FLAGS {
+        FLAG0,      //usually idle state
+        FLAG1,      //usually basic interaction state
+        FLAG2,      //usually big and difficult and specific interaction state
+        FLAG3,      //extra specifc state
+        TOTALFLAGS  //total number of flags
+    };
+
+    int flag;
 };

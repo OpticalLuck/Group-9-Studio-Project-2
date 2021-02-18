@@ -24,7 +24,7 @@ void NPC::Update(double dt)
 	if (canMove || true) {
 
 		//if objecttolookat is within range
-		if (true) {
+		if (inRadius() || true) {
 			//BodyArr[HEAD]->
 			RotateTowardsCharacter(BodyArr[HEAD], dt, 90.f);
 			
