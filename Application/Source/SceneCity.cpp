@@ -75,11 +75,11 @@ void SceneCity::Update(double dt)
 void SceneCity::Render()
 {
 	renderer->Reset();
-	//renderer->SetLight(lights[1]);
 	renderer->LoadIdentity();
 	renderer->SetCamera(camera);
 
 	renderer->SetLight(lights[0], camera);
+	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);

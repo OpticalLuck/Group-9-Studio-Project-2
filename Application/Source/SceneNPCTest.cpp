@@ -92,10 +92,9 @@ void SceneNPCTest::Update(double dt)
 void SceneNPCTest::Render()
 {
 	renderer->Reset();
-
+	renderer->LoadIdentity();
 	//Camera
 	renderer->SetCamera(camera);
-
 
 	Axis->Draw(renderer, false);
 	//Quad->Draw(renderer, true);

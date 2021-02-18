@@ -13,6 +13,8 @@
 #include "SceneCity.h"
 
 //TODO!! REMOVE TESTING SCENES
+#include "SceneNPCTest.h"
+#include "SceneTest.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -186,15 +188,15 @@ void Application::Run()
 {
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
-	Scene* scene1 = new SceneA2();
+	Scene* scene1 = new SceneCity();
 	Scene* scene2 = new SceneTest();
 	Scene* scene3 = new SceneNPCTest();
 	Scene* scene4 = NULL;
 	Scene* scene5 = NULL;
 	Scene* scene = scene2;
 	scene1->Init();
-	//scene2->Init();
-	//scene3->Init();
+	scene2->Init();
+	scene3->Init();
 	//scene4->Init();
 	//scene5->Init();
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
