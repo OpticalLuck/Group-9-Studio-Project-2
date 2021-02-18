@@ -35,7 +35,7 @@ private:
 	GameObject* Quad;
 	GameObject* Item[2];
 	Character* character;
-	Text* text[4];
+	Text* text[5];
 	Light* lights[1];
 };
 
