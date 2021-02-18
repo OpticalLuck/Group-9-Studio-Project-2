@@ -16,7 +16,7 @@ SceneNPCTest::~SceneNPCTest()
 
 void SceneNPCTest::Init()
 {
-	renderer = new Renderer();
+	renderer = new Renderer(LIGHT_TOTAL);
 	//Init Meshlist
 	meshlist = new MeshList();
 	//Create Light
@@ -31,14 +31,17 @@ void SceneNPCTest::Init()
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc->SetDefaultDir(Vector3(0, -30, 0));
 	//npc->SetTranslate(Vector3(0,0,1));
-	{
-	lights[0]->Set(Light::LIGHT_POINT,
-		           Vector3(0, 8, 0),
+
+}
+void SceneNPCTest::InitGL()
+{
+	lights[0]->Set(Light::LIGHT_SPOT,
+				   Vector3(0, 8, 0),
 				   Color(1, 1, 1),
 				   1.f, 1.f, 0.01f, 0.001f,
 				   Vector3(0.f, 1.f, 0.f));
-	}
-}	
+}
+
 
 void SceneNPCTest::Update(double dt)
 {

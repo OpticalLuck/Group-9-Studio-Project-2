@@ -25,22 +25,22 @@ MeshList::MeshList()
 	meshlist[MESH_CUBE] = MeshBuilder::GenerateCube("Cube", Color(1.f,1.f,1.f), 1.f, 1.f, 1.f);
 
 	////Skybox
-	meshlist[SKYBOX_FRONT] = MeshBuilder::GenerateQuad("Front of Skybox", Color(1, 1, 1), 50.0f);
+	meshlist[SKYBOX_FRONT] = MeshBuilder::GenerateQuad("Front of Skybox", Color(1, 1, 1), 100.2f);
 	meshlist[SKYBOX_FRONT]->textureID = LoadTGA("Image//miramar_ft.tga");
 
-	meshlist[SKYBOX_BACK] = MeshBuilder::GenerateQuad("Back of Skybox", Color(1, 1, 1), 50.0f);
+	meshlist[SKYBOX_BACK] = MeshBuilder::GenerateQuad("Back of Skybox", Color(1, 1, 1), 100.2f);
 	meshlist[SKYBOX_BACK]->textureID = LoadTGA("Image//miramar_bk.tga");
 
-	meshlist[SKYBOX_TOP] = MeshBuilder::GenerateQuad("Top of Skybox", Color(1, 1, 1), 50.0f);
+	meshlist[SKYBOX_TOP] = MeshBuilder::GenerateQuad("Top of Skybox", Color(1, 1, 1), 100.2f);
 	meshlist[SKYBOX_TOP]->textureID = LoadTGA("Image//miramar_up.tga");
 
-	meshlist[SKYBOX_BOTTOM] = MeshBuilder::GenerateQuad("Bottom of Skybox", Color(1, 1, 1), 50.1f);
+	meshlist[SKYBOX_BOTTOM] = MeshBuilder::GenerateQuad("Bottom of Skybox", Color(1, 1, 1), 100.2f);
 	meshlist[SKYBOX_BOTTOM]->textureID = LoadTGA("Image//miramar_dn.tga");
 
-	meshlist[SKYBOX_LEFT] = MeshBuilder::GenerateQuad("Left of Skybox", Color(1, 1, 1), 50.0f);
+	meshlist[SKYBOX_LEFT] = MeshBuilder::GenerateQuad("Left of Skybox", Color(1, 1, 1), 100.2f);
 	meshlist[SKYBOX_LEFT]->textureID = LoadTGA("Image//miramar_lf.tga");
 
-	meshlist[SKYBOX_RIGHT] = MeshBuilder::GenerateQuad("Right of Skybox", Color(1, 1, 1), 50.0f);
+	meshlist[SKYBOX_RIGHT] = MeshBuilder::GenerateQuad("Right of Skybox", Color(1, 1, 1), 100.2f);
 	meshlist[SKYBOX_RIGHT]->textureID = LoadTGA("Image//miramar_rt.tga");
 }
 

@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "MeshBuilder.h"
+#include "shader.hpp"
 
 SceneTest::SceneTest() :
 	fps(0.f)
@@ -19,7 +20,7 @@ void SceneTest::Init()
 	x_width = 30;
 	mapOpen = false;
 
-	renderer = new Renderer();
+	renderer = new Renderer(LIGHT_TOTAL);
 	//Init Meshlist
 	meshlist = new MeshList();
 	//Create Light
@@ -39,27 +40,27 @@ void SceneTest::Init()
 
 	//Init the Skybox
 	Skybox_Top = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_TOP));
-	Skybox_Top->SetTranslate(Vector3(0, 25, 0));
-	Skybox_Top->SetRotate(Vector3(0, -90, 0));
+	Skybox_Top->SetTranslate(Vector3(0, 50, 0));
+	Skybox_Top->SetRotate(Vector3(180, -90, 0));
 
 	Skybox_Bottom = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BOTTOM));
-	Skybox_Bottom->SetTranslate(Vector3(0, -25, 0));
+	Skybox_Bottom->SetTranslate(Vector3(0, -50, 0));
 
 	Skybox_Left = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_LEFT));
-	Skybox_Left->SetTranslate(Vector3(25, 0, 0));
+	Skybox_Left->SetTranslate(Vector3(-50, 0, 0));
 	Skybox_Left->SetRotate(Vector3(0, 90, -90));
 
 	Skybox_Right = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_RIGHT));
-	Skybox_Right->SetTranslate(Vector3(-25, 0, 0));
+	Skybox_Right->SetTranslate(Vector3(50, 0, 0));
 	Skybox_Right->SetRotate(Vector3(0, -90, 90));
 
-	Skybox_Front = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_FRONT));
-	Skybox_Front->SetTranslate(Vector3(0, 0, 25));
-	Skybox_Front->SetRotate(Vector3(90, 0, 0));
-
 	Skybox_Back = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BACK));
-	Skybox_Back->SetTranslate(Vector3(0, 0, -25));
+	Skybox_Back->SetTranslate(Vector3(0, 0, 50));
 	Skybox_Back->SetRotate(Vector3(-90, 0, 180));
+	
+	Skybox_Front = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_FRONT));
+	Skybox_Front->SetTranslate(Vector3(0, 0, -50));
+	Skybox_Front->SetRotate(Vector3(90, 0, 0));
 
 	character =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
@@ -94,14 +95,18 @@ void SceneTest::Init()
 	text[4]->SetText("Item Acquired.");
 	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
 
-	{
+	
+}
+void SceneTest::InitGL()
+{
 	lights[0]->Set(Light::LIGHT_POINT,
-		           Vector3(0, 8, 0),
+				   Vector3(0, 8, 0),
 				   Color(1, 1, 1),
 				   1.f, 1.f, 0.01f, 0.001f,
 				   Vector3(0.f, 1.f, 0.f));
-	}
-}	
+	
+}
+
 
 void SceneTest::Update(double dt)
 {
@@ -264,6 +269,7 @@ void SceneTest::Render()
 
 void SceneTest::Exit()
 {
+	Shader::Destroy();
 }
 
 void SceneTest::UpdateMousePos(double xoffset, double yoffset)

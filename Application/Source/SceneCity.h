@@ -18,10 +18,17 @@ public:
 		EN_TOTAL
 	};
 
+	enum LIGHT_LOCATION
+	{
+		LIGHT_MIDDLE,
+		LIGHT_TEST,
+		LIGHT_TOTAL
+	};
 	SceneCity();
 	~SceneCity();
 
 	virtual void Init();
+	virtual void InitGL();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
@@ -38,7 +45,7 @@ private:
 	GameObject* Axis;
 	Character* MainChar;
 	GameObject* Environment[EN_TOTAL];
-	Light* lights[2];
+	Light* lights[LIGHT_TOTAL];
 
 	//Temp
 	GameObject* Cube[2];

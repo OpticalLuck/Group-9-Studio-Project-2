@@ -12,10 +12,17 @@
 class SceneTest : public Scene
 {
 public:
+
+	enum LIGHT_LOCATION
+	{
+		LIGHT_MIDDLE = 0,
+		LIGHT_TOTAL
+	};
 	SceneTest();
 	~SceneTest();
 
 	virtual void Init();
+	virtual void InitGL();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
@@ -42,7 +49,7 @@ private:
 	GameObject* Skybox_Back;
 	Character* character;
 	Text* text[5];
-	Light* lights[1];
+	Light* lights[LIGHT_TOTAL];
 };
 
 #endif

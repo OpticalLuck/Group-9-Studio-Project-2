@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "MeshBuilder.h"
+#include "shader.hpp"
 
 SceneCity::SceneCity() :
 	fps(0.f)
@@ -16,12 +17,12 @@ SceneCity::~SceneCity()
 
 void SceneCity::Init()
 {
-	renderer = new Renderer();
+	renderer = new Renderer(LIGHT_TOTAL);
 	camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	//camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
 	meshlist = new MeshList();
-	lights[0] = new Light(renderer->GetprogramID(), 0);	
-	lights[1] = new Light(renderer->GetprogramID(), 1);	
+	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
+	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
@@ -35,11 +36,15 @@ void SceneCity::Init()
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 	Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
 	Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
+}
 
-	lights[0]->Set(Light::LIGHT_POINT, Vector3(0, 50, 0), Color(1, 1, 1), 20.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
-	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+void SceneCity::InitGL()
+{
+	//lights[0]->Set(Light::LIGHT_POINT, Vector3(0, 50, 0), Color(1, 1, 1), 20.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 	lights[1]->Set(Light::LIGHT_SPOT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
-}	
+}
+
 
 void SceneCity::Update(double dt)
 {
@@ -114,7 +119,8 @@ void SceneCity::Render()
 	renderer->LoadIdentity();
 	renderer->SetCamera(camera);
 
-	renderer->SetLight(lights[0], camera);
+	for (int i = 0; i < 2; i++)
+		renderer->SetLight(lights[i], camera);
 	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);
@@ -126,6 +132,7 @@ void SceneCity::Render()
 
 void SceneCity::Exit()
 {
+	Shader::Destroy();
 }
 
 void SceneCity::UpdateMousePos(double xoffset, double yoffset)

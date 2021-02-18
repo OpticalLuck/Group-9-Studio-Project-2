@@ -3,10 +3,9 @@
 #include "shader.hpp"
 #include "Application.h"
 
-Renderer::Renderer() 
+Renderer::Renderer(int numlight)
 {
 	//Load Vertex and fragment shaders
-	programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
@@ -24,28 +23,28 @@ Renderer::Renderer()
 	
 
 	//Parameters
-	Parameters[U_MVP] = glGetUniformLocation(programID, "MVP");
-	Parameters[U_MODELVIEW] = glGetUniformLocation(programID, "MV");
-	Parameters[U_MODELVIEW_INVERSE_TRANSPOSE] = glGetUniformLocation(programID, "MV_inverse_transpose");
-	Parameters[U_MATERIAL_AMBIENT] = glGetUniformLocation(programID, "material.kAmbient");
-	Parameters[U_MATERIAL_DIFFUSE] = glGetUniformLocation(programID, "material.kDiffuse");
-	Parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(programID, "material.kSpecular");
-	Parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(programID, "material.kShininess");
+	Parameters[U_MVP] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "MVP");
+	Parameters[U_MODELVIEW] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "MV");
+	Parameters[U_MODELVIEW_INVERSE_TRANSPOSE] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "MV_inverse_transpose");
+	Parameters[U_MATERIAL_AMBIENT] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kAmbient");
+	Parameters[U_MATERIAL_DIFFUSE] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kDiffuse");
+	Parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kSpecular");
+	Parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kShininess");
 	Mesh::SetMaterialLoc(Parameters[U_MATERIAL_AMBIENT], Parameters[U_MATERIAL_DIFFUSE], Parameters[U_MATERIAL_SPECULAR], Parameters[U_MATERIAL_SHININESS]);
-	Parameters[U_LIGHTENABLED] = glGetUniformLocation(programID, "lightEnabled");
-	Parameters[U_NUMLIGHTS] = glGetUniformLocation(programID, "numLights");
+	Parameters[U_LIGHTENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "lightEnabled");
+	Parameters[U_NUMLIGHTS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "numLights");
 
 	// Get a handle for our "colorTexture" uniform
-	Parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(programID, "colorTextureEnabled");
-	Parameters[U_COLOR_TEXTURE] = glGetUniformLocation(programID, "colorTexture");
+	Parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "colorTextureEnabled");
+	Parameters[U_COLOR_TEXTURE] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "colorTexture");
 
 	// Get a handle for our "textColor" uniform
-	Parameters[U_TEXT_ENABLED] = glGetUniformLocation(programID, "textEnabled");
-	Parameters[U_TEXT_COLOR] = glGetUniformLocation(programID, "textColor");
+	Parameters[U_TEXT_ENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "textEnabled");
+	Parameters[U_TEXT_COLOR] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "textColor");
 	
-	glUseProgram(programID);
+	glUseProgram(Shader::GetInstance()->shaderdata);
 	// Make sure you pass uniform parameters after glUseProgram()
-	glUniform1i(Parameters[U_NUMLIGHTS], 2);
+	glUniform1i(Parameters[U_NUMLIGHTS], numlight);
 
 }
 
@@ -53,7 +52,7 @@ Renderer::~Renderer()
 {
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
-	glDeleteProgram(programID);
+	glDeleteProgram(Shader::GetInstance()->shaderdata);
 }
 
 void Renderer::Reset()
@@ -322,5 +321,5 @@ void Renderer::LoadIdentity()
 
 unsigned Renderer::GetprogramID()
 {
-	return programID;
+	return Shader::GetInstance()->shaderdata;
 }

@@ -26,7 +26,7 @@ public:
 		U_TEXT_COLOR,
 		U_TOTAL
 	};
-	Renderer();
+	Renderer(int numlight);
 	~Renderer();
 
 	void Reset();

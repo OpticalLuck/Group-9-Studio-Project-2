@@ -117,6 +117,7 @@ Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
         isCollided = false;
     }
 
+
     float diff2;
     auto lambda = [&](Vector3 axis)
     {
@@ -134,6 +135,7 @@ Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
             }
         }
     };
+
 
     lambda(box1->Right);
     lambda(box1->Up);

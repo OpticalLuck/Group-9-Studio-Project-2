@@ -190,6 +190,7 @@
     <ClInclude Include="Source\SceneNPCTest.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\Text.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
