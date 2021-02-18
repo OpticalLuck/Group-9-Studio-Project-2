@@ -9,7 +9,9 @@ GameObject::GameObject() :
 	Scale(Vector3(1, 1, 1)),
 	Rotation(Vector3(0, 0, 0)),
 	Parent(nullptr),
-	ID(0)
+	ID(0),
+	flag(FLAG0),
+	interactRadius(3)
 {
 }
 
@@ -20,7 +22,9 @@ GameObject::GameObject(unsigned int ID, Mesh* mesh) :
 	Translation(Vector3(0, 0, 0)),
 	Scale(Vector3(1, 1, 1)),
 	Rotation(Vector3(0, 0, 0)),
-	Parent(nullptr)
+	Parent(nullptr),
+	flag(FLAG0),
+	interactRadius(3)
 {
 	this->mesh = mesh;
 }
@@ -142,6 +146,16 @@ int GameObject::getCurrentFlag()
 void GameObject::SetCurrentFlag(int flag_enum)
 {
 	flag = flag_enum;
+}
+
+float GameObject::GetRadius()
+{
+	return interactRadius;
+}
+
+void GameObject::SetRadius(float rad)
+{
+	interactRadius = rad;
 }
 
 void GameObject::Update(double dt)

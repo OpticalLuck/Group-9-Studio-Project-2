@@ -8,7 +8,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 
 	canMove = talking = 0;
 	objectToLookAt = NULL;
-	radius = 40.f;
+	SetRadius(10.f);
 	//defaultdirection = GetRotate();
 }
 
@@ -117,35 +117,8 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	else if ((yangle > maximumangle && yangle < 180)) {
 		yangle = maximumangle;
 	}
-	
-	
-	
+
 	float xangle = AngleBetween(objectdiffx, 0);
-
-	//parttorotate->SetRotate(Vector3(xangle, yangle , 0));
-	/*float partx, party, partz, rotSPEED;
-	partx = parttorotate->GetRotate().x;
-	party = parttorotate->GetRotate().y;
-	partz = parttorotate->GetRotate().z;
-	rotSPEED = 100.f;
-
-
-	if (party < yangle - 1) {
-		party += rotSPEED * dt;
-	}
-	else if (party > yangle + 1) {
-		party -= rotSPEED * dt;
-	}
-
-	if (partx < xangle - 1) {
-		partx += rotSPEED * dt;
-	}
-	else if (partx > xangle + 1) {
-		partx -= rotSPEED * dt;
-	}
-
-
-	parttorotate->SetRotate(Vector3(partx, party, partz));*/
 	
 	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
 }

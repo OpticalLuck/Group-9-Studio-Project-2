@@ -34,7 +34,7 @@ Collision* Character::GetCollBox()
 bool Character::IsWithinRangeOf(GameObject* item)
 {
 	//getTranslate() by itself access the position of Character, while item->GetTranslate() access the position of the item parameter that is passed in
-	if (GetInRange(item,10))
+	if (GetInRange(item,item->GetRadius()))
 	{
 		item->SetCurrentFlag(FLAG1);
 		return true;

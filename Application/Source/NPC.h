@@ -39,7 +39,6 @@ private:
 	double dt;
 
 	bool canMove, talking;
-	float radius;
 	//Vector3 defaultdirection;
 	//Bunch of words they will say
 	std::vector<std::string> speech;

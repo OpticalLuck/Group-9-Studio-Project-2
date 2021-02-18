@@ -64,9 +64,12 @@ public:
 
     //Get the current objects flag
     int getCurrentFlag();
+    //Sets current flag
     void SetCurrentFlag(int flag_enum);
 
-
+    //Gets interactable Radius
+    float GetRadius();
+    void SetRadius(float rad);
 
     virtual void Update(double dt);
 
