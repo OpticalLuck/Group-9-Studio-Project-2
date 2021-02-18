@@ -17,13 +17,21 @@ SceneCity::~SceneCity()
 void SceneCity::Init()
 {
 	renderer = new Renderer();
-	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
+	camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
+	//camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
 	meshlist = new MeshList();
 	lights[0] = new Light(renderer->GetprogramID(), 0);	
 	lights[1] = new Light(renderer->GetprogramID(), 1);	
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
-	Cube[1] = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Cube[0]->SetColliderBox();
+	Cube[0]->SetTranslate(Vector3(5, 5, 0));
+
+	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Cube[1]->SetColliderBox(Vector3(2,2,2));
+	Cube[1]->SetTranslate(Vector3(0,5,0));
+
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 	Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
 	Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
@@ -35,8 +43,6 @@ void SceneCity::Init()
 
 void SceneCity::Update(double dt)
 {
-	Cube[1]->SetTranslate(lights[0]->position);
-
 	camera.Updatemovement(dt);
 	{
 		if (Application::IsKeyPressed('1'))
@@ -56,20 +62,50 @@ void SceneCity::Update(double dt)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 	}
-	float LSPEED = 5.f;
+	float SPEED = 5.f * dt;
+	Vector3 Direction = Vector3(0,0,0);
 	if (Application::IsKeyPressed('I'))
-		lights[0]->position.z -= (float)(LSPEED * dt);
+		Direction += Vector3(0, 0, 1);
 	if (Application::IsKeyPressed('K'))
-		lights[0]->position.z += (float)(LSPEED * dt);
+		Direction += Vector3(0, 0, -1);
 	if (Application::IsKeyPressed('J'))
-		lights[0]->position.x -= (float)(LSPEED * dt);
+		Direction += Vector3(1, 0, 0);
 	if (Application::IsKeyPressed('L'))
-		lights[0]->position.x += (float)(LSPEED * dt);
+		Direction += Vector3(-1, 0, 0);
 	if (Application::IsKeyPressed('O'))
-		lights[0]->position.y -= (float)(LSPEED * dt);
+		Direction += Vector3(0, 1, 0);
 	if (Application::IsKeyPressed('P'))
-		lights[0]->position.y += (float)(LSPEED * dt);
+		Direction += Vector3(0, -1, 0);
 
+	if (Application::IsKeyPressed('T'))
+	{
+		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
+	}
+	if (Application::IsKeyPressed('G'))
+	{
+		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
+	}
+	if (Application::IsKeyPressed('F'))
+	{
+		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
+	}
+	if (Application::IsKeyPressed('H'))
+	{
+		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
+	}
+	if (Application::IsKeyPressed('R'))
+	{
+		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
+	}
+	if (Application::IsKeyPressed('Y'))
+	{
+		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
+	}
+
+	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+	Collision::OBBResolution(Cube[0], Cube[1]);
+	
+		
 }
 
 void SceneCity::Render()
@@ -82,7 +118,9 @@ void SceneCity::Render()
 	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);
+	Cube[0]->GetColliderBox()->DrawFrame(renderer);
 	Cube[1]->Draw(renderer, false);
+	Cube[1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_FLOOR]->Draw(renderer, true);
 }
 

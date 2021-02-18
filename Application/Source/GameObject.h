@@ -22,6 +22,7 @@ public:
     void SetID(unsigned int ID);
     void SetMesh(Mesh* mesh);
     void SetTexture(std::string TextureID);
+    void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f));
 
     //Transformation - Orders does not matter as it is handled in renderer
     void SetTranslate(Vector3 Translate);
@@ -48,7 +49,8 @@ public:
     GameObject* GetChild(int idx);
     //returns whether this object is within a certain range of another
     bool GetInRange(GameObject* obj, float distance);
-
+    //returns colliderbox
+    Collision* GetColliderBox();
     //returns the render activeness of the gameobj
     bool getActive();
 
@@ -60,7 +62,6 @@ public:
         FLAG3,      //extra specifc state
         TOTALFLAGS  //total number of flags
     };
-
 
     //Get the current objects flag
     int getCurrentFlag();
@@ -85,7 +86,8 @@ private:
     Vector3 Translation, Rotation, Scale;
     bool IsActive;
     float interactRadius;
-    
+       
+    Collision* ColliderBox;
 
     int flag;
 };

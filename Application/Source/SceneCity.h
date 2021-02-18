@@ -41,7 +41,7 @@ private:
 	Light* lights[2];
 
 	//Temp
-	Character* Cube[2];
+	GameObject* Cube[2];
 };
 
 #endif

@@ -11,7 +11,8 @@ GameObject::GameObject() :
 	Parent(nullptr),
 	ID(0),
 	flag(FLAG0),
-	interactRadius(3)
+	interactRadius(3),
+	ColliderBox(nullptr)
 {
 }
 
@@ -24,7 +25,8 @@ GameObject::GameObject(unsigned int ID, Mesh* mesh) :
 	Rotation(Vector3(0, 0, 0)),
 	Parent(nullptr),
 	flag(FLAG0),
-	interactRadius(3)
+	interactRadius(3),
+	ColliderBox(nullptr)
 {
 	this->mesh = mesh;
 }
@@ -71,14 +73,27 @@ void GameObject::SetTexture(std::string TextureID)
 	mesh->textureID = LoadTGA(TextureID.c_str());
 }
 
+void GameObject::SetColliderBox(Vector3 halfsize)
+{
+	ColliderBox = new Collision(Translation, halfsize);
+}
+
 void GameObject::SetTranslate(Vector3 Translate)
 {
 	Translation = Translate;
+	if (ColliderBox)
+	{
+		ColliderBox->setTranslate(Translate);
+	}
 }
 
 void GameObject::SetRotate(Vector3 Rotate)
 {
 	Rotation = Rotate;
+	if (ColliderBox)
+	{
+		ColliderBox->setRotation(Rotate);
+	}
 }
 
 void GameObject::SetScale(Vector3 Scale)
@@ -131,6 +146,11 @@ bool GameObject::GetInRange(GameObject* obj, float distance)
 {
 	
 	return (abs((this->GetTranslate() - obj->GetTranslate()).Length()) < distance );
+}
+
+Collision* GameObject::GetColliderBox()
+{
+	return ColliderBox;
 }
 
 bool GameObject::getActive()
