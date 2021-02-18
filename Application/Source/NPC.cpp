@@ -26,7 +26,7 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (true) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], dt, 100.f);
+			RotateTowardsCharacter(BodyArr[HEAD], dt, 90.f);
 			
 
 
@@ -104,6 +104,9 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	//std::cout << yangle << "\n";
 
 	
+	//x angle bounds move with y angle
+	rotationx.SetToRotation(-yangle, 0, 1, 0);
+	objectdiffx = rotationx * objectdiffx;
 
 	//y angle boundaries
 	if ( (yangle < -maximumangle && yangle > -180)) {
@@ -112,9 +115,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	else if ((yangle > maximumangle && yangle < 180)) {
 		yangle = maximumangle;
 	}
-	//x angle bounds move with y angle
-	rotationx.SetToRotation(-yangle, 0, 1, 0);
-	objectdiffx = rotationx * objectdiffx;
 	
 	
 	
