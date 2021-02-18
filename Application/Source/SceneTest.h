@@ -34,6 +34,12 @@ private:
 	GameObject* Axis;
 	GameObject* Quad;
 	GameObject* Item[2];
+	GameObject* Skybox_Top;
+	GameObject* Skybox_Bottom;
+	GameObject* Skybox_Left;
+	GameObject* Skybox_Right;
+	GameObject* Skybox_Front;
+	GameObject* Skybox_Back;
 	Character* character;
 	Text* text[5];
 	Light* lights[1];

@@ -25,7 +25,6 @@ void SceneTest::Init()
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 	
-
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
 	
 
@@ -39,6 +38,30 @@ void SceneTest::Init()
 	
 	Item[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Item[1]->SetTranslate(Vector3(-6, 3, 2));
+
+	//Init the Skybox
+	Skybox_Top = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_TOP));
+	Skybox_Top->SetTranslate(Vector3(0, 25, 0));
+	Skybox_Top->SetRotate(Vector3(0, -90, 0));
+
+	Skybox_Bottom = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BOTTOM));
+	Skybox_Bottom->SetTranslate(Vector3(0, -25, 0));
+
+	Skybox_Left = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_LEFT));
+	Skybox_Left->SetTranslate(Vector3(25, 0, 0));
+	Skybox_Left->SetRotate(Vector3(0, 90, -90));
+
+	Skybox_Right = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_RIGHT));
+	Skybox_Right->SetTranslate(Vector3(-25, 0, 0));
+	Skybox_Right->SetRotate(Vector3(0, -90, 90));
+
+	Skybox_Front = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_FRONT));
+	Skybox_Front->SetTranslate(Vector3(0, 0, 25));
+	Skybox_Front->SetRotate(Vector3(90, 0, 0));
+
+	Skybox_Back = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BACK));
+	Skybox_Back->SetTranslate(Vector3(0, 0, -25));
+	Skybox_Back->SetRotate(Vector3(-90, 0, 180));
 
 	character =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
@@ -174,6 +197,15 @@ void SceneTest::Render()
 
 
 	Axis->Draw(renderer, false);
+
+	//Skybox
+	Skybox_Top->Draw(renderer, false);
+	Skybox_Bottom->Draw(renderer, false);
+	Skybox_Left->Draw(renderer, false);
+	Skybox_Right->Draw(renderer, false);
+	Skybox_Front->Draw(renderer, false);
+	Skybox_Back->Draw(renderer, false);
+
 	Quad->Draw(renderer, true);
 
 	//Proximity
@@ -227,6 +259,8 @@ void SceneTest::Render()
 	{
 		text[2]->Draw(renderer, false);
 	}
+
+	
 }
 
 void SceneTest::Exit()
