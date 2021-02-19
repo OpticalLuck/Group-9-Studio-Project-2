@@ -202,7 +202,7 @@ void Application::Run()
 	Scene* scene4 = NULL;
 	Scene* scene5 = NULL;
 
-	Scene* scene = scene2;
+	Scene* scene = scene1;
 	scene->InitGL();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

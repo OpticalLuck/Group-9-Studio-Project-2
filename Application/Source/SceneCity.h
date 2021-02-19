@@ -16,6 +16,10 @@ public:
 	enum Environment_Type
 	{
 		EN_FLOOR = 0,
+		EN_HOUSE1,
+		EN_HOUSE2,
+		EN_HOUSE3,
+		EN_TOWER1,
 		EN_TOTAL
 	};
 
