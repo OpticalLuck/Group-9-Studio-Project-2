@@ -43,7 +43,7 @@ private:
 	GOManager goManager;
 	GameObject* Axis;
 	GameObject* Quad;
-	GameObject* Item[2];
+	GameObject* Item[3];
 	
 	Character* character;
 	Text* text[5];
