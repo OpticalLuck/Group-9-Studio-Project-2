@@ -15,7 +15,12 @@ public:
 
 		//Environment
 		MESH_FLOOR,
-		
+		MESH_HOUSE1,
+		MESH_HOUSE2,
+		MESH_HOUSE3,
+		MESH_TOWER,
+
+		//CHARACTER?
 		MESH_HEAD,
 
 		//UI

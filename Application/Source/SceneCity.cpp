@@ -18,11 +18,14 @@ SceneCity::~SceneCity()
 void SceneCity::Init()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
-	camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
-	//camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
+	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
+	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
+	camera.ToggleMode(CameraVer2::FREE_VIEW);
 	meshlist = new MeshList();
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
+
+	skybox = new Skybox(goManager, meshlist, 3);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
@@ -36,12 +39,25 @@ void SceneCity::Init()
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 	Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
 	Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
+
+	Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
+	Environment[EN_HOUSE1]->SetTranslate(Vector3(15, 6, 0));
+
+	Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
+	Environment[EN_HOUSE2]->SetTranslate(Vector3(15, 6, -20));
+	
+	Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
+	Environment[EN_HOUSE3]->SetTranslate(Vector3(-15, 4, 20));
+	
+	Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
+	Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
+
 }
 
 void SceneCity::InitGL()
 {
-	//lights[0]->Set(Light::LIGHT_POINT, Vector3(0, 50, 0), Color(1, 1, 1), 20.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
-	lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_SPOT, Vector3(0, 150, 0), Color(1, 1, 1), 50.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 	lights[1]->Set(Light::LIGHT_SPOT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 }
 
@@ -124,10 +140,20 @@ void SceneCity::Render()
 	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);
+
+	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
+	{
+		skybox->GetSBX(i)->Draw(renderer, false);
+	}
+		
 	Cube[0]->GetColliderBox()->DrawFrame(renderer);
 	Cube[1]->Draw(renderer, false);
 	Cube[1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_FLOOR]->Draw(renderer, true);
+	Environment[EN_HOUSE1]->Draw(renderer, true);
+	Environment[EN_HOUSE2]->Draw(renderer, true);
+	Environment[EN_HOUSE3]->Draw(renderer, true);
+	Environment[EN_TOWER1]->Draw(renderer, true);
 }
 
 void SceneCity::Exit()

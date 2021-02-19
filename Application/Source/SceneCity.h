@@ -7,6 +7,7 @@
 #include "CameraVer2.h"
 #include "Light.h"
 #include "GOManager.h"
+#include "Skybox.h"
 
 class SceneCity : public Scene
 {
@@ -15,6 +16,10 @@ public:
 	enum Environment_Type
 	{
 		EN_FLOOR = 0,
+		EN_HOUSE1,
+		EN_HOUSE2,
+		EN_HOUSE3,
+		EN_TOWER1,
 		EN_TOTAL
 	};
 
@@ -46,6 +51,7 @@ private:
 	Character* MainChar;
 	GameObject* Environment[EN_TOTAL];
 	Light* lights[LIGHT_TOTAL];
+	Skybox* skybox;
 
 	//Temp
 	GameObject* Cube[2];

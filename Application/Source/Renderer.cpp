@@ -7,7 +7,7 @@ Renderer::Renderer(int numlight)
 {
 	//Load Vertex and fragment shaders
 	Mtx44 projection;
-	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
+	projection.SetToPerspective(45.f, 16.f / 9.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
 
 	// Init VBO here
@@ -179,7 +179,7 @@ void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 
 	//Add these code just after glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	ortho.SetToOrtho(0, 128, 0, 72, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
@@ -226,7 +226,7 @@ void Renderer::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, flo
 {
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
-	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	ortho.SetToOrtho(0, 128, 0, 72, -10, 10); //size of screen UI
 	projectionStack.PushMatrix();
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
@@ -287,7 +287,7 @@ void Renderer::SetCamera(CameraVer2 camera)
 					Target.x, Target.y, Target.z,
 					camera.GetUp().x, camera.GetUp().y, camera.GetUp().z);
 	Mtx44 projection;
-	projection.SetToPerspective(Application::FOV, 4.f / 3.f, 0.1f, 1000.f);
+	projection.SetToPerspective(Application::FOV, 16.f / 9.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
 }
 
