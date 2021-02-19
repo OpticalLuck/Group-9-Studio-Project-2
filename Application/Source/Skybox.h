@@ -17,7 +17,7 @@ public:
 		SBX_TOTAL
 	};
 
-	Skybox(GOManager gomanager, MeshList* meshlist);
+	Skybox(GOManager gomanager, MeshList* meshlist, float Scale = 1);
 	~Skybox();
 
 	GameObject* GetSBX(int idx);

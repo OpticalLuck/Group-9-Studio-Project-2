@@ -19,12 +19,13 @@ void SceneCity::Init()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
 	camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
+	camera.ToggleMode(CameraVer2::FREE_VIEW);
 	//camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
 	meshlist = new MeshList();
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 
-	skybox = new Skybox(goManager, meshlist);
+	skybox = new Skybox(goManager, meshlist, 3);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));

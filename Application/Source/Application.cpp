@@ -26,7 +26,7 @@ bool firstMouse = true;
 bool Application::Cursor_Off = false;
 unsigned Application::m_width;
 unsigned Application::m_height;
-float lastX = 400, lastY = 300; //Middle of screen
+float lastX = 640, lastY = 360; //Middle of screen
 float Application::FOV = 45;
 
 double Application::xoffset = 0;
@@ -149,8 +149,8 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_width = 800;
-	m_height = 600;
+	m_width = 1280;
+	m_height = 720;
 	m_window = glfwCreateWindow(m_width, m_height, "Test Window", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
