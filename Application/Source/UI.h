@@ -10,7 +10,7 @@ public:
 	UI();
 	~UI();
 
-	void Init();
+	void Init(GameObject* player);
 	void Update();
 	
 	void Draw(Renderer* renderer, bool enableLight);
@@ -25,6 +25,8 @@ private:
 	CameraVer2* camera;
 	MeshList* tempMeshList;
 	GameObject* Quad;
+	GameObject* Player;
+
 	Text* text[4];
 
 	float staminaBar_width;

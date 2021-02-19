@@ -28,8 +28,9 @@ void SceneTest::Init()
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
+	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 	ui = new UI();
-	ui->Init();
+	ui->Init(character);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -65,7 +66,6 @@ void SceneTest::Init()
 	Skybox_Front->SetTranslate(Vector3(0, 0, -50));
 	Skybox_Front->SetRotate(Vector3(90, 0, 0));
 
-	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
 	//FPS Render
 	std::ostringstream ss;
