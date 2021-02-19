@@ -20,12 +20,17 @@ void SceneCity::Init()
 	renderer = new Renderer(LIGHT_TOTAL);
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
-	camera.ToggleMode(CameraVer2::FREE_VIEW);
+	camera.ToggleMode(CameraVer2::CHARACTER_CONTROLLED);
 	meshlist = new MeshList();
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 
 	skybox = new Skybox(goManager, meshlist, 3);
+
+	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	MainChar->SetColliderBox();
+	MainChar->Init(Vector3(0, 3, -40));
+	MainChar->SetCamera(&camera);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
@@ -36,11 +41,14 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox(Vector3(2,2,2));
 	Cube[1]->SetTranslate(Vector3(0,5,0));
 
+
+
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 	Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
 	Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
 	Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
+	Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 9, 9));
 	Environment[EN_HOUSE1]->SetTranslate(Vector3(15, 6, 0));
 
 	Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
@@ -124,6 +132,10 @@ void SceneCity::Update(double dt)
 	}
 
 	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+
+	MainChar->Update(dt);
+	Collision::OBBResolution(MainChar, Environment[EN_HOUSE1]);
+
 	Collision::OBBResolution(Cube[0], Cube[1]);
 	
 		
@@ -151,6 +163,7 @@ void SceneCity::Render()
 	Cube[1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_FLOOR]->Draw(renderer, true);
 	Environment[EN_HOUSE1]->Draw(renderer, true);
+	Environment[EN_HOUSE1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_HOUSE2]->Draw(renderer, true);
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_TOWER1]->Draw(renderer, true);

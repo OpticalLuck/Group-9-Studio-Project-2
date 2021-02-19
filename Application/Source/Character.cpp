@@ -7,7 +7,7 @@ Character::Character(unsigned int ID, Mesh* mesh)
 	SetID(ID);
 	SetMesh(mesh);
 	camera = NULL;
-	charspeed = 15.f;
+	charspeed = 5.f;
 	dt = 0;
 }
 
@@ -58,10 +58,10 @@ void Character::Update(double dt)
 		newpos = newpos + right * charspeed * dt;
 	}
 	
-	SetTranslate(newpos);
-
 	camera->SetPosition(newpos);
 	camera->SetTarget(view + newpos);
+	SetTranslate(newpos);
+
 
 }
 

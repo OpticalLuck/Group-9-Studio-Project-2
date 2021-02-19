@@ -22,6 +22,9 @@ public:
     void SetID(unsigned int ID);
     void SetMesh(Mesh* mesh);
     void SetTexture(std::string TextureID);
+
+    // Vector3 halfsize parameter
+    // It's basically the radius
     void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f));
 
     //Transformation - Orders does not matter as it is handled in renderer
