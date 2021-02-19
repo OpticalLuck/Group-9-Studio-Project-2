@@ -45,9 +45,11 @@ void SceneCity::Init()
 
 	Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
 	Environment[EN_HOUSE2]->SetTranslate(Vector3(15, 6, -20));
+	Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
 	
 	Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
-	Environment[EN_HOUSE3]->SetTranslate(Vector3(-15, 4, 20));
+	Environment[EN_HOUSE3]->SetTranslate(Vector3(-18, 4, 2));
+	Environment[EN_HOUSE3]->SetRotate(Vector3(0, 95.5, 0));
 	
 	Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
 	Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
