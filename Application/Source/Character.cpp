@@ -38,6 +38,10 @@ bool Character::IsWithinRangeOf(GameObject* item)
 		&& (GetTranslate().y >= item->GetTranslate().y - 3 && GetTranslate().y <= item->GetTranslate().y + 3)
 		&& (GetTranslate().z >= item->GetTranslate().z - 3 && GetTranslate().z <= item->GetTranslate().z + 3))
 	{
+
+
+
+		//item->setCurrentFlag(FLAG1);
 		return true;
 	}
 	return false;

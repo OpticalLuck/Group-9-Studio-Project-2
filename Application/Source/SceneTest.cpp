@@ -25,6 +25,8 @@ void SceneTest::Init()
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 	
+	ui = new UI();
+	ui->Init();
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
 	
@@ -50,28 +52,19 @@ void SceneTest::Init()
 	text[0]->SetText(ss.str());
 	text[0]->SetTranslate(Vector3(0.f, 0, 0));	
 
-	//Status: Walking
-	text[1] = new Text();
-	text[1]->SetMode(Text::STATIC_SCREENTEXT);
-	text[1]->SetText("Walking");
-	text[1]->SetTranslate(Vector3(0.f, 4, 0));	
-	
-	//Status: Sprinting
-	text[2] = new Text();
-	text[2]->SetMode(Text::STATIC_SCREENTEXT);
-	text[2]->SetText("Sprinting");
-	text[2]->SetTranslate(Vector3(0.f, 4, 0));
+	////Status: Walking
+	//text[1] = new Text();
+	//text[1]->SetMode(Text::STATIC_SCREENTEXT);
+	//text[1]->SetText("Walking");
+	//text[1]->SetTranslate(Vector3(0.f, 4, 0));	
+	//
+	////Status: Sprinting
+	//text[2] = new Text();
+	//text[2]->SetMode(Text::STATIC_SCREENTEXT);
+	//text[2]->SetText("Sprinting");
+	//text[2]->SetTranslate(Vector3(0.f, 4, 0));
 	
 	//Interaction
-	text[3] = new Text();
-	text[3]->SetMode(Text::STATIC_SCREENTEXT);
-	text[3]->SetText("Press E to Interact");
-	text[3]->SetTranslate(Vector3(27.5, 12.5, 0));
-
-	text[4] = new Text();
-	text[4]->SetMode(Text::STATIC_SCREENTEXT);
-	text[4]->SetText("Item Acquired.");
-	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
 
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
@@ -123,6 +116,9 @@ void SceneTest::Update(double dt)
 	}
 
 	camera.Updatemovement(dt);
+	ui->setCamera(&camera);
+	ui->Update();
+	//ui->setCamSprintState(&camera);
 
 	//LMB Click
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -135,24 +131,7 @@ void SceneTest::Update(double dt)
 	}
 
 	//Stamina Bar
-	camera.SetSprintState(false);
-	if (Application::IsKeyPressed(VK_SHIFT) && (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D')))
-	{
-		//Using Stamina Bar
-		if (x_width >= 0)
-		{
-			camera.SetSprintState(true);
-			x_width -= 0.3;
-		}
-	}
-	else
-	{
-		//Recharging Stamina Bar
-		if (x_width <= 30)
-		{
-			x_width += 0.3;
-		}
-	}
+	/*camera.SetSprintState(false);*/
 
 	character->SetTranslate(camera.GetPosition());
 
@@ -162,7 +141,7 @@ void SceneTest::Update(double dt)
 	text[0]->SetText(ss.str());
 
 
-	std::cout << "Collectible Count: " + std::to_string(character->getCollectibleCount()) << std::endl;
+	//std::cout << "Collectible Count: " + std::to_string(character->getCollectibleCount()) << std::endl;
 }
 
 void SceneTest::Render()
@@ -181,30 +160,32 @@ void SceneTest::Render()
 	{
 		Item[i]->Draw(renderer, true);
 
-		if (character->IsWithinRangeOf(Item[i]))
-		{
-			if (Item[i]->getActive() == true) //text to pickup item
-				text[3]->Draw(renderer, true);
-			else
-				text[4]->Draw(renderer, true);
+		//character.interactWith(item[i]);
 
-			//TODO: Shift functionality from current scene over to character
-			if (Application::IsKeyPressed('E')) //code to stop rendering item once it has been picked up
-			{
-				if (Item[i]->getActive())
-				{
-					Item[i]->SetActive(false);
-					character->IncrementCollectible();
-				}
-				//TODO: Delete item from world once it has been picked up
-			}
-		}
+		//if (character->IsWithinRangeOf(Item[i]))
+		//{
+		//	if (Item[i]->getActive() == true) //text to pickup item
+		//		text[3]->Draw(renderer, true);
+		//	else
+		//		text[4]->Draw(renderer, true);
+
+		//	//TODO: Shift functionality from current scene over to character
+		//	if (Application::IsKeyPressed('E')) //code to stop rendering item once it has been picked up
+		//	{
+		//		if (Item[i]->getActive())
+		//		{
+		//			Item[i]->SetActive(false);
+		//			character->IncrementCollectible();
+		//		}
+		//		//TODO: Delete item from world once it has been picked up
+		//	}
+		//}
 	}
 
 	//2D Real-Time Map
 	if (mapOpen == false)
 	{
-		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, x_width, 1);
+		//renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, x_width, 1);
 	}
 	else
 	{
@@ -218,15 +199,8 @@ void SceneTest::Render()
 	//FPS
 	text[0]->Draw(renderer, false);
 
-	//Text to check if player Sprinting/Running Status
-	if (camera.GetSprintState() == false)  //Walking
-	{
-		text[1]->Draw(renderer, false); 
-	}
-	else                                   //Sprinting
-	{
-		text[2]->Draw(renderer, false);
-	}
+	//UI (Render UI last to ensure text is properly rendered on screen)
+	ui->Draw(renderer, true);
 }
 
 void SceneTest::Exit()

@@ -8,6 +8,7 @@
 #include "Light.h"
 #include "GOManager.h"
 #include "Text.h"
+#include "UI.h"
 
 class SceneTest : public Scene
 {
@@ -24,7 +25,7 @@ public:
 
 private:
 	double fps;
-	float x_width;
+	float x_width; //sprintbar width change later
 	bool mapOpen;
 	Renderer* renderer;
 	MeshList* meshlist;
@@ -37,6 +38,8 @@ private:
 	Character* character;
 	Text* text[5];
 	Light* lights[1];
+
+	UI* ui;
 };
 
 #endif
