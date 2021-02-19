@@ -235,6 +235,16 @@ void Application::Run()
 				scene = scene1;
 			}
 		}
+		if (IsKeyPressed(VK_F3))
+		{
+			if (scene != scene3)
+			{
+				//Change to Scene1
+				scene->Exit();
+				scene3->InitGL();
+				scene = scene3;
+			}
+		}
 
 		//Swap buffers
 		glfwSwapBuffers(m_window);
