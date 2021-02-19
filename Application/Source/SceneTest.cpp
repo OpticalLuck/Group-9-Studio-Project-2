@@ -104,6 +104,11 @@ void SceneTest::Init()
 	}
 }
 
+void SceneTest::InitGL()
+{
+
+}
+
 
 void SceneTest::Update(double dt)
 {
@@ -239,14 +244,15 @@ void SceneTest::Render()
 	text[0]->Draw(renderer, false);
 
 	//Text to check if player Sprinting/Running Status
-	if (camera.GetSprintState() == false)  //Walking
-	{
-		text[1]->Draw(renderer, false); 
-	}
-	else                                   //Sprinting
-	{
-		text[2]->Draw(renderer, false);
-	}
+	//if (camera.GetSprintState() == false)  //Walking
+	//{
+	//	text[1]->Draw(renderer, false); 
+	//}
+	//else                                   //Sprinting
+	//{
+	//	text[2]->Draw(renderer, false);
+	//}
+	ui->Draw(renderer, true);
 }
 
 void SceneTest::Exit()
