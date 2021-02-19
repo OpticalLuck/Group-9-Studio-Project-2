@@ -18,7 +18,7 @@ void UI::Init(GameObject* player)
 
 	tempMeshList = new MeshList();
 
-	//camSprintState = false;
+	interactable = false;
 
 	/*Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));*/
 
@@ -39,12 +39,6 @@ void UI::Init(GameObject* player)
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Press E to Interact");
 	text[2]->SetTranslate(Vector3(27.5, 12.5, 0));
-
-	text[3] = new Text();
-	text[3]->SetMode(Text::STATIC_SCREENTEXT);
-	text[3]->SetText("Item Acquired.");
-	text[3]->SetTranslate(Vector3(27.5, 9.5, 0));
-
 
 }
 
@@ -70,6 +64,28 @@ void UI::Update()
 	}
 }
 
+void UI::UpdateInteractions()
+{
+	if (interactable == true)
+	{
+		//std::cout << "in range of item" << std::endl;
+
+		if (Item->getActive() == true)
+		{
+			text2active = true;
+		}
+
+		if (Application::IsKeyPressed('E'))
+		{
+			if (getItem()->getActive())
+			{
+				getItem()->SetActive(false);
+				text2active = false;
+			}
+		}
+	}
+}
+
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
 	renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, staminaBar_width, 1);
@@ -83,9 +99,10 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		text[1]->Draw(renderer, enableLight);
 	}
 
-
-
-
+	if (text2active == true)
+	{
+		text[2]->Draw(renderer, true);
+	}
 }
 
 void UI::Exit()
@@ -98,6 +115,11 @@ bool UI::getCamSprintState()
 	return camera->GetSprintState();
 }
 
+GameObject* UI::getItem()
+{
+	return Item;
+}
+
 void UI::setCamera(CameraVer2* camera)
 {
 	this->camera = camera;
@@ -106,4 +128,14 @@ void UI::setCamera(CameraVer2* camera)
 void UI::setCamSprintState(bool isSprinting)
 {
 	camera->SetSprintState(isSprinting);
+}
+
+void UI::setItem(GameObject* item)
+{
+	this->Item = item;
+}
+
+void UI::setInteractable(bool interactable)
+{
+	this->interactable = interactable;
 }

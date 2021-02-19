@@ -204,26 +204,13 @@ void SceneTest::Render()
 	{
 		Item[i]->Draw(renderer, true);
 
-		//character.interactWith(item[i]);
+		ui->setItem(Item[i]);
 
-		//if (character->IsWithinRangeOf(Item[i]))
-		//{
-		//	if (Item[i]->getActive() == true) //text to pickup item
-		//		text[3]->Draw(renderer, true);
-		//	else
-		//		text[4]->Draw(renderer, true);
-
-		//	//TODO: Shift functionality from current scene over to character
-		//	if (Application::IsKeyPressed('E')) //code to stop rendering item once it has been picked up
-		//	{
-		//		if (Item[i]->getActive())
-		//		{
-		//			Item[i]->SetActive(false);
-		//			character->IncrementCollectible();
-		//		}
-		//		//TODO: Delete item from world once it has been picked up
-		//	}
-		//}
+		if (character->GetInRange(Item[i], 3))
+		{
+			ui->setInteractable(true);
+			ui->UpdateInteractions();
+		}
 	}
 
 	//2D Real-Time Map
@@ -243,15 +230,6 @@ void SceneTest::Render()
 	//FPS
 	text[0]->Draw(renderer, false);
 
-	//Text to check if player Sprinting/Running Status
-	//if (camera.GetSprintState() == false)  //Walking
-	//{
-	//	text[1]->Draw(renderer, false); 
-	//}
-	//else                                   //Sprinting
-	//{
-	//	text[2]->Draw(renderer, false);
-	//}
 	ui->Draw(renderer, true);
 }
 
