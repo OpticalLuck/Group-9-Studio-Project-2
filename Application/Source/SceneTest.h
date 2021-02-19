@@ -37,6 +37,7 @@ private:
 	Renderer* renderer;
 	MeshList* meshlist;
 	CameraVer2 camera;
+	UI* ui;
 
 	GOManager goManager;
 	GameObject* Axis;

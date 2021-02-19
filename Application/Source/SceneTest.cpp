@@ -25,8 +25,11 @@ void SceneTest::Init()
 	meshlist = new MeshList();
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
-	
+
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
+
+	ui = new UI();
+	ui->Init();
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -34,7 +37,7 @@ void SceneTest::Init()
 
 	Item[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Item[0]->SetTranslate(Vector3(3, 3, 0));
-	
+
 	Item[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Item[1]->SetTranslate(Vector3(-6, 3, 2));
 
@@ -57,12 +60,12 @@ void SceneTest::Init()
 	Skybox_Back = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BACK));
 	Skybox_Back->SetTranslate(Vector3(0, 0, 50));
 	Skybox_Back->SetRotate(Vector3(-90, 0, 180));
-	
+
 	Skybox_Front = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_FRONT));
 	Skybox_Front->SetTranslate(Vector3(0, 0, -50));
 	Skybox_Front->SetRotate(Vector3(90, 0, 0));
 
-	character =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
 	//FPS Render
 	std::ostringstream ss;
@@ -70,7 +73,7 @@ void SceneTest::Init()
 	text[0] = new Text();
 	text[0]->SetMode(Text::STATIC_SCREENTEXT);
 	text[0]->SetText(ss.str());
-	text[0]->SetTranslate(Vector3(0.f, 0, 0));	
+	text[0]->SetTranslate(Vector3(0.f, 0, 0));
 
 	////Status: Walking
 	//text[1] = new Text();
@@ -83,7 +86,7 @@ void SceneTest::Init()
 	//text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	//text[2]->SetText("Sprinting");
 	//text[2]->SetTranslate(Vector3(0.f, 4, 0));
-	
+
 	//Interaction
 
 	text[4] = new Text();
@@ -92,12 +95,13 @@ void SceneTest::Init()
 	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
 
 	{
-	lights[0]->Set(Light::LIGHT_POINT,
-				   Vector3(0, 8, 0),
-				   Color(1, 1, 1),
-				   1.f, 1.f, 0.01f, 0.001f,
-				   Vector3(0.f, 1.f, 0.f));
-	
+		lights[0]->Set(Light::LIGHT_POINT,
+			Vector3(0, 8, 0),
+			Color(1, 1, 1),
+			1.f, 1.f, 0.01f, 0.001f,
+			Vector3(0.f, 1.f, 0.f));
+
+	}
 }
 
 
@@ -229,8 +233,7 @@ void SceneTest::Render()
 	}
 
 	//Light
-	renderer->SetLight(lights[0], camera
-	);
+	renderer->SetLight(lights[0], camera);
 	
 	//FPS
 	text[0]->Draw(renderer, false);

@@ -163,8 +163,8 @@
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\SceneCity.cpp" />
     <ClCompile Include="Source\SceneNPCTest.cpp" />
-    <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
+    <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Text.cpp" />
     <ClCompile Include="Source\UI.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
