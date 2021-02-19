@@ -22,6 +22,7 @@ public:
     void SetID(unsigned int ID);
     void SetMesh(Mesh* mesh);
     void SetTexture(std::string TextureID);
+    void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f));
 
     //Transformation - Orders does not matter as it is handled in renderer
     void SetTranslate(Vector3 Translate);
@@ -46,11 +47,30 @@ public:
     Vector3 GetScale();
     //gets the child from the vector array at a certain id (like an array)
     GameObject* GetChild(int idx);
-
+    //returns whether this object is within a certain range of another
+    bool GetInRange(GameObject* obj, float distance);
+    //returns colliderbox
+    Collision* GetColliderBox();
     //returns the render activeness of the gameobj
     bool getActive();
+
+    //to talk about states
+    enum FLAGS {
+        FLAG0,      //usually idle state
+        FLAG1,      //usually basic interaction state
+        FLAG2,      //usually big and difficult and specific interaction state
+        FLAG3,      //extra specifc state
+        TOTALFLAGS  //total number of flags
+    };
+
     //Get the current objects flag
     int getCurrentFlag();
+    //Sets current flag
+    void SetCurrentFlag(int flag_enum);
+
+    //Gets interactable Radius
+    float GetRadius();
+    void SetRadius(float rad);
 
     virtual void Update(double dt);
 
@@ -65,15 +85,9 @@ private:
     //Transformation
     Vector3 Translation, Rotation, Scale;
     bool IsActive;
-
-    //to talk about states
-    enum FLAGS {
-        FLAG0,      //usually idle state
-        FLAG1,      //usually basic interaction state
-        FLAG2,      //usually big and difficult and specific interaction state
-        FLAG3,      //extra specifc state
-        TOTALFLAGS  //total number of flags
-    };
+    float interactRadius;
+       
+    Collision* ColliderBox;
 
     int flag;
 };

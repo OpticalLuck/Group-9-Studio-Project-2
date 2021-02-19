@@ -10,21 +10,15 @@ Character::~Character()
 {
 }
 
-void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale, Vector3 CollSize)
+void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 {
 	SetTranslate(position);
 	SetRotate(rotation);
 	SetScale(scale);
-	CollisionBox = new Collision(position, CollSize * 0.5f);
 
 	collectibleCount = 0;
 }
 
-void Character::Update(double dt)
-{
-	CollisionBox->setcollpos(GetTranslate());
-	CollisionBox->setRotation(GetRotate().x, GetRotate().y, GetRotate().z);
-}
 
 Collision* Character::GetCollBox()
 {
@@ -34,16 +28,12 @@ Collision* Character::GetCollBox()
 bool Character::IsWithinRangeOf(GameObject* item)
 {
 	//getTranslate() by itself access the position of Character, while item->GetTranslate() access the position of the item parameter that is passed in
-	if ((GetTranslate().x >= item->GetTranslate().x - 3 && GetTranslate().x <= item->GetTranslate().x + 3)
-		&& (GetTranslate().y >= item->GetTranslate().y - 3 && GetTranslate().y <= item->GetTranslate().y + 3)
-		&& (GetTranslate().z >= item->GetTranslate().z - 3 && GetTranslate().z <= item->GetTranslate().z + 3))
+	if (GetInRange(item,item->GetRadius()))
 	{
-
-
-
-		//item->setCurrentFlag(FLAG1);
+		item->SetCurrentFlag(FLAG1);
 		return true;
 	}
+	item->SetCurrentFlag(FLAG0);
 	return false;
 }
 

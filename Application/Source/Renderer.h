@@ -26,7 +26,7 @@ public:
 		U_TEXT_COLOR,
 		U_TOTAL
 	};
-	Renderer();
+	Renderer(int numlight);
 	~Renderer();
 
 	void Reset();
@@ -49,7 +49,8 @@ public:
 	void PopTransform();
 
 	void SetCamera(CameraVer2 camera);
-	void SetLight(Light* light);
+	void SetLight(Light* light, CameraVer2 camera);
+	void LoadIdentity();
 	unsigned GetprogramID();
 
 private:

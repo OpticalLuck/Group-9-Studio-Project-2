@@ -10,11 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SceneA2.h"
+#include "SceneCity.h"
 
 //TODO!! REMOVE TESTING SCENES
-#include "SceneTest.h"
 #include "SceneNPCTest.h"
+#include "SceneTest.h"
+
+#include "shader.hpp"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -186,19 +188,23 @@ void Application::Init()
 
 void Application::Run()
 {
+	
+	Shader::GetInstance()->shaderdata = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
+
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
-	Scene* scene1 = new SceneA2();
+	Scene* scene1 = new SceneCity();
+	scene1->Init();
 	Scene* scene2 = new SceneTest();
+	scene2->Init();
 	Scene* scene3 = new SceneNPCTest();
+	scene3->Init();
 	Scene* scene4 = NULL;
 	Scene* scene5 = NULL;
+
 	Scene* scene = scene2;
-	scene1->Init();
-	scene2->Init();
-	scene3->Init();
-	//scene4->Init();
-	//scene5->Init();
+	scene->InitGL();
+
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
@@ -208,6 +214,28 @@ void Application::Run()
 		Application::xoffset = 0;
 		Application::yoffset = 0;
 		scene->Render();
+
+		if (IsKeyPressed(VK_F1))
+		{
+			if (scene != scene2)
+			{
+			//Change to Scene2
+			scene1->Exit();
+			scene2->InitGL();
+			scene = scene2;
+			}
+		}
+		if (IsKeyPressed(VK_F2))
+		{
+			if (scene != scene1)
+			{
+				//Change to Scene1
+				scene2->Exit();
+				scene1->InitGL();
+				scene = scene1;
+			}
+		}
+
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 
@@ -218,10 +246,10 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();
 	delete scene1;
-	delete scene2;
-	delete scene3;
-	delete scene4;
-	delete scene5;
+	//delete scene2;
+	//delete scene3;
+	//delete scene4;
+	//delete scene5;
 }
 
 void Application::Exit()

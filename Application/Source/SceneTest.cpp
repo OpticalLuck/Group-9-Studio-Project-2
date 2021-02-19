@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "MeshBuilder.h"
+#include "shader.hpp"
 
 SceneTest::SceneTest() :
 	fps(0.f)
@@ -19,18 +20,13 @@ void SceneTest::Init()
 	x_width = 30;
 	mapOpen = false;
 
-	renderer = new Renderer();
+	renderer = new Renderer(LIGHT_TOTAL);
 	//Init Meshlist
 	meshlist = new MeshList();
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 	
-	ui = new UI();
-	ui->Init();
-
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
-	
-
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -41,6 +37,30 @@ void SceneTest::Init()
 	
 	Item[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Item[1]->SetTranslate(Vector3(-6, 3, 2));
+
+	//Init the Skybox
+	Skybox_Top = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_TOP));
+	Skybox_Top->SetTranslate(Vector3(0, 50, 0));
+	Skybox_Top->SetRotate(Vector3(180, -90, 0));
+
+	Skybox_Bottom = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BOTTOM));
+	Skybox_Bottom->SetTranslate(Vector3(0, -50, 0));
+
+	Skybox_Left = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_LEFT));
+	Skybox_Left->SetTranslate(Vector3(-50, 0, 0));
+	Skybox_Left->SetRotate(Vector3(0, 90, -90));
+
+	Skybox_Right = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_RIGHT));
+	Skybox_Right->SetTranslate(Vector3(50, 0, 0));
+	Skybox_Right->SetRotate(Vector3(0, -90, 90));
+
+	Skybox_Back = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BACK));
+	Skybox_Back->SetTranslate(Vector3(0, 0, 50));
+	Skybox_Back->SetRotate(Vector3(-90, 0, 180));
+	
+	Skybox_Front = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_FRONT));
+	Skybox_Front->SetTranslate(Vector3(0, 0, -50));
+	Skybox_Front->SetRotate(Vector3(90, 0, 0));
 
 	character =  goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 
@@ -66,14 +86,20 @@ void SceneTest::Init()
 	
 	//Interaction
 
+	text[4] = new Text();
+	text[4]->SetMode(Text::STATIC_SCREENTEXT);
+	text[4]->SetText("Item Acquired.");
+	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
+
 	{
 	lights[0]->Set(Light::LIGHT_POINT,
-		           Vector3(0, 8, 0),
+				   Vector3(0, 8, 0),
 				   Color(1, 1, 1),
 				   1.f, 1.f, 0.01f, 0.001f,
 				   Vector3(0.f, 1.f, 0.f));
-	}
-}	
+	
+}
+
 
 void SceneTest::Update(double dt)
 {
@@ -147,12 +173,21 @@ void SceneTest::Update(double dt)
 void SceneTest::Render()
 {
 	renderer->Reset();
+	renderer->LoadIdentity();
 
 	//Camera
 	renderer->SetCamera(camera);
 
-
 	Axis->Draw(renderer, false);
+
+	//Skybox
+	Skybox_Top->Draw(renderer, false);
+	Skybox_Bottom->Draw(renderer, false);
+	Skybox_Left->Draw(renderer, false);
+	Skybox_Right->Draw(renderer, false);
+	Skybox_Front->Draw(renderer, false);
+	Skybox_Back->Draw(renderer, false);
+
 	Quad->Draw(renderer, true);
 
 	//Proximity
@@ -194,17 +229,26 @@ void SceneTest::Render()
 	}
 
 	//Light
-	renderer->SetLight(lights[0]);
+	renderer->SetLight(lights[0], camera
+	);
 	
 	//FPS
 	text[0]->Draw(renderer, false);
 
-	//UI (Render UI last to ensure text is properly rendered on screen)
-	ui->Draw(renderer, true);
+	//Text to check if player Sprinting/Running Status
+	if (camera.GetSprintState() == false)  //Walking
+	{
+		text[1]->Draw(renderer, false); 
+	}
+	else                                   //Sprinting
+	{
+		text[2]->Draw(renderer, false);
+	}
 }
 
 void SceneTest::Exit()
 {
+	Shader::Destroy();
 }
 
 void SceneTest::UpdateMousePos(double xoffset, double yoffset)

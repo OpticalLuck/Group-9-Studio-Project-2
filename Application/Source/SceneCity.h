@@ -8,13 +8,27 @@
 #include "Light.h"
 #include "GOManager.h"
 
-class SceneA2 : public Scene
+class SceneCity : public Scene
 {
 public:
-	SceneA2();
-	~SceneA2();
+
+	enum Environment_Type
+	{
+		EN_FLOOR = 0,
+		EN_TOTAL
+	};
+
+	enum LIGHT_LOCATION
+	{
+		LIGHT_MIDDLE,
+		LIGHT_TEST,
+		LIGHT_TOTAL
+	};
+	SceneCity();
+	~SceneCity();
 
 	virtual void Init();
+	virtual void InitGL();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
@@ -29,9 +43,12 @@ private:
 
 	GOManager goManager;
 	GameObject* Axis;
-	Character* Cube[2];
-	Character* NPC;
-	Light* lights[1];
+	Character* MainChar;
+	GameObject* Environment[EN_TOTAL];
+	Light* lights[LIGHT_TOTAL];
+
+	//Temp
+	GameObject* Cube[2];
 };
 
 #endif

@@ -8,8 +8,8 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 
 	canMove = talking = 0;
 	objectToLookAt = NULL;
-	radius = 40.f;
-	//defaultdirection = GetRotate();
+	SetRadius(10.f);
+	defaultdirection = GetRotate();
 }
 
 NPC::~NPC()
@@ -21,29 +21,36 @@ NPC::~NPC()
 
 void NPC::Update(double dt)
 {
+	this->dt = dt;
+
 	if (canMove || true) {
 
 		//if objecttolookat is within range
-		if (inRadius() || true) {
+		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], dt, 90.f);
-			
+			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
 
 
 		}
-
+		else {
+			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
+			MoveInDir(defaultdirection);
+		}
 	}
 }
 
-bool NPC::inRadius()
-{
-	return false;
-}
+
 
 
 void NPC::SetObjectToLookAt(GameObject* obj)
 {
 	objectToLookAt = obj;
+}
+
+void NPC::SetDefaultDir(Vector3 def)
+{
+	defaultdirection = def;
+	SetRotate(def);
 }
 
 void NPC::BuildMeshes(Mesh* mesh)
@@ -71,13 +78,14 @@ void NPC::BuildMeshes(Mesh* mesh)
 	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 }
 
+
 //identifier
 //x = 0, y = 1, z = 2
 float AngleBetween(Vector3 difference, int axis);
 
 
 
-void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maximumangle)
+void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 {
 
 	//Reset the origin
@@ -87,13 +95,15 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
 	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 	
-	Vector3 objectdiff = (objectToLookAt->GetTranslate() - BodyArr[HEAD]->GetTranslate());
+	Vector3 objectdiff = (objectToLookAt->GetTranslate() - (BodyArr[HEAD]->GetTranslate() + GetTranslate())) ;
 	//move object to be at tested position for calculations
 	
 	//Vector3 rotate = GetRotate();
 	Vector3 objectdiffx = rotationx * objectdiff;
-	Vector3 objectdiffy = rotationy * objectdiff ;
+	Vector3 objectdiffy = rotationy * objectdiff;
 	Vector3 objectdiffz = rotationz * objectdiff;
+	//Move projected object with position
+	
 
 
 	//calculations 
@@ -103,10 +113,10 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	
 	//std::cout << yangle << "\n";
 
-	
 	//x angle bounds move with y angle
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
 	objectdiffx = rotationx * objectdiffx;
+	objectdiffx = rotationy * objectdiffx;
 
 	//y angle boundaries
 	if ( (yangle < -maximumangle && yangle > -180)) {
@@ -115,12 +125,13 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	else if ((yangle > maximumangle && yangle < 180)) {
 		yangle = maximumangle;
 	}
-	
-	
-	
-	float xangle = AngleBetween(objectdiffx, 0);
 
-	//parttorotate->SetRotate(Vector3(xangle, yangle , 0));
+	float xangle = AngleBetween(objectdiffx, 0);
+	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
+}
+
+void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
+{
 	float partx, party, partz, rotSPEED;
 	partx = parttorotate->GetRotate().x;
 	party = parttorotate->GetRotate().y;
@@ -128,24 +139,43 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, double dt, float maxi
 	rotSPEED = 100.f;
 
 
-	if (party < yangle - 1) {
+	if (party < rotate.y - 1) {
 		party += rotSPEED * dt;
 	}
-	else if (party > yangle + 1) {
+	else if (party > rotate.y + 1) {
 		party -= rotSPEED * dt;
 	}
 
-	if (partx < xangle - 1) {
+	if (partx < rotate.x - 1) {
 		partx += rotSPEED * dt;
 	}
-	else if (partx > xangle + 1) {
+	else if (partx > rotate.x + 1) {
 		partx -= rotSPEED * dt;
 	}
 
 
 	parttorotate->SetRotate(Vector3(partx, party, partz));
-	
+	std::cout << party << "\n";
+}
 
+void NPC::MoveInDir(Vector3 rot)
+{
+	Mtx44 rotation;
+	rotation.SetToRotation(rot.y, 0, 1, 0);
+
+	Vector3 direction(0,0,1);
+	//std::cout << rot.y << " ";
+	direction = rotation * direction;
+	//std::cout << direction << "\n";
+
+	Vector3 part;
+	part.x = GetTranslate().x;
+	part.y = GetTranslate().y;
+	part.z = GetTranslate().z;
+
+	part = part + direction * dt;
+
+	this->SetTranslate(part);
 }
 
 // 0 = X, 1 = Y, 2 = Z

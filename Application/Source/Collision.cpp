@@ -1,6 +1,7 @@
 #include "Collision.h"
 #include <sstream>
 #include "MeshBuilder.h"
+#include "GameObject.h"
 
 Collision::Collision():
     position(NULL),
@@ -37,7 +38,7 @@ void Collision::DrawFrame(Renderer* renderer)
     renderer->PopTransform();
 }
 
-void Collision::setcollpos(Vector3 position)
+void Collision::setTranslate(Vector3 position)
 {
     this->position = position;
 }
@@ -47,26 +48,43 @@ void Collision::sethalfsize(Vector3 halfsize)
     this->halfsize = halfsize;
 }
 
-void Collision::setRotation(float x, float y, float z)
+void Collision::setRotation(Vector3 rotation)
 {
-    Rotation = Vector3(x, y, z);
-
+    Rotation = rotation;
     Mtx44 RotationMtx;
 
-    RotationMtx.SetToRotation(Rotation.x, 1, 0, 0);
+    RotationMtx.SetToRotation(rotation.x, 1, 0, 0);
     Front = RotationMtx * Vector3(1, 0, 0);
     Up = RotationMtx * Vector3(0, 1, 0);
     Right = RotationMtx * Vector3(0, 0, 1);
 
-    RotationMtx.SetToRotation(Rotation.y, 0, 1, 0);
+    RotationMtx.SetToRotation(rotation.y, 0, 1, 0);
     Front = RotationMtx * Front;
     Up = RotationMtx * Up;
     Right = RotationMtx * Right;
 
-    RotationMtx.SetToRotation(Rotation.z, 0, 0, 1);
+    RotationMtx.SetToRotation(rotation.z, 0, 0, 1);
     Front = RotationMtx * Front;
     Right = RotationMtx * Right;
     Up = RotationMtx * Up;
+}
+
+void Collision::OBBResolution(GameObject* object, GameObject* target)
+{
+    Info CollisionInfo = Collision::CheckOBBCollision(object->GetColliderBox(), target->GetColliderBox());
+
+    if (CollisionInfo.Collided)
+    {
+        Collision* objBox = object->GetColliderBox();
+        Collision* targetBox = target->GetColliderBox();
+        float distance = CollisionInfo.distance;
+        if ((objBox->GetPos() - targetBox->GetPos()).Dot(CollisionInfo.Axis) < 0)
+        {
+            distance = distance * -1;
+        }
+        
+        object->SetTranslate(object->GetTranslate() + distance * CollisionInfo.Axis);
+    }
 }
 
 Vector3 Collision::GetPos()
@@ -89,45 +107,35 @@ Mesh* Collision::GetCollMesh()
     return BoxFrame;
 }
 
-bool Collision::CheckAABBCollision(Collision* box1, Collision* box2)
-{
-    // collision x-axis
-    bool collisionX = abs(box1->position.x - box2->position.x) < (box1->halfsize.x + box2->halfsize.x);
-
-    // collision y-axis
-    bool collisionY = abs(box1->position.y - box2->position.y) < (box1->halfsize.y + box2->halfsize.y);
-
-    // collision z-axis
-    bool collisionZ = abs(box1->position.z - box2->position.z) < (box1->halfsize.z + box2->halfsize.z);
-
-    // collision only if on both axes
-    return collisionX && collisionY && collisionZ;
-}
-
 Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
 {
     Vector3 Axis = box1->Front;
     bool isCollided = true;
-    float diff = getSeparatingPlane(box1->position - box2->position, Axis, box1, box2);
+    float diff = getSeparatingPlane(box1->position - box2->position, Axis.Normalized(), box1, box2);
     if (diff < 0)
     {
         isCollided = false;
     }
 
+
     float diff2;
     auto lambda = [&](Vector3 axis)
     {
-        diff2 = getSeparatingPlane(box1->position - box2->position, axis, box1, box2 );
-        if (diff > diff2)
+        if (axis != Vector3(0, 0, 0))
         {
-            Axis = axis;
-            diff = diff2;
-        }
-        if (diff < 0)
-        {
-            isCollided = false;
+            diff2 = getSeparatingPlane(box1->position - box2->position, axis.Normalized(), box1, box2 );
+            if (diff > diff2)
+            {
+                Axis = axis.Normalized();
+                diff = diff2;
+            }
+            if (diff < 0)
+            {
+                isCollided = false;
+            }
         }
     };
+
 
     lambda(box1->Right);
     lambda(box1->Up);
@@ -144,7 +152,7 @@ Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
     lambda(box1->Up.Cross(box2->Right));
     lambda(box1->Up.Cross(box2->Up));
 
-    return Info(Axis, isCollided);
+    return Info(Axis, diff, isCollided);
 }
 
 Vector3 Collision::GetFront()
@@ -162,84 +170,6 @@ Vector3 Collision::GetRight()
     return Right;
 }
 
-float Collision::getXmin()
-{
-    return position.x - halfsize.x;
-}
-
-float Collision::getXmax()
-{
-    return position.x + halfsize.x;
-}
-
-float Collision::getYmin()
-{
-    return position.y - halfsize.y;
-}
-
-float Collision::getYmax()
-{
-    return position.y + halfsize.y;
-}
-
-float Collision::getZmin()
-{
-    return position.z - halfsize.z;
-}
-
-float Collision::getZmax()
-{
-    return position.z + halfsize.z;
-}
-
-float Collision::getDiffX(Collision* box1, Collision* box2)
-{
-    float XDiff_1 = box2->getXmax() - box1->getXmin();
-    float XDiff_2 = box1->getXmax() - box2->getXmin();
-
-    //Returs negative and positive on one side - For directions
-    if (XDiff_1 > XDiff_2)
-    {
-        return XDiff_2 * - 1;
-    }
-    else
-    {
-        return XDiff_1;
-    }
-}
-
-float Collision::getDiffY(Collision* box1, Collision* box2)
-{
-    float YDiff_1 = box2->getYmax() - box1->getYmin();
-    float YDiff_2 = box1->getYmax() - box2->getYmin();
-
-    //Returs negative and positive on one side - For directions
-    if (YDiff_1 > YDiff_2)
-    {
-        return YDiff_2 * -1;
-    }
-    else
-    {
-        return YDiff_1;
-    }
-}
-
-float Collision::getDiffZ(Collision* box1, Collision* box2)
-{
-    float ZDiff_1 = box2->getZmax() - box1->getZmin();
-    float ZDiff_2 = box1->getZmax() - box2->getZmin();
-
-    //Returs negative and positive on one side - For directions
-    if (ZDiff_1 > ZDiff_2)
-    {
-        return ZDiff_2 * -1;
-    }
-    else
-    {
-        return ZDiff_1;
-    }
-}
-
 Vector3 Collision::getDiff(Vector3 axis, Collision* box1, Collision* box2)
 {
     return Vector3();
@@ -254,9 +184,3 @@ float Collision::getSeparatingPlane(const Vector3 RPos, const Vector3 Plane, con
             fabs((box2->Up * box2->halfsize.y).Dot(Plane)) +
             fabs((box2->Right * box2->halfsize.z).Dot(Plane))) - (fabs(RPos.Dot(Plane)));
 }
-
-float Collision::ProjectTo(Vector3 axis, Vector3 box1val, Vector3 box2val)
-{
-    return (box1val - box2val).Dot(axis) / axis.Length();
-}
-

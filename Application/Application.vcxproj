@@ -161,7 +161,7 @@
     <ClCompile Include="Source\MeshList.cpp" />
     <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
-    <ClCompile Include="Source\SceneA2.cpp" />
+    <ClCompile Include="Source\SceneCity.cpp" />
     <ClCompile Include="Source\SceneNPCTest.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
@@ -187,10 +187,11 @@
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneA2.h" />
+    <ClInclude Include="Source\SceneCity.h" />
     <ClInclude Include="Source\SceneNPCTest.h" />
     <ClInclude Include="Source\SceneTest.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\Text.h" />
     <ClInclude Include="Source\UI.h" />
     <ClInclude Include="Source\Utility.h" />

@@ -12,10 +12,17 @@
 class SceneNPCTest : public Scene
 {
 public:
+
+	enum LIGHT_LOCATION
+	{
+		LIGHT_MIDDLE = 0,
+		LIGHT_TOTAL
+	};
 	SceneNPCTest();
 	~SceneNPCTest();
 
 	virtual void Init();
+	virtual void InitGL();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
@@ -33,7 +40,7 @@ private:
 	GameObject* Quad;
 	Character* MainCharacter;
 	NPC* npc;
-	Light* lights[1];
+	Light* lights[LIGHT_TOTAL];
 };
 
 #endif
