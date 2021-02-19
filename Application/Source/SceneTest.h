@@ -9,6 +9,7 @@
 #include "GOManager.h"
 #include "Text.h"
 #include "UI.h"
+#include "Skybox.h"
 
 class SceneTest : public Scene
 {
@@ -38,17 +39,12 @@ private:
 	MeshList* meshlist;
 	CameraVer2 camera;
 	UI* ui;
-
+	Skybox* skybox;
 	GOManager goManager;
 	GameObject* Axis;
 	GameObject* Quad;
 	GameObject* Item[2];
-	GameObject* Skybox_Top;
-	GameObject* Skybox_Bottom;
-	GameObject* Skybox_Left;
-	GameObject* Skybox_Right;
-	GameObject* Skybox_Front;
-	GameObject* Skybox_Back;
+	
 	Character* character;
 	Text* text[5];
 	Light* lights[LIGHT_TOTAL];

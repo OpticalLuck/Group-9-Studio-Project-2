@@ -24,6 +24,8 @@ void SceneCity::Init()
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 
+	skybox = new Skybox(goManager, meshlist);
+
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[0]->SetColliderBox();
@@ -124,6 +126,13 @@ void SceneCity::Render()
 	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);
+
+	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
+	{
+		skybox->GetSBX(i)->Draw(renderer, false);
+	}
+		
+
 	Cube[0]->GetColliderBox()->DrawFrame(renderer);
 	Cube[1]->Draw(renderer, false);
 	Cube[1]->GetColliderBox()->DrawFrame(renderer);

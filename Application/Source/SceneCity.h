@@ -7,6 +7,7 @@
 #include "CameraVer2.h"
 #include "Light.h"
 #include "GOManager.h"
+#include "Skybox.h"
 
 class SceneCity : public Scene
 {
@@ -46,6 +47,7 @@ private:
 	Character* MainChar;
 	GameObject* Environment[EN_TOTAL];
 	Light* lights[LIGHT_TOTAL];
+	Skybox* skybox;
 
 	//Temp
 	GameObject* Cube[2];

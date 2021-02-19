@@ -220,7 +220,7 @@ void Application::Run()
 			if (scene != scene2)
 			{
 			//Change to Scene2
-			scene1->Exit();
+			scene->Exit();
 			scene2->InitGL();
 			scene = scene2;
 			}
@@ -230,7 +230,7 @@ void Application::Run()
 			if (scene != scene1)
 			{
 				//Change to Scene1
-				scene2->Exit();
+				scene->Exit();
 				scene1->InitGL();
 				scene = scene1;
 			}
