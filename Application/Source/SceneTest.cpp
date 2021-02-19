@@ -41,6 +41,9 @@ void SceneTest::Init()
 
 	Item[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Item[1]->SetTranslate(Vector3(-6, 3, 2));
+	
+	Item[2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Item[2]->SetTranslate(Vector3(8, 3, -4));
 
 	//Init the Skybox
 	skybox = new Skybox(goManager, meshlist);
@@ -186,19 +189,13 @@ void SceneTest::Render()
 		if (character->GetInRange(Item[i], 3))
 		{
 			ui->setInteractable(true);
-			ui->UpdateInteractions();
+			ui->UpdateInteractions(Item[i]);
 		}
-	}
+	/*	else
+		{
+			ui->setInteractable(false);
+		}*/
 
-	//2D Real-Time Map
-	if (mapOpen == false)
-	{
-		//renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, x_width, 1);
-	}
-	else
-	{
-		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_QUAD), 40, 30, 50, 50);
-		renderer->RenderMeshOnScreen(meshlist->GetMesh(MeshList::MESH_ICON), 40 + camera.GetPosX(), 30 - camera.GetPosZ(), 1, 1);
 	}
 
 	//Light

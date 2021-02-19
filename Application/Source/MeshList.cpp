@@ -21,7 +21,13 @@ MeshList::MeshList()
 	meshlist[MESH_HOUSE3] = MeshBuilder::GenerateOBJMTL("House_3", "OBJ//House3.obj", "OBJ//House3.mtl");
 	meshlist[MESH_HOUSE3]->textureID = LoadTGA("Image//House3.tga");
 
-	meshlist[MESH_TOWER] = MeshBuilder::GenerateOBJMTL("House_3", "OBJ//Tower.obj", "OBJ//Tower.mtl");
+	meshlist[MESH_HOUSE4] = MeshBuilder::GenerateOBJMTL("House_4", "OBJ//House2.obj", "OBJ//House2.mtl");
+	meshlist[MESH_HOUSE4]->textureID = LoadTGA("Image//House2.tga");
+
+	meshlist[MESH_HOUSE5] = MeshBuilder::GenerateOBJMTL("House_5", "OBJ//House1.obj", "OBJ//House1.mtl");
+	meshlist[MESH_HOUSE5]->textureID = LoadTGA("Image//House1.tga");
+
+	meshlist[MESH_TOWER] = MeshBuilder::GenerateOBJMTL("Tower_1", "OBJ//Tower.obj", "OBJ//Tower.mtl"); 
 	meshlist[MESH_TOWER]->textureID = LoadTGA("Image//Tower.tga");
 
 	//// <UI> 

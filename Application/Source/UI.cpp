@@ -19,6 +19,7 @@ void UI::Init(GameObject* player)
 	tempMeshList = new MeshList();
 
 	interactable = false;
+	mapOpen = false;
 
 	/*Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));*/
 
@@ -38,7 +39,7 @@ void UI::Init(GameObject* player)
 	text[2] = new Text();
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Press E to Interact");
-	text[2]->SetTranslate(Vector3(27.5, 12.5, 0));
+	text[2]->SetTranslate(Vector3(50.5, 12.5, 0));
 
 }
 
@@ -62,33 +63,53 @@ void UI::Update()
 			staminaBar_width += 0.3;
 		}
 	}
+
+	if (Application::IsKeyPressed('M'))
+	{
+		mapOpen = !mapOpen;
+	}
 }
 
-void UI::UpdateInteractions()
+void UI::UpdateInteractions(GameObject* item)
 {
 	if (interactable == true)
 	{
-		//std::cout << "in range of item" << std::endl;
-
-		if (Item->getActive() == true)
+		if (item->getActive() == true)
 		{
 			text2active = true;
 		}
 
 		if (Application::IsKeyPressed('E'))
 		{
-			if (getItem()->getActive())
+			if (item->getActive())
 			{
-				getItem()->SetActive(false);
+				item->SetActive(false);
 				text2active = false;
 			}
 		}
 	}
+	//else
+	//{
+	//	text2active = false;
+	//}
 }
 
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
-	renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_STAMINABAR), 40, 10, staminaBar_width, 1);
+	if (mapOpen == false)
+	{
+		//render stamina bar if map is not open
+		renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+	}
+	else
+	{
+		//render map
+		float x_offset = round(35 * (camera->GetPosX() / 30));
+		float y_offset = round(35 * (camera->GetPosZ() / 30));
+		
+		renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
+		renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
+	}
 
 	if (camera->GetSprintState() == false)		//Walking
 	{
