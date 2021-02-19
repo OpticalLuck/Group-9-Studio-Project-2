@@ -30,6 +30,7 @@ void SceneCity::Init()
 	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	MainChar->SetColliderBox();
 	MainChar->Init(Vector3(0, 3, -40));
+	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
 	MainChar->SetCamera(&camera);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
@@ -44,6 +45,7 @@ void SceneCity::Init()
 
 
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
+	//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
 	Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
 	Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
@@ -137,6 +139,7 @@ void SceneCity::Update(double dt)
 
 	MainChar->Update(dt);
 	Collision::OBBResolution(MainChar, Environment[EN_HOUSE1]);
+	//Collision::OBBResolution(MainChar, Environment[EN_FLOOR]);
 
 	Collision::OBBResolution(Cube[0], Cube[1]);
 	
@@ -164,8 +167,8 @@ void SceneCity::Render()
 	Cube[1]->Draw(renderer, false);
 	Cube[1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_FLOOR]->Draw(renderer, true);
+	//Environment[EN_FLOOR]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_HOUSE1]->Draw(renderer, true);
-	Environment[EN_HOUSE1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_HOUSE2]->Draw(renderer, true);
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_TOWER1]->Draw(renderer, true);

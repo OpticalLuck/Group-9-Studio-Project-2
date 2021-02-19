@@ -25,7 +25,9 @@ private:
 	CameraVer2* camera;
 	double dt;
 	static int collectibleCount;
-
-	float charspeed;
+	bool isGrounded;
+	float charspeed, weight, jumpVelocity;
+	float groundPos;
+	Vector3 VertVelocity;
 };
 

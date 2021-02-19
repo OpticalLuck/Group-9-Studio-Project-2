@@ -8,7 +8,11 @@ Character::Character(unsigned int ID, Mesh* mesh)
 	SetMesh(mesh);
 	camera = NULL;
 	charspeed = 5.f;
+	isGrounded = false;
+	weight = 20.f;
+	jumpVelocity = 15.f;
 	dt = 0;
+	groundPos = 0;
 }
 
 Character::~Character()
@@ -20,7 +24,7 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 	SetTranslate(position);
 	SetRotate(rotation);
 	SetScale(scale);
-
+	groundPos = position.y;
 	//collectibleCount = 0;
 }
 
@@ -37,6 +41,8 @@ void Character::Update(double dt)
 	Vector3 right = camera->GetRight();
 	right.y = 0;
 	right.Normalize();
+	Vector3 up = view.Cross(right);
+
 
 	Vector3 newpos, newrot;
 	newpos = GetTranslate();
@@ -58,10 +64,30 @@ void Character::Update(double dt)
 		newpos = newpos + right * charspeed * dt;
 	}
 	
-	camera->SetPosition(newpos);
-	camera->SetTarget(view + newpos);
+	//gravity
+	
+	if (newpos.y < groundPos) {
+		newpos.y = groundPos;
+		isGrounded = true;
+	}
+	else {
+		isGrounded = false;
+	}
+
+	if (isGrounded && VertVelocity.y < 0) {
+		VertVelocity.y = 0;
+	}
+
+	
+	
+	VertVelocity.y += -(weight * dt);
+
+	newpos = newpos + VertVelocity * dt;
+
 	SetTranslate(newpos);
 
+	camera->SetPosition(newpos);
+	camera->SetTarget(view + newpos);
 
 }
 
