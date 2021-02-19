@@ -11,8 +11,9 @@ UI::~UI()
 
 }
 
-void UI::Init()
+void UI::Init(GameObject* player)
 {
+	this->Player = player;
 	staminaBar_width = 30;
 
 	tempMeshList = new MeshList();
@@ -43,7 +44,6 @@ void UI::Init()
 	text[3]->SetMode(Text::STATIC_SCREENTEXT);
 	text[3]->SetText("Item Acquired.");
 	text[3]->SetTranslate(Vector3(27.5, 9.5, 0));
-
 
 
 }
