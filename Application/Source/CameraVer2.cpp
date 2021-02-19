@@ -60,9 +60,10 @@ void CameraVer2::Update(double x_offset, double y_offset)
 
 void CameraVer2::Updatemovement(double dt)
 {
-	if (Controls)
+	if (Controls && mode != CHARACTER_CONTROLLED)
 	{
 		Vector3 direction = Vector3(view.x, 0, view.z).Normalized();
+
 		if (Application::IsKeyPressed('W'))
 		{
 			if(mode == FREE_VIEW)

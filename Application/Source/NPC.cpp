@@ -10,6 +10,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	objectToLookAt = NULL;
 	SetRadius(10.f);
 	defaultdirection = GetRotate();
+
 }
 
 NPC::~NPC()
@@ -90,7 +91,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 
 	//Reset the origin
 	Mtx44 rotationx, rotationy, rotationz;
-	//rotmatrix.SetToIdentity();
 	rotationx.SetToRotation(-(GetRotate().x), 1, 0, 0);
 	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
 	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
@@ -111,7 +111,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 
 	float yangle = AngleBetween(objectdiffy, 1) + 90;
 	
-	//std::cout << yangle << "\n";
 
 	//x angle bounds move with y angle
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
@@ -155,7 +154,6 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 
 
 	parttorotate->SetRotate(Vector3(partx, party, partz));
-	std::cout << party << "\n";
 }
 
 void NPC::MoveInDir(Vector3 rot)
@@ -164,9 +162,7 @@ void NPC::MoveInDir(Vector3 rot)
 	rotation.SetToRotation(rot.y, 0, 1, 0);
 
 	Vector3 direction(0,0,1);
-	//std::cout << rot.y << " ";
 	direction = rotation * direction;
-	//std::cout << direction << "\n";
 
 	Vector3 part;
 	part.x = GetTranslate().x;
@@ -191,7 +187,6 @@ float AngleBetween(Vector3 difference, int axis) {
 
 	axis = axis % 3;
 	if (axis == RIGHT) {
-		//float xtangent = difference.x / difference.z;
 		sine = difference.y;
 		cosine = difference.z;
 	}
@@ -210,7 +205,6 @@ float AngleBetween(Vector3 difference, int axis) {
 	
 	
 	if (cosine < 0 ) {
-		//std::cout << "nice" << "\n";
 		angle = 180 + angle;
 	}
 

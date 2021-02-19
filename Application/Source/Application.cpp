@@ -26,7 +26,7 @@ bool firstMouse = true;
 bool Application::Cursor_Off = false;
 unsigned Application::m_width;
 unsigned Application::m_height;
-float lastX = 400, lastY = 300; //Middle of screen
+float lastX = 640, lastY = 360; //Middle of screen
 float Application::FOV = 45;
 
 double Application::xoffset = 0;
@@ -149,8 +149,8 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_width = 800;
-	m_height = 600;
+	m_width = 1280;
+	m_height = 720;
 	m_window = glfwCreateWindow(m_width, m_height, "Test Window", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
@@ -202,7 +202,7 @@ void Application::Run()
 	Scene* scene4 = NULL;
 	Scene* scene5 = NULL;
 
-	Scene* scene = scene2;
+	Scene* scene = scene1;
 	scene->InitGL();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
@@ -220,9 +220,9 @@ void Application::Run()
 			if (scene != scene2)
 			{
 			//Change to Scene2
-			scene1->Exit();
-			scene2->InitGL();
+			scene->Exit();
 			scene = scene2;
+			scene->InitGL();
 			}
 		}
 		if (IsKeyPressed(VK_F2))
@@ -230,9 +230,19 @@ void Application::Run()
 			if (scene != scene1)
 			{
 				//Change to Scene1
-				scene2->Exit();
-				scene1->InitGL();
+				scene->Exit();
 				scene = scene1;
+				scene->InitGL();
+			}
+		}
+		if (IsKeyPressed(VK_F3))
+		{
+			if (scene != scene3)
+			{
+				//Change to Scene1
+				scene->Exit();
+				scene = scene3;
+				scene->InitGL();
 			}
 		}
 

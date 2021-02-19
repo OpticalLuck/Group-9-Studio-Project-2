@@ -43,28 +43,7 @@ void SceneTest::Init()
 	Item[1]->SetTranslate(Vector3(-6, 3, 2));
 
 	//Init the Skybox
-	Skybox_Top = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_TOP));
-	Skybox_Top->SetTranslate(Vector3(0, 50, 0));
-	Skybox_Top->SetRotate(Vector3(180, -90, 0));
-
-	Skybox_Bottom = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BOTTOM));
-	Skybox_Bottom->SetTranslate(Vector3(0, -50, 0));
-
-	Skybox_Left = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_LEFT));
-	Skybox_Left->SetTranslate(Vector3(-50, 0, 0));
-	Skybox_Left->SetRotate(Vector3(0, 90, -90));
-
-	Skybox_Right = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_RIGHT));
-	Skybox_Right->SetTranslate(Vector3(50, 0, 0));
-	Skybox_Right->SetRotate(Vector3(0, -90, 90));
-
-	Skybox_Back = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_BACK));
-	Skybox_Back->SetTranslate(Vector3(0, 0, 50));
-	Skybox_Back->SetRotate(Vector3(-90, 0, 180));
-
-	Skybox_Front = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::SKYBOX_FRONT));
-	Skybox_Front->SetTranslate(Vector3(0, 0, -50));
-	Skybox_Front->SetRotate(Vector3(90, 0, 0));
+	skybox = new Skybox(goManager, meshlist);
 
 
 	//FPS Render
@@ -190,12 +169,10 @@ void SceneTest::Render()
 	Axis->Draw(renderer, false);
 
 	//Skybox
-	Skybox_Top->Draw(renderer, false);
-	Skybox_Bottom->Draw(renderer, false);
-	Skybox_Left->Draw(renderer, false);
-	Skybox_Right->Draw(renderer, false);
-	Skybox_Front->Draw(renderer, false);
-	Skybox_Back->Draw(renderer, false);
+	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
+	{
+		skybox->GetSBX(i)->Draw(renderer, false);
+	}
 
 	Quad->Draw(renderer, true);
 
