@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "Application.h"
+#include <cmath>
 
 int Character::collectibleCount = 0;
 Character::Character(unsigned int ID, Mesh* mesh)
@@ -7,10 +8,10 @@ Character::Character(unsigned int ID, Mesh* mesh)
 	SetID(ID);
 	SetMesh(mesh);
 	camera = NULL;
-	charspeed = 5.f;
+	charspeed = 10.f;
 	isGrounded = false;
 	weight = 20.f;
-	jumpVelocity = 15.f;
+	jumpVelocity = 3.f;
 	dt = 0;
 	groundPos = 0;
 }
@@ -78,7 +79,10 @@ void Character::Update(double dt)
 		VertVelocity.y = 0;
 	}
 
-	
+	if (isGrounded && Application::IsKeyPressed(VK_SPACE)) {
+		VertVelocity.y = std::sqrt(jumpVelocity * -2 * -weight);
+	}
+	//std::cout << VertVelocity.y << "\n";
 	
 	VertVelocity.y += -(weight * dt);
 
