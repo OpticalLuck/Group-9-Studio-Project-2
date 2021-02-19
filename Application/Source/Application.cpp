@@ -221,8 +221,8 @@ void Application::Run()
 			{
 			//Change to Scene2
 			scene->Exit();
-			scene2->InitGL();
 			scene = scene2;
+			scene->InitGL();
 			}
 		}
 		if (IsKeyPressed(VK_F2))
@@ -231,8 +231,8 @@ void Application::Run()
 			{
 				//Change to Scene1
 				scene->Exit();
-				scene1->InitGL();
 				scene = scene1;
+				scene->InitGL();
 			}
 		}
 		if (IsKeyPressed(VK_F3))
@@ -241,8 +241,8 @@ void Application::Run()
 			{
 				//Change to Scene1
 				scene->Exit();
-				scene3->InitGL();
 				scene = scene3;
+				scene->InitGL();
 			}
 		}
 

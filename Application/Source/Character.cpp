@@ -1,9 +1,14 @@
 #include "Character.h"
+#include "Application.h"
 
+int Character::collectibleCount = 0;
 Character::Character(unsigned int ID, Mesh* mesh)
 {
 	SetID(ID);
 	SetMesh(mesh);
+	camera = NULL;
+	charspeed = 15.f;
+	dt = 0;
 }
 
 Character::~Character()
@@ -16,14 +21,52 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 	SetRotate(rotation);
 	SetScale(scale);
 
-	collectibleCount = 0;
+	//collectibleCount = 0;
 }
 
-
-Collision* Character::GetCollBox()
+void Character::Update(double dt)
 {
-	return CollisionBox;
+	this->dt = dt;
+
+
+	Vector3 view = camera->GetView();
+	view.y = 0;
+	view.Normalize();
+	Vector3 pos = camera->GetPosition();
+	Vector3 target = view + pos;
+	Vector3 right = camera->GetRight();
+	right.y = 0;
+	right.Normalize();
+
+	Vector3 newpos, newrot;
+	newpos = GetTranslate();
+	newrot = GetRotate();
+
+	if (Application::IsKeyPressed('W')) {
+		newpos = newpos + view * charspeed * dt;
+	}
+	
+	if (Application::IsKeyPressed('A')) {
+		newpos = newpos - right * charspeed * dt;
+	}
+	
+	if (Application::IsKeyPressed('S')) {
+		newpos = newpos - view * charspeed * dt;
+	}
+	
+	if (Application::IsKeyPressed('D')) {
+		newpos = newpos + right * charspeed * dt;
+	}
+	
+	SetTranslate(newpos);
+
+	camera->SetPosition(newpos);
+	camera->SetTarget(view + newpos);
+
 }
+
+
+
 
 bool Character::IsWithinRangeOf(GameObject* item)
 {
@@ -45,4 +88,9 @@ int Character::getCollectibleCount()
 void Character::IncrementCollectible()
 {
 	collectibleCount += 1;
+}
+
+void Character::SetCamera(CameraVer2* camera)
+{
+	this->camera = camera;
 }

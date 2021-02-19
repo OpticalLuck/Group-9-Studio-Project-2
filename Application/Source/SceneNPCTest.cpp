@@ -27,9 +27,14 @@ void SceneNPCTest::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+
 	MainCharacter = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	MainCharacter->SetColliderBox();
+
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc->SetColliderBox();
 	npc->SetDefaultDir(Vector3(0, -30, 0));
+	npc->SetTranslate(Vector3(0, 3, 0));
 	//npc->SetTranslate(Vector3(0,0,1));
 
 }
@@ -87,10 +92,17 @@ void SceneNPCTest::Update(double dt)
 	{
 		bLButtonState = false;
 	}
-	MainCharacter->SetTranslate(camera.GetPosition());
+	//MainCharacter->SetTranslate(camera.GetPosition());
+
+	MainCharacter->SetCamera(&camera);
 	MainCharacter->IsWithinRangeOf(npc);
 	npc->SetObjectToLookAt(MainCharacter);
 	npc->Update(dt);
+	MainCharacter->Update(dt);
+
+	//Collision::OBBResolution(npc, MainCharacter);
+	Collision::OBBResolution(MainCharacter, npc);
+
 }
 
 void SceneNPCTest::Render()
@@ -100,10 +112,11 @@ void SceneNPCTest::Render()
 	//Camera
 	renderer->SetCamera(camera);
 
-	Axis->Draw(renderer, false);
+	//Axis->Draw(renderer, false);
 	//Quad->Draw(renderer, true);
 
 	MainCharacter->Draw(renderer, false);
+	MainCharacter->GetColliderBox()->DrawFrame(renderer);
 	npc->Draw(renderer, false);
 
 	//Light
