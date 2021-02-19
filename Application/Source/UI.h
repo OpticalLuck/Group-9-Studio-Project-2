@@ -12,7 +12,7 @@ public:
 
 	void Init(GameObject* player);
 	void Update();
-	void UpdateInteractions();
+	void UpdateInteractions(GameObject* item);
 	
 	void Draw(Renderer* renderer, bool enableLight);
 	
@@ -38,4 +38,5 @@ private:
 	bool interactable;
 	bool text2active;
 	bool text3active;
+	bool mapOpen;
 };
