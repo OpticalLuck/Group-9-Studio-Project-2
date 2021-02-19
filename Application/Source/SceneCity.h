@@ -19,6 +19,8 @@ public:
 		EN_HOUSE1,
 		EN_HOUSE2,
 		EN_HOUSE3,
+		EN_HOUSE4,
+		EN_HOUSE5,
 		EN_TOWER1,
 		EN_TOTAL
 	};
