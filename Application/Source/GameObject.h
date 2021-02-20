@@ -21,7 +21,7 @@ public:
     //Mutators
     void SetID(unsigned int ID);
     void SetMesh(Mesh* mesh);
-    void SetTexture(std::string TextureID);
+    void SetTexture(int idx, std::string TextureID);
 
     // Vector3 halfsize parameter
     // It's basically the radius

@@ -1,8 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-
+#include <string>
+#include <sstream>
 #include "LoadOBJ.h"
+
+#include "LoadTGA.h"
 
 bool LoadOBJ(
 	const char* file_path,
@@ -229,6 +232,23 @@ bool LoadMTL(const char* file_path, std::map<std::string, Material*>& materials_
 			if (mtl != nullptr)
 			{
 				sscanf_s((buf + 2), "%f", &mtl->kShininess);
+			}
+		}
+		else if (strncmp("map_Kd ", buf, 7) == 0) { //process map_Kd
+			if (mtl != nullptr)
+			{
+				float test = 0;
+				//Gets File Name
+				std::string path = buf;
+				const size_t last_slash_idx = path.find_last_of("\\/");
+
+
+				if (std::string::npos != last_slash_idx)
+				{
+					path.erase(0, last_slash_idx + 1);
+				}
+				//path.insert(0, "Image//");
+				//unsigned tgathing = LoadTGA(path.c_str());
 			}
 		}
 	}

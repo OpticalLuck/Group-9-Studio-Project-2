@@ -42,7 +42,8 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox(Vector3(2,2,2));
 	Cube[1]->SetTranslate(Vector3(0,5,0));
 
-
+	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
+	Ayaka->Init();
 
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 	//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
@@ -182,6 +183,9 @@ void SceneCity::Render()
 	Environment[EN_HOUSE4]->Draw(renderer, true);
 	Environment[EN_HOUSE5]->Draw(renderer, true);
 	Environment[EN_TOWER1]->Draw(renderer, true);
+
+
+	Ayaka->Draw(renderer, true);
 }
 
 void SceneCity::Exit()

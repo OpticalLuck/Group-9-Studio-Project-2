@@ -68,9 +68,9 @@ void GameObject::SetMesh(Mesh* mesh)
 	this->mesh = mesh;
 }
 
-void GameObject::SetTexture(std::string TextureID)
+void GameObject::SetTexture(int idx, std::string TextureID)
 {
-	mesh->textureID = LoadTGA(TextureID.c_str());
+	mesh->textureArr[0] = LoadTGA(TextureID.c_str());
 }
 
 void GameObject::SetColliderBox(Vector3 halfsize)

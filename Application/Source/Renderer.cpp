@@ -2,7 +2,7 @@
 #include "GL\glew.h"
 #include "shader.hpp"
 #include "Application.h"
-
+#include <sstream>
 Renderer::Renderer(int numlight)
 {
 	//Load Vertex and fragment shaders
@@ -35,8 +35,17 @@ Renderer::Renderer(int numlight)
 	Parameters[U_NUMLIGHTS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "numLights");
 
 	// Get a handle for our "colorTexture" uniform
-	Parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "colorTextureEnabled");
-	Parameters[U_COLOR_TEXTURE] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "colorTexture");
+	for (int i = 0; i < MAX_TEXTURES; i++)
+	{
+		std::stringstream ss;
+		ss.str("");
+		ss << "colorTextureEnabled[" << i << "]";
+		Parameters[U_COLOR_TEXTURE_ENABLED + i] = glGetUniformLocation(Shader::GetInstance()->shaderdata, ss.str().c_str());
+	
+		ss.str("");
+		ss << "colorTexture[" << i << "]";
+		Parameters[U_COLOR_TEXTURE + i] = glGetUniformLocation(Shader::GetInstance()->shaderdata, ss.str().c_str());
+	}
 
 	// Get a handle for our "textColor" uniform
 	Parameters[U_TEXT_ENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "textEnabled");
@@ -85,21 +94,25 @@ void Renderer::RenderMesh(Mesh* mesh, bool enableLight)
 		glUniform1i(Parameters[U_LIGHTENABLED], 0);
 	}
 
-	if (mesh->textureID > 0)
+	for (int i = 0; i < MAX_TEXTURES; ++i)
 	{
-		glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED], 1);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, mesh->textureID);
-		glUniform1i(Parameters[U_COLOR_TEXTURE], 0);
+		if (mesh->textureArr[i] > 0)
+		{
+			glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED + i], 1);
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, mesh->textureArr[i]);
+			glUniform1i(Parameters[U_COLOR_TEXTURE + i], i);
+		}
+		else
+		{
+			glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED + i], 0);
+		}
 	}
-	else
-	{
-		glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED], 0);
-	}
+
 
 	mesh->Render();
 
-	if (mesh->textureID > 0)
+	if (mesh->textureArr[0] > 0)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -107,7 +120,7 @@ void Renderer::RenderMesh(Mesh* mesh, bool enableLight)
 
 void Renderer::RenderText(Mesh* mesh, std::string text, Color color, int textdataArray[])
 {
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if (!mesh || mesh->textureArr[0] <= 0) //Proper error check
 		return;
 
 	glUniform1i(Parameters[U_TEXT_ENABLED], 1);
@@ -115,7 +128,7 @@ void Renderer::RenderText(Mesh* mesh, std::string text, Color color, int textdat
 	glUniform1i(Parameters[U_LIGHTENABLED], 0);
 	glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureArr[0]);
 	glUniform1i(Parameters[U_COLOR_TEXTURE], 0);
 
 	float accumulator = 0.f;
@@ -138,7 +151,7 @@ void Renderer::RenderText(Mesh* mesh, std::string text, Color color, int textdat
 
 void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int textdataArray[], int index)
 {
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if (!mesh || mesh->textureArr[0] <= 0) //Proper error check
 		return;
 
 	glUniform1i(Parameters[U_TEXT_ENABLED], 1);
@@ -146,7 +159,7 @@ void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int tex
 	glUniform1i(Parameters[U_LIGHTENABLED], 0);
 	glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureArr[0]);
 	glUniform1i(Parameters[U_COLOR_TEXTURE], 0);
 
 	float accumulator = 0.f;
@@ -172,7 +185,7 @@ void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int tex
 void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int textdataArray[])
 {
 
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if (!mesh || mesh->textureArr[0] <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -194,7 +207,7 @@ void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 	glUniform1i(Parameters[U_LIGHTENABLED], 0);
 	glUniform1i(Parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureArr[0]);
 	glUniform1i(Parameters[U_COLOR_TEXTURE], 0);
 
 	float accumulator = 0.f;

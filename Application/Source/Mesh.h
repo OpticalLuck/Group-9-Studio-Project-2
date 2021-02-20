@@ -1,5 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
+#define MAX_TEXTURES 8
 
 #include <string>
 #include <vector>
@@ -34,7 +35,8 @@ public:
 	//unsigned colorBuffer;
 	unsigned indexBuffer;
 	unsigned indexSize;
-	unsigned textureID;
+	//unsigned textureID;
+	unsigned textureArr[MAX_TEXTURES];
 	std::vector<Material> materials;
 	static unsigned locationKa;
 	static unsigned locationKd;

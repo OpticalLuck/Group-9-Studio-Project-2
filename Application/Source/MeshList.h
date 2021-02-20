@@ -24,6 +24,7 @@ public:
 
 		//CHARACTER?
 		MESH_HEAD,
+		MESH_AYAKA,
 
 		//UI
 		MESH_STAMINABAR,

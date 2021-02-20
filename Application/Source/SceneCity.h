@@ -51,6 +51,7 @@ private:
 	GOManager goManager;
 	GameObject* Axis;
 	Character* MainChar;
+	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;

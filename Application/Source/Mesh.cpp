@@ -15,13 +15,17 @@ Mesh::Mesh(const std::string &meshName)
 	: name(meshName)
 	, mode(DRAW_MODE::DRAW_TRIANGLES)
 	, indexSize(0)
-	, textureID(0)
 {
 	//Generate Buffers
 	glGenBuffers(1, &vertexBuffer);
 	//glGenBuffers(1, &colorBuffer);
 	glGenBuffers(1, &indexBuffer);
+	
 
+	for (int i = 0; i < MAX_TEXTURES; i++)
+	{
+		textureArr[i] = 0;
+	}
 }
 
 /******************************************************************************/
@@ -37,9 +41,12 @@ Mesh::~Mesh()
 	//glDeleteBuffers(1, &colorBuffer);
 	glDeleteBuffers(1, &indexBuffer);
 
-	if (textureID > 0)
+	for (int i = 0; i < MAX_TEXTURES; i++)
 	{
-		glDeleteTextures(1, &textureID);
+		if (textureArr[i] > 0)
+		{
+				glDeleteTextures(1, &textureArr[i]);
+		}
 	}
 }
 
@@ -56,7 +63,7 @@ void Mesh::Render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color)));
 
-	if (textureID > 0)
+	if (textureArr > 0)
 	{
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color) + sizeof(Vector3)));
@@ -93,7 +100,7 @@ void Mesh::Render()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
-	if (textureID > 0)
+	if (textureArr > 0)
 	{
 		glDisableVertexAttribArray(3);
 	}
@@ -112,7 +119,7 @@ void Mesh::Render(unsigned offset, unsigned count)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color)));
 
-	if (textureID > 0)
+	if (textureArr > 0)
 	{
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color) + sizeof(Vector3)));
@@ -129,7 +136,7 @@ void Mesh::Render(unsigned offset, unsigned count)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
-	if (textureID > 0)
+	if (textureArr > 0)
 	{
 		glDisableVertexAttribArray(3);
 	}

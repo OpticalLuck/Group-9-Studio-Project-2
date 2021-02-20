@@ -11,7 +11,7 @@ Text::Text() :
 {
 	LoadTextData(textDataArray, "Image//Calibri.csv");
 	SetMesh(MeshBuilder::GenerateText("Text", 16, 16, textDataArray));
-	SetTexture("Image//Calibri.tga");
+	SetTexture(0, "Image//Calibri.tga");
 }
 
 Text::~Text()
