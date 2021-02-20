@@ -4,7 +4,9 @@
 
 NPC::NPC(unsigned int id, Mesh* mesh)
 {
-	BuildMeshes(mesh);
+
+	SetMesh(mesh);
+	
 
 	canMove = talking = 0;
 	objectToLookAt = NULL;
@@ -23,7 +25,7 @@ NPC::~NPC()
 void NPC::Update(double dt)
 {
 	this->dt = dt;
-
+	
 	if (canMove || true) {
 
 		//if objecttolookat is within range
@@ -31,7 +33,7 @@ void NPC::Update(double dt)
 			//BodyArr[HEAD]->
 			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
 
-
+			
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
@@ -39,6 +41,20 @@ void NPC::Update(double dt)
 		}
 	}
 }
+
+void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3 rot, Vector3 scale, float radius)
+{
+	BuildMeshes(meshlist);
+	SetTranslate(pos);
+	
+	SetDefaultDir(rot);
+	SetScale(scale);
+	SetRadius(radius);
+	SetObjectToLookAt(lookedAtObj);
+
+}
+
+
 
 
 
@@ -54,7 +70,7 @@ void NPC::SetDefaultDir(Vector3 def)
 	SetRotate(def);
 }
 
-void NPC::BuildMeshes(Mesh* mesh)
+void NPC::BuildMeshes(MeshList* meshlist)
 {
 	//allocate all to NULL incase any parts unused
 	//can remove if all are used
@@ -62,21 +78,17 @@ void NPC::BuildMeshes(Mesh* mesh)
 		BodyArr[i] = NULL;
 	}
 
-	SetMesh(mesh);
+	BodyArr[HEAD] = new GameObject(GetID(), meshlist->GetMesh(MeshList::MESH_HEAD));
+	BodyArr[LARM] = new GameObject(GetID(), meshlist->GetMesh(MeshList::MESH_HEAD));
+	BodyArr[RARM] = new GameObject(GetID(), meshlist->GetMesh(MeshList::MESH_HEAD));
+	this->AddChild(BodyArr[HEAD]); 
+	BodyArr[HEAD]->AddChild(BodyArr[LARM]);
+	BodyArr[HEAD]->AddChild(BodyArr[RARM]);
+	BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
+	BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
+	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
+	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 
-	//get body parts
-	//MeshList meshlist;
-	//
-	//BodyArr[HEAD] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	//BodyArr[LARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	//BodyArr[RARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	//this->AddChild(BodyArr[HEAD]); 
-	//BodyArr[HEAD]->AddChild(BodyArr[LARM]);
-	//BodyArr[HEAD]->AddChild(BodyArr[RARM]);
-	//BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
-	//BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
-	//BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
-	//BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 }
 
 

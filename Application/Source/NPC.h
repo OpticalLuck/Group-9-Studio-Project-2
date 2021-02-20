@@ -21,7 +21,13 @@ public:
 	
 	void Update(double dt);
 	
-
+	//A much needed function after creating an NPC
+	void Init(MeshList* meshlist,
+			  GameObject* lookedAtObj,
+			  Vector3 pos,
+			  Vector3 rot = Vector3(0,0,0), 
+		      Vector3 scale = Vector3(1,1,1),
+			  float radius = 10.f);
 
 	//Sets the ObjectToLookAt to allow for calculations revolving around looking
 	void SetObjectToLookAt(GameObject* obj);
@@ -48,7 +54,7 @@ private:
 	//Refers to the object it mainly interacts with
 	GameObject* objectToLookAt;
 
-	void BuildMeshes(Mesh* mesh);
+	void BuildMeshes(MeshList* meshlist);
 
 	//Smaller Functions for small processes
 

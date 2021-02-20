@@ -95,6 +95,5 @@ private:
     //which flag it is on
     int flag;
 
-    //For reference when dealing with time
-    double dt;
+    
 };
