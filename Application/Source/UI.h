@@ -20,14 +20,16 @@ public:
 
 	bool getCamSprintState();
 	GameObject* getItem();
+	MeshList* getMeshList();
 
 	void setCamera(CameraVer2* camera);
 	void setCamSprintState(bool isSprinting);
 	void setItem(GameObject* item);
 	void setInteractable(bool interactable);
+	void setMeshList(MeshList* meshlist);
 private:
 	CameraVer2* camera;
-	MeshList* tempMeshList;
+	MeshList* meshlist;
 	GameObject* Quad;
 	GameObject* Player;
 	GameObject* Item; //TODO: Make Item its own class instead of a GO
