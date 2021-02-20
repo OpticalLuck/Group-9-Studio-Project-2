@@ -32,8 +32,9 @@ Renderer::Renderer(int numlight)
 	Parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kShininess");
 
 	Parameters[U_MATERIAL_MAPKD] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.map_Kd");
+	Parameters[U_MATERIAL_MAPKD_ENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "diffuseMapEnabled");
 
-	Mesh::SetMaterialLoc(Parameters[U_MATERIAL_AMBIENT], Parameters[U_MATERIAL_DIFFUSE], Parameters[U_MATERIAL_SPECULAR], Parameters[U_MATERIAL_SHININESS], Parameters[U_MATERIAL_MAPKD]);
+	Mesh::SetMaterialLoc(Parameters[U_MATERIAL_AMBIENT], Parameters[U_MATERIAL_DIFFUSE], Parameters[U_MATERIAL_SPECULAR], Parameters[U_MATERIAL_SHININESS], Parameters[U_MATERIAL_MAPKD], Parameters[U_MATERIAL_MAPKD_ENABLED]);
 	Parameters[U_LIGHTENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "lightEnabled");
 	Parameters[U_NUMLIGHTS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "numLights");
 
@@ -91,6 +92,8 @@ void Renderer::RenderMesh(Mesh* mesh, bool enableLight)
 		glUniform3fv(Parameters[U_MATERIAL_DIFFUSE], 1, &mesh->material.kDiffuse.r);
 		glUniform3fv(Parameters[U_MATERIAL_SPECULAR], 1, &mesh->material.kSpecular.r);
 		glUniform1f(Parameters[U_MATERIAL_SHININESS], mesh->material.kShininess);
+		glUniform1f(Parameters[U_MATERIAL_MAPKD_ENABLED], 0);
+		glUniform1f(Parameters[U_MATERIAL_MAPKD], 0);
 	}
 	else
 	{

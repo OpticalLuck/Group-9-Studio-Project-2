@@ -177,7 +177,7 @@ void SceneCity::Render()
 	}
 		
 	Cube[0]->GetColliderBox()->DrawFrame(renderer);
-	Cube[1]->Draw(renderer, false);
+	Cube[1]->Draw(renderer, true);
 	Cube[1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_FLOOR]->Draw(renderer, true);
 	//Environment[EN_FLOOR]->GetColliderBox()->DrawFrame(renderer);

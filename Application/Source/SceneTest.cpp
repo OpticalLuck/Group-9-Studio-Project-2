@@ -32,7 +32,9 @@ void SceneTest::Init()
 	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 	ui = new UI();
 	ui->Init(character);
-	ui->setMeshList(meshlist);
+	//u dont need this function, why are u storing a copy of the meshlist in the ui class
+	//the meshlist is meant for you to have the ui object obtain the mesh from the meshlist and stored it there, not the whole meshlist
+	ui->setMeshList(meshlist); 
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -72,25 +74,20 @@ void SceneTest::Init()
 	//text[2]->SetTranslate(Vector3(0.f, 4, 0));
 
 	//Interaction
-
 	text[4] = new Text();
 	text[4]->SetMode(Text::STATIC_SCREENTEXT);
 	text[4]->SetText("Item Acquired.");
 	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
 
-	{
-		lights[0]->Set(Light::LIGHT_POINT,
-			Vector3(0, 8, 0),
-			Color(1, 1, 1),
-			1.f, 1.f, 0.01f, 0.001f,
-			Vector3(0.f, 1.f, 0.f));
-
-	}
 }
 
 void SceneTest::InitGL()
 {
-
+	lights[0]->Set(Light::LIGHT_POINT,
+				Vector3(0, 10, 0),
+				Color(1, 1, 1),
+				1.f, 1.f, 0.01f, 0.001f,
+				Vector3(0.f, 1.f, 0.f));
 }
 
 
@@ -170,7 +167,7 @@ void SceneTest::Render()
 
 	//Camera
 	renderer->SetCamera(camera);
-
+	renderer->SetLight(lights[0], camera);
 	Axis->Draw(renderer, false);
 
 	//Skybox
@@ -186,6 +183,7 @@ void SceneTest::Render()
 	{
 		Item[i]->Draw(renderer, true);
 
+		//Why is update in render what?
 		ui->setItem(Item[i]);
 
 		if (character->GetInRange(Item[i], 3))

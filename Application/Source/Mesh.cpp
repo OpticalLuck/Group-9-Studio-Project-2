@@ -63,7 +63,7 @@ void Mesh::Render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color)));
 
-	if (textureArr > 0)
+	if (textureArr[0] > 0 || !materials.empty())
 	{
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color) + sizeof(Vector3)));
@@ -87,8 +87,9 @@ void Mesh::Render()
 			glUniform3fv(locationKd, 1, &material.kDiffuse.r);
 			glUniform3fv(locationKs, 1, &material.kSpecular.r);
 			glUniform1f(locationNs, material.kShininess);
+			glUniform1f(locationMap_Kd_Enabled, (unsigned)material.kDMapEnabled);
 
-			if (material.map_Kd != 0)
+			if (material.map_Kd > 0)
 			{
 				glUniform1f(locationMap_Kd, material.map_Kd);
 				glActiveTexture(GL_TEXTURE0);
@@ -102,7 +103,7 @@ void Mesh::Render()
 				glDrawElements(GL_TRIANGLES, material.size, GL_UNSIGNED_INT, (void*)(offset * sizeof(unsigned)));
 			offset += material.size;
 
-			if (material.map_Kd != 0)
+			if (material.map_Kd > 0)
 			{
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
@@ -113,7 +114,7 @@ void Mesh::Render()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
-	if (textureArr > 0)
+	if (textureArr[0] > 0 || !materials.empty())
 	{
 		glDisableVertexAttribArray(3);
 	}
@@ -160,12 +161,15 @@ unsigned Mesh::locationKd;
 unsigned Mesh::locationKs;
 unsigned Mesh::locationNs;
 unsigned Mesh::locationMap_Kd;
-void Mesh::SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS, unsigned map_Kd)
+unsigned Mesh::locationMap_Kd_Enabled = false;
+
+void Mesh::SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS, unsigned map_Kd, unsigned Map_Kd_Enabled)
 {
 	locationKa = kA;
 	locationKd = kD;
 	locationKs = kS;
 	locationNs = nS;
 	locationMap_Kd = map_Kd;
+	locationMap_Kd_Enabled = Map_Kd_Enabled;
 }
 

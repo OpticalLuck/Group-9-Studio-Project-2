@@ -43,8 +43,9 @@ public:
 	static unsigned locationKs;
 	static unsigned locationNs;
 	static unsigned locationMap_Kd;
+	static unsigned locationMap_Kd_Enabled;
 
-	static void SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS, unsigned map_Kd);
+	static void SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS, unsigned map_Kd, unsigned Map_Kd_Enabled);
 };
 
 #endif

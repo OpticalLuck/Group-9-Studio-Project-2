@@ -13,8 +13,8 @@
 #include "SceneCity.h"
 
 //TODO!! REMOVE TESTING SCENES
-//#include "SceneNPCTest.h"
-//#include "SceneTest.h"
+#include "SceneNPCTest.h"
+#include "SceneTest.h"
 
 #include "shader.hpp"
 
@@ -195,8 +195,8 @@ void Application::Run()
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	Scene* scene1 = new SceneCity();
 	scene1->Init();
-	Scene* scene2 = nullptr;
-	//scene2->Init();
+	Scene* scene2 = new SceneTest();
+	scene2->Init();
 	Scene* scene3 = nullptr;
 	//scene3->Init();
 	Scene* scene4 = nullptr;
