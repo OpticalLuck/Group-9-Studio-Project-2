@@ -38,7 +38,6 @@ MeshList::MeshList(TextureList* texturelist)
 
 	//// <NPC> 
 	meshlist[MESH_HEAD] = MeshBuilder::GenerateCube("Head", Color(1.f,1.f,0.f), 1.f, 1.f, 1.f);
-
 	meshlist[MESH_AYAKA] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Ayaka.obj", "OBJ//Ayaka.mtl", texturelist);
 	//// </NPC> 
 

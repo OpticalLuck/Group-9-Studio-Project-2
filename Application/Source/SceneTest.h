@@ -36,6 +36,7 @@ private:
 	float x_width; //sprintbar width change later
 	bool mapOpen;
 	Renderer* renderer;
+	TextureList* texturelist;
 	MeshList* meshlist;
 	CameraVer2 camera;
 	UI* ui;
