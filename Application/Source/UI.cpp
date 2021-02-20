@@ -16,8 +16,6 @@ void UI::Init(GameObject* player)
 	this->Player = player;
 	staminaBar_width = 30;
 
-	//tempMeshList = new MeshList();
-
 	interactable = false;
 	mapOpen = false;
 
@@ -99,7 +97,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 	if (mapOpen == false)
 	{
 		//render stamina bar if map is not open
-		renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
 	}
 	else
 	{
@@ -107,8 +105,8 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		float x_offset = round(35 * (camera->GetPosX() / 30));
 		float y_offset = round(35 * (camera->GetPosZ() / 30));
 		
-		renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
-		renderer->RenderMeshOnScreen(tempMeshList->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
+		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
+		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
 	}
 
 	if (camera->GetSprintState() == false)		//Walking
@@ -141,6 +139,11 @@ GameObject* UI::getItem()
 	return Item;
 }
 
+MeshList* UI::getMeshList()
+{
+	return meshlist;
+}
+
 void UI::setCamera(CameraVer2* camera)
 {
 	this->camera = camera;
@@ -159,4 +162,9 @@ void UI::setItem(GameObject* item)
 void UI::setInteractable(bool interactable)
 {
 	this->interactable = interactable;
+}
+
+void UI::setMeshList(MeshList* meshlist)
+{
+	this->meshlist = meshlist;
 }

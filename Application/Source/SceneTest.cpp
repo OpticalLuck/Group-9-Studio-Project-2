@@ -31,6 +31,7 @@ void SceneTest::Init()
 	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
 	ui = new UI();
 	ui->Init(character);
+	ui->setMeshList(meshlist);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
