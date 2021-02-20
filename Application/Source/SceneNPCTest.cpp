@@ -31,11 +31,11 @@ void SceneNPCTest::Init()
 
 	MainCharacter = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	MainCharacter->SetColliderBox();
+	MainCharacter->Init(Vector3(0, 3, 8));
 
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc->SetColliderBox();
-	npc->SetDefaultDir(Vector3(0, -30, 0));
-	npc->SetTranslate(Vector3(10, 0, 0));
+	npc->Init(meshlist, MainCharacter, Vector3(0, 3, 0), Vector3(0, 90, 0));
 	//npc->SetTranslate(Vector3(0,0,1));
 
 }
@@ -97,11 +97,10 @@ void SceneNPCTest::Update(double dt)
 
 	MainCharacter->SetCamera(&camera);
 	MainCharacter->IsWithinRangeOf(npc);
-	npc->SetObjectToLookAt(MainCharacter);
 	npc->Update(dt);
 	MainCharacter->Update(dt);
 
-	Collision::OBBResolution(npc, MainCharacter);
+	//Collision::OBBResolution(npc, MainCharacter);
 	Collision::OBBResolution(MainCharacter, npc);
 	
 }
@@ -113,7 +112,7 @@ void SceneNPCTest::Render()
 	//Camera
 	renderer->SetCamera(camera);
 
-	//Axis->Draw(renderer, false);
+	Axis->Draw(renderer, false);
 	//Quad->Draw(renderer, true);
 
 	MainCharacter->Draw(renderer, false);
