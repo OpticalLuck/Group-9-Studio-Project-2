@@ -183,7 +183,7 @@ void SceneTest::Render()
 	{
 		Item[i]->Draw(renderer, true);
 
-		//Why is update in render what?
+		//Why is update in render what? it should be in update!!!
 		ui->setItem(Item[i]);
 
 		if (character->GetInRange(Item[i], 3))
