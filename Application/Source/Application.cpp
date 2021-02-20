@@ -13,8 +13,8 @@
 #include "SceneCity.h"
 
 //TODO!! REMOVE TESTING SCENES
-#include "SceneNPCTest.h"
-#include "SceneTest.h"
+//#include "SceneNPCTest.h"
+//#include "SceneTest.h"
 
 #include "shader.hpp"
 

@@ -87,6 +87,13 @@ void Mesh::Render()
 			glUniform3fv(locationKd, 1, &material.kDiffuse.r);
 			glUniform3fv(locationKs, 1, &material.kSpecular.r);
 			glUniform1f(locationNs, material.kShininess);
+
+			if (material.map_Kd != 0)
+			{
+				glUniform1f(locationMap_Kd, material.map_Kd);
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, material.map_Kd);
+			}
 			if (mode == DRAW_MODE::DRAW_TRIANGLE_STRIP)
 				glDrawElements(GL_TRIANGLE_STRIP, material.size, GL_UNSIGNED_INT, (void*)(offset * sizeof(unsigned)));
 			else if (mode == DRAW_MODE::DRAW_LINES)
@@ -94,9 +101,15 @@ void Mesh::Render()
 			else
 				glDrawElements(GL_TRIANGLES, material.size, GL_UNSIGNED_INT, (void*)(offset * sizeof(unsigned)));
 			offset += material.size;
+
+			if (material.map_Kd != 0)
+			{
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 		}
 	}
 
+	
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
@@ -146,11 +159,13 @@ unsigned Mesh::locationKa;
 unsigned Mesh::locationKd;
 unsigned Mesh::locationKs;
 unsigned Mesh::locationNs;
-void Mesh::SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS)
+unsigned Mesh::locationMap_Kd;
+void Mesh::SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS, unsigned map_Kd)
 {
 	locationKa = kA;
 	locationKd = kD;
 	locationKs = kS;
 	locationNs = nS;
+	locationMap_Kd = map_Kd;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Mesh.h"
+#include "TextureList.h"
 
 class MeshList
 {
@@ -42,7 +43,7 @@ public:
 		TOTAL_MESH
 	};
 
-	MeshList();
+	MeshList(TextureList* texturelist);
 	~MeshList();
 
 	Mesh* GetMesh(MESH_TYPE meshtype);

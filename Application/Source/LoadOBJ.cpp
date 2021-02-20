@@ -5,8 +5,6 @@
 #include <sstream>
 #include "LoadOBJ.h"
 
-#include "LoadTGA.h"
-
 bool LoadOBJ(
 	const char* file_path,
 	std::vector<Position>& out_vertices,
@@ -186,7 +184,7 @@ void IndexVBO(
 	}
 }
 
-bool LoadMTL(const char* file_path, std::map<std::string, Material*>& materials_map)
+bool LoadMTL(const char* file_path, std::map<std::string, Material*>& materials_map, TextureList* texturelist)
 {
 	std::ifstream fileStream(file_path, std::ios::binary);
 	if (!fileStream.is_open())
@@ -242,13 +240,11 @@ bool LoadMTL(const char* file_path, std::map<std::string, Material*>& materials_
 				std::string path = buf;
 				const size_t last_slash_idx = path.find_last_of("\\/");
 
-
 				if (std::string::npos != last_slash_idx)
 				{
 					path.erase(0, last_slash_idx + 1);
 				}
-				//path.insert(0, "Image//");
-				//unsigned tgathing = LoadTGA(path.c_str());
+				mtl->map_Kd = texturelist->Insert(path);
 			}
 		}
 	}
@@ -257,7 +253,7 @@ bool LoadMTL(const char* file_path, std::map<std::string, Material*>& materials_
 	return true;
 }
 
-bool LoadOBJMTL(const char* file_path, const char* mtl_path, std::vector<Position>& out_vertices, std::vector<TexCoord>& out_uvs, std::vector<Vector3>& out_normals, std::vector<Material>& out_materials)
+bool LoadOBJMTL(const char* file_path, const char* mtl_path, std::vector<Position>& out_vertices, std::vector<TexCoord>& out_uvs, std::vector<Vector3>& out_normals, std::vector<Material>& out_materials, TextureList* texturelist)
 {
 	std::ifstream fileStream(file_path, std::ios::binary);
 	if (!fileStream.is_open())
@@ -270,7 +266,7 @@ bool LoadOBJMTL(const char* file_path, const char* mtl_path, std::vector<Positio
 	std::vector<TexCoord> temp_uvs;
 	std::vector<Vector3> temp_normals;
 	std::map<std::string, Material*> materials_map;
-	if(mtl_path != nullptr && !LoadMTL(mtl_path, materials_map))
+	if(mtl_path != nullptr && !LoadMTL(mtl_path, materials_map, texturelist))
 		return false;
 
 	while (!fileStream.eof()) {

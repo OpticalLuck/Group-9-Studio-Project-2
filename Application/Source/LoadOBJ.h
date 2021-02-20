@@ -5,6 +5,7 @@
 #include "Vertex.h"
 #include "Vector3.h"
 #include "Material.h"
+#include "TextureList.h"
 
 bool LoadOBJ(
 	const char *file_path, 
@@ -28,7 +29,8 @@ bool LoadOBJMTL(
 	std::vector<Position>& out_vertices,
 	std::vector<TexCoord>& out_uvs,
 	std::vector<Vector3>& out_normals,
-	std::vector<Material>& out_materials
+	std::vector<Material>& out_materials,
+	TextureList* texturelist = nullptr
 );
 
 #endif

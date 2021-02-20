@@ -30,7 +30,10 @@ Renderer::Renderer(int numlight)
 	Parameters[U_MATERIAL_DIFFUSE] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kDiffuse");
 	Parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kSpecular");
 	Parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.kShininess");
-	Mesh::SetMaterialLoc(Parameters[U_MATERIAL_AMBIENT], Parameters[U_MATERIAL_DIFFUSE], Parameters[U_MATERIAL_SPECULAR], Parameters[U_MATERIAL_SHININESS]);
+
+	Parameters[U_MATERIAL_MAPKD] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "material.map_Kd");
+
+	Mesh::SetMaterialLoc(Parameters[U_MATERIAL_AMBIENT], Parameters[U_MATERIAL_DIFFUSE], Parameters[U_MATERIAL_SPECULAR], Parameters[U_MATERIAL_SHININESS], Parameters[U_MATERIAL_MAPKD]);
 	Parameters[U_LIGHTENABLED] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "lightEnabled");
 	Parameters[U_NUMLIGHTS] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "numLights");
 

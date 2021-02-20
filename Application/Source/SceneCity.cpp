@@ -20,8 +20,11 @@ void SceneCity::Init()
 	renderer = new Renderer(LIGHT_TOTAL);
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
-	camera.ToggleMode(CameraVer2::CHARACTER_CONTROLLED);
-	meshlist = new MeshList();
+	camera.ToggleMode(CameraVer2::FREE_VIEW);
+
+	texturelist = new TextureList();
+	meshlist = new MeshList(texturelist);
+
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 
@@ -43,7 +46,8 @@ void SceneCity::Init()
 	Cube[1]->SetTranslate(Vector3(0,5,0));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init();
+	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+
 
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 	//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
@@ -77,7 +81,7 @@ void SceneCity::Init()
 
 void SceneCity::InitGL()
 {
-	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_SPOT, Vector3(0, 150, 0), Color(1, 1, 1), 50.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_SPOT, Vector3(0, 150, 0), Color(1, 1, 1), 20.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 	lights[1]->Set(Light::LIGHT_SPOT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 }

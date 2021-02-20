@@ -167,6 +167,7 @@
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Skybox.cpp" />
     <ClCompile Include="Source\Text.cpp" />
+    <ClCompile Include="Source\TextureList.cpp" />
     <ClCompile Include="Source\UI.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -195,6 +196,7 @@
     <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\Skybox.h" />
     <ClInclude Include="Source\Text.h" />
+    <ClInclude Include="Source\TextureList.h" />
     <ClInclude Include="Source\UI.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

@@ -16,7 +16,7 @@ void UI::Init(GameObject* player)
 	this->Player = player;
 	staminaBar_width = 30;
 
-	tempMeshList = new MeshList();
+	//tempMeshList = new MeshList();
 
 	interactable = false;
 	mapOpen = false;

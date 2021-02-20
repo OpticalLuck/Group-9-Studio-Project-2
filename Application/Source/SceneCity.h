@@ -8,6 +8,7 @@
 #include "Light.h"
 #include "GOManager.h"
 #include "Skybox.h"
+#include "TextureList.h"
 
 class SceneCity : public Scene
 {
@@ -45,6 +46,8 @@ public:
 private:
 	double fps;
 	Renderer* renderer;
+
+	TextureList* texturelist;
 	MeshList* meshlist;
 	CameraVer2 camera;
 

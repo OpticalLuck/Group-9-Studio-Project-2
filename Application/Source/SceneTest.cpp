@@ -22,7 +22,7 @@ void SceneTest::Init()
 
 	renderer = new Renderer(LIGHT_TOTAL);
 	//Init Meshlist
-	meshlist = new MeshList();
+	//meshlist = new MeshList();
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 

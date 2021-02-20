@@ -65,18 +65,18 @@ void NPC::BuildMeshes(Mesh* mesh)
 	SetMesh(mesh);
 
 	//get body parts
-	MeshList meshlist;
-
-	BodyArr[HEAD] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	BodyArr[LARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	BodyArr[RARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
-	this->AddChild(BodyArr[HEAD]); 
-	BodyArr[HEAD]->AddChild(BodyArr[LARM]);
-	BodyArr[HEAD]->AddChild(BodyArr[RARM]);
-	BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
-	BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
-	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
-	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
+	//MeshList meshlist;
+	//
+	//BodyArr[HEAD] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
+	//BodyArr[LARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
+	//BodyArr[RARM] = new GameObject(GetID(), meshlist.GetMesh(MeshList::MESH_HEAD));
+	//this->AddChild(BodyArr[HEAD]); 
+	//BodyArr[HEAD]->AddChild(BodyArr[LARM]);
+	//BodyArr[HEAD]->AddChild(BodyArr[RARM]);
+	//BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
+	//BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
+	//BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
+	//BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 }
 
 

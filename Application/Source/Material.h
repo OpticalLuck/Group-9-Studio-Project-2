@@ -24,15 +24,17 @@ struct Material
 	Component kDiffuse;
 	Component kSpecular;
 	float kShininess;
+	unsigned map_Kd;
 	unsigned size;
 	//to do: add a constructor
-	Material(Component kAmbient = Component(0.1f, 0.1f, 0.1f), Component kDiffuse = Component(0.6f, 0.6f, 0.6f), Component kSpecular = Component(0.3f, 0.3f, 0.3f), float kShininess = 5.f, unsigned size = 0) 
+	Material(Component kAmbient = Component(0.1f, 0.1f, 0.1f), Component kDiffuse = Component(0.6f, 0.6f, 0.6f), Component kSpecular = Component(0.3f, 0.3f, 0.3f), float kShininess = 5.f, unsigned size = 0, unsigned map_Kd = 0)
 	{
 		this->kAmbient = kAmbient;
 		this->kDiffuse = kDiffuse;
 		this->kSpecular = kSpecular;
 		this->kShininess = kShininess;
 		this->size = size;
+		this->map_Kd = map_Kd;
 	}
 
 

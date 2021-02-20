@@ -689,14 +689,14 @@ Mesh* MeshBuilder::GenerateText(const std::string& meshName, unsigned numRow, un
 }
 
 
-Mesh* MeshBuilder::GenerateOBJMTL(const std::string& meshName, const std::string& file_path, const std::string& mtl_path)
+Mesh* MeshBuilder::GenerateOBJMTL(const std::string& meshName, const std::string& file_path, const std::string& mtl_path, TextureList* texturelist)
 {
 	//Read vertices, texcoords & normals from OBJ
 	std::vector<Position> vertices;
 	std::vector<TexCoord> uvs;
 	std::vector<Vector3> normals;
 	std::vector<Material> materials;
-	bool success = LoadOBJMTL(file_path.c_str(), mtl_path.c_str(), vertices, uvs, normals, materials);
+	bool success = LoadOBJMTL(file_path.c_str(), mtl_path.c_str(), vertices, uvs, normals, materials, texturelist);
 
 	if (!success)
 		return NULL;
