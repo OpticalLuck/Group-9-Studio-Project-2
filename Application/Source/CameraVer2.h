@@ -39,6 +39,8 @@ public:
 	//Enables or Disables the ability to control the camera
 	void ToggleControls(bool Controls);
 
+	void SetYaw(float yaw);
+
 	//getters
 	Vector3 GetRight() const;
 	float GetYaw() const;
@@ -55,7 +57,6 @@ public:
 	const float GetSpeed();
 	const float GetPosX();
 	const float GetPosZ();
-
 	
 private:
 	Vector3 position;
@@ -64,6 +65,7 @@ private:
 	Vector3 target;
 	CAMERA_MODE mode, prev_mode;
 	float sensitivity, speed, distance, pos_x, pos_z;
+	float yaw;
 	bool IsKeyPressed, IsJump, IsGround, Controls, IsSprintable;
 };
 

@@ -12,7 +12,8 @@ CameraVer2::CameraVer2():
 	IsJump(false),
 	IsGround(true),
 	Controls(true),
-	IsSprintable(false)
+	IsSprintable(false),
+	yaw(0)
 {
 }
 
@@ -33,6 +34,7 @@ void CameraVer2::Update(double x_offset, double y_offset)
 	// When controls
 	if (Controls)
 	{
+		yaw -= x_offset * 0.05f;
 		Mtx44 RotateYaw;
 		RotateYaw.SetToRotation(-x_offset * sensitivity, 0, 1, 0);
 		view = RotateYaw * view;
@@ -60,10 +62,9 @@ void CameraVer2::Update(double x_offset, double y_offset)
 
 void CameraVer2::Updatemovement(double dt)
 {
-	if (Controls && mode != CHARACTER_CONTROLLED)
+	if (Controls && mode == FIRST_PERSON)
 	{
 		Vector3 direction = Vector3(view.x, 0, view.z).Normalized();
-
 		if (Application::IsKeyPressed('W'))
 		{
 			if(mode == FREE_VIEW)
@@ -129,7 +130,6 @@ void CameraVer2::Updatemovement(double dt)
 				IsKeyPressed = false;
 			}
 		}
-
 		if (Application::IsKeyPressed(VK_LSHIFT) && IsSprintable == true)
 		{
 			speed = 10.0f;
@@ -139,15 +139,7 @@ void CameraVer2::Updatemovement(double dt)
 			speed = 5.0f;
 		}
 
-		if(mode == THIRD_PERSON)
-		{
-			Jump(dt);
-
-			target.x = Math::Clamp(target.x, -30.f, 30.f);
-			target.y = Math::Clamp(target.y, 3.f, 5.f);
-			target.z = Math::Clamp(target.z, -30.f, 30.f);
-		}
-		else if (mode == FIRST_PERSON)
+		if (mode == FIRST_PERSON)
 		{
 			Jump(dt);
 
@@ -161,6 +153,7 @@ void CameraVer2::Updatemovement(double dt)
 void CameraVer2::SetTarget(Vector3 target)
 {
 	this->target = target;
+	position = target + distance * -view;
 }
 
 void CameraVer2::SetPosition(Vector3 position)
@@ -273,6 +266,11 @@ void CameraVer2::ToggleControls(bool Controls)
 	this->Controls= Controls;
 }
 
+void CameraVer2::SetYaw(float yaw)
+{
+	this->yaw = yaw;
+}
+
 Vector3 CameraVer2::GetRight() const
 {
 	return view.Cross(up).Normalized();
@@ -280,7 +278,8 @@ Vector3 CameraVer2::GetRight() const
 
 float CameraVer2::GetYaw() const
 {
-	return Math::RadianToDegree(atan2(view.z,view.x));
+	//return Math::RadianToDegree(atan2(view.z,view.x));.
+	return yaw;
 }
 
 float CameraVer2::GetPitch() const

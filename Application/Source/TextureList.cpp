@@ -32,8 +32,5 @@ unsigned TextureList::Insert(std::string filename)
 			return textureMap.at(filename);
 		}
 	}
-	
-
-
 }
 

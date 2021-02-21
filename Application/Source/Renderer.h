@@ -2,7 +2,6 @@
 #include "MatrixStack.h"
 #include "LoadCSV.h"
 #include "Mesh.h"
-#include "CameraVer2.h"
 #include "Light.h"
 
 class Renderer
@@ -64,8 +63,8 @@ public:
 	void PushTransform();
 	void PopTransform();
 
-	void SetCamera(CameraVer2 camera);
-	void SetLight(Light* light, CameraVer2 camera);
+	void SetCamera(Vector3 position, Vector3 View, Vector3 Up);
+	void SetLight(Light* light, Vector3 Camera_Offset);
 	void LoadIdentity();
 	unsigned GetprogramID();
 

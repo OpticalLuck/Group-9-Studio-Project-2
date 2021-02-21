@@ -7,12 +7,11 @@ Character::Character(unsigned int ID, Mesh* mesh)
 {
 	SetID(ID);
 	SetMesh(mesh);
-	camera = NULL;
+	//camera = NULL;
 	charspeed = 10.f;
 	isGrounded = false;
 	weight = 20.f;
 	jumpVelocity = 3.f;
-	dt = 0;
 	groundPos = 0;
 }
 
@@ -29,70 +28,122 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 	//collectibleCount = 0;
 }
 
-void Character::Update(double dt)
+void Character::Update(CameraVer2* camera, double dt)
 {
-	this->dt = dt;
+	//You dont need to redo the camera calculations, just change the translate and the camera does it's own shit
+	float SPEED = 5 * dt;
 
+	//USED FOR DIRECTION
+	//Direction the character is going towards aka direction vector
+	Vector3 Direction(0,0,0);
+	//Get camera front and right without the Y coordinate so dont have to copy paste
+	Vector3 camFront(camera->GetView().x, 0, camera->GetView().z);
+	Vector3 camRight(camera->GetRight().x, 0, camera->GetRight().z);
 
-	Vector3 view = camera->GetView();
-	view.y = 0;
-	view.Normalize();
-	Vector3 pos = camera->GetPosition();
-	Vector3 target = view + pos;
-	Vector3 right = camera->GetRight();
-	right.y = 0;
-	right.Normalize();
-	Vector3 up = view.Cross(right);
+	//USED FOR ROTATION
+	float ROTATIONSPEED = 8 * dt;
+	Vector3 AxisDir(0, 0, 0);// Direction vector along the axis for calculating rotation
+	bool KeyPressed = false;
+	float camAngle = GetRotate().y;
 
-
-	Vector3 newpos, newrot;
-	newpos = GetTranslate();
-	newrot = GetRotate();
-
-	if (Application::IsKeyPressed('W')) {
-		newpos = newpos + view * charspeed * dt;
+	if (Application::IsKeyPressed('W')) 
+	{
+		Direction += camFront;
+		AxisDir += Vector3(0, 0, 1);
+		KeyPressed = true;
 	}
-	
-	if (Application::IsKeyPressed('A')) {
-		newpos = newpos - right * charspeed * dt;
+	if (Application::IsKeyPressed('A')) 
+	{
+		Direction -= camRight;
+		AxisDir += Vector3(1, 0, 0);
+		KeyPressed = true;
 	}
-	
-	if (Application::IsKeyPressed('S')) {
-		newpos = newpos - view * charspeed * dt;
+	if (Application::IsKeyPressed('S')) 
+	{
+		Direction -= camFront;
+		AxisDir += Vector3(0, 0, -1);
+		KeyPressed = true;
 	}
-	
-	if (Application::IsKeyPressed('D')) {
-		newpos = newpos + right * charspeed * dt;
+	if (Application::IsKeyPressed('D')) 
+	{
+		Direction += camRight;
+		AxisDir += Vector3(-1, 0, 0);
+		KeyPressed = true;
 	}
-	
+	//Set translate as its own + new direction
 	//gravity
-	
-	if (newpos.y < groundPos) {
-		newpos.y = groundPos;
-		isGrounded = true;
-	}
-	else {
-		isGrounded = false;
-	}
-
-	if (isGrounded && VertVelocity.y < 0) {
-		VertVelocity.y = 0;
-	}
-
-	if (isGrounded && Application::IsKeyPressed(VK_SPACE)) {
-		VertVelocity.y = std::sqrt(jumpVelocity * -2 * -weight);
-	}
+	//if (newpos.y < groundPos) {
+	//	newpos.y = groundPos;
+	//	isGrounded = true;
+	//}
+	//else {
+	//	isGrounded = false;
+	//}
+	//if (isGrounded && VertVelocity.y < 0) {
+	//	VertVelocity.y = 0;
+	//}
+	//
+	//if (isGrounded && Application::IsKeyPressed(VK_SPACE)) {
+	//	VertVelocity.y = std::sqrt(jumpVelocity * -2 * -weight);
+	//}
 	//std::cout << VertVelocity.y << "\n";
+	//VertVelocity.y += -(weight * dt);
+	//
+	//newpos = newpos + VertVelocity * dt;
+	//
+	//SetTranslate(newpos);
+	//
+	//camera->SetPosition(newpos);
+	//camera->SetTarget(view + newpos);
+
+	if (!Direction.IsZero())
+	{
+		Direction.Normalize();
+	}
+
+	SetTranslate(GetTranslate() + SPEED * Direction);
+	camera->SetTarget(GetTranslate() + Vector3(0,3.5f,0)); //Update Target Location for camera
+
+	if (KeyPressed)
+	{
+		float anglemod = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
+		camAngle = camera->GetYaw() + anglemod;
+	}
+
+	//Rotation for character
+	float rotationval; // = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * camAngle;
+	float compare1 = fabs(GetRotate().y - camAngle);
+	float compare2 = fabs(GetRotate().y - (camAngle - 360));
+	float compare3 = fabs(GetRotate().y - (camAngle + 360));
+	std::cout << compare1 << std::endl;
+	std::cout << compare2 << std::endl;
+	std::cout << compare3 << std::endl;
+	if (compare1 > compare2)
+	{
+		camAngle -= 360;
+		rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * camAngle;
+	}
+	else
+		rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * camAngle;
 	
-	VertVelocity.y += -(weight * dt);
+	if (rotationval > 360) 
+	{
+		camera->SetYaw(camera->GetYaw() - 360);
+		camAngle -= 360;
+		rotationval -= 360;
+	}
+	else if (rotationval < -360)
+	{
+		camera->SetYaw(camera->GetYaw() + 360);
+		camAngle += 360;
+		rotationval += 360;
+	}
 
-	newpos = newpos + VertVelocity * dt;
-
-	SetTranslate(newpos);
-
-	camera->SetPosition(newpos);
-	camera->SetTarget(view + newpos);
-
+	std::cout << "TARGET: " << camAngle << std::endl;
+	std::cout << "-TARGET: " << camAngle - 360 << std::endl;
+	std::cout << "ROTATING: " << rotationval << std::endl;
+	system("CLS");
+	SetRotate(Vector3(0, rotationval, 0));
 }
 
 
@@ -120,7 +171,7 @@ void Character::IncrementCollectible()
 	collectibleCount += 1;
 }
 
-void Character::SetCamera(CameraVer2* camera)
-{
-	this->camera = camera;
-}
+//void Character::SetCamera(CameraVer2* camera)
+//{
+//	this->camera = camera;
+//}

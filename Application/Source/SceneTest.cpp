@@ -166,8 +166,10 @@ void SceneTest::Render()
 	renderer->LoadIdentity();
 
 	//Camera
-	renderer->SetCamera(camera);
-	renderer->SetLight(lights[0], camera);
+	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
+	//Light
+	renderer->SetLight(lights[0], camera.GetPosition());
+
 	Axis->Draw(renderer, false);
 
 	//Skybox
@@ -198,8 +200,7 @@ void SceneTest::Render()
 
 	}
 
-	//Light
-	renderer->SetLight(lights[0], camera);
+	
 	
 	//FPS
 	text[0]->Draw(renderer, false);

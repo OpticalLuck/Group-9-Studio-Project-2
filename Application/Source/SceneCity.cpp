@@ -20,8 +20,7 @@ void SceneCity::Init()
 	renderer = new Renderer(LIGHT_TOTAL);
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
-	camera.ToggleMode(CameraVer2::FREE_VIEW);
-
+	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 	texturelist = new TextureList();
 	meshlist = new MeshList(texturelist);
 
@@ -34,7 +33,7 @@ void SceneCity::Init()
 	MainChar->SetColliderBox();
 	MainChar->Init(Vector3(0, 3, -40));
 	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
-	MainChar->SetCamera(&camera);
+	//MainChar->SetCamera(&camera);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
@@ -47,35 +46,35 @@ void SceneCity::Init()
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	{
+		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
+		//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
+		Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
+		Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
+		Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 9, 9));
+		Environment[EN_HOUSE1]->SetTranslate(Vector3(15, 6, 0));
 
-	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
-	//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
-	Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
-	Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
-
-	Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
-	Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 9, 9));
-	Environment[EN_HOUSE1]->SetTranslate(Vector3(15, 6, 0));
-
-	Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
-	Environment[EN_HOUSE2]->SetTranslate(Vector3(15, 6, -20));
-	Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
+		Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
+		Environment[EN_HOUSE2]->SetTranslate(Vector3(15, 6, -20));
+		Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
 	
-	Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
-	Environment[EN_HOUSE3]->SetTranslate(Vector3(-18, 4, 2));
-	Environment[EN_HOUSE3]->SetRotate(Vector3(0, 95.5, 0));
+		Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
+		Environment[EN_HOUSE3]->SetTranslate(Vector3(-18, 4, 2));
+		Environment[EN_HOUSE3]->SetRotate(Vector3(0, 95.5, 0));
 	
-	Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE4));
-	Environment[EN_HOUSE4]->SetTranslate(Vector3(-38, 6, 5));
-	Environment[EN_HOUSE4]->SetRotate(Vector3(0, 180, 0));
+		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE4));
+		Environment[EN_HOUSE4]->SetTranslate(Vector3(-38, 6, 5));
+		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 180, 0));
 
-	Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
-	Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
-	Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
+		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
+		Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
+		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
 
-	Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
-	Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
+		Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
+		Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
+	}
 
 }
 
@@ -89,7 +88,13 @@ void SceneCity::InitGL()
 
 void SceneCity::Update(double dt)
 {
-	camera.Updatemovement(dt);
+	//have something else update teh cam. to have access to both cam and character
+	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
+		Ayaka->Update(&camera, dt);
+	else
+		camera.Updatemovement(dt);
+
+
 	{
 		if (Application::IsKeyPressed('1'))
 		{
@@ -108,65 +113,63 @@ void SceneCity::Update(double dt)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 	}
-	float SPEED = 5.f * dt;
-	Vector3 Direction = Vector3(0,0,0);
-	if (Application::IsKeyPressed('I'))
-		Direction += Vector3(0, 0, 1);
-	if (Application::IsKeyPressed('K'))
-		Direction += Vector3(0, 0, -1);
-	if (Application::IsKeyPressed('J'))
-		Direction += Vector3(1, 0, 0);
-	if (Application::IsKeyPressed('L'))
-		Direction += Vector3(-1, 0, 0);
-	if (Application::IsKeyPressed('O'))
-		Direction += Vector3(0, 1, 0);
-	if (Application::IsKeyPressed('P'))
-		Direction += Vector3(0, -1, 0);
 
-	if (Application::IsKeyPressed('T'))
+	// Cube Collision Test stuff
 	{
-		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
-	}
-	if (Application::IsKeyPressed('G'))
-	{
-		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
-	}
-	if (Application::IsKeyPressed('F'))
-	{
-		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
-	}
-	if (Application::IsKeyPressed('H'))
-	{
-		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
-	}
-	if (Application::IsKeyPressed('R'))
-	{
-		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
-	}
-	if (Application::IsKeyPressed('Y'))
-	{
-		Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
-	}
 
-	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+		float SPEED = 5.f * dt;
+		Vector3 Direction = Vector3(0,0,0);
+		if (Application::IsKeyPressed('I'))
+			Direction += Vector3(0, 0, 1);
+		if (Application::IsKeyPressed('K'))
+			Direction += Vector3(0, 0, -1);
+		if (Application::IsKeyPressed('J'))
+			Direction += Vector3(1, 0, 0);
+		if (Application::IsKeyPressed('L'))
+			Direction += Vector3(-1, 0, 0);
+		if (Application::IsKeyPressed('O'))
+			Direction += Vector3(0, 1, 0);
+		if (Application::IsKeyPressed('P'))
+			Direction += Vector3(0, -1, 0);
 
-	MainChar->Update(dt);
-	Collision::OBBResolution(MainChar, Environment[EN_HOUSE1]);
-	//Collision::OBBResolution(MainChar, Environment[EN_FLOOR]);
+		if (Application::IsKeyPressed('T'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
+		}
+		if (Application::IsKeyPressed('G'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
+		}
+		if (Application::IsKeyPressed('F'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
+		}
+		if (Application::IsKeyPressed('H'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
+		}
+		if (Application::IsKeyPressed('R'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
+		}
+		if (Application::IsKeyPressed('Y'))
+		{
+			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
+		}
 
-	Collision::OBBResolution(Cube[0], Cube[1]);
-	
-		
+		//Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+		//Collision::OBBResolution(Cube[0], Cube[1]);
+	}
 }
 
 void SceneCity::Render()
 {
 	renderer->Reset();
 	renderer->LoadIdentity();
-	renderer->SetCamera(camera);
+	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
 
 	for (int i = 0; i < 2; i++)
-		renderer->SetLight(lights[i], camera);
+		renderer->SetLight(lights[i], camera.GetPosition());
 	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);

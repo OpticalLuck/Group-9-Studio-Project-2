@@ -299,18 +299,18 @@ void Renderer::PopTransform()
 	modelStack.PopMatrix();
 }
 
-void Renderer::SetCamera(CameraVer2 camera)
+void Renderer::SetCamera(Vector3 position, Vector3 View, Vector3 Up)
 {
-	Vector3 Target = camera.GetView() + camera.GetPosition();
-	viewStack.LookAt(camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z, 
+	Vector3 Target = View + position;
+	viewStack.LookAt(position.x, position.y, position.z,
 					Target.x, Target.y, Target.z,
-					camera.GetUp().x, camera.GetUp().y, camera.GetUp().z);
+					Up.x, Up.y, Up.z);
 	Mtx44 projection;
 	projection.SetToPerspective(Application::FOV, 16.f / 9.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
 }
 
-void Renderer::SetLight(Light* light, CameraVer2 camera)
+void Renderer::SetLight(Light* light, Vector3 Camera_Offset)
 {
 	if (light->type == Light::LIGHT_DIRECTIONAL)
 	{
@@ -320,7 +320,7 @@ void Renderer::SetLight(Light* light, CameraVer2 camera)
 	}
 	else if (light->type == Light::LIGHT_SPOT)
 	{
-		Vector3 lightPosition_cameraspace = viewStack.Top() * (light->position - camera.GetPosition()) ;
+		Vector3 lightPosition_cameraspace = viewStack.Top() * (light->position - Camera_Offset) ;
 		glUniform3fv(light->parameters[Light::U_LIGHT_POSITION], 1, &lightPosition_cameraspace.x);
 		Vector3 spotDirection_cameraspace = viewStack.Top() * light->spotDirection;
 		glUniform3fv(light->parameters[Light::U_LIGHT_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);

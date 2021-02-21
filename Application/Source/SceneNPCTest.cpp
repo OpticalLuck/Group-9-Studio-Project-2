@@ -96,13 +96,13 @@ void SceneNPCTest::Update(double dt)
 	}
 	//MainCharacter->SetTranslate(camera.GetPosition());
 
-	MainCharacter->SetCamera(&camera);
-	MainCharacter->IsWithinRangeOf(npc);
-	npc->Update(dt);
-	MainCharacter->Update(dt);
+	//MainCharacter->SetCamera(&camera);
+	//MainCharacter->IsWithinRangeOf(npc);
+	//npc->Update(dt);
+	//MainCharacter->Update(dt);
 
 	//Collision::OBBResolution(npc, MainCharacter);
-	Collision::OBBResolution(MainCharacter, npc);
+	//Collision::OBBResolution(MainCharacter, npc);
 	
 }
 
@@ -111,7 +111,7 @@ void SceneNPCTest::Render()
 	renderer->Reset();
 	renderer->LoadIdentity();
 	//Camera
-	renderer->SetCamera(camera);
+	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
 
 	Axis->Draw(renderer, false);
 	//Quad->Draw(renderer, true);
@@ -121,7 +121,7 @@ void SceneNPCTest::Render()
 	npc->Draw(renderer, false);
 
 	//Light
-	renderer->SetLight(lights[0], camera);
+	renderer->SetLight(lights[0], camera.GetPosition());
 	
 }
 
