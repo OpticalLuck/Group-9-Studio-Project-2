@@ -2,7 +2,6 @@
 #include "Vector3.h"
 #include "Mtx44.h"
 #include "Mesh.h"
-#include "Renderer.h"
 
 struct Info
 {
@@ -23,7 +22,6 @@ public:
 	Collision(Vector3 position, Vector3 halfsize);
 	~Collision();
 
-	void DrawFrame(Renderer* renderer);
 	//Mutator
 	void setTranslate(Vector3 position);
 	void sethalfsize(Vector3 halfsize);
@@ -42,6 +40,7 @@ public:
 	static Vector3 getDiff(Vector3 axis, Collision* box1, Collision* box2);
 	static float getSeparatingPlane(const Vector3 RPos, const Vector3 Plane, const Collision* box1, const Collision* box2);
 
+	static bool isRender;
 private:
 	Vector3 position;
 	Vector3 halfsize;
