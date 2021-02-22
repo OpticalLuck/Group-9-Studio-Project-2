@@ -3,6 +3,8 @@
 #include "MeshBuilder.h"
 #include "GameObject.h"
 
+bool Collision::isRender = true;
+
 Collision::Collision():
     position(NULL),
     halfsize(NULL),
@@ -27,15 +29,6 @@ Collision::Collision(Vector3 position, Vector3 halfsize) :
 
 Collision::~Collision()
 {
-}
-
-void Collision::DrawFrame(Renderer* renderer)
-{
-    renderer->PushTransform();
-    renderer->AddTranslate(position.x, position.y, position.z);
-    renderer->AddRotate(Rotation.x, Rotation.y, Rotation.z);
-    renderer->RenderMesh(BoxFrame, false);
-    renderer->PopTransform();
 }
 
 void Collision::setTranslate(Vector3 position)
@@ -71,20 +64,27 @@ void Collision::setRotation(Vector3 rotation)
 
 void Collision::OBBResolution(GameObject* object, GameObject* target)
 {
-    Info CollisionInfo = Collision::CheckOBBCollision(object->GetColliderBox(), target->GetColliderBox());
-
-    if (CollisionInfo.Collided)
+    for (int i = 0; i < object->GetCollVecSize(); i++)
     {
-        Collision* objBox = object->GetColliderBox();
-        Collision* targetBox = target->GetColliderBox();
-        float distance = CollisionInfo.distance;
-        if ((objBox->GetPos() - targetBox->GetPos()).Dot(CollisionInfo.Axis) < 0)
+        for (int j = 0; j < target->GetCollVecSize(); j++)
         {
-            distance = distance * -1;
+            Info CollisionInfo = Collision::CheckOBBCollision(object->GetColliderBox(i), target->GetColliderBox(j));
+
+            if (CollisionInfo.Collided)
+            {
+                Collision* objBox = object->GetColliderBox(i);
+                Collision* targetBox = target->GetColliderBox(j);
+                float distance = CollisionInfo.distance;
+                if ((objBox->GetPos() - targetBox->GetPos()).Dot(CollisionInfo.Axis) < 0)
+                {
+                    distance = distance * -1;
+                }
+
+                object->SetTranslate(object->GetTranslate() + distance * CollisionInfo.Axis);
+            }
         }
-        
-        object->SetTranslate(object->GetTranslate() + distance * CollisionInfo.Axis);
     }
+    
 }
 
 Vector3 Collision::GetPos()

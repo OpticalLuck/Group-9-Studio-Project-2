@@ -46,6 +46,8 @@ void SceneCity::Init()
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
+
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 		//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
@@ -53,8 +55,9 @@ void SceneCity::Init()
 		Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
 		Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
-		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 9, 9));
 		Environment[EN_HOUSE1]->SetTranslate(Vector3(15, 6, 0));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(8, 8, 8), Vector3(0,2,0));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(4, 4, 4), Vector3(8.4f,-2,0));
 
 		Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
 		Environment[EN_HOUSE2]->SetTranslate(Vector3(15, 6, -20));
@@ -75,7 +78,6 @@ void SceneCity::Init()
 		Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
 		Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
 	}
-
 }
 
 void SceneCity::InitGL()
@@ -94,6 +96,8 @@ void SceneCity::Update(double dt)
 	else
 		camera.Updatemovement(dt);
 
+	Collision::OBBResolution(Ayaka, Cube[1]);
+	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE1]);
 
 	{
 		if (Application::IsKeyPressed('1'))
@@ -112,6 +116,16 @@ void SceneCity::Update(double dt)
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
+
+		if (Application::IsKeyPressed('9'))
+		{
+			Collision::isRender = true;
+		}
+		if (Application::IsKeyPressed('0'))
+		{
+			Collision::isRender = false;
+		}
+
 	}
 
 	// Cube Collision Test stuff
@@ -157,7 +171,7 @@ void SceneCity::Update(double dt)
 			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
 		}
 
-		//Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+		Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
 }
@@ -179,9 +193,8 @@ void SceneCity::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 		
-	Cube[0]->GetColliderBox()->DrawFrame(renderer);
+	Cube[0]->Draw(renderer, true);
 	Cube[1]->Draw(renderer, true);
-	Cube[1]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_FLOOR]->Draw(renderer, true);
 	//Environment[EN_FLOOR]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_HOUSE1]->Draw(renderer, true);
@@ -190,7 +203,6 @@ void SceneCity::Render()
 	Environment[EN_HOUSE4]->Draw(renderer, true);
 	Environment[EN_HOUSE5]->Draw(renderer, true);
 	Environment[EN_TOWER1]->Draw(renderer, true);
-
 
 	Ayaka->Draw(renderer, true);
 }

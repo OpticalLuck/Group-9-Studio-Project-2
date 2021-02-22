@@ -25,7 +25,7 @@ public:
 
     // Vector3 halfsize parameter
     // It's basically the radius
-    void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f));
+    void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f), Vector3 offsetpos = Vector3(0, 0, 0));
 
     //Transformation - Orders does not matter as it is handled in renderer
     void SetTranslate(Vector3 Translate);
@@ -53,7 +53,9 @@ public:
     //returns whether this object is within a certain range of another
     bool GetInRange(GameObject* obj, float distance);
     //returns colliderbox
-    Collision* GetColliderBox();
+    Collision* GetColliderBox(int idx);
+    Vector3 GetCollOffset();
+    int GetCollVecSize();
     //returns the render activeness of the gameobj
     bool getActive();
 
@@ -90,8 +92,8 @@ private:
     bool IsActive;
     float interactRadius;
        
-    Collision* ColliderBox;
-
+    std::vector<Collision*> ColliderBox;
+    Vector3 CollOffset;
     //which flag it is on
     int flag;
 

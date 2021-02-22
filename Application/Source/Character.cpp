@@ -126,8 +126,6 @@ void Character::Update(CameraVer2* camera, double dt)
 	{
 		//next time :D
 	}
-	
-	
 }
 
 

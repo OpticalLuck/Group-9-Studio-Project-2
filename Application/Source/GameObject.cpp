@@ -11,8 +11,7 @@ GameObject::GameObject() :
 	Parent(nullptr),
 	ID(0),
 	flag(FLAG0),
-	interactRadius(3),
-	ColliderBox(nullptr)
+	interactRadius(3)
 {
 }
 
@@ -25,8 +24,7 @@ GameObject::GameObject(unsigned int ID, Mesh* mesh) :
 	Rotation(Vector3(0, 0, 0)),
 	Parent(nullptr),
 	flag(FLAG0),
-	interactRadius(3),
-	ColliderBox(nullptr)
+	interactRadius(3)
 {
 	this->mesh = mesh;
 }
@@ -54,6 +52,20 @@ void GameObject::Draw(Renderer* renderer, bool EnableLight)
 		}
 	}
 	renderer->PopTransform();
+
+	if (Collision::isRender)
+	{
+		for (int i = 0; i < ColliderBox.size(); i++)
+		{
+
+			Collision* collbox = ColliderBox.at(i);
+			renderer->PushTransform();
+			renderer->AddTransformation(collbox->GetPos(), collbox->GetRotation(), Vector3(1, 1, 1));
+			renderer->RenderMesh(ColliderBox.at(i)->GetCollMesh(), false);
+			renderer->PopTransform();
+
+		}
+	}
 }
 
 
@@ -73,26 +85,28 @@ void GameObject::SetTexture(int idx, std::string TextureID)
 	mesh->textureArr[0] = LoadTGA(TextureID.c_str());
 }
 
-void GameObject::SetColliderBox(Vector3 halfsize)
+void GameObject::SetColliderBox(Vector3 halfsize, Vector3 offsetpos)
 {
-	ColliderBox = new Collision(Translation, halfsize);
+	CollOffset = offsetpos;
+	ColliderBox.push_back(new Collision(Translation + offsetpos, halfsize));
 }
 
 void GameObject::SetTranslate(Vector3 Translate)
 {
 	Translation = Translate;
-	if (ColliderBox)
+
+	//Update Hitbox Position
+	for (int i = 0; i < GetCollVecSize(); i++)
 	{
-		ColliderBox->setTranslate(Translate);
+		GetColliderBox(i)->setTranslate(GetTranslate() + GetCollOffset());
 	}
 }
-
 void GameObject::SetRotate(Vector3 Rotate)
 {
 	Rotation = Rotate;
-	if (ColliderBox)
+	for (int i = 0; i < ColliderBox.size(); i++)
 	{
-		ColliderBox->setRotation(Rotate);
+		ColliderBox.at(i)->setRotation(Rotate);
 	}
 }
 
@@ -148,9 +162,19 @@ bool GameObject::GetInRange(GameObject* obj, float distance)
 	return (abs((this->GetTranslate() - obj->GetTranslate()).Length()) < distance );
 }
 
-Collision* GameObject::GetColliderBox()
+Collision* GameObject::GetColliderBox(int idx)
 {
-	return ColliderBox;
+	return ColliderBox.at(idx);
+}
+
+Vector3 GameObject::GetCollOffset()
+{
+	return CollOffset;
+}
+
+int GameObject::GetCollVecSize()
+{
+	return ColliderBox.size();
 }
 
 bool GameObject::getActive()

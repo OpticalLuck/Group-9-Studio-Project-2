@@ -38,7 +38,6 @@ void CameraVer2::Update(double x_offset, double y_offset)
 	if (yaw < -360)
 		yaw += 360;
 
-	std::cout << yaw << std::endl;
 	// When controls
 	if (Controls)
 	{

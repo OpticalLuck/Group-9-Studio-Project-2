@@ -117,7 +117,6 @@ void SceneNPCTest::Render()
 	//Quad->Draw(renderer, true);
 
 	MainCharacter->Draw(renderer, false);
-	MainCharacter->GetColliderBox()->DrawFrame(renderer);
 	npc->Draw(renderer, false);
 
 	//Light
