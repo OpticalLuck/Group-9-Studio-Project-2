@@ -37,7 +37,7 @@ void NPC::Update(double dt)
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 			
-			RotateToPoint(destinations.front());
+			RotateToPoint(destinations.front()); //Error happened here btw 
 			MoveToPos(destinations.front());
 			if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
 				destinations.pop();
