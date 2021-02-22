@@ -29,6 +29,7 @@ void SceneNPCTest::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	Quad->SetScale(Vector3(20, 20, 20));
 
 	MainCharacter = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	MainCharacter->SetColliderBox();
@@ -114,7 +115,7 @@ void SceneNPCTest::Render()
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
 
 	Axis->Draw(renderer, false);
-	//Quad->Draw(renderer, true);
+	Quad->Draw(renderer, true);
 
 	MainCharacter->Draw(renderer, false);
 	npc->Draw(renderer, false);
