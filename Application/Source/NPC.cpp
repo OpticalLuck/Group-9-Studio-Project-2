@@ -51,7 +51,6 @@ void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3
 	SetScale(scale);
 	SetRadius(radius);
 	SetObjectToLookAt(lookedAtObj);
-
 }
 
 
@@ -68,6 +67,16 @@ void NPC::SetDefaultDir(Vector3 def)
 {
 	defaultdirection = def;
 	SetRotate(def);
+}
+
+void NPC::PushPathPoint(Vector3 position)
+{
+	destinations.push(position);
+}
+
+void NPC::PushPathPoint(float x, float y, float z)
+{
+	PushPathPoint(Vector3(x, y, z));
 }
 
 void NPC::BuildMeshes(MeshList* meshlist)
@@ -88,6 +97,25 @@ void NPC::BuildMeshes(MeshList* meshlist)
 	BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
 	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
 	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
+
+}
+
+void NPC::RotateToPoint(Vector3 point)
+{
+	Vector3 currentrot = GetRotate();
+	Vector3 npcview(0, 0, 1);
+	Mtx44 rotation;
+
+	//Set npcview to be in the correct view
+	rotation.SetToRotation(currentrot.z, 0, 0, 1);
+	npcview = rotation * npcview;
+	rotation.SetToRotation(currentrot.y, 0, 1, 0);
+	npcview = rotation * npcview;
+	rotation.SetToRotation(currentrot.x,1, 0, 0);
+	npcview = rotation * npcview;
+
+
+
 
 }
 
@@ -184,6 +212,15 @@ void NPC::MoveInDir(Vector3 rot)
 	part = part + direction * dt;
 
 	this->SetTranslate(part);
+}
+
+void NPC::MoveToPos(Vector3 pos)
+{
+	Vector3 currentpos = GetTranslate();
+	Vector3 view = (pos - currentpos).Normalized();
+
+	currentpos = currentpos + view * dt;
+	this->SetTranslate(currentpos);
 }
 
 // 0 = X, 1 = Y, 2 = Z

@@ -42,7 +42,7 @@ void SceneNPCTest::Init()
 }
 void SceneNPCTest::InitGL()
 {
-	lights[0]->Set(Light::LIGHT_SPOT,
+	lights[0]->Set(Light::LIGHT_POINT,
 				   Vector3(0, 8, 0),
 				   Color(1, 1, 1),
 				   1.f, 1.f, 0.01f, 0.001f,
