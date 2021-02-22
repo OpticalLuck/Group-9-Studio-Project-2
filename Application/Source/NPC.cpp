@@ -33,15 +33,16 @@ void NPC::Update(double dt)
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
 			//RotateTowardsCharacter(BodyArr[HEAD], 90.f);
-			std::cout << abs((GetTranslate() - destinations.front()).Length()) << "\n";
-		}
-		else if (getCurrentFlag() == FLAG4) {
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 			
 			RotateToPoint(destinations.front());
-			MoveInDir(defaultdirection);
+			MoveToPos(destinations.front());
+			if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
+				destinations.pop();
+			}
+
 		}
 	}
 }
