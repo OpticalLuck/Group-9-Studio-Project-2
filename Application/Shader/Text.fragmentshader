@@ -134,7 +134,7 @@ void main(){
 			
 			vec3 R = reflect(-L, N);
 			float cosAlpha = clamp( dot( E, R ), 0, 1 );
-			
+
 			if(diffuseMapEnabled)
 			{
 				color += 
@@ -142,7 +142,7 @@ void main(){
 				materialColor * vec4(material.kDiffuse, 1) *  texture2D(material.map_Kd, texCoord) * vec4(lights[i].color, 1) * lights[i].power * cosTheta * attenuationFactor * spotlightEffect +
 				
 				// Specular : reflective highlight, like a mirror
-				vec4(material.kSpecular, materialColor.a) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect;
+				vec4(material.kSpecular, materialColor.a) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect * texture2D(colorTexture[1], texCoord);
 			}
 			else
 			{
@@ -151,7 +151,7 @@ void main(){
 					materialColor * vec4(material.kDiffuse, 1) * vec4(lights[i].color, 1) * lights[i].power * cosTheta * attenuationFactor * spotlightEffect +
 				
 					// Specular : reflective highlight, like a mirror
-					vec4(material.kSpecular, materialColor.a) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect;
+					vec4(material.kSpecular, materialColor.a) * vec4(lights[i].color, 1) * lights[i].power * pow(cosAlpha, material.kShininess) * attenuationFactor * spotlightEffect * texture2D(colorTexture[1], texCoord) ;
 			}
 		}
 	}

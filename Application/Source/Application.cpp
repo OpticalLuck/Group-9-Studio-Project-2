@@ -188,9 +188,6 @@ void Application::Init()
 
 void Application::Run()
 {
-	
-	Shader::GetInstance()->shaderdata = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
-
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	Scene* scene1 = new SceneCity();
