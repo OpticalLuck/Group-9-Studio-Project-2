@@ -38,6 +38,9 @@ void SceneNPCTest::Init()
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc->SetColliderBox();
 	npc->Init(meshlist, MainCharacter, Vector3(0, 3, 0), Vector3(0, 90, 0));
+	npc->PushPathPoint(Vector3(4, 3, 0));
+	npc->PushPathPoint(Vector3(0, 3, -9));
+
 	//npc->SetTranslate(Vector3(0,0,1));
 
 }

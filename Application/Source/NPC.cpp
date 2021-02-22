@@ -8,10 +8,11 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	SetMesh(mesh);
 	
 
-	canMove = talking = 0;
+	canMove = movingToDest = talking = 0;
 	objectToLookAt = NULL;
 	SetRadius(10.f);
 	defaultdirection = GetRotate();
+	
 
 }
 
@@ -31,12 +32,15 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
-			RotateToPoint(objectToLookAt->GetTranslate());
-			
+			//RotateTowardsCharacter(BodyArr[HEAD], 90.f);
+			std::cout << abs((GetTranslate() - destinations.front()).Length()) << "\n";
+		}
+		else if (getCurrentFlag() == FLAG4) {
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
+			
+			RotateToPoint(destinations.front());
 			MoveInDir(defaultdirection);
 		}
 	}
@@ -112,7 +116,7 @@ void NPC::RotateToPoint(Vector3 point)
 	//rotationy.SetToRotation(-GetRotate().y, 0, 0.98, 0);
 	////rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 
-	Vector3 objectdiff = (point - GetTranslate());
+	Vector3 objectdiff = (point - GetTranslate()).Normalized();
 	////move object to be at tested position for calculations
 	////Vector3 rotate = GetRotate();
 	//Vector3 objectdiffx = rotationx * objectdiff;
@@ -127,6 +131,7 @@ void NPC::RotateToPoint(Vector3 point)
 
 	float yangle = AngleBetween(objectdiff, 1) + 90;
 
+	//std::cout << yangle << "\n";
 	Mtx44 rotationx;
 	////x angle bounds move with y angle
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
@@ -138,7 +143,7 @@ void NPC::RotateToPoint(Vector3 point)
 	//float xangle = AngleBetween(objectdiffx, 0);
 	RotateToVector(this, Vector3(0, yangle, 0));
 
-	//std::cout << yangle << "\n";
+
 }
 
 
@@ -211,7 +216,7 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 		partx -= rotSPEED * dt;
 	}
 
-
+	//std::cout << party << " ";
 	parttorotate->SetRotate(Vector3(partx, party, partz));
 }
 
@@ -270,7 +275,7 @@ float AngleBetween(Vector3 difference, int axis) {
 	float tangent = sine / cosine;
 	float angle = Math::RadianToDegree(std::atanf(tangent));
 
-	
+	//std::cout << tangent << "\n";
 	
 	if (cosine < 0 ) {
 		angle = 180 + angle;

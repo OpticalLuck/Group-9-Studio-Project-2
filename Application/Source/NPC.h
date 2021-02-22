@@ -53,7 +53,7 @@ private:
 	
 	double dt;
 
-	bool canMove, talking;
+	bool canMove, talking, movingToDest;
 	Vector3 defaultdirection;
 	//Bunch of words they will say
 	std::vector<std::string> speech;
