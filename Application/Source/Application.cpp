@@ -197,8 +197,8 @@ void Application::Run()
 	scene1->Init();
 	Scene* scene2 = new SceneTest();
 	scene2->Init();
-	Scene* scene3 = nullptr;
-	//scene3->Init();
+	Scene* scene3 = new SceneNPCTest();
+	scene3->Init();
 	Scene* scene4 = nullptr;
 	Scene* scene5 = nullptr;
 
@@ -256,8 +256,8 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();
 	delete scene1;
-	//delete scene2;
-	//delete scene3;
+	delete scene2;
+	delete scene3;
 	//delete scene4;
 	//delete scene5;
 }

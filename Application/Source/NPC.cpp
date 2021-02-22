@@ -32,7 +32,7 @@ void NPC::Update(double dt)
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
 			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
-
+			RotateToPoint(objectToLookAt->GetTranslate());
 			
 		}
 		else {
@@ -100,29 +100,48 @@ void NPC::BuildMeshes(MeshList* meshlist)
 
 }
 
-void NPC::RotateToPoint(Vector3 point)
-{
-	Vector3 currentrot = GetRotate();
-	Vector3 npcview(0, 0, 1);
-	Mtx44 rotation;
-
-	//Set npcview to be in the correct view
-	rotation.SetToRotation(currentrot.z, 0, 0, 1);
-	npcview = rotation * npcview;
-	rotation.SetToRotation(currentrot.y, 0, 1, 0);
-	npcview = rotation * npcview;
-	rotation.SetToRotation(currentrot.x,1, 0, 0);
-	npcview = rotation * npcview;
-
-
-
-
-}
-
 
 //identifier
 //x = 0, y = 1, z = 2
 float AngleBetween(Vector3 difference, int axis);
+
+void NPC::RotateToPoint(Vector3 point)
+{
+	//Mtx44 rotationx, rotationy, rotationz;
+	//rotationx.SetToRotation(-(GetRotate().x), 1, 0, 0);
+	//rotationy.SetToRotation(-GetRotate().y, 0, 0.98, 0);
+	////rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
+
+	Vector3 objectdiff = (point - GetTranslate());
+	////move object to be at tested position for calculations
+	////Vector3 rotate = GetRotate();
+	//Vector3 objectdiffx = rotationx * objectdiff;
+	//Vector3 objectdiffy = rotationy * objectdiff;
+	////Vector3 objectdiffz = rotationz * objectdiff;
+	////Move projected object with position
+
+
+
+	////calculations 
+
+
+	float yangle = AngleBetween(objectdiff, 1) + 90;
+
+	Mtx44 rotationx;
+	////x angle bounds move with y angle
+	rotationx.SetToRotation(-yangle, 0, 1, 0);
+	//objectdiffx = rotationx * objectdiffx;
+	//objectdiffx = rotationy * objectdiffx;
+
+	//
+
+	//float xangle = AngleBetween(objectdiffx, 0);
+	RotateToVector(this, Vector3(0, yangle, 0));
+
+	//std::cout << yangle << "\n";
+}
+
+
 
 
 
@@ -156,7 +175,7 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
 	objectdiffx = rotationx * objectdiffx;
 	objectdiffx = rotationy * objectdiffx;
-
+	std::cout << GetRotate().y << "\n";
 	//y angle boundaries
 	if ( (yangle < -maximumangle && yangle > -180)) {
 		yangle = -maximumangle;
@@ -176,7 +195,7 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 	party = parttorotate->GetRotate().y;
 	partz = parttorotate->GetRotate().z;
 	rotSPEED = 100.f;
-
+	
 
 	if (party < rotate.y - 1) {
 		party += rotSPEED * dt;

@@ -25,7 +25,7 @@ void SceneNPCTest::Init()
 	
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
-	camera.ToggleMode(CameraVer2::CHARACTER_CONTROLLED);
+	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -33,7 +33,7 @@ void SceneNPCTest::Init()
 
 	MainCharacter = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	MainCharacter->SetColliderBox();
-	MainCharacter->Init(Vector3(0, 3, 8));
+	MainCharacter->Init(Vector3(0, 3, 11));
 
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc->SetColliderBox();
@@ -98,9 +98,9 @@ void SceneNPCTest::Update(double dt)
 	//MainCharacter->SetTranslate(camera.GetPosition());
 
 	//MainCharacter->SetCamera(&camera);
-	//MainCharacter->IsWithinRangeOf(npc);
-	//npc->Update(dt);
-	//MainCharacter->Update(dt);
+	MainCharacter->IsWithinRangeOf(npc);
+	npc->Update(dt);
+	MainCharacter->Update(&camera, dt);
 
 	//Collision::OBBResolution(npc, MainCharacter);
 	//Collision::OBBResolution(MainCharacter, npc);
