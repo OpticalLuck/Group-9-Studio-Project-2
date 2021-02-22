@@ -30,11 +30,18 @@ void CameraVer2::Init(Vector3 position, const Vector3& view, const Vector3& up)
 
 void CameraVer2::Update(double x_offset, double y_offset)
 {
+	yaw -= x_offset * 0.05f;
 
+
+	if (yaw > 360)
+		yaw -= 360;
+	if (yaw < -360)
+		yaw += 360;
+
+	std::cout << yaw << std::endl;
 	// When controls
 	if (Controls)
 	{
-		yaw -= x_offset * 0.05f;
 		Mtx44 RotateYaw;
 		RotateYaw.SetToRotation(-x_offset * sensitivity, 0, 1, 0);
 		view = RotateYaw * view;
@@ -56,7 +63,6 @@ void CameraVer2::Update(double x_offset, double y_offset)
 			//reverses first person camera
 			position = target + distance * -view;
 		}
-
 	}
 }
 

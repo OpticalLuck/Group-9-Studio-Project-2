@@ -19,11 +19,10 @@ public:
 	bool IsWithinRangeOf(GameObject* item);
 	int getCollectibleCount();
 	void IncrementCollectible();
+
 private:
 	static int collectibleCount;
-	bool isGrounded;
-	float charspeed, weight, jumpVelocity;
-	float groundPos;
-	Vector3 VertVelocity;
+	bool isJump, isGrounded;
+	float VertVelocity;
 };
 

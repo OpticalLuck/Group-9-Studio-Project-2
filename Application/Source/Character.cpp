@@ -3,16 +3,12 @@
 #include <cmath>
 
 int Character::collectibleCount = 0;
-Character::Character(unsigned int ID, Mesh* mesh)
+Character::Character(unsigned int ID, Mesh* mesh):
+	VertVelocity(0)
 {
 	SetID(ID);
 	SetMesh(mesh);
 	//camera = NULL;
-	charspeed = 10.f;
-	isGrounded = false;
-	weight = 20.f;
-	jumpVelocity = 3.f;
-	groundPos = 0;
 }
 
 Character::~Character()
@@ -24,8 +20,18 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 	SetTranslate(position);
 	SetRotate(rotation);
 	SetScale(scale);
-	groundPos = position.y;
 	//collectibleCount = 0;
+
+	if (position.y < Math::EPSILON)
+	{
+		isJump = false;
+		isGrounded = true;
+	}
+	else
+	{
+		isJump = true;
+		isGrounded = false;
+	}
 }
 
 void Character::Update(CameraVer2* camera, double dt)
@@ -44,7 +50,7 @@ void Character::Update(CameraVer2* camera, double dt)
 	float ROTATIONSPEED = 8 * dt;
 	Vector3 AxisDir(0, 0, 0);// Direction vector along the axis for calculating rotation
 	bool KeyPressed = false;
-	float camAngle = GetRotate().y;
+	float CharAngle = GetRotate().y;
 
 	if (Application::IsKeyPressed('W')) 
 	{
@@ -70,80 +76,58 @@ void Character::Update(CameraVer2* camera, double dt)
 		AxisDir += Vector3(-1, 0, 0);
 		KeyPressed = true;
 	}
-	//Set translate as its own + new direction
-	//gravity
-	//if (newpos.y < groundPos) {
-	//	newpos.y = groundPos;
-	//	isGrounded = true;
-	//}
-	//else {
-	//	isGrounded = false;
-	//}
-	//if (isGrounded && VertVelocity.y < 0) {
-	//	VertVelocity.y = 0;
-	//}
-	//
-	//if (isGrounded && Application::IsKeyPressed(VK_SPACE)) {
-	//	VertVelocity.y = std::sqrt(jumpVelocity * -2 * -weight);
-	//}
-	//std::cout << VertVelocity.y << "\n";
-	//VertVelocity.y += -(weight * dt);
-	//
-	//newpos = newpos + VertVelocity * dt;
-	//
-	//SetTranslate(newpos);
-	//
-	//camera->SetPosition(newpos);
-	//camera->SetTarget(view + newpos);
-
+	
 	if (!Direction.IsZero())
 	{
 		Direction.Normalize();
 	}
-
 	SetTranslate(GetTranslate() + SPEED * Direction);
 	camera->SetTarget(GetTranslate() + Vector3(0,3.5f,0)); //Update Target Location for camera
 
 	if (KeyPressed)
 	{
-		float anglemod = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
-		camAngle = camera->GetYaw() + anglemod;
+		float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z)) + camera->GetYaw();
+		if (targetyaw < 0)
+			targetyaw += 360;
+
+		float smallestyaw = 999.f;
+		for (int i = -1; i <= 1; ++i)
+		{
+			float thisyaw = targetyaw + i * 360.f;
+			if (fabs(thisyaw - CharAngle) < fabs(smallestyaw - CharAngle))
+			{
+				smallestyaw = thisyaw;
+			}
+		}
+		CharAngle = smallestyaw;
 	}
 
 	//Rotation for character
-	float rotationval; // = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * camAngle;
-	float compare1 = fabs(GetRotate().y - camAngle);
-	float compare2 = fabs(GetRotate().y - (camAngle - 360));
-	float compare3 = fabs(GetRotate().y - (camAngle + 360));
-	std::cout << compare1 << std::endl;
-	std::cout << compare2 << std::endl;
-	std::cout << compare3 << std::endl;
-	if (compare1 > compare2)
+	float rotationval;
+	rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * CharAngle;
+	//Range reset for mouse rotation
+	if (GetRotate().y > 360)
 	{
-		camAngle -= 360;
-		rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * camAngle;
-	}
-	else
-		rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * camAngle;
-	
-	if (rotationval > 360) 
-	{
-		camera->SetYaw(camera->GetYaw() - 360);
-		camAngle -= 360;
 		rotationval -= 360;
 	}
-	else if (rotationval < -360)
+	else if (GetRotate().y < 0)
 	{
-		camera->SetYaw(camera->GetYaw() + 360);
-		camAngle += 360;
 		rotationval += 360;
 	}
 
-	std::cout << "TARGET: " << camAngle << std::endl;
-	std::cout << "-TARGET: " << camAngle - 360 << std::endl;
-	std::cout << "ROTATING: " << rotationval << std::endl;
-	system("CLS");
 	SetRotate(Vector3(0, rotationval, 0));
+
+	if (Application::IsKeyPressed(VK_SPACE) && isGrounded)
+	{
+		isJump = true;
+		isGrounded = false;
+	}
+	else if (Application::IsKeyPressed(VK_SPACE) && isJump)
+	{
+		//next time :D
+	}
+	
+	
 }
 
 
