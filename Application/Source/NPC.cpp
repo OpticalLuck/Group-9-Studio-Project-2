@@ -8,10 +8,11 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	SetMesh(mesh);
 	
 
-	canMove = talking = 0;
+	canMove = movingToDest = talking = 0;
 	objectToLookAt = NULL;
 	SetRadius(10.f);
 	defaultdirection = GetRotate();
+	
 
 }
 
@@ -31,13 +32,17 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
-
-			
+			//RotateTowardsCharacter(BodyArr[HEAD], 90.f);
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
-			MoveInDir(defaultdirection);
+			
+			RotateToPoint(destinations.front());
+			MoveToPos(destinations.front());
+			if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
+				destinations.pop();
+			}
+
 		}
 	}
 }
@@ -51,7 +56,6 @@ void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3
 	SetScale(scale);
 	SetRadius(radius);
 	SetObjectToLookAt(lookedAtObj);
-
 }
 
 
@@ -68,6 +72,16 @@ void NPC::SetDefaultDir(Vector3 def)
 {
 	defaultdirection = def;
 	SetRotate(def);
+}
+
+void NPC::PushPathPoint(Vector3 position)
+{
+	destinations.push(position);
+}
+
+void NPC::PushPathPoint(float x, float y, float z)
+{
+	PushPathPoint(Vector3(x, y, z));
 }
 
 void NPC::BuildMeshes(MeshList* meshlist)
@@ -95,6 +109,45 @@ void NPC::BuildMeshes(MeshList* meshlist)
 //identifier
 //x = 0, y = 1, z = 2
 float AngleBetween(Vector3 difference, int axis);
+
+void NPC::RotateToPoint(Vector3 point)
+{
+	//Mtx44 rotationx, rotationy, rotationz;
+	//rotationx.SetToRotation(-(GetRotate().x), 1, 0, 0);
+	//rotationy.SetToRotation(-GetRotate().y, 0, 0.98, 0);
+	////rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
+
+	Vector3 objectdiff = (point - GetTranslate()).Normalized();
+	////move object to be at tested position for calculations
+	////Vector3 rotate = GetRotate();
+	//Vector3 objectdiffx = rotationx * objectdiff;
+	//Vector3 objectdiffy = rotationy * objectdiff;
+	////Vector3 objectdiffz = rotationz * objectdiff;
+	////Move projected object with position
+
+
+
+	////calculations 
+
+
+	float yangle = AngleBetween(objectdiff, 1) + 90;
+
+	//std::cout << yangle << "\n";
+	Mtx44 rotationx;
+	////x angle bounds move with y angle
+	rotationx.SetToRotation(-yangle, 0, 1, 0);
+	//objectdiffx = rotationx * objectdiffx;
+	//objectdiffx = rotationy * objectdiffx;
+
+	//
+
+	//float xangle = AngleBetween(objectdiffx, 0);
+	RotateToVector(this, Vector3(0, yangle, 0));
+
+
+}
+
+
 
 
 
@@ -128,7 +181,7 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
 	objectdiffx = rotationx * objectdiffx;
 	objectdiffx = rotationy * objectdiffx;
-
+	std::cout << GetRotate().y << "\n";
 	//y angle boundaries
 	if ( (yangle < -maximumangle && yangle > -180)) {
 		yangle = -maximumangle;
@@ -148,7 +201,7 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 	party = parttorotate->GetRotate().y;
 	partz = parttorotate->GetRotate().z;
 	rotSPEED = 100.f;
-
+	
 
 	if (party < rotate.y - 1) {
 		party += rotSPEED * dt;
@@ -164,7 +217,7 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 		partx -= rotSPEED * dt;
 	}
 
-
+	//std::cout << party << " ";
 	parttorotate->SetRotate(Vector3(partx, party, partz));
 }
 
@@ -184,6 +237,15 @@ void NPC::MoveInDir(Vector3 rot)
 	part = part + direction * dt;
 
 	this->SetTranslate(part);
+}
+
+void NPC::MoveToPos(Vector3 pos)
+{
+	Vector3 currentpos = GetTranslate();
+	Vector3 view = (pos - currentpos).Normalized();
+
+	currentpos = currentpos + view * dt;
+	this->SetTranslate(currentpos);
 }
 
 // 0 = X, 1 = Y, 2 = Z
@@ -214,7 +276,7 @@ float AngleBetween(Vector3 difference, int axis) {
 	float tangent = sine / cosine;
 	float angle = Math::RadianToDegree(std::atanf(tangent));
 
-	
+	//std::cout << tangent << "\n";
 	
 	if (cosine < 0 ) {
 		angle = 180 + angle;
