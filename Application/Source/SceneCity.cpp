@@ -135,11 +135,8 @@ void SceneCity::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_HOUSE3]);
 	Ayaka->CollisionResolution(Environment[EN_HOUSE4]);
 
-	
 
-	//Info collisioninfo = Collision::CheckOBBCollision(Ayaka->GetColliderBox(0), Cube[1]->GetColliderBox(0));
 	
-
 	//Update Camera after updating collision
 	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
 		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
