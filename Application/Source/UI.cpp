@@ -11,7 +11,7 @@ UI::~UI()
 
 }
 
-void UI::Init(GameObject* player)
+void UI::Init(Character* player)
 {
 	this->Player = player;
 	staminaBar_width = 30;
@@ -43,13 +43,28 @@ void UI::Init(GameObject* player)
 
 void UI::Update()
 {
-	camera->SetSprintState(false);
+	if (camera->GetMode() == CameraVer2::FIRST_PERSON)
+	{
+		camera->SetSprintState(false);
+	}
+	else if (camera->GetMode() == CameraVer2::THIRD_PERSON)
+	{
+		Player->setSprintState(false);
+	}
+
 	if (Application::IsKeyPressed(VK_SHIFT) && (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D')))
 	{
 		//Using Stamina Bar
 		if (staminaBar_width >= 0)
 		{
-			camera->SetSprintState(true);
+			if (camera->GetMode() == CameraVer2::FIRST_PERSON)
+			{
+				camera->SetSprintState(true);
+			}
+			else if (camera->GetMode() == CameraVer2::THIRD_PERSON)
+			{
+				Player->setSprintState(true);
+			}
 			staminaBar_width -= 0.3;
 		}
 	}
@@ -109,7 +124,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
 	}
 
-	if (camera->GetSprintState() == false)		//Walking
+	if (camera->GetSprintState() == false || Player->getSprintState() == false)		//Walking
 	{
 		text[0]->Draw(renderer, enableLight);
 	}
@@ -127,11 +142,6 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 void UI::Exit()
 {
 
-}
-
-bool UI::getCamSprintState()
-{
-	return camera->GetSprintState();
 }
 
 GameObject* UI::getItem()
@@ -152,11 +162,6 @@ bool UI::getInteractable()
 void UI::setCamera(CameraVer2* camera)
 {
 	this->camera = camera;
-}
-
-void UI::setCamSprintState(bool isSprinting)
-{
-	camera->SetSprintState(isSprinting);
 }
 
 void UI::setItem(GameObject* item)
