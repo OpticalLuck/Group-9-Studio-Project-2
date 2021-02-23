@@ -104,11 +104,8 @@ void SceneLibrary::Update(double dt)
 	else
 		camera.Updatemovement(dt);
 
-	ui->setCamera(&camera);
-	ui->Update();
-
-	Collision::OBBResolution(Ayaka, Cube[0]);
-	Collision::OBBResolution(Ayaka, Cube[1]);
+	Ayaka->CollisionResolution(Cube[0]);
+	Ayaka->CollisionResolution(Cube[1]);
 	/*Collision::OBBResolution(Ayaka, Environment[EN_HOUSE1]);
 	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE2]);
 	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE3]);

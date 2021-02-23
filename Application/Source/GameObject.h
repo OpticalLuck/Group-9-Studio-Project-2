@@ -38,6 +38,8 @@ public:
     //adds child for model hierchy purposes
     void AddChild(GameObject* GO);
 
+    virtual void CollisionResolution(GameObject* target);
+
     //Gets the ID
     const unsigned int GetID();
     //Obtains the mesh

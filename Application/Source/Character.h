@@ -23,12 +23,15 @@ public:
 
 	void IncrementCollectible();
 
-	void CheckSetGrounded();
 
 
 private:
 	static int collectibleCount;
-	bool isJump, isGrounded, isSprintable;
-	float VertVelocity, speedModifier;
+	bool isJump, isGrounded;
+	float VertVelocity;
+
+	//private functions
+
+
 };
 

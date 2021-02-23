@@ -68,31 +68,6 @@ void Collision::setOffsetpos(Vector3 offset)
     this->offsetpos = offset;
 }
 
-void Collision::OBBResolution(GameObject* object, GameObject* target)
-{
-    for (int i = 0; i < object->GetCollVecSize(); i++)
-    {
-        for (int j = 0; j < target->GetCollVecSize(); j++)
-        {
-            Info CollisionInfo = Collision::CheckOBBCollision(object->GetColliderBox(i), target->GetColliderBox(j));
-
-            if (CollisionInfo.Collided)
-            {
-                Collision* objBox = object->GetColliderBox(i);
-                Collision* targetBox = target->GetColliderBox(j);
-                float distance = CollisionInfo.distance;
-                if ((objBox->GetPos() - targetBox->GetPos()).Dot(CollisionInfo.Axis) < 0)
-                {
-                    distance = distance * -1;
-                }
-
-                object->SetTranslate(object->GetTranslate() + distance * CollisionInfo.Axis);
-            }
-        }
-    }
-    
-}
-
 Vector3 Collision::GetPos()
 {
     return translate + offset;
@@ -118,23 +93,22 @@ Mesh* Collision::GetCollMesh()
     return BoxFrame;
 }
 
-Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
+Info Collision::CheckOBBCollision(Collision* target)
 {
-    Vector3 Axis = box1->Front;
+    Vector3 Axis = Front;
     bool isCollided = true;
-    float diff = getSeparatingPlane(box1->GetPos() - box2->GetPos(), Axis.Normalized(), box1, box2);
+    float diff = getSeparatingPlane(GetPos() - target->GetPos(), Axis.Normalized(), target);
     if (diff < 0)
     {
         isCollided = false;
     }
-
 
     float diff2;
     auto lambda = [&](Vector3 axis)
     {
         if (axis != Vector3(0, 0, 0))
         {
-            diff2 = getSeparatingPlane(box1->GetPos() - box2->GetPos(), axis.Normalized(), box1, box2 );
+            diff2 = getSeparatingPlane(GetPos() - target->GetPos(), axis.Normalized(), target );
             if (diff > diff2)
             {
                 Axis = axis.Normalized();
@@ -148,20 +122,20 @@ Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
     };
 
 
-    lambda(box1->Right);
-    lambda(box1->Up);
-    lambda(box2->Front);
-    lambda(box2->Right);
-    lambda(box2->Up);
-    lambda(box1->Front.Cross(box2->Front));
-    lambda(box1->Front.Cross(box2->Right));
-    lambda(box1->Front.Cross(box2->Up));
-    lambda(box1->Right.Cross(box2->Front));
-    lambda(box1->Right.Cross(box2->Right));
-    lambda(box1->Right.Cross(box2->Up));
-    lambda(box1->Up.Cross(box2->Front));
-    lambda(box1->Up.Cross(box2->Right));
-    lambda(box1->Up.Cross(box2->Up));
+    lambda(Right);
+    lambda(Up);
+    lambda(target->Front);
+    lambda(target->Right);
+    lambda(target->Up);
+    lambda(Front.Cross(target->Front));
+    lambda(Front.Cross(target->Right));
+    lambda(Front.Cross(target->Up));
+    lambda(Right.Cross(target->Front));
+    lambda(Right.Cross(target->Right));
+    lambda(Right.Cross(target->Up));
+    lambda(Up.Cross(target->Front));
+    lambda(Up.Cross(target->Right));
+    lambda(Up.Cross(target->Up));
 
     return Info(Axis, diff, isCollided);
 }
@@ -186,17 +160,12 @@ Vector3 Collision::GetOffsetpos()
     return offsetpos;
 }
 
-Vector3 Collision::getDiff(Vector3 axis, Collision* box1, Collision* box2)
+float Collision::getSeparatingPlane(const Vector3 RPos, const Vector3 Plane, const Collision* target)
 {
-    return Vector3();
-}
-
-float Collision::getSeparatingPlane(const Vector3 RPos, const Vector3 Plane, const Collision* box1, const Collision* box2)
-{
-    return (fabs((box1->Front * box1->halfsize.x).Dot(Plane)) +
-            fabs((box1->Up * box1->halfsize.y).Dot(Plane)) +
-            fabs((box1->Right * box1->halfsize.z).Dot(Plane)) +
-            fabs((box2->Front * box2->halfsize.x).Dot(Plane)) +
-            fabs((box2->Up * box2->halfsize.y).Dot(Plane)) +
-            fabs((box2->Right * box2->halfsize.z).Dot(Plane))) - (fabs(RPos.Dot(Plane)));
+    return (fabs((Front * halfsize.x).Dot(Plane)) +
+            fabs((Up * halfsize.y).Dot(Plane)) +
+            fabs((Right * halfsize.z).Dot(Plane)) +
+            fabs((target->Front * target->halfsize.x).Dot(Plane)) +
+            fabs((target->Up * target->halfsize.y).Dot(Plane)) +
+            fabs((target->Right * target->halfsize.z).Dot(Plane))) - (fabs(RPos.Dot(Plane)));
 }

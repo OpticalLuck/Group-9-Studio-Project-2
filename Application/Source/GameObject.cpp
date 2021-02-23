@@ -120,6 +120,31 @@ void GameObject::AddChild(GameObject* GO)
 	Child.push_back(GO);
 }
 
+void GameObject::CollisionResolution(GameObject* target)
+{
+	for (int i = 0; i < GetCollVecSize(); i++)
+	{
+		for (int j = 0; j < target->GetCollVecSize(); j++)
+		{
+			Info CollisionInfo = ColliderBox.at(i)->CheckOBBCollision(target->GetColliderBox(j));
+
+			if (CollisionInfo.Collided)
+			{
+				Collision* objBox = ColliderBox.at(i);
+				Collision* targetBox = target->GetColliderBox(j);
+				float distance = CollisionInfo.distance;
+				if ((objBox->GetPos() - targetBox->GetPos()).Dot(CollisionInfo.Axis) < 0)
+				{
+					distance = distance * -1;
+				}
+
+				Translation += distance * CollisionInfo.Axis;
+				objBox->setTranslate(Translation);
+			}
+		}
+	}
+}
+
 void GameObject::SetActive(bool IsActive)
 {
 	this->IsActive = IsActive;
