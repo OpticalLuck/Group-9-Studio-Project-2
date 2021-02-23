@@ -128,6 +128,7 @@ void SceneCity::Update(double dt)
 	else
 		camera.Updatemovement(dt);
 
+	//Collision
 	Ayaka->CollisionResolution(Cube[0]);
 	Ayaka->CollisionResolution(Cube[1]);
 	Ayaka->CollisionResolution(Environment[EN_HOUSE1]);
