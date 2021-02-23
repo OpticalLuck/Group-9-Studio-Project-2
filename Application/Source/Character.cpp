@@ -9,7 +9,6 @@ Character::Character(unsigned int ID, Mesh* mesh):
 	SetID(ID);
 	SetMesh(mesh);
 	//camera = NULL;
-	feetCollide = false;
 }
 
 Character::~Character()
@@ -213,8 +212,10 @@ void Character::CollisionResolution(GameObject* target)
 			Info CollisionInfo = GetColliderBox(i)->CheckOBBCollision(target->GetColliderBox(j));
 
 			if (target->GetColliderBox(j) == objectStoodOn && i == 0) {
-				std::cout << CollisionInfo.Collided << " " << objectStoodOn << "\n";
-				StillOnItem(CollisionInfo.Collided);
+				isGrounded = CollisionInfo.Collided;
+				if (!isGrounded) {
+					objectStoodOn = NULL;
+				}
 			}
 			if (CollisionInfo.Collided)
 			{
@@ -243,13 +244,7 @@ void Character::CollisionResolution(GameObject* target)
 
 }
 
-void Character::StillOnItem(bool yeahnah)
-{
-	isGrounded = yeahnah;
-	if (!yeahnah) {
-		objectStoodOn = NULL;
-	}
-}
+
 
 
 

@@ -27,13 +27,12 @@ public:
 
 private:
 	static int collectibleCount;
-	bool isJump, isGrounded, isSprintable, isGliding, feetCollide;
+	bool isJump, isGrounded, isSprintable, isGliding;
 	float VertVelocity, speedModifier;
 
 	Collision* objectStoodOn;
 
 	//private functions
-	void StillOnItem(bool yeahnah);
 
 };
 
