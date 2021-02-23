@@ -20,10 +20,10 @@ public:
 	bool getQuestStatus() { return questStatus; }
 	void setQuestStatus(bool status) { questStatus = status; }
 
+	bool isInit;
+
 private:
 	bool questStatus;
-
-	bool isInit;
 };
 
 #endif
