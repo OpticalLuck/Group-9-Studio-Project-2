@@ -2,6 +2,7 @@
 #include "SceneCity.h"
 #include "SceneNPCTest.h"
 #include "SceneTest.h"
+#include "SceneLibrary.h"
 #include "Application.h"
 
 SceneManager::SCENE_TYPE SceneManager::CurrentScene;
@@ -11,6 +12,8 @@ Scene* SceneManager::SceneArr[SCENE_TOTAL];
 SceneManager::SceneManager()
 {
 	SceneArr[SCENE_CITY] = new SceneCity();
+
+	SceneArr[SCENE_LIBRARY] = new SceneLibrary();
 
 	SceneArr[SCENE_NPCTEST] = new SceneNPCTest();
 

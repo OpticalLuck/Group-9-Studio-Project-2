@@ -186,7 +186,7 @@ void Application::Run()
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	SceneManager* sceneManager = new SceneManager();
-	sceneManager->Init(SceneManager::SCENE_CITY);
+	sceneManager->Init(SceneManager::SCENE_LIBRARY); 
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
@@ -208,6 +208,10 @@ void Application::Run()
 		if (IsKeyPressed(VK_F3))
 		{
 			sceneManager->ChangeScene(SceneManager::SCENE_TEST);
+		}
+		if (IsKeyPressed(VK_F4))
+		{
+			sceneManager->ChangeScene(SceneManager::SCENE_LIBRARY);
 		}
 
 		//Swap buffers

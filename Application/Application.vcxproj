@@ -162,6 +162,7 @@
     <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\SceneCity.cpp" />
+    <ClCompile Include="Source\SceneLibrary.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneNPCTest.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneCity.h" />
+    <ClInclude Include="Source\SceneLibrary.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneNPCTest.h" />
     <ClInclude Include="Source\SceneTest.h" />
