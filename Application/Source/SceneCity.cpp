@@ -21,7 +21,7 @@ void SceneCity::Init()
 {
 	isInit = true; 
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
-	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
+	camera.Init(Vector3(50, 3, 100), Vector3(0, 0, 1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
@@ -48,7 +48,7 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(camera.GetPosition(), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox( Vector3(0.3, 0.5, 0.3), Vector3(0,0.5,0) ); //foot box (always first)
 	//Ayaka->SetColliderBox( Vector3(0.35, 0.49, 0.35), Vector3(0,0.5,0) ); 
@@ -85,17 +85,12 @@ void SceneCity::Init()
 		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-55, 8.6, 18));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
-
-		/*Environment[EN_HOUSE4]->SetTranslate(Vector3(-25, 8.6f, -35));
-		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
-		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0.2f));*/
 		
-		//Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
-		//Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
-		//Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
-
-		//Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
-		//Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
+		Environment[EN_FENCE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FENCE));
+		Environment[EN_FIELD] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FIELD));
+		Environment[EN_FENCE]->SetTranslate(Vector3(65, 7.5f, 100));
+		Environment[EN_FENCE]->SetRotate(Vector3(0, 90, 0));
+		Environment[EN_FENCE]->AddChild(Environment[EN_FIELD]);
 	}
 
 	//Text
@@ -215,6 +210,7 @@ void SceneCity::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 		
+	Ayaka->Draw(renderer, true);
 	Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);
 	Environment[EN_FLOOR]->Draw(renderer, true);
@@ -223,12 +219,8 @@ void SceneCity::Render()
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_HOUSE4]->Draw(renderer, true);
 	Environment[EN_HOUSE5]->Draw(renderer, true);
+	Environment[EN_FENCE]->Draw(renderer, true);
 
-	//Environment[EN_HOUSE5]->Draw(renderer, true);
-
-	//Environment[EN_TOWER1]->Draw(renderer, true);
-
-	Ayaka->Draw(renderer, true);
 
 	for (int i = 0; i < TEXT_TOTAL; i++)
 	{

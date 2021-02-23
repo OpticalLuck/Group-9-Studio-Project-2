@@ -35,7 +35,11 @@ MeshList::MeshList()
 
 	//meshlist[MESH_TOWER] = MeshBuilder::GenerateOBJMTL("Tower_1", "OBJ//Tower.obj", "OBJ//Tower.mtl"); 
 	//meshlist[MESH_TOWER]->textureArr[0] = texturelist->Insert("Tower.tga");
+	meshlist[MESH_FIELD] = MeshBuilder::GenerateOBJMTL("Field", "OBJ//Field.obj", "OBJ//Field.mtl");
+	meshlist[MESH_FIELD]->textureArr[0] = texturelist->Insert("Stadium.tga");
 
+	meshlist[MESH_FENCE] = MeshBuilder::GenerateOBJMTL("Fence", "OBJ//Fence.obj", "OBJ//Fence.mtl");
+	meshlist[MESH_FENCE]->textureArr[0] = texturelist->Insert("Stadium.tga");
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 

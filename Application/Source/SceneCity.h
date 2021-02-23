@@ -23,6 +23,8 @@ public:
 		EN_HOUSE4,
 		EN_HOUSE5,
 		EN_TOWER1,
+		EN_FIELD,
+		EN_FENCE,
 		EN_TOTAL
 	};
 
