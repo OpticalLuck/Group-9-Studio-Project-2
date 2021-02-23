@@ -27,8 +27,8 @@ public:
 
 private:
 	static int collectibleCount;
-	bool isJump, isGrounded;
-	float VertVelocity;
+	bool isJump, isGrounded, isSprintable;
+	float VertVelocity, speedModifier;
 
 	//private functions
 
