@@ -41,7 +41,7 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox();
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(Vector3(0, 50, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 
@@ -55,7 +55,7 @@ void SceneCity::Init()
 		//Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 8.6f, 10));
 		Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 0.f, 10));
 		Environment[EN_HOUSE1]->SetRotate(Vector3(0, -90, 0));
-		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 2, 12), Vector3(3.4f, 1.6f, 0));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 1, 12), Vector3(3.4f, 1.6f, 0));
 
 		Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
 		Environment[EN_HOUSE2]->SetTranslate(Vector3(25, 8.6f, -30));
