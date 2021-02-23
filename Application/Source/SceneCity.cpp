@@ -21,7 +21,7 @@ void SceneCity::Init()
 {
 	isInit = true; 
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
-	camera.Init(Vector3(65, 3, 55), Vector3(0, 0, 1));
+	camera.Init(Vector3(0, 5, -90), Vector3(0, 0, 1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
@@ -92,6 +92,23 @@ void SceneCity::Init()
 
 		Waypoints[WP_STADIUM] = new WayPoint("Stadium", Vector3(66.4f, 1, 65));
 		Waypoints[WP_STADIUM]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+
+		Environment[EN_GATE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GATE));
+		Environment[EN_GATE]->SetTranslate(Vector3(0, 0, -48));
+		Environment[EN_GATE]->SetRotate(Vector3(0, 90, 0));
+		Environment[EN_GATE]->SetScale(Vector3(8, 8, 8));
+
+		Environment[EN_SCHOOL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_SCHOOL));
+		Environment[EN_SCHOOL]->SetTranslate(Vector3(-55, 0, -80));
+		
+		Environment[EN_LIBRARY] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LIBRARY));
+		Environment[EN_LIBRARY]->SetTranslate(Vector3(55, 0, -80));
+		Environment[EN_LIBRARY]->SetRotate(Vector3(0, 90, 0));
+		
+		Environment[EN_PAGODA] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PAGODA));
+		Environment[EN_PAGODA]->SetTranslate(Vector3(-100, -0.4f, 65));
+		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
+
 	}
 
 	//Text
@@ -109,7 +126,7 @@ void SceneCity::Init()
 void SceneCity::InitGL()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
-	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 50, 80), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -50, -80));
+	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 80, -150), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -80, 150));
 	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 	lights[1]->Set(Light::LIGHT_POINT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 }
@@ -193,6 +210,25 @@ void SceneCity::Update(double dt)
 		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
 		textarr[TEXT_POSITION]->SetText(Pos.str());
 	}
+
+
+	Vector3 Direction = Vector3(0, 0, 0);
+	if (Application::IsKeyPressed('I'))
+		Direction += Vector3(0, 0, 1);
+	if (Application::IsKeyPressed('K'))
+		Direction += Vector3(0, 0, -1);
+	if (Application::IsKeyPressed('J'))
+		Direction += Vector3(1, 0, 0);
+	if (Application::IsKeyPressed('L'))
+		Direction += Vector3(-1, 0, 0);
+	if (Application::IsKeyPressed('O'))
+		Direction += Vector3(0, 1, 0);
+	if (Application::IsKeyPressed('P'))
+		Direction += Vector3(0, -1, 0);
+
+	float SPEED = 5 * dt;
+	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+	lights[1]->position = Cube[0]->GetTranslate();
 }
 
 void SceneCity::Render()
@@ -215,13 +251,12 @@ void SceneCity::Render()
 	Ayaka->Draw(renderer, true);
 	Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);
-	Environment[EN_FLOOR]->Draw(renderer, true);
-	Environment[EN_HOUSE1]->Draw(renderer, true);
-	Environment[EN_HOUSE2]->Draw(renderer, true);
-	Environment[EN_HOUSE3]->Draw(renderer, true);
-	Environment[EN_HOUSE4]->Draw(renderer, true);
-	Environment[EN_HOUSE5]->Draw(renderer, true);
-	Environment[EN_STADIUM]->Draw(renderer, true);
+
+	for (int i = 0; i < EN_TOTAL; i++)
+	{
+		if(Environment[i])
+			Environment[i]->Draw(renderer, true);
+	}
 
 	Waypoints[WP_STADIUM]->Draw(renderer, false);
 

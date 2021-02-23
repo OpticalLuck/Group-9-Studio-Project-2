@@ -14,24 +14,37 @@ MeshList::MeshList()
 	
 	//0 is diffuse
 	//1 is specular
+	//2 is roughness tbc
 
 	meshlist[MESH_FLOOR] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));
 	meshlist[MESH_FLOOR]->textureArr[0] = texturelist->Insert("Floor.tga");
 
-	meshlist[MESH_HOUSE1] = MeshBuilder::GenerateOBJMTL("House_1", "OBJ//JP_HOUSE_1.obj", "OBJ//JP_HOUSE_1.mtl");
-	meshlist[MESH_HOUSE1]->textureArr[0] = texturelist->Insert("JP_HOUSE_1_DIFFUSE.tga");
-	meshlist[MESH_HOUSE1]->textureArr[1] = texturelist->Insert("JP_HOUSE_1_SPECULAR.tga");
+	meshlist[MESH_HOUSE1] = MeshBuilder::GenerateOBJMTL("House_1", "OBJ//House/JP_HOUSE_1.obj", "OBJ///House/JP_HOUSE_1.mtl");
+	meshlist[MESH_HOUSE1]->textureArr[0] = texturelist->Insert("House/JP_HOUSE_1_DIFFUSE.tga");
+	meshlist[MESH_HOUSE1]->textureArr[1] = texturelist->Insert("House/JP_HOUSE_1_SPECULAR.tga");
 
-	meshlist[MESH_HOUSE2] = MeshBuilder::GenerateOBJMTL("House_2", "OBJ//JP_HOUSE_2.obj", "OBJ//JP_HOUSE_2.mtl");
-	meshlist[MESH_HOUSE2]->textureArr[0] = texturelist->Insert("JP_HOUSE_2_DIFFUSE.tga");
-	meshlist[MESH_HOUSE2]->textureArr[1] = texturelist->Insert("JP_HOUSE_2_SPECULAR.tga");
+	meshlist[MESH_HOUSE2] = MeshBuilder::GenerateOBJMTL("House_2", "OBJ//House/JP_HOUSE_2.obj", "OBJ///House/JP_HOUSE_2.mtl");
+	meshlist[MESH_HOUSE2]->textureArr[0] = texturelist->Insert("House/JP_HOUSE_2_DIFFUSE.tga");
+	meshlist[MESH_HOUSE2]->textureArr[1] = texturelist->Insert("House/JP_HOUSE_2_SPECULAR.tga");
 
-	meshlist[MESH_HOUSE3] = MeshBuilder::GenerateOBJMTL("House_3", "OBJ//JP_HOUSE_3.obj", "OBJ//JP_HOUSE_3.mtl");
-	meshlist[MESH_HOUSE3]->textureArr[0] = texturelist->Insert("JP_HOUSE_3_DIFFUSE.tga");
-	meshlist[MESH_HOUSE3]->textureArr[1] = texturelist->Insert("JP_HOUSE_3_SPECULAR.tga");
+	meshlist[MESH_HOUSE3] = MeshBuilder::GenerateOBJMTL("House_3", "OBJ///House/JP_HOUSE_3.obj", "OBJ///House/JP_HOUSE_3.mtl");
+	meshlist[MESH_HOUSE3]->textureArr[0] = texturelist->Insert("House/JP_HOUSE_3_DIFFUSE.tga");
+	meshlist[MESH_HOUSE3]->textureArr[1] = texturelist->Insert("House/JP_HOUSE_3_SPECULAR.tga");
 
-	meshlist[MESH_STADIUM] = MeshBuilder::GenerateOBJMTL("Field", "OBJ//Stadium.obj", "OBJ//Stadium.mtl");
-	meshlist[MESH_STADIUM]->textureArr[0] = texturelist->Insert("Stadium.tga");
+	meshlist[MESH_STADIUM] = MeshBuilder::GenerateOBJMTL("Field", "OBJ//Stadium/Stadium.obj", "OBJ//Stadium/Stadium.mtl");
+	meshlist[MESH_STADIUM]->textureArr[0] = texturelist->Insert("Stadium/Stadium.tga");
+
+	meshlist[MESH_GATE] = MeshBuilder::GenerateOBJMTL("Torii", "OBJ//Gate/Gate.obj", "OBJ//Gate/Gate.mtl");
+	meshlist[MESH_GATE]->textureArr[0] = texturelist->Insert("Gate/Gate_Diffuse.tga");
+
+	meshlist[MESH_SCHOOL] = MeshBuilder::GenerateOBJMTL("School", "OBJ//School/School.obj", "OBJ//School/School.mtl");
+	meshlist[MESH_SCHOOL]->textureArr[0] = texturelist->Insert("School/School.tga");
+
+	meshlist[MESH_LIBRARY] = MeshBuilder::GenerateOBJMTL("Library", "OBJ//Library/Library.obj", "OBJ//Library/Library.mtl");
+	meshlist[MESH_LIBRARY]->textureArr[0] = texturelist->Insert("Library/Library_Diffuse.tga");
+
+	meshlist[MESH_PAGODA] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Pagoda/Pagoda.obj", "OBJ//Pagoda/Pagoda.mtl");
+	meshlist[MESH_PAGODA]->textureArr[0] = texturelist->Insert("Pagoda/Pagoda.tga");
 
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
