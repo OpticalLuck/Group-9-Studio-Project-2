@@ -18,14 +18,20 @@ public:
 
 	bool IsWithinRangeOf(GameObject* item);
 	int getCollectibleCount();
+	bool getSprintState();
+	void setSprintState(bool sprintable);
+
 	void IncrementCollectible();
 
-	void CheckSetGrounded();
 
 
 private:
 	static int collectibleCount;
 	bool isJump, isGrounded;
 	float VertVelocity;
+
+	//private functions
+
+
 };
 

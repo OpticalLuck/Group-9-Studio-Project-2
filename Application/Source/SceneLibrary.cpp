@@ -45,6 +45,10 @@ void SceneLibrary::Init()
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 
+	ui = new UI();
+	ui->Init(Ayaka);
+	ui->setMeshList(meshlist);
+
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
@@ -219,6 +223,8 @@ void SceneLibrary::Render()
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
+
+	ui->Draw(renderer, true);
 }
 
 void SceneLibrary::Exit()

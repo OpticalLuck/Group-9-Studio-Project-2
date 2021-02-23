@@ -9,6 +9,7 @@
 #include "GOManager.h"
 #include "Skybox.h"
 #include "TextureList.h"
+#include "UI.h"
 
 class SceneLibrary : public Scene
 {
@@ -49,7 +50,7 @@ private:
 	TextureList* texturelist;
 	MeshList* meshlist;
 	CameraVer2 camera;
-
+	UI* ui;
 	GOManager goManager;
 	GameObject* Axis;
 	Character* MainChar;
