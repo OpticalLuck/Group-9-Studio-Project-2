@@ -54,7 +54,6 @@ public:
     bool GetInRange(GameObject* obj, float distance);
     //returns colliderbox
     Collision* GetColliderBox(int idx);
-    Vector3 GetCollOffset();
     int GetCollVecSize();
     //returns the render activeness of the gameobj
     bool getActive();
@@ -95,7 +94,7 @@ private:
     float interactRadius;
        
     std::vector<Collision*> ColliderBox;
-    Vector3 CollOffset;
+
     //which flag it is on
     int flag;
 

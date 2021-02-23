@@ -22,8 +22,7 @@ void SceneTest::Init()
 	mapOpen = false;
 
 	//Init Meshlist and texture 
-	texturelist = new TextureList();
-	meshlist = new MeshList(texturelist);
+	MeshList* meshlist = MeshList::GetInstance();
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 

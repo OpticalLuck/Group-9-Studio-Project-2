@@ -2,7 +2,8 @@
 #include "Mesh.h"
 #include "TextureList.h"
 
-class MeshList
+
+class MeshList : public Singleton<MeshList>
 {
 public:
 	enum MESH_TYPE
@@ -41,7 +42,7 @@ public:
 		TOTAL_MESH
 	};
 
-	MeshList(TextureList* texturelist);
+	MeshList();
 	~MeshList();
 
 	Mesh* GetMesh(MESH_TYPE meshtype);

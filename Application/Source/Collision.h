@@ -19,7 +19,7 @@ class Collision
 public:
 
 	Collision();
-	Collision(Vector3 position, Vector3 halfsize);
+	Collision(Vector3 position, Vector3 offset, Vector3 halfsize);
 	~Collision();
 
 	//Mutator
@@ -29,6 +29,7 @@ public:
 	static void OBBResolution(GameObject* object, GameObject* target);
 	//Getter
 	Vector3 GetPos();
+	Vector3 GetTranslate();
 	Vector3 Gethalfsize();
 	Vector3 GetRotation();
 	Mesh* GetCollMesh();
@@ -42,7 +43,8 @@ public:
 
 	static bool isRender;
 private:
-	Vector3 position;
+	Vector3 translate;
+	Vector3 offset;
 	Vector3 halfsize;
 	Vector3 DefaultHalfSize;
 

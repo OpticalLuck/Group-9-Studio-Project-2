@@ -6,7 +6,7 @@
 bool Collision::isRender = true;
 
 Collision::Collision():
-    position(NULL),
+    translate(NULL),
     halfsize(NULL),
     BoxFrame(nullptr),
     Front(Vector3(1,0,0)),
@@ -15,10 +15,11 @@ Collision::Collision():
 {
 }
 
-Collision::Collision(Vector3 position, Vector3 halfsize) :
-    position(position),
+Collision::Collision(Vector3 translate, Vector3 offset, Vector3 halfsize) :
+    translate(translate),
     halfsize(halfsize),
     DefaultHalfSize(halfsize),
+    offset(offset),
     Front(Vector3(1, 0, 0)),
     Up(Vector3(0, 1, 0)),
     Right(Vector3(0, 0, 1))
@@ -31,9 +32,9 @@ Collision::~Collision()
 {
 }
 
-void Collision::setTranslate(Vector3 position)
+void Collision::setTranslate(Vector3 translate)
 {
-    this->position = position;
+    this->translate = translate;
 }
 
 void Collision::sethalfsize(Vector3 halfsize)
@@ -89,7 +90,12 @@ void Collision::OBBResolution(GameObject* object, GameObject* target)
 
 Vector3 Collision::GetPos()
 {
-    return position;
+    return translate + offset;
+}
+
+Vector3 Collision::GetTranslate()
+{
+    return translate;
 }
 
 Vector3 Collision::Gethalfsize()
@@ -111,7 +117,7 @@ Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
 {
     Vector3 Axis = box1->Front;
     bool isCollided = true;
-    float diff = getSeparatingPlane(box1->position - box2->position, Axis.Normalized(), box1, box2);
+    float diff = getSeparatingPlane(box1->GetPos() - box2->GetPos(), Axis.Normalized(), box1, box2);
     if (diff < 0)
     {
         isCollided = false;
@@ -123,7 +129,7 @@ Info Collision::CheckOBBCollision(Collision* box1, Collision* box2)
     {
         if (axis != Vector3(0, 0, 0))
         {
-            diff2 = getSeparatingPlane(box1->position - box2->position, axis.Normalized(), box1, box2 );
+            diff2 = getSeparatingPlane(box1->GetPos() - box2->GetPos(), axis.Normalized(), box1, box2 );
             if (diff > diff2)
             {
                 Axis = axis.Normalized();

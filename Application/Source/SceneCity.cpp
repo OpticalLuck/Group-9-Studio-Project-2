@@ -23,11 +23,11 @@ void SceneCity::Init()
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
-	texturelist = new TextureList();
-	meshlist = new MeshList(texturelist);
 
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
+	
+	MeshList* meshlist = MeshList::GetInstance();
 
 	skybox = new Skybox(goManager, meshlist, 3);
 
@@ -43,12 +43,15 @@ void SceneCity::Init()
 	Cube[0]->SetColliderBox();
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetColliderBox();
+	Cube[1]->SetTranslate(Vector3(0, 3, 0));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(5, 0, 0));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
-	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
+	Ayaka->SetColliderBox(Vector3(0.8f, 1.5f, 0.8f), Vector3(0, 2, 0));
+	Ayaka->SetColliderBox(Vector3(0.8f, 0.5f, 0.8f), Vector3(0, 0, 0));
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
@@ -161,9 +164,16 @@ void SceneCity::Update(double dt)
 		}
 	}
 
+	float y = Cube[1]->GetTranslate().y;
+	if (Application::IsKeyPressed('O'))
+		y += 5 * dt;
+	if(Application::IsKeyPressed('P'))
+		y -= 5 * dt;
+
+	Cube[1]->SetTranslate(Vector3(0, y, 0));
 	if (Ayaka->GetInRange(Cube[0], 5.f)) //SWAPPING SCENE
 	{
-		if (Application::IsKeyPressed('F'))
+		if (Application::IsKeyPressed('E'))
 		{
 			SceneManager::ChangeScene(SceneManager::SCENE_NPCTEST);
 		}
