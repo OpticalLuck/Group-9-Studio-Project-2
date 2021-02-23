@@ -101,10 +101,10 @@ void UI::UpdateInteractions(GameObject* item)
 			}
 		}
 	}
-	//else
-	//{
-	//	text2active = false;
-	//}
+	else
+	{
+		text2active = false;
+	}
 }
 
 void UI::Draw(Renderer* renderer, bool enableLight)
@@ -124,11 +124,11 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
 	}
 
-	if (camera->GetSprintState() == false || Player->getSprintState() == false)		//Walking
+	if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
 	{
 		text[0]->Draw(renderer, enableLight);
 	}
-	else										//Sprinting
+	else																			//Sprinting
 	{
 		text[1]->Draw(renderer, enableLight);
 	}

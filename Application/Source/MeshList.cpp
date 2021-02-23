@@ -8,7 +8,7 @@ MeshList::MeshList()
 
 	//// <PRIMATIVES> 
 	meshlist[MESH_AXIS] = MeshBuilder::GenerateAxes("Axis", 1000, 1000, 1000);
-	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));
+	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
 	meshlist[MESH_CUBE] = MeshBuilder::GenerateCube("Cube", Color(1.f, 1.f, 1.f), 1.f, 1.f, 1.f);
 	//// </PRIMATIVES> 
 	
