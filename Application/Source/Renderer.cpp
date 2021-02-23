@@ -20,7 +20,6 @@ Renderer::Renderer(int numlight)
 	//Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
-	
 
 	//Parameters
 	Parameters[U_MVP] = glGetUniformLocation(Shader::GetInstance()->shaderdata, "MVP");
@@ -314,7 +313,7 @@ void Renderer::SetLight(Light* light, Vector3 Camera_Offset)
 {
 	if (light->type == Light::LIGHT_DIRECTIONAL)
 	{
-		Vector3 lightDir = light->position;
+		Vector3 lightDir = light->position - Camera_Offset;
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
 		glUniform3fv(light->parameters[Light::U_LIGHT_POSITION], 1, &lightDirection_cameraspace.x);
 	}
@@ -327,7 +326,7 @@ void Renderer::SetLight(Light* light, Vector3 Camera_Offset)
 	}
 	else
 	{
-		Vector3 lightPosition_cameraspace = viewStack.Top() * light->position;
+		Vector3 lightPosition_cameraspace = viewStack.Top() * (light->position - Camera_Offset);
 		glUniform3fv(light->parameters[Light::U_LIGHT_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 }

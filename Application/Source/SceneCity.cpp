@@ -67,16 +67,16 @@ void SceneCity::Init()
 		Environment[EN_HOUSE3]->SetTranslate(Vector3(-18, 4, 2));
 		Environment[EN_HOUSE3]->SetRotate(Vector3(0, 95.5, 0));
 	
-		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE4));
+		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
 		Environment[EN_HOUSE4]->SetTranslate(Vector3(-38, 6, 5));
 		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 180, 0));
 
-		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
+		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
 
-		Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
-		Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
+		//Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
+		//Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
 	}
 }
 
@@ -202,7 +202,7 @@ void SceneCity::Render()
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_HOUSE4]->Draw(renderer, true);
 	Environment[EN_HOUSE5]->Draw(renderer, true);
-	Environment[EN_TOWER1]->Draw(renderer, true);
+	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
 }

@@ -65,6 +65,8 @@ public:
         FLAG1,      //usually basic interaction state
         FLAG2,      //usually big and difficult and specific interaction state
         FLAG3,      //extra specifc state
+        FLAG4,      //extra flags 
+        FLAG5,      //extra flags
         TOTALFLAGS  //total number of flags
     };
 

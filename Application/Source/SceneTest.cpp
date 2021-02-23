@@ -20,7 +20,6 @@ void SceneTest::Init()
 	x_width = 30;
 	mapOpen = false;
 
-	renderer = new Renderer(LIGHT_TOTAL);
 	//Init Meshlist and texture 
 	texturelist = new TextureList();
 	meshlist = new MeshList(texturelist);
@@ -83,6 +82,7 @@ void SceneTest::Init()
 
 void SceneTest::InitGL()
 {
+	renderer = new Renderer(LIGHT_TOTAL);
 	lights[0]->Set(Light::LIGHT_POINT,
 				Vector3(0, 10, 0),
 				Color(1, 1, 1),
@@ -210,6 +210,7 @@ void SceneTest::Render()
 
 void SceneTest::Exit()
 {
+	delete renderer;
 	Shader::Destroy();
 }
 

@@ -55,7 +55,6 @@ void Light::Set(LIGHT_TYPE type, Vector3 pos, Color color, float power, float kC
 	this->kL = kL;
 	this->kQ = kQ;
 	this->spotDirection = spotDirection;
-	this->spotDirection = spotDirection;
 
 	cosCutoff = cos(Math::DegreeToRadian(45));
 	cosInner = cos(Math::DegreeToRadian(30));

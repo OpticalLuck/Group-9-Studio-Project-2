@@ -82,11 +82,14 @@ void Character::Update(CameraVer2* camera, double dt)
 		Direction.Normalize();
 	}
 	SetTranslate(GetTranslate() + SPEED * Direction);
-	camera->SetTarget(GetTranslate() + Vector3(0,3.5f,0)); //Update Target Location for camera
+
+	Mtx44 temp;
+	temp.SetToRotation(Math::RadianToDegree(atan2(camera->GetView().x, camera->GetView().z)), 0, 1, 0);
+	AxisDir = temp * AxisDir;
 
 	if (KeyPressed)
 	{
-		float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z)) + camera->GetYaw();
+		float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z)); // + camera->GetYaw();
 		if (targetyaw < 0)
 			targetyaw += 360;
 
