@@ -9,8 +9,7 @@ Text::Text() :
 	color(Color(0, 1, 0)),
 	mode(STATIC_WORLDTEXT)
 {
-	LoadTextData(textDataArray, "Image//Calibri.csv");
-	SetMesh(MeshBuilder::GenerateText("Text", 16, 16, textDataArray));
+	SetMesh(MeshBuilder::GenerateText("Text", 16, 16, TextData::GetInstance()->TextDataArr));
 	SetTexture(0, "Image//Calibri.tga");
 }
 
@@ -27,16 +26,16 @@ void Text::Draw(Renderer* renderer, bool EnableLight)
 		if (mode == STATIC_WORLDTEXT)
 		{
 			renderer->AddTransformation(GetTranslate(), GetRotate(), GetScale());
-			renderer->RenderText(GetMesh(), text, color, textDataArray);
+			renderer->RenderText(GetMesh(), text, color);
 		}
 		else if (mode == DIALOGUE_WORLDTEXT)
 		{
 			renderer->AddTransformation(GetTranslate(), GetRotate(), GetScale());
-			renderer->RenderDialogue(GetMesh(), text, color, textDataArray, index);
+			renderer->RenderDialogue(GetMesh(), text, color, index);
 		}
 		else if (mode == STATIC_SCREENTEXT)
 		{
-			renderer->RenderTextOnScreen(GetMesh(), text, color, 4.f, GetTranslate().x, GetTranslate().y, textDataArray);
+			renderer->RenderTextOnScreen(GetMesh(), text, color, 4.f, GetTranslate().x, GetTranslate().y);
 		}
 	}
 
@@ -104,4 +103,9 @@ float Text::getTimer()
 int Text::getindex()
 {
 	return index;
+}
+
+std::string Text::GetText()
+{
+	return text;
 }

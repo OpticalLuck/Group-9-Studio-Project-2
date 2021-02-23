@@ -10,6 +10,7 @@
 #include "Skybox.h"
 #include "TextureList.h"
 #include "Text.h"
+#include "WayPoint.h"
 
 class SceneCity : public Scene
 {
@@ -23,8 +24,7 @@ public:
 		EN_HOUSE4,
 		EN_HOUSE5,
 		EN_TOWER1,
-		EN_FIELD,
-		EN_FENCE,
+		EN_STADIUM,
 		EN_TOTAL
 	};
 
@@ -40,6 +40,12 @@ public:
 		TEXT_FPS,
 		TEXT_POSITION,
 		TEXT_TOTAL
+	};
+
+	enum WP_TYPE //USED TO SET EMPTY GAMEOBJECTS (NOMESH) as way points for us to see where we can change scenes
+	{
+		WP_STADIUM,
+		WP_TOTAL
 	};
 	SceneCity();
 	~SceneCity();
@@ -64,9 +70,11 @@ private:
 	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
+	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	Text* textarr[TEXT_TOTAL];
+
 	//Temp
 	GameObject* Cube[2];
 };

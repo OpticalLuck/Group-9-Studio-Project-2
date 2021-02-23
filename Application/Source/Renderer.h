@@ -4,6 +4,13 @@
 #include "Mesh.h"
 #include "Light.h"
 
+#include "Singleton.h"
+struct TextData : public Singleton<TextData>
+{
+	int TextDataArr[256];
+	TextData() { LoadTextData(TextDataArr, "Image//Calibri.csv"); std::cout << "TextArr Built" << std::endl; };
+};
+
 class Renderer
 {
 public:
@@ -48,13 +55,13 @@ public:
 
 	//Render
 	void RenderMesh(Mesh* mesh, bool enableLight);
-	void RenderText(Mesh* mesh, std::string text, Color color, int textdataArray[]);
-	void RenderDialogue(Mesh* mesh, std::string text, Color color, int textdataArray[], int index);
-	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int textdataArray[]);
+	void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderDialogue(Mesh* mesh, std::string text, Color color, int index);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
 
 	//Transformation ModelStack
-	void AddTransformation(Vector3 Translate, Vector3 Rotation, Vector3 Scale);
+	void AddTransformation(Vector3 Translate, Vector3 Rotation = Vector3(0, 0, 0), Vector3 Scale = Vector3(1, 1, 1));
 	void AddTranslate(float x, float y, float z);
 	void AddRotate(float x, float y, float z);
 	void AddScale(float x, float y, float z);

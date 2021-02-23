@@ -29,17 +29,10 @@ MeshList::MeshList()
 	meshlist[MESH_HOUSE3] = MeshBuilder::GenerateOBJMTL("House_3", "OBJ//JP_HOUSE_3.obj", "OBJ//JP_HOUSE_3.mtl");
 	meshlist[MESH_HOUSE3]->textureArr[0] = texturelist->Insert("JP_HOUSE_3_DIFFUSE.tga");
 	meshlist[MESH_HOUSE3]->textureArr[1] = texturelist->Insert("JP_HOUSE_3_SPECULAR.tga");
-	
-	//meshlist[MESH_HOUSE5] = MeshBuilder::GenerateOBJMTL("House_5", "OBJ//House1.obj", "OBJ//House1.mtl");
-	//meshlist[MESH_HOUSE5]->textureArr[0] = texturelist->Insert("House1.tga");
 
-	//meshlist[MESH_TOWER] = MeshBuilder::GenerateOBJMTL("Tower_1", "OBJ//Tower.obj", "OBJ//Tower.mtl"); 
-	//meshlist[MESH_TOWER]->textureArr[0] = texturelist->Insert("Tower.tga");
-	meshlist[MESH_FIELD] = MeshBuilder::GenerateOBJMTL("Field", "OBJ//Field.obj", "OBJ//Field.mtl");
-	meshlist[MESH_FIELD]->textureArr[0] = texturelist->Insert("Stadium.tga");
+	meshlist[MESH_STADIUM] = MeshBuilder::GenerateOBJMTL("Field", "OBJ//Stadium.obj", "OBJ//Stadium.mtl");
+	meshlist[MESH_STADIUM]->textureArr[0] = texturelist->Insert("Stadium.tga");
 
-	meshlist[MESH_FENCE] = MeshBuilder::GenerateOBJMTL("Fence", "OBJ//Fence.obj", "OBJ//Fence.mtl");
-	meshlist[MESH_FENCE]->textureArr[0] = texturelist->Insert("Stadium.tga");
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 

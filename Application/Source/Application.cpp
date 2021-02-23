@@ -188,7 +188,7 @@ void Application::Run()
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	SceneManager* sceneManager = new SceneManager();
-	sceneManager->Init(SceneManager::SCENE_LIBRARY); 
+	sceneManager->Init(SceneManager::SCENE_CITY); 
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))

@@ -87,7 +87,9 @@ void GameObject::SetTexture(int idx, std::string TextureID)
 
 void GameObject::SetColliderBox(Vector3 halfsize, Vector3 offsetpos)
 {
-	ColliderBox.push_back(new Collision(Translation, offsetpos, halfsize));
+	Collision* temp = new Collision(Translation, offsetpos, halfsize);
+	temp->setRotation(Rotation);
+	ColliderBox.push_back(temp);
 }
 
 void GameObject::SetTranslate(Vector3 Translate)
