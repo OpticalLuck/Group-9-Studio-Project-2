@@ -100,6 +100,7 @@ void SceneCity::Init()
 
 		Environment[EN_SCHOOL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_SCHOOL));
 		Environment[EN_SCHOOL]->SetTranslate(Vector3(-55, 0, -80));
+		Environment[EN_SCHOOL]->SetScale(Vector3(1.4f, 1.4f, 1.4f));
 		
 		Environment[EN_LIBRARY] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LIBRARY));
 		Environment[EN_LIBRARY]->SetTranslate(Vector3(55, 0, -80));
