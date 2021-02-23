@@ -158,8 +158,7 @@ GameObject* GameObject::GetChild(int idx)
 
 bool GameObject::GetInRange(GameObject* obj, float distance)
 {
-	
-	return (abs((this->GetTranslate() - obj->GetTranslate()).Length()) < distance );
+	return (abs((obj->GetTranslate() - this->GetTranslate()).Length()) < distance );
 }
 
 Collision* GameObject::GetColliderBox(int idx)

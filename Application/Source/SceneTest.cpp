@@ -17,8 +17,7 @@ SceneTest::~SceneTest()
 
 void SceneTest::Init()
 {
-	
-
+	isInit = true;
 	x_width = 30;
 	mapOpen = false;
 

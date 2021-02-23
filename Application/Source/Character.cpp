@@ -120,15 +120,32 @@ void Character::Update(CameraVer2* camera, double dt)
 
 	SetRotate(Vector3(0, rotationval, 0));
 
+	float gravity = -20.f;
+	float jumpSpeed = 3.f;
+
+	if (GetTranslate().y < Math::EPSILON) {
+		SetTranslate(Vector3( GetTranslate().x, 0, GetTranslate().z  ));
+		isGrounded = true;
+	}
+
+	if (isGrounded && VertVelocity < 0) {
+		VertVelocity = 0;
+	}
 	if (Application::IsKeyPressed(VK_SPACE) && isGrounded)
 	{
 		isJump = true;
 		isGrounded = false;
+		VertVelocity = std::sqrt(jumpSpeed * -2 * gravity);
 	}
 	else if (Application::IsKeyPressed(VK_SPACE) && isJump)
 	{
 		//next time :D
 	}
+
+	VertVelocity += gravity * dt;
+
+	SetTranslate(GetTranslate() + Vector3(0,1,0) * VertVelocity * dt);
+
 }
 
 
@@ -154,6 +171,10 @@ int Character::getCollectibleCount()
 void Character::IncrementCollectible()
 {
 	collectibleCount += 1;
+}
+
+void Character::CheckSetGrounded()
+{
 }
 
 //void Character::SetCamera(CameraVer2* camera)

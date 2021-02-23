@@ -10,13 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SceneCity.h"
-
-//TODO!! REMOVE TESTING SCENES
-#include "SceneNPCTest.h"
-#include "SceneTest.h"
-
 #include "shader.hpp"
+#include "SceneManager.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -192,67 +187,29 @@ void Application::Run()
 
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
-	Scene* scene1 = new SceneCity();
-	scene1->Init();
-	Scene* scene2 = new SceneTest();
-	scene2->Init();
-
-	//if (scene2->getQuestStatus() == false)
-	//{
-	//	std::cout << "Scene2 Quest inactive." << std::endl;
-	//}
-	//else
-	//{
-	//	std::cout << "Scene2 Quest active." << std::endl;
-	//}
-
-	Scene* scene3 = new SceneNPCTest();
-	scene3->Init();
-	Scene* scene4 = nullptr;
-	Scene* scene5 = nullptr;
-
-	Scene* scene = scene1;
-	scene->InitGL();
+	SceneManager* sceneManager = new SceneManager();
+	sceneManager->Init(SceneManager::SCENE_CITY);
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-
-		scene->UpdateMousePos(Application::xoffset, Application::yoffset);
-		scene->Update(m_timer.getElapsedTime());
+		sceneManager->Update(&m_timer);
 		Application::xoffset = 0;
 		Application::yoffset = 0;
-		scene->Render();
+
+		sceneManager->Render();
 
 		if (IsKeyPressed(VK_F1))
 		{
-			if (scene != scene2 && scene2)
-			{
-			//Change to Scene2
-			scene->Exit();
-			scene = scene2;
-			scene->InitGL();
-			}
+			sceneManager->ChangeScene(SceneManager::SCENE_CITY);
 		}
 		if (IsKeyPressed(VK_F2))
 		{
-			if (scene != scene1 && scene1)
-			{
-				//Change to Scene1
-				scene->Exit();
-				scene = scene1;
-				scene->InitGL();
-			}
+			sceneManager->ChangeScene(SceneManager::SCENE_NPCTEST);
 		}
 		if (IsKeyPressed(VK_F3))
 		{
-			if (scene != scene3 && scene3)
-			{
-				//Change to Scene1
-				scene->Exit();
-				scene = scene3;
-				scene->InitGL();
-			}
+			sceneManager->ChangeScene(SceneManager::SCENE_TEST);
 		}
 
 		//Swap buffers
@@ -263,12 +220,7 @@ void Application::Run()
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
 	} //Check if the ESC key had been pressed or if the window had been closed
-	scene->Exit();
-	delete scene1;
-	delete scene2;
-	delete scene3;
-	//delete scene4;
-	//delete scene5;
+	delete sceneManager;
 }
 
 void Application::Exit()

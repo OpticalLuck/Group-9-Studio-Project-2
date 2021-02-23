@@ -4,7 +4,7 @@
 class Scene
 {
 public:
-	Scene() {}
+	Scene() { isInit = false; }
 	~Scene() {}
 
 	virtual void Init() = 0;
@@ -22,6 +22,8 @@ public:
 
 private:
 	bool questStatus;
+
+	bool isInit;
 };
 
 #endif
