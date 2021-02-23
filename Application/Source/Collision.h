@@ -27,7 +27,6 @@ public:
 	void sethalfsize(Vector3 halfsize);
 	void setRotation(Vector3 rotation);
 	void setOffsetpos(Vector3 offset);
-	void OBBResolution(GameObject* target);
 	//Getter
 	Vector3 GetPos();
 	Vector3 GetTranslate();

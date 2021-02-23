@@ -50,8 +50,7 @@ void SceneCity::Init()
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
-	Ayaka->SetColliderBox(Vector3(0.8f, 1.5f, 0.8f), Vector3(0, 2, 0));
-	Ayaka->SetColliderBox(Vector3(0.8f, 0.5f, 0.8f), Vector3(0, 0, 0));
+	Ayaka->SetColliderBox(Vector3(0.8f, 2, 0.8f), Vector3(0, 2, 0));
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
@@ -132,6 +131,8 @@ void SceneCity::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_HOUSE3]);
 	Ayaka->CollisionResolution(Environment[EN_HOUSE4]);
 
+
+	
 	//Update Camera after updating collision
 	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
 		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
