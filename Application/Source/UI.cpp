@@ -101,10 +101,10 @@ void UI::UpdateInteractions(GameObject* item)
 			}
 		}
 	}
-	//else
-	//{
-	//	text2active = false;
-	//}
+	else
+	{
+		text2active = false;
+	}
 }
 
 void UI::Draw(Renderer* renderer, bool enableLight)

@@ -208,6 +208,10 @@ void SceneTest::Render()
 			ui->setInteractable(true);
 			ui->UpdateInteractions(Item[i]);
 		}
+		else {
+			ui->setInteractable(false);
+			ui->UpdateInteractions(Item[i]);
+		}
 	}
 
 	

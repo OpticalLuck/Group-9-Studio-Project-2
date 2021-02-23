@@ -141,6 +141,9 @@ void GameObject::CollisionResolution(GameObject* target)
 				Translation += distance * CollisionInfo.Axis;
 				for(int updateidx = 0; updateidx < GetCollVecSize(); updateidx++)
 					ColliderBox.at(updateidx)->setTranslate(Translation);
+
+				
+
 			}
 		}
 	}
