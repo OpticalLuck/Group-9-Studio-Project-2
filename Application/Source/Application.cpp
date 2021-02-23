@@ -188,12 +188,24 @@ void Application::Init()
 
 void Application::Run()
 {
+
+
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	Scene* scene1 = new SceneCity();
 	scene1->Init();
 	Scene* scene2 = new SceneTest();
 	scene2->Init();
+
+	//if (scene2->getQuestStatus() == false)
+	//{
+	//	std::cout << "Scene2 Quest inactive." << std::endl;
+	//}
+	//else
+	//{
+	//	std::cout << "Scene2 Quest active." << std::endl;
+	//}
+
 	Scene* scene3 = new SceneNPCTest();
 	scene3->Init();
 	Scene* scene4 = nullptr;

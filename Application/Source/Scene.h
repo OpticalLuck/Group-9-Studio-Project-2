@@ -14,6 +14,14 @@ public:
 	virtual void Exit() = 0;
 
 	virtual void UpdateMousePos(double xoffset, double yoffset) = 0;
+
+	//bool getQuestStatus(QuestManager* quest) { return quest->GetQuestStatus(); }
+	//void setQuestStatus(QuestManager* quest, bool questStatus) { quest->SetQuestStatus(questStatus); }
+	bool getQuestStatus() { return questStatus; }
+	void setQuestStatus(bool status) { questStatus = status; }
+
+private:
+	bool questStatus;
 };
 
 #endif
