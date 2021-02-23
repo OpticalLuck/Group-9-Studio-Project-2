@@ -51,39 +51,42 @@ void SceneLibrary::Init()
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR1]->SetRotate(Vector3(0, 180, 0));
 
 		Environment[EN_FLOOR2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
+		Environment[EN_FLOOR2]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR2]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR2]->SetTranslate(Vector3(0, 0, -15));
 		Environment[EN_FLOOR2]->SetRotate(Vector3(90, 0, 0));
 
 		Environment[EN_FLOOR3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
+		Environment[EN_FLOOR3]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR3]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR3]->SetTranslate(Vector3(0, 0, 15));
 		Environment[EN_FLOOR3]->SetRotate(Vector3(90, 180, 0));
 
 		Environment[EN_FLOOR4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
+		Environment[EN_FLOOR4]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR4]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR4]->SetTranslate(Vector3(15, 0, 0));
 		Environment[EN_FLOOR4]->SetRotate(Vector3(0, 0, 90));
 
 		Environment[EN_FLOOR5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
+		Environment[EN_FLOOR5]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR5]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR5]->SetTranslate(Vector3(-15, 0, 0));
 		Environment[EN_FLOOR5]->SetRotate(Vector3(0, 0, 270));
 
 		Environment[EN_FLOOR6] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		//Environment[EN_FLOOR]->SetColliderBox(Vector3(30, 1, 30));
 		Environment[EN_FLOOR6]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
 		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
+
+		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
+		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
+		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
 	}
 }
 
@@ -107,12 +110,12 @@ void SceneLibrary::Update(double dt)
 	ui->setCamera(&camera);
 	ui->Update();
 
-	Ayaka->CollisionResolution(Cube[0]);
-	Ayaka->CollisionResolution(Cube[1]);
-	/*Collision::OBBResolution(Ayaka, Environment[EN_HOUSE1]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE2]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE3]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE4]);*/
+	//Collision
+	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
+	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
+	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
+	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
+	Ayaka->CollisionResolution(Environment[EN_COUNTER]);
 
 	//Update Camera after updating collision
 	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
@@ -220,6 +223,7 @@ void SceneLibrary::Render()
 	Environment[EN_FLOOR4]->Draw(renderer, true);
 	Environment[EN_FLOOR5]->Draw(renderer, true);
 	Environment[EN_FLOOR6]->Draw(renderer, true);
+	Environment[EN_COUNTER]->Draw(renderer, true);
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 

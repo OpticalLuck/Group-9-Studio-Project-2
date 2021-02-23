@@ -23,6 +23,7 @@ public:
 		EN_FLOOR4,
 		EN_FLOOR5,
 		EN_FLOOR6,
+		EN_COUNTER,
 		EN_TOTAL
 	};
 
