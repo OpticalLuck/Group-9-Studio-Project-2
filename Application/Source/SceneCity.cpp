@@ -128,13 +128,12 @@ void SceneCity::Update(double dt)
 	else
 		camera.Updatemovement(dt);
 
-
-	Collision::OBBResolution(Ayaka, Cube[0]);
-	Collision::OBBResolution(Ayaka, Cube[1]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE1]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE2]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE3]);
-	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE4]);
+	Ayaka->CollisionResolution(Cube[0]);
+	Ayaka->CollisionResolution(Cube[1]);
+	Ayaka->CollisionResolution(Environment[EN_HOUSE1]);
+	Ayaka->CollisionResolution(Environment[EN_HOUSE2]);
+	Ayaka->CollisionResolution(Environment[EN_HOUSE3]);
+	Ayaka->CollisionResolution(Environment[EN_HOUSE4]);
 
 	
 
