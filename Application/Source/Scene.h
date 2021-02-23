@@ -4,7 +4,7 @@
 class Scene
 {
 public:
-	Scene() {}
+	Scene() { isInit = false; }
 	~Scene() {}
 
 	virtual void Init() = 0;
@@ -14,6 +14,8 @@ public:
 	virtual void Exit() = 0;
 
 	virtual void UpdateMousePos(double xoffset, double yoffset) = 0;
+
+	bool isInit;
 };
 
 #endif

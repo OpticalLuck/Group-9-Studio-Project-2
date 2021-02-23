@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "MeshBuilder.h"
+#include "shader.hpp"
 
 SceneNPCTest::SceneNPCTest() :
 	fps(0.f)
@@ -16,6 +17,7 @@ SceneNPCTest::~SceneNPCTest()
 
 void SceneNPCTest::Init()
 {
+	isInit = true;
 	//Init Meshlist
 	texturelist = new TextureList();
 	meshlist = new MeshList(texturelist);
@@ -134,6 +136,8 @@ void SceneNPCTest::Render()
 
 void SceneNPCTest::Exit()
 {
+	delete renderer;
+	Shader::Destroy();
 }
 
 void SceneNPCTest::UpdateMousePos(double xoffset, double yoffset)

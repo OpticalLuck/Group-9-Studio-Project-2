@@ -7,6 +7,8 @@
 #include "CameraVer2.h"
 #include "Light.h"
 #include "GOManager.h"
+#include "Skybox.h"
+#include "TextureList.h"
 #include "NPC.h"
 
 class SceneNPCTest : public Scene

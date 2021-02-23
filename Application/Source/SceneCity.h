@@ -9,11 +9,11 @@
 #include "GOManager.h"
 #include "Skybox.h"
 #include "TextureList.h"
+#include "Text.h"
 
 class SceneCity : public Scene
 {
 public:
-
 	enum Environment_Type
 	{
 		EN_FLOOR = 0,
@@ -32,6 +32,13 @@ public:
 		LIGHT_TEST,
 		LIGHT_TOTAL
 	};
+
+	enum TEXT_TYPE
+	{
+		TEXT_FPS,
+		TEXT_POSITION,
+		TEXT_TOTAL
+	};
 	SceneCity();
 	~SceneCity();
 
@@ -45,6 +52,7 @@ public:
 
 private:
 	double fps;
+
 	Renderer* renderer;
 
 	TextureList* texturelist;
@@ -58,7 +66,7 @@ private:
 	GameObject* Environment[EN_TOTAL];
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
-
+	Text* textarr[TEXT_TOTAL];
 	//Temp
 	GameObject* Cube[2];
 };
