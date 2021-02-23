@@ -21,7 +21,7 @@ void SceneCity::Init()
 {
 	isInit = true; 
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
-	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
+	camera.Init(Vector3(65, 3, 55), Vector3(0, 0, 1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
@@ -48,13 +48,11 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(camera.GetPosition(), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox( Vector3(0.3, 0.5, 0.3), Vector3(0,0.5,0) ); //foot box (always first)
 	//Ayaka->SetColliderBox( Vector3(0.35, 0.49, 0.35), Vector3(0,0.5,0) ); 
 	Ayaka->SetColliderBox(Vector3(0.7f, 2.f, 0.7f), Vector3(0, 2, 0));
-
-
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
@@ -63,39 +61,37 @@ void SceneCity::Init()
 		Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
 		Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 10, 12), Vector3(3.4f, 1.6f, 0));
 		Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 8.6f, 10));
 		//Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 0.f, 10));
 		Environment[EN_HOUSE1]->SetRotate(Vector3(0, -90, 0));
-		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 10, 12), Vector3(3.4f, 1.6f, 0));
 
 		Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
+		Environment[EN_HOUSE2]->SetColliderBox(Vector3(10, 9.5f, 12), Vector3(6, 1, 1));
 		Environment[EN_HOUSE2]->SetTranslate(Vector3(25, 8.6f, -30));
 		Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
-		Environment[EN_HOUSE2]->SetColliderBox(Vector3(10, 9.5f, 12), Vector3(6, 1, 1));
 	
 		Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
-		Environment[EN_HOUSE3]->SetTranslate(Vector3(-27, 7, 12));
 		Environment[EN_HOUSE3]->SetColliderBox(Vector3(9, 8, 11), Vector3(-4, 1, 0));
+		Environment[EN_HOUSE3]->SetTranslate(Vector3(-27, 7, 12));
 	
 		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
+		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0));
 		Environment[EN_HOUSE4]->SetTranslate(Vector3(-27, 8.6, -30));
 		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
-		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0));
 
 		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-55, 8.6, 18));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
-
-		/*Environment[EN_HOUSE4]->SetTranslate(Vector3(-25, 8.6f, -35));
-		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
-		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0.2f));*/
 		
-		//Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
-		//Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
-		//Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
+		Environment[EN_STADIUM] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_STADIUM));
+		Environment[EN_STADIUM]->SetColliderBox(Vector3(24, 8, 24), Vector3(0.8f, 1, 0));
+		Environment[EN_STADIUM]->SetTranslate(Vector3(65, 7.5f, 100));
+		Environment[EN_STADIUM]->SetRotate(Vector3(0, 90, 0));
+		Environment[EN_STADIUM]->GetColliderBox(0)->setRotation(Environment[EN_STADIUM]->GetColliderBox(0)->GetRotation() + Vector3(0, 44, 0));
 
-		//Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
-		//Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
+		Waypoints[WP_STADIUM] = new WayPoint("Stadium", Vector3(66.4f, 1, 65));
+		Waypoints[WP_STADIUM]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 	}
 
 	//Text
@@ -131,13 +127,17 @@ void SceneCity::Update(double dt)
 	//Collision
 	Ayaka->CollisionResolution(Cube[0]);
 	Ayaka->CollisionResolution(Cube[1]);
-	Ayaka->CollisionResolution(Environment[EN_HOUSE1]);
-	Ayaka->CollisionResolution(Environment[EN_HOUSE2]);
-	Ayaka->CollisionResolution(Environment[EN_HOUSE3]);
-	Ayaka->CollisionResolution(Environment[EN_HOUSE4]);
-
+	for (int i = 0; i < EN_TOTAL; i++)
+	{
+		if (Environment[i])
+		{
+			if (Environment[i]->GetCollVecSize() != 0)
+				Ayaka->CollisionResolution(Environment[i]);
+		}
+	}
 
 	
+
 	//Update Camera after updating collision
 	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
 		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
@@ -170,16 +170,9 @@ void SceneCity::Update(double dt)
 		}
 	}
 
-	float y = Cube[1]->GetTranslate().y;
-	if (Application::IsKeyPressed('O'))
-		y += 5 * dt;
-	if(Application::IsKeyPressed('P'))
-		y -= 5 * dt;
-
-	Cube[1]->SetTranslate(Vector3(0, y, 0));
-	if (Ayaka->GetInRange(Cube[0], 5.f)) //SWAPPING SCENE
+	if (Application::IsKeyPressed('E'))
 	{
-		if (Application::IsKeyPressed('E'))
+		if (Waypoints[WP_STADIUM]->getisInRange()) //SWAPPING SCENE
 		{
 			SceneManager::ChangeScene(SceneManager::SCENE_NPCTEST);
 		}
@@ -188,6 +181,9 @@ void SceneCity::Update(double dt)
 
 	//Text STuff
 	{
+		//UI TEXT
+		Waypoints[WP_STADIUM]->inRangeResponse(Ayaka);
+
 		std::stringstream FPS;
 		FPS.precision(4);
 		FPS << "FPS: " << fps;
@@ -216,6 +212,7 @@ void SceneCity::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 		
+	Ayaka->Draw(renderer, true);
 	Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);
 	Environment[EN_FLOOR]->Draw(renderer, true);
@@ -224,12 +221,9 @@ void SceneCity::Render()
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_HOUSE4]->Draw(renderer, true);
 	Environment[EN_HOUSE5]->Draw(renderer, true);
+	Environment[EN_STADIUM]->Draw(renderer, true);
 
-	//Environment[EN_HOUSE5]->Draw(renderer, true);
-
-	//Environment[EN_TOWER1]->Draw(renderer, true);
-
-	Ayaka->Draw(renderer, true);
+	Waypoints[WP_STADIUM]->Draw(renderer, false);
 
 	for (int i = 0; i < TEXT_TOTAL; i++)
 	{

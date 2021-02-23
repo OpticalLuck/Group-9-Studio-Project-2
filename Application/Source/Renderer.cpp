@@ -123,7 +123,7 @@ void Renderer::RenderMesh(Mesh* mesh, bool enableLight)
 	}
 }
 
-void Renderer::RenderText(Mesh* mesh, std::string text, Color color, int textdataArray[])
+void Renderer::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if (!mesh || mesh->textureArr[0] <= 0) //Proper error check
 		return;
@@ -145,7 +145,8 @@ void Renderer::RenderText(Mesh* mesh, std::string text, Color color, int textdat
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(Parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
-		accumulator += textdataArray[text[i]] / 128.0f + textdataArray[text[i + 1]] / 128.0f;
+		if(i != 0)
+			accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
 
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
@@ -154,7 +155,7 @@ void Renderer::RenderText(Mesh* mesh, std::string text, Color color, int textdat
 
 }
 
-void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int textdataArray[], int index)
+void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int index)
 {
 	if (!mesh || mesh->textureArr[0] <= 0) //Proper error check
 		return;
@@ -180,14 +181,14 @@ void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int tex
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(Parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
-		accumulator += textdataArray[text[i]] / 128.0f + textdataArray[text[i + 1]] / 128.0f;
+		accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(Parameters[U_TEXT_ENABLED], 0);
 }
 
-void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int textdataArray[])
+void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 
 	if (!mesh || mesh->textureArr[0] <= 0) //Proper error check
@@ -227,7 +228,7 @@ void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 
 		mesh->Render((unsigned)text[i] * 6, 6);
 
-		accumulator += textdataArray[text[i]] / 128.0f + textdataArray[text[i + 1]] / 128.0f;
+		accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(Parameters[U_TEXT_ENABLED], 0);

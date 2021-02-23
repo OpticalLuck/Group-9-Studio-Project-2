@@ -244,8 +244,11 @@ bool LoadMTL(const char* file_path, std::map<std::string, Material*>& materials_
 				{
 					path.erase(0, last_slash_idx + 1);
 				}
-				mtl->map_Kd = texturelist->Insert(path);
-				mtl->kDMapEnabled = true;
+				if (texturelist)
+				{
+					mtl->map_Kd = texturelist->Insert(path);
+					mtl->kDMapEnabled = true;
+				}
 			}
 		}
 	}

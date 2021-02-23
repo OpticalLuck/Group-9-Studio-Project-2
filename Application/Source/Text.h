@@ -29,10 +29,10 @@ public:
 
     float getTimer();
     int getindex();
+    std::string GetText();
 private:
     bool countdown;
     float timer;
-    int textDataArray[256];
     int index;
     std::string text;
     Color color;

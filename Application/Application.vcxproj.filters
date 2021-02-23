@@ -96,6 +96,9 @@
     <ClCompile Include="Source\SceneLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\WayPoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -186,6 +189,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WayPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
