@@ -20,8 +20,8 @@ void SceneLibrary::Init()
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
-	texturelist = new TextureList();
-	meshlist = new MeshList(texturelist);
+
+	MeshList* meshlist = MeshList::GetInstance();
 
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
