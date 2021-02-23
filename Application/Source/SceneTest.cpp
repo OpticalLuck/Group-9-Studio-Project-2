@@ -128,8 +128,24 @@ void SceneTest::Update(double dt)
 		{
 			mapOpen = !mapOpen;
 		}
-
 	}
+	
+
+
+	if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+	{
+		setQuestStatus(true);
+	}
+	if (getQuestStatus() == false)
+	{
+		std::cout << "Scene2 Quest inactive." << std::endl;
+	}
+	else
+	{
+		std::cout << "Scene2 Quest active." << std::endl;
+	}
+
+
 
 	camera.Updatemovement(dt);
 	ui->setCamera(&camera);
@@ -185,7 +201,6 @@ void SceneTest::Render()
 	{
 		Item[i]->Draw(renderer, true);
 
-		//Why is update in render what? it should be in update!!!
 		ui->setItem(Item[i]);
 
 		if (character->GetInRange(Item[i], 3))
@@ -193,11 +208,6 @@ void SceneTest::Render()
 			ui->setInteractable(true);
 			ui->UpdateInteractions(Item[i]);
 		}
-	/*	else
-		{
-			ui->setInteractable(false);
-		}*/
-
 	}
 
 	

@@ -1,6 +1,10 @@
 #include "NPC.h"
 #include "MeshList.h"
 
+//identifier
+//x = 0, y = 1, z = 2
+float AngleBetween(Vector3 difference, int axis);
+
 
 NPC::NPC(unsigned int id, Mesh* mesh)
 {
@@ -106,9 +110,7 @@ void NPC::BuildMeshes(MeshList* meshlist)
 }
 
 
-//identifier
-//x = 0, y = 1, z = 2
-float AngleBetween(Vector3 difference, int axis);
+
 
 void NPC::RotateToPoint(Vector3 point)
 {

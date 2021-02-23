@@ -144,6 +144,11 @@ MeshList* UI::getMeshList()
 	return meshlist;
 }
 
+bool UI::getInteractable()
+{
+	return interactable;
+}
+
 void UI::setCamera(CameraVer2* camera)
 {
 	this->camera = camera;

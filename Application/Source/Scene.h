@@ -15,7 +15,15 @@ public:
 
 	virtual void UpdateMousePos(double xoffset, double yoffset) = 0;
 
+	//bool getQuestStatus(QuestManager* quest) { return quest->GetQuestStatus(); }
+	//void setQuestStatus(QuestManager* quest, bool questStatus) { quest->SetQuestStatus(questStatus); }
+	bool getQuestStatus() { return questStatus; }
+	void setQuestStatus(bool status) { questStatus = status; }
+
 	bool isInit;
+
+private:
+	bool questStatus;
 };
 
 #endif

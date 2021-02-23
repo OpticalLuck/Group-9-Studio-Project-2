@@ -32,9 +32,9 @@ void SceneCity::Init()
 	skybox = new Skybox(goManager, meshlist, 3);
 
 	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	MainChar->SetColliderBox();
 	MainChar->Init(Vector3(0, 3, -40));
 	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
+	MainChar->SetColliderBox();
 	//MainChar->SetCamera(&camera);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
