@@ -63,13 +63,20 @@ void SceneCity::Init()
 		Environment[EN_HOUSE2]->SetColliderBox(Vector3(10, 9.5f, 12), Vector3(6, 1, 1));
 	
 		Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
-		Environment[EN_HOUSE3]->SetTranslate(Vector3(-30, 7, 2));
+		Environment[EN_HOUSE3]->SetTranslate(Vector3(-27, 7, 12));
 		Environment[EN_HOUSE3]->SetColliderBox(Vector3(9, 8, 11), Vector3(-4, 1, 0));
 	
 		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
-		Environment[EN_HOUSE4]->SetTranslate(Vector3(-25, 8.6f, -35));
+		Environment[EN_HOUSE4]->SetTranslate(Vector3(-27, 8.6, -11));
 		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
-		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0.2f));
+
+		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
+		Environment[EN_HOUSE5]->SetTranslate(Vector3(-55, 8.6, 18));
+		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
+
+		/*Environment[EN_HOUSE4]->SetTranslate(Vector3(-25, 8.6f, -35));
+		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
+		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0.2f));*/
 		
 		//Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
 		//Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
@@ -209,7 +216,10 @@ void SceneCity::Render()
 	Environment[EN_HOUSE2]->Draw(renderer, true);
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_HOUSE4]->Draw(renderer, true);
+	Environment[EN_HOUSE5]->Draw(renderer, true);
+
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
+
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
