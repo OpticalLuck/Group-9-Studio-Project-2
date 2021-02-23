@@ -9,6 +9,7 @@ Character::Character(unsigned int ID, Mesh* mesh):
 	SetID(ID);
 	SetMesh(mesh);
 	//camera = NULL;
+	feetCollide = false;
 }
 
 Character::~Character()
@@ -199,6 +200,55 @@ void Character::setSprintState(bool sprintable)
 void Character::IncrementCollectible()
 {
 	collectibleCount += 1;
+}
+
+void Character::CollisionResolution(GameObject* target)
+{
+
+	Vector3 Translation = GetTranslate();
+	for (int i = 0; i < GetCollVecSize(); i++)
+	{
+		for (int j = 0; j < target->GetCollVecSize(); j++)
+		{
+			Info CollisionInfo = GetColliderBox(i)->CheckOBBCollision(target->GetColliderBox(j));
+
+			if (target->GetColliderBox(j) == objectStoodOn && i == 0) {
+				std::cout << CollisionInfo.Collided << " " << objectStoodOn << "\n";
+				StillOnItem(CollisionInfo.Collided);
+			}
+			if (CollisionInfo.Collided)
+			{
+				Collision* objBox = GetColliderBox(i);
+				Collision* targetBox = target->GetColliderBox(j);
+				float distance = CollisionInfo.distance;
+				if ((objBox->GetPos() - targetBox->GetPos()).Dot(CollisionInfo.Axis) < 0)
+				{
+					distance = distance * -1;
+				}
+
+				Translation += distance * CollisionInfo.Axis;
+				SetTranslate(Translation);
+				for (int updateidx = 0; updateidx < GetCollVecSize(); updateidx++)
+					GetColliderBox(updateidx)->setTranslate(Translation);
+
+				if (i == 0) {
+					if (objectStoodOn == NULL)
+						objectStoodOn = target->GetColliderBox(j);
+				}
+
+			}
+			
+		}
+	}
+
+}
+
+void Character::StillOnItem(bool yeahnah)
+{
+	isGrounded = yeahnah;
+	if (!yeahnah) {
+		objectStoodOn = NULL;
+	}
 }
 
 

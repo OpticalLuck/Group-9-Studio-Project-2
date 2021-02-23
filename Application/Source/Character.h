@@ -22,16 +22,18 @@ public:
 	void setSprintState(bool sprintable);
 
 	void IncrementCollectible();
-
+	void CollisionResolution(GameObject* target);
 
 
 private:
 	static int collectibleCount;
-	bool isJump, isGrounded, isSprintable;
+	bool isJump, isGrounded, isSprintable, isGliding, feetCollide;
 	float VertVelocity, speedModifier;
 
-	//private functions
+	Collision* objectStoodOn;
 
+	//private functions
+	void StillOnItem(bool yeahnah);
 
 };
 
