@@ -175,6 +175,8 @@ void Character::IncrementCollectible()
 
 void Character::CheckSetGrounded()
 {
+
+
 }
 
 //void Character::SetCamera(CameraVer2* camera)

@@ -32,9 +32,9 @@ void SceneCity::Init()
 	skybox = new Skybox(goManager, meshlist, 3);
 
 	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	MainChar->SetColliderBox();
 	MainChar->Init(Vector3(0, 3, -40));
 	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
+	MainChar->SetColliderBox();
 	//MainChar->SetCamera(&camera);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
@@ -48,7 +48,10 @@ void SceneCity::Init()
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
+	Ayaka->SetColliderBox( Vector3(2, 0.2, 2), Vector3(0,0,0) ); //foot box (always first)
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
+
+	//std::cout << Ayaka->GetColliderBox(0)->GetPos().x << "\n" ;
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));

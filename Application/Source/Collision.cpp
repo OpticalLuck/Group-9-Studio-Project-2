@@ -62,6 +62,11 @@ void Collision::setRotation(Vector3 rotation)
     Up = RotationMtx * Up;
 }
 
+void Collision::setOffsetpos(Vector3 offset)
+{
+    this->offsetpos = offset;
+}
+
 void Collision::OBBResolution(GameObject* object, GameObject* target)
 {
     for (int i = 0; i < object->GetCollVecSize(); i++)
@@ -168,6 +173,11 @@ Vector3 Collision::GetUp()
 Vector3 Collision::GetRight()
 {
     return Right;
+}
+
+Vector3 Collision::GetOffsetpos()
+{
+    return offsetpos;
 }
 
 Vector3 Collision::getDiff(Vector3 axis, Collision* box1, Collision* box2)
