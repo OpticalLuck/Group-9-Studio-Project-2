@@ -20,12 +20,15 @@ public:
 	int getCollectibleCount();
 	void IncrementCollectible();
 
-	void CheckSetGrounded();
 
 
 private:
 	static int collectibleCount;
 	bool isJump, isGrounded;
 	float VertVelocity;
+
+	//private functions
+
+
 };
 

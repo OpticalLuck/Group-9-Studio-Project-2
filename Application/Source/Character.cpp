@@ -39,6 +39,36 @@ void Character::Update(CameraVer2* camera, double dt)
 	//You dont need to redo the camera calculations, just change the translate and the camera does it's own shit
 	float SPEED = 5 * dt;
 
+	//Jump code
+	{
+		float gravity = -20.f;
+		float jumpSpeed = 3.f;
+
+		if (GetTranslate().y < Math::EPSILON) {
+			SetTranslate(Vector3(GetTranslate().x, 0, GetTranslate().z));
+			isGrounded = true;
+		}
+
+		if (isGrounded && VertVelocity < 0) {
+			VertVelocity = 0;
+		}
+		if (Application::IsKeyPressed(VK_SPACE) && isGrounded)
+		{
+			isJump = true;
+			isGrounded = false;
+			VertVelocity = std::sqrt(jumpSpeed * -2 * gravity);
+		}
+		else if (Application::IsKeyPressed(VK_SPACE) && isJump && VertVelocity < 0)
+		{
+			gravity = -0.5f;
+			SPEED *= 1.5;
+		}
+
+		VertVelocity += gravity * dt;
+
+		SetTranslate(GetTranslate() + Vector3(0, 1, 0) * VertVelocity * dt);
+	}
+
 	//USED FOR DIRECTION
 	//Direction the character is going towards aka direction vector
 	Vector3 Direction(0,0,0);
@@ -120,32 +150,8 @@ void Character::Update(CameraVer2* camera, double dt)
 
 	SetRotate(Vector3(0, rotationval, 0));
 
-	float gravity = -20.f;
-	float jumpSpeed = 3.f;
 
-	if (GetTranslate().y < Math::EPSILON) {
-		SetTranslate(Vector3( GetTranslate().x, 0, GetTranslate().z  ));
-		isGrounded = true;
-	}
-
-	if (isGrounded && VertVelocity < 0) {
-		VertVelocity = 0;
-	}
-	if (Application::IsKeyPressed(VK_SPACE) && isGrounded)
-	{
-		isJump = true;
-		isGrounded = false;
-		VertVelocity = std::sqrt(jumpSpeed * -2 * gravity);
-	}
-	else if (Application::IsKeyPressed(VK_SPACE) && isJump)
-	{
-		//next time :D
-	}
-
-	VertVelocity += gravity * dt;
-
-	SetTranslate(GetTranslate() + Vector3(0,1,0) * VertVelocity * dt);
-
+	
 }
 
 
@@ -173,11 +179,9 @@ void Character::IncrementCollectible()
 	collectibleCount += 1;
 }
 
-void Character::CheckSetGrounded()
-{
 
 
-}
+
 
 //void Character::SetCamera(CameraVer2* camera)
 //{
