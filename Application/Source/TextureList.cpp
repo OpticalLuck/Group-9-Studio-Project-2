@@ -1,8 +1,10 @@
 #include "TextureList.h"
 #include "LoadTGA.h"
+#include <iostream>
 
 TextureList::TextureList()
 {
+	std::cout << "Texture Loaded" << std::endl;
 }
 
 TextureList::~TextureList()

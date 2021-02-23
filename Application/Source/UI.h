@@ -21,6 +21,7 @@ public:
 	bool getCamSprintState();
 	GameObject* getItem();
 	MeshList* getMeshList();
+	bool getInteractable();
 
 	void setCamera(CameraVer2* camera);
 	void setCamSprintState(bool isSprinting);

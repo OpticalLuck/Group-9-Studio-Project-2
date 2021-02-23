@@ -1,7 +1,9 @@
 #pragma once
 #include <map>
 #include <string>
-class TextureList
+#include "Singleton.h"
+
+class TextureList : public Singleton<TextureList>
 {
 public:
 	TextureList();

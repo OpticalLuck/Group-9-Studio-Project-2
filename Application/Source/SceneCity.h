@@ -55,8 +55,6 @@ private:
 
 	Renderer* renderer;
 
-	TextureList* texturelist;
-	MeshList* meshlist;
 	CameraVer2 camera;
 
 	GOManager goManager;

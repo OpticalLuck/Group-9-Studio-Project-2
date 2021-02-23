@@ -1,8 +1,11 @@
 #include "MeshList.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
-MeshList::MeshList(TextureList* texturelist)
+MeshList::MeshList()
 {
+	TextureList* texturelist = TextureList::GetInstance();
+	std::cout << "Mesh Loaded" << std::endl;
+
 	//// <PRIMATIVES> 
 	meshlist[MESH_AXIS] = MeshBuilder::GenerateAxes("Axis", 1000, 1000, 1000);
 	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));

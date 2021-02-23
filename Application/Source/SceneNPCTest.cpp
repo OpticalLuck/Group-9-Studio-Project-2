@@ -19,8 +19,7 @@ void SceneNPCTest::Init()
 {
 	isInit = true;
 	//Init Meshlist
-	texturelist = new TextureList();
-	meshlist = new MeshList(texturelist);
+	MeshList* meshlist = MeshList::GetInstance();
 	//Create Light
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 	

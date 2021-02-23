@@ -183,6 +183,8 @@ void Application::Init()
 
 void Application::Run()
 {
+
+
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	SceneManager* sceneManager = new SceneManager();
