@@ -17,9 +17,8 @@ SceneCity::~SceneCity()
 
 void SceneCity::Init()
 {
-	renderer = new Renderer(LIGHT_TOTAL);
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
-	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, 1));
+	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 	texturelist = new TextureList();
 	meshlist = new MeshList(texturelist);
@@ -37,35 +36,34 @@ void SceneCity::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[0]->SetColliderBox();
-	Cube[0]->SetTranslate(Vector3(5, 5, 0));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetColliderBox(Vector3(2,2,2));
-	Cube[1]->SetTranslate(Vector3(0,5,0));
+	Cube[1]->SetColliderBox();
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
 		//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
-		Environment[EN_FLOOR]->SetScale(Vector3(150, 150, 150));
+		Environment[EN_FLOOR]->SetScale(Vector3(300, 300, 300));
 		Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
 		Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
-		Environment[EN_HOUSE1]->SetTranslate(Vector3(15, 6, 0));
-		Environment[EN_HOUSE1]->SetColliderBox(Vector3(8, 8, 8), Vector3(0,2,0));
-		Environment[EN_HOUSE1]->SetColliderBox(Vector3(4, 4, 4), Vector3(8.4f,-2,0));
+		Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 8.6f, 10));
+		Environment[EN_HOUSE1]->SetRotate(Vector3(0, -90, 0));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 10, 12), Vector3(3.4f, 1.6f, 0));
 
 		Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
-		Environment[EN_HOUSE2]->SetTranslate(Vector3(15, 6, -20));
+		Environment[EN_HOUSE2]->SetTranslate(Vector3(25, 8.6f, -30));
 		Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
+		Environment[EN_HOUSE2]->SetColliderBox(Vector3(10, 9.5f, 12), Vector3(6, 1, 1));
 	
 		Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
-		Environment[EN_HOUSE3]->SetTranslate(Vector3(-18, 4, 2));
-		Environment[EN_HOUSE3]->SetRotate(Vector3(0, 95.5, 0));
+		Environment[EN_HOUSE3]->SetTranslate(Vector3(-30, 7, 2));
+		Environment[EN_HOUSE3]->SetColliderBox(Vector3(9, 8, 11), Vector3(-4, 1, 0));
 	
 		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
 		Environment[EN_HOUSE4]->SetTranslate(Vector3(-38, 6, 5));
@@ -75,6 +73,14 @@ void SceneCity::Init()
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
 
+		/*Environment[EN_HOUSE4]->SetTranslate(Vector3(-25, 8.6f, -35));
+		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
+		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0.2f));*/
+		
+		//Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE5));
+		//Environment[EN_HOUSE5]->SetTranslate(Vector3(-48, 6, 50));
+		//Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
+
 		//Environment[EN_TOWER1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TOWER));
 		//Environment[EN_TOWER1]->SetTranslate(Vector3(-15, 12, -20));
 	}
@@ -82,9 +88,10 @@ void SceneCity::Init()
 
 void SceneCity::InitGL()
 {
-	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_SPOT, Vector3(0, 150, 0), Color(1, 1, 1), 20.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	renderer = new Renderer(LIGHT_TOTAL);
+	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 50, 80), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -50, -80));
 	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
-	lights[1]->Set(Light::LIGHT_SPOT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	lights[1]->Set(Light::LIGHT_POINT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 }
 
 
@@ -96,8 +103,16 @@ void SceneCity::Update(double dt)
 	else
 		camera.Updatemovement(dt);
 
+	Collision::OBBResolution(Ayaka, Cube[0]);
 	Collision::OBBResolution(Ayaka, Cube[1]);
 	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE1]);
+	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE2]);
+	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE3]);
+	Collision::OBBResolution(Ayaka, Environment[EN_HOUSE4]);
+
+	//Update Camera after updating collision
+	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
+		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
 
 	{
 		if (Application::IsKeyPressed('1'))
@@ -125,12 +140,10 @@ void SceneCity::Update(double dt)
 		{
 			Collision::isRender = false;
 		}
-
 	}
 
 	// Cube Collision Test stuff
 	{
-
 		float SPEED = 5.f * dt;
 		Vector3 Direction = Vector3(0,0,0);
 		if (Application::IsKeyPressed('I'))
@@ -171,7 +184,9 @@ void SceneCity::Update(double dt)
 			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
 		}
 
-		Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+		lights[1]->position += Direction * SPEED;
+		Cube[0]->SetTranslate(lights[0]->position);
+		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
 }
@@ -193,15 +208,17 @@ void SceneCity::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 		
-	Cube[0]->Draw(renderer, true);
-	Cube[1]->Draw(renderer, true);
+	Cube[0]->Draw(renderer, false);
+	Cube[1]->Draw(renderer, false);
 	Environment[EN_FLOOR]->Draw(renderer, true);
-	//Environment[EN_FLOOR]->GetColliderBox()->DrawFrame(renderer);
 	Environment[EN_HOUSE1]->Draw(renderer, true);
 	Environment[EN_HOUSE2]->Draw(renderer, true);
 	Environment[EN_HOUSE3]->Draw(renderer, true);
 	Environment[EN_HOUSE4]->Draw(renderer, true);
 	Environment[EN_HOUSE5]->Draw(renderer, true);
+
+	//Environment[EN_HOUSE5]->Draw(renderer, true);
+
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
@@ -209,6 +226,7 @@ void SceneCity::Render()
 
 void SceneCity::Exit()
 {
+	delete renderer;
 	Shader::Destroy();
 }
 
