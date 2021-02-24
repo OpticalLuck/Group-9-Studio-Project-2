@@ -186,7 +186,7 @@ void CameraVer2::Updatemovement(double dt)
 			Vector3 AxisDir(0, 0, 0);// Direction vector along the axis for calculating rotation
 			bool KeyPressed = false;
 			float CharAngle = target->GetRotate().y;
-
+			
 			if (Application::IsKeyPressed('W'))
 			{
 				Direction += camFront;
@@ -226,11 +226,9 @@ void CameraVer2::Updatemovement(double dt)
 				Direction.Normalize();
 			}
 			target->SetTranslate(target->GetTranslate() + SPEED * Direction);
-
 			Mtx44 temp;
 			temp.SetToRotation(Math::RadianToDegree(atan2(view.x, view.z)), 0, 1, 0);
 			AxisDir = temp * AxisDir;
-
 			if (KeyPressed)
 			{
 				float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z)); // + camera->GetYaw();

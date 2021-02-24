@@ -70,7 +70,7 @@ private:
 	//Smaller Functions for small processes
 
 	//Rotate NPC
-	void RotateToPoint(Vector3 point);
+	float GetAngleToPoint(Vector3 point);
 
 	//Rotate bodypart towards character
 	//Maximum angle is how many degrees from the front they can move.	

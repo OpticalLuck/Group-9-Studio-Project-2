@@ -1,5 +1,5 @@
-#ifndef SCENE_HALL_H
-#define SCENE_HALL_H
+#ifndef SCENE_TRAIN_H
+#define SCENE_TRAIN_H
 
 #include "Scene.h"
 #include "Renderer.h"
@@ -11,7 +11,7 @@
 #include "TextureList.h"
 #include "UI.h"
 
-class SceneHall : public Scene
+class SceneTrain : public Scene
 {
 public:
 
@@ -33,8 +33,8 @@ public:
 		LIGHT_TEST,
 		LIGHT_TOTAL
 	};
-	SceneHall();
-	~SceneHall();
+	SceneTrain();
+	~SceneTrain();
 
 	virtual void Init();
 	virtual void InitGL();
