@@ -137,9 +137,6 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_PLANT4]);
 
 	//Update Camera after updating collision
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
-	//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
 	camera.Updateposition();
 
 	{
