@@ -33,9 +33,6 @@ void SceneTest::Init()
 
 	ui = new UI();
 	ui->Init(character);
-	//u dont need this function, why are u storing a copy of the meshlist in the ui class
-	//the meshlist is meant for you to have the ui object obtain the mesh from the meshlist and stored it there, not the whole meshlist
-	ui->setMeshList(meshlist); 
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));

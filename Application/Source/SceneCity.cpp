@@ -42,13 +42,13 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(camera.GetPosition(), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(camera.GetPosition());
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
-	
-	//Ayaka->SetColliderBox( Vector3(0.35, 0.49, 0.35), Vector3(0,0.5,0) ); 
 	Ayaka->SetColliderBox(Vector3(0.7f, 2.f, 0.7f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
 
+	ui = new UI();
+	ui->Init(Ayaka);
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
@@ -117,7 +117,6 @@ void SceneCity::Init()
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
-
 	}
 
 	//Text
@@ -146,7 +145,7 @@ void SceneCity::Update(double dt)
 	fps = 1.f / dt;
 
 	camera.Updatemovement(dt);
-
+	Ayaka->Update(dt);
 	//Collision
 	Ayaka->CollisionResolution(Cube[0]);
 	Ayaka->CollisionResolution(Cube[1]);
@@ -160,6 +159,9 @@ void SceneCity::Update(double dt)
 	}
 	camera.Updateposition();
 
+	//UI
+	ui->setCamera(&camera);
+	ui->Update();
 	{
 		if (Application::IsKeyPressed('1'))
 		{
@@ -265,6 +267,9 @@ void SceneCity::Render()
 	{
 		textarr[i]->Draw(renderer, false);
 	}
+
+	ui->Draw(renderer, true);
+
 }
 
 void SceneCity::Exit()

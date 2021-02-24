@@ -10,6 +10,7 @@
 #include "Skybox.h"
 #include "TextureList.h"
 #include "Text.h"
+#include "UI.h"
 #include "WayPoint.h"
 
 class SceneCity : public Scene
@@ -77,7 +78,7 @@ private:
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	Text* textarr[TEXT_TOTAL];
-
+	UI* ui;
 	//Temp
 	GameObject* Cube[2];
 };

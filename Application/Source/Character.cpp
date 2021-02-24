@@ -1,15 +1,22 @@
 #include "Character.h"
 #include "Application.h"
+#include "MeshList.h"
 #include <cmath>
 
 int Character::collectibleCount = 0;
 Character::Character(unsigned int ID, Mesh* mesh):
 	VertVelocity(0),
-	Velocity(0)
+	Velocity(0),
+	Stamina(100)
 {
 	SetID(ID);
 	SetMesh(mesh);
-	//camera = NULL;
+	Wing = new GameObject(ID, MeshList::GetInstance()->GetMesh(MeshList::MESH_WING));
+	Wing->SetTranslate(Vector3(0, 3.2f, -0.4f));
+	Wing->SetScale(Vector3(0.05f, 0.05f, 0.05f));
+	Wing->SetActive(false);
+
+	AddChild(Wing);
 }
 
 Character::~Character()
@@ -19,6 +26,7 @@ Character::~Character()
 void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 {
 	isSprintable = false;
+	isGliding = false;
 	Velocity = 5.0f;
 
 	SetTranslate(position);
@@ -43,6 +51,19 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 
 void Character::Update(double dt)
 {
+	if (Wing->getActive())
+	{
+		float ScaleFactor = Wing->GetScale().x;
+		float expandingspeed = 20 * dt;
+		float finalscale = (1 - expandingspeed)* ScaleFactor + expandingspeed * 1;
+
+		Wing->SetScale(Vector3(finalscale, finalscale, finalscale));
+
+	}
+	else
+	{
+		Wing->SetScale(Vector3(0.05f, 0.05, 0.05f));
+	}
 }
 
 bool Character::IsWithinRangeOf(GameObject* item)
@@ -77,6 +98,11 @@ bool Character::getbJump()
 	return isJump;
 }
 
+bool Character::getbGlide()
+{
+	return isGliding;
+}
+
 float Character::getVertVelocity()
 {
 	return VertVelocity;
@@ -85,6 +111,16 @@ float Character::getVertVelocity()
 float Character::getVelocity()
 {
 	return Velocity;
+}
+
+float Character::getStamina()
+{
+	return Stamina;
+}
+
+GameObject* Character::getWing()
+{
+	return Wing;
 }
 
 void Character::setSprintState(bool sprintable)
@@ -107,9 +143,27 @@ void Character::setVelocity(float Velocity)
 	this->Velocity = Velocity;
 }
 
+void Character::setStamina(float stamina)
+{
+	Stamina = stamina;
+	if (Stamina <= 0)
+	{
+		Stamina = 0;
+	}
+	else if (Stamina > 100)
+	{
+		Stamina = 100;
+	}
+}
+
 void Character::setbjump(bool isJump)
 {
 	this->isJump = isJump;
+}
+
+void Character::setbGlide(bool isGliding)
+{
+	this->isGliding = isGliding;
 }
 
 void Character::IncrementCollectible()
