@@ -78,14 +78,23 @@ void UI::Update()
 
 	if (Application::IsKeyPressed('M') && !KeyPressed)
 	{
-		mapOpen = !mapOpen;
 		KeyPressed = true;
+		mapOpen = !mapOpen;
 	}
 	else if(!Application::IsKeyPressed('M') && KeyPressed)
 	{
 		KeyPressed = false;
 	}
 
+	if (Application::IsKeyPressed('T') && !KeyPressed)
+	{
+		Dialogue = !Dialogue;
+		KeyPressed = true;
+	}
+	else if (!Application::IsKeyPressed('T') && KeyPressed)
+	{
+	//	KeyPressed = false;
+	}
 }
 
 void UI::UpdateInteractions(GameObject* item)
@@ -114,20 +123,22 @@ void UI::UpdateInteractions(GameObject* item)
 
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
-	if (mapOpen == false)
+	if (!Dialogue)
 	{
-		//render stamina bar if map is not open
-		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
-	}
-	else
-	{
-		//render map
-		float x_offset = round(35 * (camera->GetPosX() / 30));
-		float y_offset = round(35 * (camera->GetPosZ() / 30));
-		
-		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
-		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
-	}
+		if (mapOpen == false)
+		{
+			//render stamina bar if map is not open
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+		}
+		else
+		{
+			//render map
+			float x_offset = round(35 * (camera->GetPosX() / 30));
+			float y_offset = round(35 * (camera->GetPosZ() / 30));
+
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
+		}
 
 		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
 		{
@@ -145,7 +156,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 	}
 	else
 	{
-		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 		text[3]->Draw(renderer, true);
 		text[7]->Draw(renderer, true);
 	}
