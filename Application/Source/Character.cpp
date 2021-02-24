@@ -173,8 +173,6 @@ void Character::IncrementCollectible()
 
 void Character::CollisionResolution(GameObject* target)
 {
-
-	
 	for (int i = 0; i < GetCollVecSize(); i++)
 	{
 		for (int j = 0; j < target->GetCollVecSize(); j++)

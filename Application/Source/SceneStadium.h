@@ -23,7 +23,6 @@ public:
 	enum LIGHT_LOCATION
 	{
 		LIGHT_MIDDLE,
-		LIGHT_TEST,
 		LIGHT_TOTAL
 	};
 
@@ -32,12 +31,6 @@ public:
 		TEXT_FPS,
 		TEXT_POSITION,
 		TEXT_TOTAL
-	};
-
-	enum WP_TYPE //USED TO SET EMPTY GAMEOBJECTS (NOMESH) as way points for us to see where we can change scenes
-	{
-		WP_STADIUM,
-		WP_TOTAL
 	};
 
 	SceneStadium();
@@ -61,8 +54,8 @@ private:
 	GameObject* Axis;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
-//	GameObject* Rings[R_TOTAL];
-	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
+	//GameObject* Rings[R_TOTAL];
+	WayPoint* Waypoint; //For a switching scenes
 
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;

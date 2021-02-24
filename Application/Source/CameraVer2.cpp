@@ -177,7 +177,7 @@ void CameraVer2::Updatemovement(double dt)
 					target->setbGlide(true);
 					gravity = -0.5f;
 					SPEED = 8 * dt;
-
+					target->setVertVelocity(-1);
 					target->getWing()->SetActive(true);
 				}
 				else
@@ -185,7 +185,6 @@ void CameraVer2::Updatemovement(double dt)
 
 					target->getWing()->SetActive(false);
 				}
-
 				target->setVertVelocity(target->getVertVelocity() + gravity * dt);
 				target->SetTranslate(target->GetTranslate() + Vector3(0, 1, 0) * target->getVertVelocity() * dt);
 			}

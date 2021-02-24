@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Text.h"
+#include "SceneManager.h"
 class WayPoint : public GameObject
 {
 public:
@@ -10,11 +11,10 @@ public:
 	void Draw(Renderer* renderer, bool enablelight) override;
 
 	//Response if target e.g. u are close to waypoint
-	void inRangeResponse(GameObject* Target);
+	bool inRangeResponse(GameObject* Target, SceneManager::SCENE_TYPE NextScene);
 
-	bool getisInRange();
 private:
 	Text* OnScreenText;
-	bool isInRange;
+	bool isInRange, isEPressed;
 };
 
