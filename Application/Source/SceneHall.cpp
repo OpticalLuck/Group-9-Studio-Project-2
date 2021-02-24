@@ -194,17 +194,17 @@ void SceneHall::Update(double dt)
 		if (Application::IsKeyPressed('P'))
 			Direction += Vector3(0, -1, 0);
 
-		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
-		{
-			setQuestStatus(true);
-		}
+		//if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+		//{
+		//	setQuestStatus(true);
+		//}
 		if (getQuestStatus() == false)
 		{
-			std::cout << "Scene2 Quest inactive." << std::endl;
+			std::cout << "Not all quests completed." << std::endl;
 		}
 		else
 		{
-			std::cout << "Scene2 Quest active." << std::endl;
+			std::cout << "All Quests completed. Proceed to Exit." << std::endl;
 		}
 
 		if (Application::IsKeyPressed('T'))
