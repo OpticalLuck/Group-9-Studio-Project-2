@@ -58,8 +58,17 @@ void UI::Init(Character* player)
 	text[5]->SetText("The Librarian:");
 	text[5]->SetTranslate(Vector3(0.f, 16, 0));
 
-	//
+	//Dialogue
+	text[6] = new Text();
+	text[6]->SetMode(Text::STATIC_SCREENTEXT);
+	text[6]->SetText("Uh... Damn it. Spatial Vortexes are the worst. Where is this place even?");
+	text[6]->SetTranslate(Vector3(0.f, 13, 0));
 
+	text[7] = new Text();
+	text[7]->SetMode(Text::STATIC_SCREENTEXT);
+	text[7]->SetText("Hmm... From the looks of it, it would seem that I have landed on a Spatial Outpost.");
+	text[7]->SetTranslate(Vector3(0.f, 13, 0));
+		 
 }
 
 void UI::Update()
@@ -169,6 +178,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 	{
 		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 		text[3]->Draw(renderer, true);
+		text[7]->Draw(renderer, true);
 	}
 }
 
