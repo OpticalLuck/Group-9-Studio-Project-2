@@ -10,6 +10,7 @@
 #include "Skybox.h"
 #include "TextureList.h"
 #include "UI.h"
+#include "NPC.h"
 
 class SceneHall : public Scene
 {
@@ -60,6 +61,7 @@ private:
 	GameObject* Axis;
 	Character* MainChar;
 	Character* Ayaka;
+	NPC* npc;
 	GameObject* Environment[EN_TOTAL];
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;

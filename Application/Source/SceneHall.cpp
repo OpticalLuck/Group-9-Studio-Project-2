@@ -46,6 +46,12 @@ void SceneHall::Init()
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
 
+	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc->SetColliderBox();
+	npc->Init(meshlist, Ayaka, Vector3(0, 3, -3), Vector3(0, 0, 0));
+	//npc->PushPathPoint(Vector3(4, 3, 0));
+	//npc->PushPathPoint(Vector3(0, 3, -9));
+
 	ui = new UI();
 	ui->Init(Ayaka);
 	ui->setMeshList(meshlist);
@@ -135,6 +141,7 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_PLANT2]);
 	Ayaka->CollisionResolution(Environment[EN_PLANT3]);
 	Ayaka->CollisionResolution(Environment[EN_PLANT4]);
+	Ayaka->CollisionResolution(npc);
 
 	//Update Camera after updating collision
 	camera.Updateposition();
@@ -214,6 +221,9 @@ void SceneHall::Update(double dt)
 		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
+
+	Ayaka->IsWithinRangeOf(npc);
+	npc->Update(dt);
 }
 
 void SceneHall::Render()
@@ -252,6 +262,8 @@ void SceneHall::Render()
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
+	
+	npc->Draw(renderer, true);
 
 	ui->Draw(renderer, true);
 }
