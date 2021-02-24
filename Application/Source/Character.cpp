@@ -35,6 +35,9 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 		isJump = true;
 		isGrounded = false;
 	}
+
+	SetColliderBox(Vector3(0.3, 0.1, 0.3), Vector3(0, 0.1, 0)); //foot box (always first)
+
 }
 
 void Character::Update(CameraVer2* camera, double dt)
@@ -204,18 +207,21 @@ void Character::IncrementCollectible()
 void Character::CollisionResolution(GameObject* target)
 {
 
-	Vector3 Translation = GetTranslate();
+	
 	for (int i = 0; i < GetCollVecSize(); i++)
 	{
 		for (int j = 0; j < target->GetCollVecSize(); j++)
 		{
 			Info CollisionInfo = GetColliderBox(i)->CheckOBBCollision(target->GetColliderBox(j));
 
+			//Standing on checking
 			if (target->GetColliderBox(j) == objectStoodOn && i == 0) {
 				isGrounded = CollisionInfo.Collided;
 				if (!isGrounded) {
 					objectStoodOn = NULL;
+					
 				}
+				
 			}
 			if (CollisionInfo.Collided)
 			{
@@ -226,14 +232,14 @@ void Character::CollisionResolution(GameObject* target)
 				{
 					distance = distance * -1;
 				}
-
+				Vector3 Translation = GetTranslate();
 				Translation += distance * CollisionInfo.Axis;
 				SetTranslate(Translation);
 				for (int updateidx = 0; updateidx < GetCollVecSize(); updateidx++)
 					GetColliderBox(updateidx)->setTranslate(Translation);
 
-				if (i == 0) {
-					if (objectStoodOn == NULL)
+				if (i == 0 && objectStoodOn == NULL) 
+				{
 						objectStoodOn = target->GetColliderBox(j);
 				}
 
