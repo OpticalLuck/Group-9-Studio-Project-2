@@ -46,10 +46,10 @@ MeshList::MeshList()
 	meshlist[MESH_PAGODA] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Pagoda/Pagoda.obj", "OBJ//Pagoda/Pagoda.mtl");
 	meshlist[MESH_PAGODA]->textureArr[0] = texturelist->Insert("Pagoda/Pagoda.tga");
 
-	meshlist[MESH_TABLE] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//table.obj", "OBJ//table.mtl");
+	meshlist[MESH_TABLE] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/table.obj", "OBJ//Hall/table.mtl");
 	meshlist[MESH_TABLE]->textureArr[0] = texturelist->Insert("table.tga");
 	
-	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//plant.obj", "OBJ//plant.mtl");
+	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/plant.obj", "OBJ//Hall/plant.mtl");
 	meshlist[MESH_PLANT]->textureArr[0] = texturelist->Insert("plant.tga");
 
 	//// <UI> 
