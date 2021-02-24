@@ -20,16 +20,14 @@ public:
 	void Exit();
 
 	GameObject* getItem();
-	MeshList* getMeshList();
 	bool getInteractable();
 
 	void setCamera(CameraVer2* camera);
 	void setItem(GameObject* item);
 	void setInteractable(bool interactable);
-	void setMeshList(MeshList* meshlist);
+
 private:
 	CameraVer2* camera;
-	MeshList* meshlist;
 	Character* Player;
 	GameObject* Quad;
 	GameObject* Item; //TODO: Make Item its own class instead of a GO
@@ -37,6 +35,7 @@ private:
 	Text* text[400];
 
 	float staminaBar_width;
+	bool KeyPressed;
 	bool interactable;
 	bool text2active;
 	bool text3active;

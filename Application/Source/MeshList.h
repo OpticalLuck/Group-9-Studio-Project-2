@@ -26,6 +26,7 @@ public:
 		MESH_SCHOOL,
 		MESH_LIBRARY,
 		MESH_PAGODA,
+		MESH_RING,
 
 		//OBJECTS
 		MESH_TABLE,
@@ -34,6 +35,7 @@ public:
 		//CHARACTER?
 		MESH_HEAD,
 		MESH_AYAKA,
+		MESH_WING,
 
 		//UI
 		MESH_STAMINABAR,

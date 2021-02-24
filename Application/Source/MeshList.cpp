@@ -52,6 +52,8 @@ MeshList::MeshList()
 	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/plant.obj", "OBJ//Hall/plant.mtl");
 	meshlist[MESH_PLANT]->textureArr[0] = texturelist->Insert("plant.tga");
 
+	meshlist[MESH_RING] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Ring/Ring.obj", "OBJ//Ring/Ring.mtl");
+
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 	meshlist[MESH_DIALOGUEBOX] = MeshBuilder::GenerateCube("For the Dialogue", Color(0.502f, 0.502f, 0.502f), 1.f, 1.f, 1.f);
@@ -62,6 +64,9 @@ MeshList::MeshList()
 	//// <NPC> 
 	meshlist[MESH_HEAD] = MeshBuilder::GenerateCube("Head", Color(1.f,1.f,0.f), 1.f, 1.f, 1.f);
 	meshlist[MESH_AYAKA] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Ayaka.obj", "OBJ//Ayaka.mtl", texturelist);
+
+	meshlist[MESH_WING] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Wing/Wing.obj", "OBJ//Wing/Wing.mtl");
+	meshlist[MESH_WING]->textureArr[0] = texturelist->Insert("Wing/Wing.tga");
 	//// </NPC> 
 
 	////Skybox

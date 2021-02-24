@@ -57,7 +57,6 @@ void SceneHall::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setMeshList(meshlist);
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));

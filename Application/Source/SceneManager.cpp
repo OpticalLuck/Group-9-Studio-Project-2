@@ -1,11 +1,14 @@
 #include "SceneManager.h"
 #include "SceneCity.h"
-#include "SceneNPCTest.h"
-#include "SceneTest.h"
 #include "SceneLibrary.h"
 #include "SceneHall.h"
 #include "SceneTrain.h"
 #include "Application.h"
+#include "SceneStadium.h"
+
+//TO BE REMOVED
+#include "SceneTest.h"
+#include "SceneNPCTest.h"
 
 SceneManager::SCENE_TYPE SceneManager::CurrentScene;
 Scene* SceneManager::mainScene = nullptr;
@@ -16,6 +19,10 @@ SceneManager::SceneManager()
 	SceneArr[SCENE_CITY] = new SceneCity();
 
 	SceneArr[SCENE_LIBRARY] = new SceneLibrary();
+
+	SceneArr[SCENE_HALL] = new SceneHall();
+	
+	SceneArr[SCENE_STADIUM] = new SceneStadium();
 
 	SceneArr[SCENE_NPCTEST] = new SceneNPCTest();
 

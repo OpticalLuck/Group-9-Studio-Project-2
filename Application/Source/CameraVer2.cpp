@@ -142,39 +142,53 @@ void CameraVer2::Updatemovement(double dt)
 		}
 		else
 		{
-			float SPEED = target->getVelocity() * dt;
 			Vector3 Height(0, 3, 0);
+			float SPEED = target->getVelocity() * dt;
+
 			//Jump code
 			{
 				float gravity = -20.f;
 				float jumpSpeed = 3.f;
+				target->setbGlide(false);
 
-				if (target->GetTranslate().y < Math::EPSILON) {
+				if (target->GetTranslate().y < Math::EPSILON)
+				{
 					target->SetTranslate(Vector3(target->GetTranslate().x, 0, target->GetTranslate().z));
 					target->setbGrounded(true);
 				}
 
-				if (target->getbGrounded() && target->getVertVelocity() < 0) 
+				if (target->getbGrounded() && target->getVertVelocity() < 0)  //landed
 				{
 					target->setVertVelocity(0);
+
+					target->getWing()->SetActive(false);
 				}
 				if (Application::IsKeyPressed(VK_SPACE) && target->getbGrounded())
 				{
 					target->setbjump(true);
 					target->setbGrounded(false);
 					target->setVertVelocity(std::sqrt(jumpSpeed * -2 * gravity));
-				}
-				else if (Application::IsKeyPressed(VK_SPACE) && target->getbJump() && target->getVertVelocity() < 0)
-				{
-					gravity = -0.5f;
-					SPEED *= 1.5;
-				}
 
+					target->getWing()->SetActive(false);
+
+				}
+				else if (Application::IsKeyPressed(VK_SPACE) && target->getbJump() && target->getVertVelocity() < 0)  //gliding
+				{
+					target->setbGlide(true);
+					gravity = -0.5f;
+					SPEED = 8 * dt;
+					target->setVertVelocity(-1);
+					target->getWing()->SetActive(true);
+				}
+				else
+				{
+
+					target->getWing()->SetActive(false);
+				}
 				target->setVertVelocity(target->getVertVelocity() + gravity * dt);
 				target->SetTranslate(target->GetTranslate() + Vector3(0, 1, 0) * target->getVertVelocity() * dt);
 			}
 
-			//USED FOR DIRECTION
 			//Direction the character is going towards aka direction vector
 			Vector3 Direction(0, 0, 0);
 			//Get camera front and right without the Y coordinate so dont have to copy paste
@@ -211,25 +225,50 @@ void CameraVer2::Updatemovement(double dt)
 				AxisDir += Vector3(-1, 0, 0);
 				KeyPressed = true;
 			}
-
-			if (Application::IsKeyPressed(VK_LSHIFT) && target->getSprintState())
+			if (!Direction.IsZero())
 			{
-				target->setVelocity(10.f) ;
+				Direction.Normalize();
+			}
+
+			//Stamina Tracking
+			if (Application::IsKeyPressed(VK_LSHIFT) && !Direction.IsZero() && !target->getbGlide())
+			{
+				//Using Stamina Bar
+				if (target->getStamina() > 0) //running
+				{
+					target->setSprintState(true);
+					target->setStamina(target->getStamina() - 50 * dt);
+				}
+				else
+				{
+					target->setSprintState(false);
+				}
+			}
+			else //not running
+			{
+				target->setSprintState(false);
+				if(!target->getbGlide())
+					target->setStamina(target->getStamina() + 50 * dt);
+			}
+
+			//Speed manipulation for running
+			if (target->getSprintState())
+			{
+				target->setVelocity(10.f);
 			}
 			else
 			{
 				target->setVelocity(5.f);
 			}
-
-			if (!Direction.IsZero())
-			{
-				Direction.Normalize();
-			}
 			target->SetTranslate(target->GetTranslate() + SPEED * Direction);
+
+			//Rotation Part
 			Mtx44 temp;
 			temp.SetToRotation(Math::RadianToDegree(atan2(view.x, view.z)), 0, 1, 0);
 			AxisDir = temp * AxisDir;
-			if (KeyPressed)
+
+
+			if (KeyPressed && !AxisDir.IsZero())
 			{
 				float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z)); // + camera->GetYaw();
 				if (targetyaw < 0)
