@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Collision.h"
-#include "CameraVer2.h"
 
 class Character : public GameObject
 { //Child of GameObject
@@ -14,13 +13,21 @@ public:
 			  Vector3 rotation = Vector3(0, 0, 0),
 			  Vector3 scale = Vector3(1, 1, 1));
 
-	void Update(CameraVer2* camera, double dt);
+	void Update(double dt);
 
 	bool IsWithinRangeOf(GameObject* item);
 	int getCollectibleCount();
 	bool getSprintState();
-	void setSprintState(bool sprintable);
+	bool getbGrounded();
+	bool getbJump();
+	float getVertVelocity();
+	float getVelocity();
 
+	void setSprintState(bool sprintable);
+	void setbGrounded(bool isGrounded);
+	void setVertVelocity(float VertVelocity);
+	void setVelocity(float Velocity);
+	void setbjump(bool isJump);
 	void IncrementCollectible();
 	void CollisionResolution(GameObject* target);
 
@@ -28,7 +35,7 @@ public:
 private:
 	static int collectibleCount;
 	bool isJump, isGrounded, isSprintable, isGliding;
-	float VertVelocity, speedModifier;
+	float VertVelocity, Velocity;
 
 	Collision* objectStoodOn;
 

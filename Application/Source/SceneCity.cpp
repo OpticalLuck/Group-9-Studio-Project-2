@@ -31,12 +31,6 @@ void SceneCity::Init()
 
 	skybox = new Skybox(goManager, meshlist, 3);
 
-	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	MainChar->Init(Vector3(0, 3, -40));
-	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
-	MainChar->SetColliderBox();
-	//MainChar->SetCamera(&camera);
-
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[0]->SetTranslate(Vector3(-20, 3, -15));
@@ -51,8 +45,9 @@ void SceneCity::Init()
 	Ayaka->Init(camera.GetPosition(), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox( Vector3(0.3, 0.5, 0.3), Vector3(0,0.5,0) ); //foot box (always first)
-	//Ayaka->SetColliderBox( Vector3(0.35, 0.49, 0.35), Vector3(0,0.5,0) ); 
 	Ayaka->SetColliderBox(Vector3(0.7f, 2.f, 0.7f), Vector3(0, 2, 0));
+	camera.SetTarget(Ayaka);
+
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
@@ -61,13 +56,13 @@ void SceneCity::Init()
 		Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));
 
 		Environment[EN_HOUSE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
-		Environment[EN_HOUSE1]->SetColliderBox(Vector3(9, 10, 12), Vector3(3.4f, 1.6f, 0));
+		Environment[EN_HOUSE1]->SetColliderBox(Vector3(12, 10, 9), Vector3(5, 1.6f, 0));
 		Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 8.6f, 10));
 		//Environment[EN_HOUSE1]->SetTranslate(Vector3(25, 0.f, 10));
 		Environment[EN_HOUSE1]->SetRotate(Vector3(0, -90, 0));
 
 		Environment[EN_HOUSE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
-		Environment[EN_HOUSE2]->SetColliderBox(Vector3(10, 9.5f, 12), Vector3(6, 1, 1));
+		Environment[EN_HOUSE2]->SetColliderBox(Vector3(11, 9.5f, 12), Vector3(6.5f, 1, 1));
 		Environment[EN_HOUSE2]->SetTranslate(Vector3(25, 8.6f, -30));
 		Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
 	
@@ -76,11 +71,12 @@ void SceneCity::Init()
 		Environment[EN_HOUSE3]->SetTranslate(Vector3(-27, 7, 12));
 	
 		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
-		Environment[EN_HOUSE4]->SetColliderBox(Vector3(9, 10, 12), Vector3(-3.4f, 1.6f, 0));
+		Environment[EN_HOUSE4]->SetColliderBox(Vector3(12, 10, 9), Vector3(-4.4f, 1.6f, 0));
 		Environment[EN_HOUSE4]->SetTranslate(Vector3(-27, 8.6, -30));
 		Environment[EN_HOUSE4]->SetRotate(Vector3(0, 90, 0));
 
 		Environment[EN_HOUSE5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE2));
+		Environment[EN_HOUSE5]->SetColliderBox(Vector3(11, 9.5f, 11), Vector3(2, 1, -6));
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-55, 8.6, 18));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
 		
@@ -94,20 +90,31 @@ void SceneCity::Init()
 		Waypoints[WP_STADIUM]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 
 		Environment[EN_GATE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GATE));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(-14.4f,19,0));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(14.4f,19,0));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 6, 28), Vector3(0, 37, 0));
 		Environment[EN_GATE]->SetTranslate(Vector3(0, 0, -48));
 		Environment[EN_GATE]->SetRotate(Vector3(0, 90, 0));
 		Environment[EN_GATE]->SetScale(Vector3(8, 8, 8));
 
 		Environment[EN_SCHOOL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_SCHOOL));
+		Environment[EN_SCHOOL]->SetColliderBox(Vector3(20, 13, 31), Vector3(-17,13,0));
+		Environment[EN_SCHOOL]->SetColliderBox(Vector3(3, 13, 8), Vector3(6,13,0.5f));
 		Environment[EN_SCHOOL]->SetTranslate(Vector3(-55, 0, -80));
 		Environment[EN_SCHOOL]->SetScale(Vector3(1.4f, 1.4f, 1.4f));
 		
 		Environment[EN_LIBRARY] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LIBRARY));
+		Environment[EN_LIBRARY]->SetColliderBox(Vector3(22, 10, 20), Vector3(4, 10, 0));
 		Environment[EN_LIBRARY]->SetTranslate(Vector3(55, 0, -80));
 		Environment[EN_LIBRARY]->SetRotate(Vector3(0, 90, 0));
 		
 		Environment[EN_PAGODA] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PAGODA));
 		Environment[EN_PAGODA]->SetTranslate(Vector3(-100, -0.4f, 65));
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(30, 3, 30), Vector3(2, 2, 0)); //Platform
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(15, 40, 15), Vector3(0, 40, 0)); //Pagoda
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(31.6f, 1.5, 0)); //Stairs
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
 
 	}
@@ -136,11 +143,8 @@ void SceneCity::InitGL()
 void SceneCity::Update(double dt)
 {
 	fps = 1.f / dt;
-	//have something else update teh cam. to have access to both cam and character
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		Ayaka->Update(&camera, dt);
-	else
-		camera.Updatemovement(dt);
+
+	camera.Updatemovement(dt);
 
 	//Collision
 	Ayaka->CollisionResolution(Cube[0]);
@@ -153,12 +157,7 @@ void SceneCity::Update(double dt)
 				Ayaka->CollisionResolution(Environment[i]);
 		}
 	}
-
-	
-
-	//Update Camera after updating collision
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
+	camera.Updateposition();
 
 	{
 		if (Application::IsKeyPressed('1'))
@@ -230,6 +229,7 @@ void SceneCity::Update(double dt)
 	float SPEED = 5 * dt;
 	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
 	lights[1]->position = Cube[0]->GetTranslate();
+
 }
 
 void SceneCity::Render()
@@ -240,7 +240,6 @@ void SceneCity::Render()
 
 	for (int i = 0; i < 2; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
-	//renderer->SetLight(lights[1]);
 
 	Axis->Draw(renderer, false);
 

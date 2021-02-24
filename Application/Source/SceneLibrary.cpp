@@ -44,6 +44,7 @@ void SceneLibrary::Init()
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
+	camera.SetTarget(Ayaka);
 
 	ui = new UI();
 	ui->Init(Ayaka);
@@ -102,11 +103,7 @@ void SceneLibrary::InitGL()
 
 void SceneLibrary::Update(double dt)
 {
-	//have something else update teh cam. to have access to both cam and character
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		Ayaka->Update(&camera, dt);
-	else
-		camera.Updatemovement(dt);
+	camera.Updatemovement(dt);
 
 	ui->setCamera(&camera);
 	ui->Update();
@@ -119,10 +116,7 @@ void SceneLibrary::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR6]);
 	Ayaka->CollisionResolution(Environment[EN_COUNTER]);
-
-	//Update Camera after updating collision
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		camera.SetTarget(Ayaka->GetTranslate() + Vector3(0, 3.5f, 0));
+	camera.Updateposition();
 
 	{
 		if (Application::IsKeyPressed('1'))

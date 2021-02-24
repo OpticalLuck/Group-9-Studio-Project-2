@@ -71,7 +71,6 @@ private:
 
 	GOManager goManager;
 	GameObject* Axis;
-	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
 	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
