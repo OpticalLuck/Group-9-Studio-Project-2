@@ -34,11 +34,12 @@ private:
 	GameObject* Quad;
 	GameObject* Item; //TODO: Make Item its own class instead of a GO
 
-	Text* text[3];
+	Text* text[400];
 
 	float staminaBar_width;
 	bool interactable;
 	bool text2active;
 	bool text3active;
 	bool mapOpen;
+	bool Dialogue;
 };

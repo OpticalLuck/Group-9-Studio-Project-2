@@ -18,6 +18,7 @@ void UI::Init(Character* player)
 
 	interactable = false;
 	mapOpen = false;
+	Dialogue = false;
 
 	/*Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));*/
 
@@ -38,6 +39,26 @@ void UI::Init(Character* player)
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Press E to Interact");
 	text[2]->SetTranslate(Vector3(50.5, 12.5, 0));
+
+	////Dialogue for everything
+
+	//Characters
+	text[3] = new Text();
+	text[3]->SetMode(Text::STATIC_SCREENTEXT);
+	text[3]->SetText("Ayaka:");
+	text[3]->SetTranslate(Vector3(0.f, 16, 0));
+
+	text[4] = new Text();
+	text[4]->SetMode(Text::STATIC_SCREENTEXT);
+	text[4]->SetText("City Mayor:");
+	text[4]->SetTranslate(Vector3(0.f, 16, 0));
+
+	text[5] = new Text();
+	text[5]->SetMode(Text::STATIC_SCREENTEXT);
+	text[5]->SetText("The Librarian:");
+	text[5]->SetTranslate(Vector3(0.f, 16, 0));
+
+	//
 
 }
 
@@ -81,6 +102,10 @@ void UI::Update()
 	{
 		mapOpen = !mapOpen;
 	}
+	if (Application::IsKeyPressed('T'))
+	{
+		Dialogue = !Dialogue;
+	}
 }
 
 void UI::UpdateInteractions(GameObject* item)
@@ -109,33 +134,41 @@ void UI::UpdateInteractions(GameObject* item)
 
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
-	if (mapOpen == false)
+	if (Dialogue == false)
 	{
-		//render stamina bar if map is not open
-		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+		if (mapOpen == false)
+		{
+			//render stamina bar if map is not open
+			renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+		}
+		else
+		{
+			//render map
+			float x_offset = round(35 * (camera->GetPosX() / 30));
+			float y_offset = round(35 * (camera->GetPosZ() / 30));
+
+			renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
+			renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
+		}
+
+		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
+		{
+			text[0]->Draw(renderer, enableLight);
+		}
+		else																			//Sprinting
+		{
+			text[1]->Draw(renderer, enableLight);
+		}
+
+		if (text2active == true)
+		{
+			text[2]->Draw(renderer, true);
+		}
 	}
 	else
 	{
-		//render map
-		float x_offset = round(35 * (Player->GetTranslate().x / 30));
-		float y_offset = round(35 * (Player->GetTranslate().z / 30));
-		
-		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
-		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
-	}
-
-	if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
-	{
-		text[0]->Draw(renderer, enableLight);
-	}
-	else																			//Sprinting
-	{
-		text[1]->Draw(renderer, enableLight);
-	}
-
-	if (text2active == true)
-	{
-		text[2]->Draw(renderer, true);
+		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+		text[3]->Draw(renderer, true);
 	}
 }
 

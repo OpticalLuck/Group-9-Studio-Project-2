@@ -37,6 +37,7 @@ public:
 
 		//UI
 		MESH_STAMINABAR,
+		MESH_DIALOGUEBOX,
 		MESH_ICON,
 
 		//SKYBOX
