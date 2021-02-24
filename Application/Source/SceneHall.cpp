@@ -40,11 +40,20 @@ void SceneHall::Init()
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->SetColliderBox();
 
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible->SetTranslate(Vector3(0, 3, 0));
+
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
+
+	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc->SetColliderBox();
+	npc->Init(meshlist, Ayaka, Vector3(0, 3, -3), Vector3(0, 0, 0));
+	//npc->PushPathPoint(Vector3(4, 3, 0));
+	//npc->PushPathPoint(Vector3(0, 3, -9));
 
 	ui = new UI();
 	ui->Init(Ayaka);
@@ -83,10 +92,26 @@ void SceneHall::Init()
 		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
 		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
 
-		//Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-		//Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
-		//Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
-		//Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
+		Environment[EN_TABLE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
+		Environment[EN_TABLE]->SetColliderBox(Vector3(4, 2.5, 1.6));
+		Environment[EN_TABLE]->SetScale(Vector3(2, 2.5, 1.5));
+		Environment[EN_TABLE]->SetTranslate(Vector3(0, 0.025, 0));
+		
+		Environment[EN_PLANT1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT1]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT1]->SetTranslate(Vector3(14, 0, 14));
+
+		Environment[EN_PLANT2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT2]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT2]->SetTranslate(Vector3(-14, 0, 14));
+
+		Environment[EN_PLANT3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT3]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT3]->SetTranslate(Vector3(-14, 0, -14));
+
+		Environment[EN_PLANT4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT4]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT4]->SetTranslate(Vector3(14, 0, -14));
 	}
 }
 
@@ -113,7 +138,14 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
-	//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+	Ayaka->CollisionResolution(Environment[EN_TABLE]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT1]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT2]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT3]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT4]);
+	Ayaka->CollisionResolution(npc);
+
+	//Update Camera after updating collision
 	camera.Updateposition();
 
 	{
@@ -161,6 +193,19 @@ void SceneHall::Update(double dt)
 		if (Application::IsKeyPressed('P'))
 			Direction += Vector3(0, -1, 0);
 
+		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+		{
+			setQuestStatus(true);
+		}
+		if (getQuestStatus() == false)
+		{
+			std::cout << "Scene2 Quest inactive." << std::endl;
+		}
+		else
+		{
+			std::cout << "Scene2 Quest active." << std::endl;
+		}
+
 		if (Application::IsKeyPressed('T'))
 		{
 			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
@@ -191,6 +236,9 @@ void SceneHall::Update(double dt)
 		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
+
+	Ayaka->IsWithinRangeOf(npc);
+	npc->Update(dt);
 }
 
 void SceneHall::Render()
@@ -218,13 +266,32 @@ void SceneHall::Render()
 	Environment[EN_FLOOR4]->Draw(renderer, true);
 	Environment[EN_FLOOR5]->Draw(renderer, true);
 	Environment[EN_FLOOR6]->Draw(renderer, true);
-	//Environment[EN_COUNTER]->Draw(renderer, true);
+	Environment[EN_TABLE]->Draw(renderer, true);
+	Environment[EN_PLANT1]->Draw(renderer, true);
+	Environment[EN_PLANT2]->Draw(renderer, true);
+	Environment[EN_PLANT3]->Draw(renderer, true);
+	Environment[EN_PLANT4]->Draw(renderer, true);
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
+	
+	npc->Draw(renderer, true);
+
+	Collectible->Draw(renderer, true);
+	ui->setItem(Collectible);
+	if (Ayaka->GetInRange(Collectible, 4))
+	{
+		ui->setInteractable(true);
+		ui->UpdateInteractions(Collectible);
+	}
+	else 
+	{
+		ui->setInteractable(false);
+		ui->UpdateInteractions(Collectible);
+	}
 
 	ui->Draw(renderer, true);
 }

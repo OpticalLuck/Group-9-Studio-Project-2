@@ -3,6 +3,8 @@
 #include "SceneCity.h"
 #include "SceneLibrary.h"
 #include "SceneHall.h"
+#include "SceneTrain.h"
+#include "Application.h"
 #include "SceneStadium.h"
 
 //TO BE REMOVED
@@ -27,6 +29,9 @@ SceneManager::SceneManager()
 
 	SceneArr[SCENE_TEST] = new SceneTest();
 
+	SceneArr[SCENE_HALL] = new SceneHall();
+
+	SceneArr[SCENE_TRAIN] = new SceneTrain();
 }
 
 SceneManager::~SceneManager()

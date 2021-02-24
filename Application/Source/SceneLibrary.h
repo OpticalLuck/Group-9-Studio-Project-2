@@ -46,6 +46,14 @@ public:
 
 private:
 	double fps;
+
+	bool Question_1_Done = false;
+	bool Question_1_Correct = false;
+	bool Question_2_Done = false;
+	bool Question_2_Correct = false;
+	bool Question_3_Done = false;
+	bool Question_3_Correct = false;
+
 	Renderer* renderer;
 
 	TextureList* texturelist;

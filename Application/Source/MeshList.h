@@ -28,6 +28,10 @@ public:
 		MESH_PAGODA,
 		MESH_RING,
 
+		//OBJECTS
+		MESH_TABLE,
+		MESH_PLANT,
+
 		//CHARACTER?
 		MESH_HEAD,
 		MESH_AYAKA,
@@ -35,6 +39,7 @@ public:
 
 		//UI
 		MESH_STAMINABAR,
+		MESH_DIALOGUEBOX,
 		MESH_ICON,
 
 		//SKYBOX

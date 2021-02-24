@@ -201,7 +201,7 @@ void CameraVer2::Updatemovement(double dt)
 			Vector3 AxisDir(0, 0, 0);// Direction vector along the axis for calculating rotation
 			bool KeyPressed = false;
 			float CharAngle = target->GetRotate().y;
-
+			
 			if (Application::IsKeyPressed('W'))
 			{
 				Direction += camFront;

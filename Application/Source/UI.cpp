@@ -19,6 +19,7 @@ void UI::Init(Character* player)
 
 	interactable = false;
 	mapOpen = false;
+	Dialogue = false;
 
 	/*Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));*/
 
@@ -40,6 +41,35 @@ void UI::Init(Character* player)
 	text[2]->SetText("Press E to Interact");
 	text[2]->SetTranslate(Vector3(50.5, 12.5, 0));
 
+	////Dialogue for everything
+
+	//Characters
+	text[3] = new Text();
+	text[3]->SetMode(Text::STATIC_SCREENTEXT);
+	text[3]->SetText("Ayaka:");
+	text[3]->SetTranslate(Vector3(0.f, 16, 0));
+
+	text[4] = new Text();
+	text[4]->SetMode(Text::STATIC_SCREENTEXT);
+	text[4]->SetText("City Mayor:");
+	text[4]->SetTranslate(Vector3(0.f, 16, 0));
+
+	text[5] = new Text();
+	text[5]->SetMode(Text::STATIC_SCREENTEXT);
+	text[5]->SetText("The Librarian:");
+	text[5]->SetTranslate(Vector3(0.f, 16, 0));
+
+	//Dialogue
+	text[6] = new Text();
+	text[6]->SetMode(Text::STATIC_SCREENTEXT);
+	text[6]->SetText("Uh... Damn it. Spatial Vortexes are the worst. Where is this place even?");
+	text[6]->SetTranslate(Vector3(0.f, 13, 0));
+
+	text[7] = new Text();
+	text[7]->SetMode(Text::STATIC_SCREENTEXT);
+	text[7]->SetText("Hmm... From the looks of it, it would seem that I have landed on a Spatial Outpost.");
+	text[7]->SetTranslate(Vector3(0.f, 13, 0));
+		 
 }
 
 void UI::Update()
@@ -99,18 +129,25 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
 	}
 
-	if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
-	{
-		text[0]->Draw(renderer, enableLight);
-	}
-	else																			//Sprinting
-	{
-		text[1]->Draw(renderer, enableLight);
-	}
+		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
+		{
+			text[0]->Draw(renderer, enableLight);
+		}
+		else																			//Sprinting
+		{
+			text[1]->Draw(renderer, enableLight);
+		}
 
-	if (text2active == true)
+		if (text2active == true)
+		{
+			text[2]->Draw(renderer, true);
+		}
+	}
+	else
 	{
-		text[2]->Draw(renderer, true);
+		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+		text[3]->Draw(renderer, true);
+		text[7]->Draw(renderer, true);
 	}
 }
 

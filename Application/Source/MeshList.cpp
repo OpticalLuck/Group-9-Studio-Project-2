@@ -46,10 +46,17 @@ MeshList::MeshList()
 	meshlist[MESH_PAGODA] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Pagoda/Pagoda.obj", "OBJ//Pagoda/Pagoda.mtl");
 	meshlist[MESH_PAGODA]->textureArr[0] = texturelist->Insert("Pagoda/Pagoda.tga");
 
+	meshlist[MESH_TABLE] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/table.obj", "OBJ//Hall/table.mtl");
+	meshlist[MESH_TABLE]->textureArr[0] = texturelist->Insert("table.tga");
+	
+	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/plant.obj", "OBJ//Hall/plant.mtl");
+	meshlist[MESH_PLANT]->textureArr[0] = texturelist->Insert("plant.tga");
+
 	meshlist[MESH_RING] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Ring/Ring.obj", "OBJ//Ring/Ring.mtl");
 
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
+	meshlist[MESH_DIALOGUEBOX] = MeshBuilder::GenerateCube("For the Dialogue", Color(0.502f, 0.502f, 0.502f), 1.f, 1.f, 1.f);
 
 	meshlist[MESH_ICON] = MeshBuilder::GenerateQuad("Icon", Color(1.f, 0.f, 0.f), 1.0f);
 	//// </UI> 
