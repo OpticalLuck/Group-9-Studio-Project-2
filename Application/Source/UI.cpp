@@ -117,8 +117,8 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 	else
 	{
 		//render map
-		float x_offset = round(35 * (camera->GetPosX() / 30));
-		float y_offset = round(35 * (camera->GetPosZ() / 30));
+		float x_offset = round(35 * (Player->GetTranslate().x / 30));
+		float y_offset = round(35 * (Player->GetTranslate().z / 30));
 		
 		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
 		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);

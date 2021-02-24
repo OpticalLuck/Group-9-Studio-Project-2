@@ -23,7 +23,11 @@ public:
 		EN_FLOOR4,
 		EN_FLOOR5,
 		EN_FLOOR6,
-		EN_COUNTER,
+		EN_TABLE,
+		EN_PLANT1,
+		EN_PLANT2,
+		EN_PLANT3,
+		EN_PLANT4,
 		EN_TOTAL
 	};
 

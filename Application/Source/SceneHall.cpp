@@ -83,10 +83,26 @@ void SceneHall::Init()
 		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
 		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
 
-		//Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-		//Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
-		//Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
-		//Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
+		Environment[EN_TABLE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
+		Environment[EN_TABLE]->SetColliderBox(Vector3(4, 2.5, 1.6));
+		Environment[EN_TABLE]->SetScale(Vector3(2, 2.5, 1.5));
+		Environment[EN_TABLE]->SetTranslate(Vector3(0, 0.025, 0));
+		
+		Environment[EN_PLANT1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT1]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT1]->SetTranslate(Vector3(14, 0, 14));
+
+		Environment[EN_PLANT2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT2]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT2]->SetTranslate(Vector3(-14, 0, 14));
+
+		Environment[EN_PLANT3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT3]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT3]->SetTranslate(Vector3(-14, 0, -14));
+
+		Environment[EN_PLANT4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT4]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT4]->SetTranslate(Vector3(14, 0, -14));
 	}
 }
 
@@ -115,7 +131,11 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
-	//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+	Ayaka->CollisionResolution(Environment[EN_TABLE]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT1]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT2]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT3]);
+	Ayaka->CollisionResolution(Environment[EN_PLANT4]);
 
 	//Update Camera after updating collision
 	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
@@ -223,7 +243,11 @@ void SceneHall::Render()
 	Environment[EN_FLOOR4]->Draw(renderer, true);
 	Environment[EN_FLOOR5]->Draw(renderer, true);
 	Environment[EN_FLOOR6]->Draw(renderer, true);
-	//Environment[EN_COUNTER]->Draw(renderer, true);
+	Environment[EN_TABLE]->Draw(renderer, true);
+	Environment[EN_PLANT1]->Draw(renderer, true);
+	Environment[EN_PLANT2]->Draw(renderer, true);
+	Environment[EN_PLANT3]->Draw(renderer, true);
+	Environment[EN_PLANT4]->Draw(renderer, true);
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 
