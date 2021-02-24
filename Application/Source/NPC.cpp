@@ -36,15 +36,20 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			//RotateTowardsCharacter(BodyArr[HEAD], 90.f);
+			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 			
-			RotateToPoint(destinations.front()); //Error happened here btw 
-			MoveToPos(destinations.front());
-			if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
-				destinations.pop();
+			if (!destinations.empty()) { //Stop moving when all destinations reached
+				RotateToPoint(destinations.front());
+				MoveToPos(destinations.front());
+				if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
+					destinations.pop();
+				}
+			}
+			else {
+				SetCurrentFlag(FLAG1);
 			}
 
 		}
