@@ -3,6 +3,7 @@
 #include "SceneNPCTest.h"
 #include "SceneTest.h"
 #include "SceneLibrary.h"
+#include "SceneHall.h"
 #include "Application.h"
 
 SceneManager::SCENE_TYPE SceneManager::CurrentScene;
@@ -18,6 +19,8 @@ SceneManager::SceneManager()
 	SceneArr[SCENE_NPCTEST] = new SceneNPCTest();
 
 	SceneArr[SCENE_TEST] = new SceneTest();
+
+	SceneArr[SCENE_HALL] = new SceneHall();
 }
 
 SceneManager::~SceneManager()

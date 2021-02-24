@@ -79,6 +79,7 @@ void SceneLibrary::Init()
 		Environment[EN_FLOOR5]->SetRotate(Vector3(0, 0, 270));
 
 		Environment[EN_FLOOR6] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+		Environment[EN_FLOOR6]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR6]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
 		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
@@ -111,10 +112,12 @@ void SceneLibrary::Update(double dt)
 	ui->Update();
 
 	//Collision
+	Ayaka->CollisionResolution(Environment[EN_FLOOR1]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
+	Ayaka->CollisionResolution(Environment[EN_FLOOR6]);
 	Ayaka->CollisionResolution(Environment[EN_COUNTER]);
 
 	//Update Camera after updating collision
