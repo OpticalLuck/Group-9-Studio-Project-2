@@ -63,6 +63,7 @@ private:
 	Character* Ayaka;
 	NPC* npc;
 	GameObject* Environment[EN_TOTAL];
+	GameObject* Collectible;
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 

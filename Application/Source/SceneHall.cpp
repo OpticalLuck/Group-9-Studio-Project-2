@@ -40,6 +40,9 @@ void SceneHall::Init()
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->SetColliderBox();
 
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible->SetTranslate(Vector3(0, 3, 0));
+
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
@@ -191,6 +194,19 @@ void SceneHall::Update(double dt)
 		if (Application::IsKeyPressed('P'))
 			Direction += Vector3(0, -1, 0);
 
+		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+		{
+			setQuestStatus(true);
+		}
+		if (getQuestStatus() == false)
+		{
+			std::cout << "Scene2 Quest inactive." << std::endl;
+		}
+		else
+		{
+			std::cout << "Scene2 Quest active." << std::endl;
+		}
+
 		if (Application::IsKeyPressed('T'))
 		{
 			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
@@ -264,6 +280,19 @@ void SceneHall::Render()
 	Ayaka->Draw(renderer, true);
 	
 	npc->Draw(renderer, true);
+
+	Collectible->Draw(renderer, true);
+	ui->setItem(Collectible);
+	if (Ayaka->GetInRange(Collectible, 4))
+	{
+		ui->setInteractable(true);
+		ui->UpdateInteractions(Collectible);
+	}
+	else 
+	{
+		ui->setInteractable(false);
+		ui->UpdateInteractions(Collectible);
+	}
 
 	ui->Draw(renderer, true);
 }
