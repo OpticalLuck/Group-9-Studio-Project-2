@@ -29,6 +29,8 @@ void SceneTest::Init()
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
 
 	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	camera.SetTarget(character);
+
 	ui = new UI();
 	ui->Init(character);
 	//u dont need this function, why are u storing a copy of the meshlist in the ui class

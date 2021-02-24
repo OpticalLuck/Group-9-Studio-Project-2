@@ -1,5 +1,5 @@
-#ifndef SCENE_TEXT_H
-#define SCENE_TEXT_H
+#ifndef SCENE_TRAIN_H
+#define SCENE_TRAIN_H
 
 #include "Scene.h"
 #include "Renderer.h"
@@ -9,26 +9,21 @@
 #include "GOManager.h"
 #include "Skybox.h"
 #include "TextureList.h"
-#include "Text.h"
-#include "WayPoint.h"
+#include "UI.h"
 
-class SceneCity : public Scene
+class SceneTrain : public Scene
 {
 public:
+
 	enum Environment_Type
 	{
-		EN_FLOOR = 0,
-		EN_GATE,
-		EN_HOUSE1,
-		EN_HOUSE2,
-		EN_HOUSE3,
-		EN_HOUSE4,
-		EN_HOUSE5,
-		EN_TOWER1,
-		EN_STADIUM,
-		EN_SCHOOL,
-		EN_LIBRARY,
-		EN_PAGODA,
+		EN_FLOOR1 = 0,
+		EN_FLOOR2,
+		EN_FLOOR3,
+		EN_FLOOR4,
+		EN_FLOOR5,
+		EN_FLOOR6,
+		EN_COUNTER,
 		EN_TOTAL
 	};
 
@@ -38,21 +33,8 @@ public:
 		LIGHT_TEST,
 		LIGHT_TOTAL
 	};
-
-	enum TEXT_TYPE
-	{
-		TEXT_FPS,
-		TEXT_POSITION,
-		TEXT_TOTAL
-	};
-
-	enum WP_TYPE //USED TO SET EMPTY GAMEOBJECTS (NOMESH) as way points for us to see where we can change scenes
-	{
-		WP_STADIUM,
-		WP_TOTAL
-	};
-	SceneCity();
-	~SceneCity();
+	SceneTrain();
+	~SceneTrain();
 
 	virtual void Init();
 	virtual void InitGL();
@@ -64,19 +46,19 @@ public:
 
 private:
 	double fps;
-
 	Renderer* renderer;
 
+	TextureList* texturelist;
+	MeshList* meshlist;
 	CameraVer2 camera;
-
+	UI* ui;
 	GOManager goManager;
 	GameObject* Axis;
+	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
-	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
-	Text* textarr[TEXT_TOTAL];
 
 	//Temp
 	GameObject* Cube[2];

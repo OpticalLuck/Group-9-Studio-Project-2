@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3.h"
+#include "Character.h"
 
 class CameraVer2
 {
@@ -22,9 +23,9 @@ public:
 	void Update(double x_offset, double y_offset);
 	//Updates view based on input
 	void Updatemovement(double dt);
+	void Updateposition();
 
 
-	void SetTarget(Vector3 target);
 	void SetPosition(Vector3 position);
 	void SetView(Vector3 view);
 
@@ -40,6 +41,7 @@ public:
 	void ToggleControls(bool Controls);
 
 	void SetYaw(float yaw);
+	void SetTarget(Character* character);
 
 	//getters
 	Vector3 GetRight() const;
@@ -62,7 +64,7 @@ private:
 	Vector3 position;
 	Vector3 view;
 	Vector3 up;
-	Vector3 target;
+	Character* target;
 	CAMERA_MODE mode, prev_mode;
 	float sensitivity, speed, distance, pos_x, pos_z;
 	float yaw;

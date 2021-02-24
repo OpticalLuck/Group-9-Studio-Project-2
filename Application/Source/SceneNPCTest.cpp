@@ -34,6 +34,7 @@ void SceneNPCTest::Init()
 	MainCharacter->SetColliderBox();
 	MainCharacter->Init(Vector3(0, 3, 11));
 	MainCharacter->SetRotate(Vector3(0, Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)), 0));
+	camera.SetTarget(MainCharacter);
 
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	npc->SetColliderBox();
@@ -57,11 +58,7 @@ void SceneNPCTest::Update(double dt)
 {
 	fps = 1.f / dt;
 	static bool bLButtonState = false;
-
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		MainCharacter->Update(&camera, dt);
-	else
-		camera.Updatemovement(dt);
+	camera.Updatemovement(dt);
 
 
 	//Debug controls
@@ -105,8 +102,6 @@ void SceneNPCTest::Update(double dt)
 	//MainCharacter->SetTranslate(camera.GetPosition());
 
 	//MainCharacter->SetCamera(&camera);
-	if (camera.GetMode() == CameraVer2::THIRD_PERSON)
-		camera.SetTarget(MainCharacter->GetTranslate());
 	MainCharacter->IsWithinRangeOf(npc);
 	npc->Update(dt);
 

@@ -1,4 +1,4 @@
-#include "SceneLibrary.h"
+#include "SceneTrain.h"
 #include "GL\glew.h"
 #include "Application.h"
 #include <sstream>
@@ -6,16 +6,16 @@
 #include "MeshBuilder.h"
 #include "shader.hpp"
 
-SceneLibrary::SceneLibrary() :
+SceneTrain::SceneTrain() :
 	fps(0.f)
 {
 }
 
-SceneLibrary::~SceneLibrary()
+SceneTrain::~SceneTrain()
 {
 }
 
-void SceneLibrary::Init()
+void SceneTrain::Init()
 {
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
@@ -55,44 +55,17 @@ void SceneLibrary::Init()
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR1]->SetRotate(Vector3(0, 180, 0));
 
-		Environment[EN_FLOOR2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		Environment[EN_FLOOR2]->SetColliderBox(Vector3(15, 0, 15));
-		Environment[EN_FLOOR2]->SetScale(Vector3(30, 30, 30));
-		Environment[EN_FLOOR2]->SetTranslate(Vector3(0, 0, -15));
-		Environment[EN_FLOOR2]->SetRotate(Vector3(90, 0, 0));
+		
 
-		Environment[EN_FLOOR3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		Environment[EN_FLOOR3]->SetColliderBox(Vector3(15, 0, 15));
-		Environment[EN_FLOOR3]->SetScale(Vector3(30, 30, 30));
-		Environment[EN_FLOOR3]->SetTranslate(Vector3(0, 0, 15));
-		Environment[EN_FLOOR3]->SetRotate(Vector3(90, 180, 0));
-
-		Environment[EN_FLOOR4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		Environment[EN_FLOOR4]->SetColliderBox(Vector3(15, 0, 15));
-		Environment[EN_FLOOR4]->SetScale(Vector3(30, 30, 30));
-		Environment[EN_FLOOR4]->SetTranslate(Vector3(15, 0, 0));
-		Environment[EN_FLOOR4]->SetRotate(Vector3(0, 0, 90));
-
-		Environment[EN_FLOOR5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		Environment[EN_FLOOR5]->SetColliderBox(Vector3(15, 0, 15));
-		Environment[EN_FLOOR5]->SetScale(Vector3(30, 30, 30));
-		Environment[EN_FLOOR5]->SetTranslate(Vector3(-15, 0, 0));
-		Environment[EN_FLOOR5]->SetRotate(Vector3(0, 0, 270));
-
-		Environment[EN_FLOOR6] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		Environment[EN_FLOOR6]->SetColliderBox(Vector3(15, 0, 15));
-		Environment[EN_FLOOR6]->SetScale(Vector3(30, 30, 30));
-		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
-		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
-
-		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-		Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
-		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
-		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
+		
+		//Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+		//Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
+		//Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
+		//Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
 	}
 }
 
-void SceneLibrary::InitGL()
+void SceneTrain::InitGL()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
 	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 50, 80), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -50, -80));
@@ -101,21 +74,21 @@ void SceneLibrary::InitGL()
 }
 
 
-void SceneLibrary::Update(double dt)
+void SceneTrain::Update(double dt)
 {
+	//have something else update teh cam. to have access to both cam and character
+	
 	camera.Updatemovement(dt);
 
 	ui->setCamera(&camera);
 	ui->Update();
 
 	//Collision
-	Ayaka->CollisionResolution(Environment[EN_FLOOR1]);
-	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
+	/*Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
-	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
-	Ayaka->CollisionResolution(Environment[EN_FLOOR6]);
-	Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);*/
+	//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
 	camera.Updateposition();
 
 	{
@@ -195,7 +168,7 @@ void SceneLibrary::Update(double dt)
 	}
 }
 
-void SceneLibrary::Render()
+void SceneTrain::Render()
 {
 	renderer->Reset();
 	renderer->LoadIdentity();
@@ -215,12 +188,12 @@ void SceneLibrary::Render()
 	/*Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);*/
 	Environment[EN_FLOOR1]->Draw(renderer, true);
-	Environment[EN_FLOOR2]->Draw(renderer, true);
-	Environment[EN_FLOOR3]->Draw(renderer, true);
-	Environment[EN_FLOOR4]->Draw(renderer, true);
-	Environment[EN_FLOOR5]->Draw(renderer, true);
-	Environment[EN_FLOOR6]->Draw(renderer, true);
-	Environment[EN_COUNTER]->Draw(renderer, true);
+	//Environment[EN_FLOOR2]->Draw(renderer, true);
+	//Environment[EN_FLOOR3]->Draw(renderer, true);
+	//Environment[EN_FLOOR4]->Draw(renderer, true);
+	//Environment[EN_FLOOR5]->Draw(renderer, true);
+	//Environment[EN_FLOOR6]->Draw(renderer, true);
+	//Environment[EN_COUNTER]->Draw(renderer, true);
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 
@@ -231,13 +204,13 @@ void SceneLibrary::Render()
 	ui->Draw(renderer, true);
 }
 
-void SceneLibrary::Exit()
+void SceneTrain::Exit()
 {
 	delete renderer;
 	Shader::Destroy();
 }
 
-void SceneLibrary::UpdateMousePos(double xoffset, double yoffset)
+void SceneTrain::UpdateMousePos(double xoffset, double yoffset)
 {
 	camera.Update(xoffset, yoffset);
 }

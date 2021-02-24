@@ -36,15 +36,49 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			//RotateTowardsCharacter(BodyArr[HEAD], 90.f);
+			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
 		}
+
+		else if (getCurrentFlag() == FLAG4) {
+			
+			
+			if (GetRotate().y == GetAngleToPoint(destinations.front()))
+				SetCurrentFlag(FLAG0);
+
+		}
+
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 			
-			RotateToPoint(destinations.front()); //Error happened here btw 
-			MoveToPos(destinations.front());
-			if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
-				destinations.pop();
+			if (!destinations.empty()) { //Stop moving when all destinations reached
+				
+				float angleToPoint = GetAngleToPoint(destinations.front());
+				float offsetangle = 0.9f;
+				if (GetRotate().y < angleToPoint - offsetangle || GetRotate().y > angleToPoint + offsetangle) {
+					float ROTATIONSPEED = 2 * dt;
+					float rotationval;
+
+					rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * GetAngleToPoint(destinations.front());
+					if (GetRotate().y > 360)
+					{
+						rotationval -= 360;
+					}
+					else if (GetRotate().y < 0)
+					{
+						rotationval += 360;
+					}
+					SetRotate(Vector3(0, rotationval, 0));
+					std::cout << rotationval  << "\n";
+				}
+				else {
+					MoveToPos(destinations.front());
+					if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
+						destinations.pop();
+					}
+				}
+			}
+			else {
+				SetCurrentFlag(FLAG1);
 			}
 
 		}
@@ -112,40 +146,34 @@ void NPC::BuildMeshes(MeshList* meshlist)
 
 
 
-void NPC::RotateToPoint(Vector3 point)
+float NPC::GetAngleToPoint(Vector3 point)
 {
-	//Mtx44 rotationx, rotationy, rotationz;
-	//rotationx.SetToRotation(-(GetRotate().x), 1, 0, 0);
-	//rotationy.SetToRotation(-GetRotate().y, 0, 0.98, 0);
-	////rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
+	
 
+	Vector3 AxisDir(0, 0, 1);
+	
 	Vector3 objectdiff = (point - GetTranslate()).Normalized();
-	////move object to be at tested position for calculations
-	////Vector3 rotate = GetRotate();
-	//Vector3 objectdiffx = rotationx * objectdiff;
-	//Vector3 objectdiffy = rotationy * objectdiff;
-	////Vector3 objectdiffz = rotationz * objectdiff;
-	////Move projected object with position
+	float currentAngle = GetRotate().y;
+	Mtx44 temp;
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.x, objectdiff.z)), 0, 1, 0);
+	AxisDir = temp * AxisDir;
+	float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
+	if (targetyaw < 0)
+		targetyaw += 360;
 
+	float smallestyaw = 999.f;
+	for (int i = -1; i <= 1; ++i)
+	{
+		float thisyaw = targetyaw + i * 360.f;
+		if (fabs(thisyaw - currentAngle) < fabs(smallestyaw - currentAngle))
+		{
+			smallestyaw = thisyaw;
+		}
+	}
+	currentAngle = smallestyaw;
 
-
-	////calculations 
-
-
-	float yangle = AngleBetween(objectdiff, 1) + 90;
-
-	//std::cout << yangle << "\n";
-	Mtx44 rotationx;
-	////x angle bounds move with y angle
-	rotationx.SetToRotation(-yangle, 0, 1, 0);
-	//objectdiffx = rotationx * objectdiffx;
-	//objectdiffx = rotationy * objectdiffx;
-
-	//
-
-	//float xangle = AngleBetween(objectdiffx, 0);
-	RotateToVector(this, Vector3(0, yangle, 0));
-
+	return currentAngle;
+	
 
 }
 
@@ -183,7 +211,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	rotationx.SetToRotation(-yangle, 0, 1, 0);
 	objectdiffx = rotationx * objectdiffx;
 	objectdiffx = rotationy * objectdiffx;
-	std::cout << GetRotate().y << "\n";
 	//y angle boundaries
 	if ( (yangle < -maximumangle && yangle > -180)) {
 		yangle = -maximumangle;

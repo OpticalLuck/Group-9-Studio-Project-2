@@ -168,6 +168,7 @@
     <ClCompile Include="Source\SceneNPCTest.cpp" />
     <ClCompile Include="Source\SceneStadium.cpp" />
     <ClCompile Include="Source\SceneTest.cpp" />
+    <ClCompile Include="Source\SceneTrain.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Skybox.cpp" />
     <ClCompile Include="Source\Text.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Source\SceneNPCTest.h" />
     <ClInclude Include="Source\SceneStadium.h" />
     <ClInclude Include="Source\SceneTest.h" />
+    <ClInclude Include="Source\SceneTrain.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\Skybox.h" />

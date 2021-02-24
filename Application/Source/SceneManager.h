@@ -11,6 +11,7 @@ public:
 		SCENE_TEST,
 		SCENE_NPCTEST,
 		SCENE_HALL,
+		SCENE_TRAIN,
 		SCENE_TOTAL
 	};
 
