@@ -17,6 +17,7 @@ SceneHall::~SceneHall()
 
 void SceneHall::Init()
 {
+	isInit = true;
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
