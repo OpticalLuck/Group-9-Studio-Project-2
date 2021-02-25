@@ -17,11 +17,16 @@ SceneStadium::~SceneStadium()
 void SceneStadium::Init()
 {
 	isInit = true;
+	RingCollected = 0;
+	maxRing = 16;
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
-	camera.Init(Vector3(40, 5, -40), Vector3(-1, 0, 1));
+	camera.Init(Vector3(-40, 5, 40), Vector3(1, 0, -1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
-	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
+	for (int i = 0; i < 4; i++)
+	{
+		lights[i] = new Light(Shader::GetInstance()->shaderdata, i);
+	}
 
 	MeshList* meshlist = MeshList::GetInstance();
 
@@ -37,11 +42,67 @@ void SceneStadium::Init()
 	camera.SetTarget(Ayaka);
 
 	//Surroundings
-	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
+	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FIELD));
 	Environment[EN_FLOOR]->SetScale(Vector3(100, 100, 100));
 
-	Waypoint = new WayPoint("City", Vector3(0, 1, 0));
+	Boost[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FAN));
+	Boost[0]->SetTranslate(Vector3(-30, 0, 30));
+	Boost[0]->SetScale(Vector3(0.6f, 0.6f, 0.6f));
+	Boost[0]->SetColliderBox(Vector3(2.5f, 50, 2.5f), Vector3(0,26,0));
+
+	Boost[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FAN));
+	Boost[1]->SetTranslate(Vector3(30, 0, -30));
+	Boost[1]->SetScale(Vector3(0.6f, 0.6f, 0.6f));
+	Boost[1]->SetColliderBox(Vector3(2.5f, 50, 2.5f), Vector3(0, 26, 0));
+
+	Waypoint = new WayPoint("City", Vector3(-45, 1, 45));
 	Waypoint->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+
+	Math::InitRNG();
+	for (int i = 0; i < maxRing; i++)
+	{
+		Rings[i] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_RING));
+		bool setCoord = false;
+
+		while (!setCoord)
+		{
+			Vector3 CoordRand = Vector3(Math::RandFloatMinMax(-40, 40),
+										Math::RandFloatMinMax(10, 80),
+										Math::RandFloatMinMax(-40, 40));
+			float RotateRand = Math::RandFloatMinMax(0, 360);
+
+			//Set initial ring
+			Rings[i]->SetTranslate(CoordRand);
+			Rings[i]->SetRotate(Vector3(0, RotateRand, 0));
+			Rings[i]->SetColliderBox(Vector3(6, 6, 1));
+
+			for (int j = 0; j < maxRing; j++) // Check for collision in randomization
+			{
+				if (Rings[j] && i != j)
+				{
+					if (Rings[i]->GetColliderBox(0)->CheckOBBCollision(Rings[j]->GetColliderBox(0)).Collided) //collision detected
+					{
+						std::cout << "COLLISION" << std::endl;
+						CoordRand = Vector3(Math::RandFloatMinMax(-40, 40),
+							Math::RandFloatMinMax(10, 80),
+							Math::RandFloatMinMax(-40, 40));
+						RotateRand = Math::RandFloatMinMax(0, 360);
+						Rings[i]->SetTranslate(CoordRand);
+						Rings[i]->SetRotate(Vector3(0, RotateRand, 0));
+					}
+					else
+					{
+						setCoord = true;
+					}
+				}
+				if (j == maxRing - 1) //Check coll done
+				{
+					setCoord = true;
+					std::cout << "END LOOP" << std::endl;
+				}
+			}
+		}
+	}
 
 	ui = new UI();
 	ui->Init(Ayaka);
@@ -61,9 +122,11 @@ void SceneStadium::Init()
 
 void SceneStadium::InitGL()
 {
-	renderer = new Renderer(LIGHT_TOTAL);
-	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 80, -150), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -80, 150));
-
+	renderer = new Renderer(4);
+	lights[0]->Set(Light::LIGHT_DIRECTIONAL, Vector3(50, 150, 50), Color(1, 1, 1), 0.5f, 1.f, 0.1f, 0.001f, Vector3(-50, -1, -50));
+	lights[1]->Set(Light::LIGHT_DIRECTIONAL, Vector3(50, 150, -50), Color(1, 1, 1), 0.5f, 1.f, 0.1f, 0.001f, Vector3(-50, -1, 50));
+	lights[2]->Set(Light::LIGHT_DIRECTIONAL, Vector3(-50, 150, -50), Color(1, 1, 1), 0.5f, 1.f, 0.1f, 0.001f, Vector3(50, -1, 50));
+	lights[3]->Set(Light::LIGHT_DIRECTIONAL, Vector3(-50, 150, 50), Color(1, 1, 1), 0.5f, 1.f, 0.1f, 0.001f, Vector3(50, -1, -50));
 }
 
 void SceneStadium::Update(double dt)
@@ -82,9 +145,40 @@ void SceneStadium::Update(double dt)
 				Ayaka->CollisionResolution(Environment[i]);
 		}
 	}
-	camera.Updateposition();
 
+	//Game Logic
+	{
+		//Fan
+		if (Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[0]->GetColliderBox(0)).Collided || Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[1]->GetColliderBox(0)).Collided)
+		{
+			Ayaka->setVertVelocity(25);
+		}
+
+		//Ring
+		for (int i = 0; i < maxRing; i++)
+		{
+			if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Rings[i]->GetColliderBox(0)).Collided && Rings[i]->getActive())
+			{
+				Rings[i]->SetActive(false);
+				RingCollected++;
+			}
+		}
+
+		//if feet touch ground - reset
+		if (Ayaka->getbGrounded() && RingCollected != maxRing)
+		{
+			RingCollected = 0;
+			for (int i = 0; i < maxRing; i++)
+			{
+				Rings[i]->SetActive(true);
+			}
+		}
+	}
 	
+	camera.Updateposition();
+	
+	Boost[0]->SetRotate(Boost[0]->GetRotate() + Vector3(0, 100 * dt, 0));
+	Boost[1]->SetRotate(Boost[1]->GetRotate() + Vector3(0, 100 * dt, 0));
 
 	//Text STuff
 	{
@@ -119,7 +213,6 @@ void SceneStadium::Update(double dt)
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
-
 		if (Application::IsKeyPressed('9'))
 		{
 			Collision::isRender = true;
@@ -139,7 +232,7 @@ void SceneStadium::Render()
 	renderer->LoadIdentity();
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
 
-	for (int i = 0; i < LIGHT_TOTAL; i++)
+	for (int i = 0; i < 4; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
 
 	Axis->Draw(renderer, false);
@@ -157,7 +250,15 @@ void SceneStadium::Render()
 			Environment[i]->Draw(renderer, true);
 	}
 
+	Boost[0]->Draw(renderer, true);
+	Boost[1]->Draw(renderer, true);
+
 	Waypoint->Draw(renderer, false);
+
+	for (int i = 0; i < maxRing; i++)
+	{
+		Rings[i]->Draw(renderer, true);
+	}
 
 	for (int i = 0; i < TEXT_TOTAL; i++)
 	{

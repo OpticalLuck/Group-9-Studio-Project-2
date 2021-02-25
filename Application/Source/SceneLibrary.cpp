@@ -13,10 +13,12 @@ SceneLibrary::SceneLibrary() :
 
 SceneLibrary::~SceneLibrary()
 {
+
 }
 
 void SceneLibrary::Init()
 {
+	isInit = true;
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 3, -40), Vector3(0, 0, -1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
@@ -48,6 +50,11 @@ void SceneLibrary::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
+
+	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
+	//Please use the init to apply any initial transformations (position, rotation, scale, radius)
+	npc->Init(meshlist, Ayaka, Vector3(3, 0, 0));
+
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -192,6 +199,10 @@ void SceneLibrary::Update(double dt)
 		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
+
+	Ayaka->IsWithinRangeOf(npc);
+	npc->Update(dt);
+
 }
 
 void SceneLibrary::Render()
@@ -226,6 +237,7 @@ void SceneLibrary::Render()
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
+	npc->Draw(renderer, true);
 
 	ui->Draw(renderer, true);
 }

@@ -52,7 +52,7 @@ void SceneCity::Init()
 	ui->setCamera(&camera);
 
 	{
-		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
+		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LAND));
 		//Environment[EN_FLOOR]->SetColliderBox(Vector3(150, 0.25, 150));
 		Environment[EN_FLOOR]->SetScale(Vector3(300, 300, 300));
 		Environment[EN_FLOOR]->SetRotate(Vector3(0, 180, 0));

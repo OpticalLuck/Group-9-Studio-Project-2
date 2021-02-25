@@ -154,7 +154,6 @@ void CameraVer2::Updatemovement(double dt)
 				if (Application::IsKeyPressed(VK_SPACE) && !IsSpacePressed) //TO JUMP
 				{
 					IsSpacePressed = !IsSpacePressed;
-					std::cout << "SPACE PRESSED" << std::endl;
 					if (target->getbGrounded())
 					{
 						target->setbjump(true);
@@ -162,10 +161,12 @@ void CameraVer2::Updatemovement(double dt)
 						target->setVertVelocity(std::sqrt(jumpSpeed * 2 * gravity));
 
 					}
-					else if (target->getVertVelocity() < 0) //only occurs when falling
+					else if (target->getVertVelocity() < 0 || target->getbGlide()) //only occurs when falling
 					{
 						target->setbGlide(!target->getbGlide());
 					}
+
+					
 				}
 				else if (!Application::IsKeyPressed(VK_SPACE) && IsSpacePressed)
 				{

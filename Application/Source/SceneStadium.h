@@ -20,12 +20,6 @@ public:
 		EN_TOTAL
 	};
 
-	enum LIGHT_LOCATION
-	{
-		LIGHT_MIDDLE,
-		LIGHT_TOTAL
-	};
-
 	enum TEXT_TYPE
 	{
 		TEXT_FPS,
@@ -54,13 +48,15 @@ private:
 	GameObject* Axis;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
-	//GameObject* Rings[R_TOTAL];
+	GameObject* Boost[2];
+	GameObject* Rings[16];
 	WayPoint* Waypoint; //For a switching scenes
 
-	Light* lights[LIGHT_TOTAL];
+	Light* lights[4];
 	Skybox* skybox;
 	Text* textarr[TEXT_TOTAL];
 	UI* ui;
 
+	int RingCollected, maxRing;
 };
 
