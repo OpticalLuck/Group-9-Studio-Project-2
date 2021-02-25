@@ -118,6 +118,10 @@ void SceneCity::Init()
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
+
+		Environment[EN_TREE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TREE));
+		Environment[EN_TREE]->SetColliderBox(Vector3(1, 1, 1));
+		Environment[EN_TREE]->SetScale(Vector3(15, 30, 15));
 	}
 
 	//Text

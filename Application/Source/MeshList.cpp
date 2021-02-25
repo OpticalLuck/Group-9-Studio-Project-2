@@ -61,6 +61,9 @@ MeshList::MeshList()
 
 	meshlist[MESH_RING] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Ring/Ring.obj", "OBJ//Ring/Ring.mtl");
 
+	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//tree.obj", "OBJ//tree.mtl");
+	meshlist[MESH_TREE]->textureArr[0] = texturelist->Insert("leaftree.tga");
+
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 	meshlist[MESH_DIALOGUEBOX] = MeshBuilder::GenerateCube("For the Dialogue", Color(0.502f, 0.502f, 0.502f), 1.f, 1.f, 1.f);

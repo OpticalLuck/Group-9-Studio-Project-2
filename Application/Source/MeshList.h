@@ -29,7 +29,7 @@ public:
 		MESH_LIBRARY,
 		MESH_PAGODA,
 		MESH_RING,
-
+		MESH_TREE,
 
 		//OBJECTS
 		MESH_TABLE,
