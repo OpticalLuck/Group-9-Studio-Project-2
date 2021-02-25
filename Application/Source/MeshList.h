@@ -31,6 +31,7 @@ public:
 		MESH_PAGODA,
 		MESH_RING,
 		MESH_FAN,
+		MESH_TREE,
 
 		//OBJECTS
 		MESH_TABLE,
