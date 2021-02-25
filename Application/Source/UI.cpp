@@ -6,7 +6,8 @@
 UI::UI():
 	KeyPressed(false)
 {
-
+	//Quest Tab
+	BG = MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD);
 }
 
 UI::~UI()
@@ -18,32 +19,29 @@ void UI::Init(Character* player)
 {
 	this->Player = player;
 	staminaBar_width = 30;
-	max_X = 30;
-	max_Z = 30;
 
 	interactable = false;
-	mapOpen = false;
 	Dialogue = false;
 
 	/*Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));*/
 
 	//Status: Walking
-	text[0] = new Text();
-	text[0]->SetMode(Text::STATIC_SCREENTEXT);
-	text[0]->SetText("Walking");
-	text[0]->SetTranslate(Vector3(0.f, 4, 0));
+	Info[0] = new Text();
+	Info[0]->SetMode(Text::STATIC_SCREENTEXT);
+	Info[0]->SetText("Walking");
+	Info[0]->SetTranslate(Vector3(0.f, 4, 0));
 
 	//Status: Sprinting
-	text[1] = new Text();
-	text[1]->SetMode(Text::STATIC_SCREENTEXT);
-	text[1]->SetText("Sprinting");
-	text[1]->SetTranslate(Vector3(0.f, 4, 0));
+	Info[1] = new Text();
+	Info[1]->SetMode(Text::STATIC_SCREENTEXT);
+	Info[1]->SetText("Sprinting");
+	Info[1]->SetTranslate(Vector3(0.f, 4, 0));
 
 	//Interactions
-	text[2] = new Text();
-	text[2]->SetMode(Text::STATIC_SCREENTEXT);
-	text[2]->SetText("Press E to Interact");
-	text[2]->SetTranslate(Vector3(50.5, 12.5, 0));
+	Info[2] = new Text();
+	Info[2]->SetMode(Text::STATIC_SCREENTEXT);
+	Info[2]->SetText("Press E to Interact");
+	Info[2]->SetTranslate(Vector3(50.5, 12.5, 0));
 
 	////Dialogue for everything
 
@@ -373,7 +371,7 @@ void UI::Init(Character* player)
 
 	text[70] = new Text();
 	text[70]->SetMode(Text::STATIC_SCREENTEXT);
-	text[70]->SetText("However, with the Kamisato bloodline within you, you should be able to calll upon your wings");
+	text[70]->SetText("However, with the Kamisato bloodline within you, you should be able to call upon your wings");
 	text[70]->SetTranslate(Vector3(0.f, 12, 0));
 	text[71] = new Text();
 	text[71]->SetMode(Text::STATIC_SCREENTEXT);
@@ -391,16 +389,6 @@ void UI::Init(Character* player)
 void UI::Update()
 {
 	staminaBar_width = Player->getStamina() / 2;
-
-	if (Application::IsKeyPressed('M') && !KeyPressed)
-	{
-		KeyPressed = true;
-		mapOpen = !mapOpen;
-	}
-	else if(!Application::IsKeyPressed('M') && KeyPressed)
-	{
-		KeyPressed = false;
-	}
 
 	if (Application::IsKeyPressed('T') && !KeyPressed)
 	{
@@ -471,34 +459,29 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 {
 	if (Dialogue == false)
 	{
-		if (mapOpen == false)
-		{
-			//render stamina bar if map is not open
-			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
-		}
-		else
-		{
-			//render map
-			float x_offset = round(35 * (Player->GetTranslate().x / getMapBoundsX()));	//half of quad's size * (player's pos/30)
-			float z_offset = round(35 * (Player->GetTranslate().z / getMapBoundsZ()));
-
-			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
-			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - z_offset, 1, 1);
-		}
-
 		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
 		{
-			text[0]->Draw(renderer, enableLight);
+			Info[0]->Draw(renderer, enableLight);
 		}
 		else																			//Sprinting
 		{
-			text[1]->Draw(renderer, enableLight);
+			Info[1]->Draw(renderer, enableLight);
 		}
 
 		if (text2active == true)
 		{
 			text[2]->Draw(renderer, true);
 		}
+
+		//Background
+		//Quest tab
+		renderer->PushTransform();
+		//Render Staminabar
+		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+		//Quest BG
+		renderer->RenderMeshOnScreen(BG, 112, 50, 32, 45);
+		renderer->PopTransform();
+		
 	}
 	else
 	{

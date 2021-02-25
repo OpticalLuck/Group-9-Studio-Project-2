@@ -5,6 +5,7 @@
 #include "SceneTrain.h"
 #include "Application.h"
 #include "SceneStadium.h"
+#include "MainMenu.h"
 
 //TO BE REMOVED
 #include "SceneTest.h"
@@ -16,6 +17,8 @@ Scene* SceneManager::SceneArr[SCENE_TOTAL];
 
 SceneManager::SceneManager()
 {
+	SceneArr[SCENE_MAINMENU] = new MainMenu();
+
 	SceneArr[SCENE_CITY] = new SceneCity();
 
 	SceneArr[SCENE_LIBRARY] = new SceneLibrary();
@@ -47,6 +50,7 @@ void SceneManager::Init(SCENE_TYPE NextScene)
 	CurrentScene = NextScene;
 	if (!mainScene->isInit)
 	{
+		std::cout << "INIT SCENE" << std::endl;
 		mainScene->Init();
 	}
 	mainScene->InitGL();

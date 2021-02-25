@@ -1,6 +1,7 @@
 #include "MeshList.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include "Renderer.h"
 MeshList::MeshList()
 {
 	TextureList* texturelist = TextureList::GetInstance();
@@ -8,7 +9,7 @@ MeshList::MeshList()
 
 	//// <PRIMATIVES> 
 	meshlist[MESH_AXIS] = MeshBuilder::GenerateAxes("Axis", 1000, 1000, 1000);
-	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
+	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(0.1f, 0.1f, 0.1f));
 	meshlist[MESH_CUBE] = MeshBuilder::GenerateCube("Cube", Color(1.f, 1.f, 1.f), 1.f, 1.f, 1.f);
 	//// </PRIMATIVES> 
 	
@@ -65,10 +66,12 @@ MeshList::MeshList()
 
 	meshlist[MESH_FAN] = MeshBuilder::GenerateOBJMTL("Fan", "OBJ//Fan.obj", "OBJ//Fan.mtl");
 
-	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//tree.obj", "OBJ//tree.mtl");
-	meshlist[MESH_TREE]->textureArr[0] = texturelist->Insert("leaftree.tga");
+	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//Trees/tree_pineDefaultA.obj", "OBJ//Trees/tree_pineDefaultA.mtl");
 
 	//// <UI> 
+	meshlist[MESH_TEXT] = MeshBuilder::GenerateText("Text", 16, 16, TextData::GetInstance()->TextDataArr);
+	meshlist[MESH_TEXT]->textureArr[0] = texturelist->Insert("Gothic.tga");
+
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 	meshlist[MESH_DIALOGUEBOX] = MeshBuilder::GenerateCube("For the Dialogue", Color(0.502f, 0.502f, 0.502f), 1.f, 1.f, 1.f);
 
@@ -79,7 +82,6 @@ MeshList::MeshList()
 	meshlist[MESH_NPC] = MeshBuilder::GenerateOBJMTL("Body", "OBJ//NPC/npcbody.obj", "OBJ//NPC/npcbody.mtl");
 	meshlist[MESH_HEAD] = MeshBuilder::GenerateOBJMTL("Head", "OBJ//NPC/fixedhead.obj", "OBJ//NPC/fixedhead.mtl");
 	meshlist[MESH_HEAD]->textureArr[0] = texturelist->Insert("NPC/stoopfacenumber2.tga");
-
 	//// </NPC> 
 
 	////Skybox

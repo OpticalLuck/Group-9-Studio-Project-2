@@ -31,7 +31,6 @@ public:
 		MESH_PAGODA,
 		MESH_RING,
 		MESH_FAN,
-
 		MESH_TREE,
 
 		//OBJECTS
@@ -43,6 +42,7 @@ public:
 		MESH_HEAD,
 
 		//UI
+		MESH_TEXT,
 		MESH_STAMINABAR,
 		MESH_DIALOGUEBOX,
 		MESH_ICON,

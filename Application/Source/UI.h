@@ -36,6 +36,8 @@ private:
 	GameObject* Quad;
 	GameObject* Item; //TODO: Make Item its own class instead of a GO
 
+	Mesh* BG;
+	Text* Info[10];
 	Text* text[400];
 
 	float staminaBar_width;
@@ -46,7 +48,6 @@ private:
 	bool KeyPressed;
 	bool interactable;
 	bool text2active;
-	bool mapOpen;
 	bool Dialogue;
 	bool Dialogue_1 = true;
 	bool Dialogue_2 = false;

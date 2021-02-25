@@ -8,7 +8,7 @@
 struct TextData : public Singleton<TextData>
 {
 	int TextDataArr[256];
-	TextData() { LoadTextData(TextDataArr, "Image//Calibri.csv"); std::cout << "TextArr Built" << std::endl; };
+	TextData() { LoadTextData(TextDataArr, "Image//Gothic.csv"); std::cout << "TextArr Built" << std::endl; };
 };
 
 class Renderer
@@ -71,6 +71,8 @@ public:
 	void PopTransform();
 
 	void SetCamera(Vector3 position, Vector3 View, Vector3 Up);
+	void SetToProj();
+	void SetToOrtho();
 	void SetLight(Light* light, Vector3 Camera_Offset);
 	void LoadIdentity();
 	unsigned GetprogramID();

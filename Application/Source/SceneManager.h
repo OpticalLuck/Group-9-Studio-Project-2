@@ -6,6 +6,7 @@ class SceneManager
 public:
 	enum SCENE_TYPE
 	{
+		SCENE_MAINMENU,
 		SCENE_CITY,
 		SCENE_LIBRARY,
 		SCENE_HALL,

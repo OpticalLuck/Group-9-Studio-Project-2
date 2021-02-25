@@ -67,11 +67,11 @@ void SceneCity::Init()
 		Environment[EN_HOUSE2]->SetColliderBox(Vector3(11, 9.5f, 12), Vector3(6.5f, 1, 1));
 		Environment[EN_HOUSE2]->SetTranslate(Vector3(25, 8.6f, -30));
 		Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
-	
+
 		Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
 		Environment[EN_HOUSE3]->SetColliderBox(Vector3(9, 8, 11), Vector3(-4, 1, 0));
 		Environment[EN_HOUSE3]->SetTranslate(Vector3(-27, 7, 12));
-	
+
 		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
 		Environment[EN_HOUSE4]->SetColliderBox(Vector3(12, 10, 9), Vector3(-4.4f, 1.6f, 0));
 		Environment[EN_HOUSE4]->SetTranslate(Vector3(-27, 8.6, -30));
@@ -81,7 +81,7 @@ void SceneCity::Init()
 		Environment[EN_HOUSE5]->SetColliderBox(Vector3(11, 9.5f, 11), Vector3(2, 1, -6));
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-55, 8.6, 18));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
-		
+
 		Environment[EN_STADIUM] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_STADIUM));
 		Environment[EN_STADIUM]->SetColliderBox(Vector3(24, 8, 24), Vector3(0.8f, 1, 0));
 		Environment[EN_STADIUM]->SetTranslate(Vector3(65, 7.5f, 100));
@@ -90,26 +90,33 @@ void SceneCity::Init()
 
 		Waypoints[WP_STADIUM] = new WayPoint("Stadium", Vector3(66.4f, 1, 65));
 		Waypoints[WP_STADIUM]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
-
+		Waypoints[WP_STADIUM]->SetRotate(Vector3(0, 180, 0));
+		
 		Environment[EN_GATE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GATE));
-		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(-14.4f,19,0));
-		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(14.4f,19,0));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(-14.4f, 19, 0));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(14.4f, 19, 0));
 		Environment[EN_GATE]->SetColliderBox(Vector3(2, 6, 28), Vector3(0, 37, 0));
 		Environment[EN_GATE]->SetTranslate(Vector3(0, 0, -48));
 		Environment[EN_GATE]->SetRotate(Vector3(0, 90, 0));
 		Environment[EN_GATE]->SetScale(Vector3(8, 8, 8));
 
 		Environment[EN_SCHOOL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_SCHOOL));
-		Environment[EN_SCHOOL]->SetColliderBox(Vector3(20, 13, 31), Vector3(-17,13,0));
-		Environment[EN_SCHOOL]->SetColliderBox(Vector3(3, 13, 8), Vector3(6,13,0.5f));
+		Environment[EN_SCHOOL]->SetColliderBox(Vector3(20, 13, 31), Vector3(-17, 13, 0));
+		Environment[EN_SCHOOL]->SetColliderBox(Vector3(3, 13, 8), Vector3(6, 13, 0.5f));
 		Environment[EN_SCHOOL]->SetTranslate(Vector3(-55, 0, -80));
 		Environment[EN_SCHOOL]->SetScale(Vector3(1.4f, 1.4f, 1.4f));
-		
-		Environment[EN_LIBRARY] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LIBRARY));
-		Environment[EN_LIBRARY]->SetColliderBox(Vector3(22, 10, 20), Vector3(4, 10, 0));
-		Environment[EN_LIBRARY]->SetTranslate(Vector3(55, 0, -80));
-		Environment[EN_LIBRARY]->SetRotate(Vector3(0, 90, 0));
-		
+		Waypoints[WP_LIBRARY] = new WayPoint("Library", Vector3(-40, 1, -80));
+		Waypoints[WP_LIBRARY]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Waypoints[WP_LIBRARY]->SetRotate(Vector3(0, 90, 0));
+
+		Environment[EN_FANCYHOUSE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LIBRARY));
+		Environment[EN_FANCYHOUSE]->SetColliderBox(Vector3(22, 10, 20), Vector3(4, 10, 0));
+		Environment[EN_FANCYHOUSE]->SetTranslate(Vector3(55, 0, -80));
+		Environment[EN_FANCYHOUSE]->SetRotate(Vector3(0, 90, 0));
+		Waypoints[WP_TRAIN] = new WayPoint("Train Station", Vector3(30, 1, -80));
+		Waypoints[WP_TRAIN]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Waypoints[WP_TRAIN]->SetRotate(Vector3(0, -90, 0));
+
 		Environment[EN_PAGODA] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PAGODA));
 		Environment[EN_PAGODA]->SetTranslate(Vector3(-100, -0.4f, 65));
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(30, 3, 30), Vector3(2, 2, 0)); //Platform
@@ -118,21 +125,14 @@ void SceneCity::Init()
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
+		Waypoints[WP_HALL] = new WayPoint("Hall", Vector3(-80, 5, 65));
+		Waypoints[WP_HALL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Waypoints[WP_HALL]->SetRotate(Vector3(0, 90, 0));
 
 		Environment[EN_TREE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TREE));
-		Environment[EN_TREE]->SetColliderBox(Vector3(1, 1, 1));
-		Environment[EN_TREE]->SetScale(Vector3(15, 30, 15));
-	}
-
-	//Text
-	{
-		textarr[TEXT_FPS] = new Text();
-		textarr[TEXT_FPS]->SetMode(Text::STATIC_SCREENTEXT);
-		textarr[TEXT_FPS]->SetTranslate(Vector3(0, 0, 0));
-
-		textarr[TEXT_POSITION] = new Text();
-		textarr[TEXT_POSITION]->SetMode(Text::STATIC_SCREENTEXT);
-		textarr[TEXT_POSITION]->SetTranslate(Vector3(0, 68, 0));
+		Environment[EN_TREE]->SetColliderBox(Vector3(1, 7, 1), Vector3(0, 7, 0));
+		Environment[EN_TREE]->SetTranslate(Vector3(-20, 0, -10));
+		Environment[EN_TREE]->SetScale(Vector3(10, 10, 10));
 	}
 }
 
@@ -166,18 +166,9 @@ void SceneCity::Update(double dt)
 	camera.Updateposition();
 
 	Waypoints[WP_STADIUM]->inRangeResponse(Ayaka, SceneManager::SCENE_STADIUM);
+	Waypoints[WP_LIBRARY]->inRangeResponse(Ayaka, SceneManager::SCENE_LIBRARY);
+	Waypoints[WP_HALL]->inRangeResponse(Ayaka, SceneManager::SCENE_HALL);
 
-	//Text STuff
-	{
-		std::stringstream FPS;
-		FPS.precision(4);
-		FPS << "FPS: " << fps;
-		textarr[TEXT_FPS]->SetText(FPS.str());
-
-		std::stringstream Pos;
-		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
-		textarr[TEXT_POSITION]->SetText(Pos.str());
-	}
 
 	//UI
 	ui->Update();
@@ -235,7 +226,7 @@ void SceneCity::Render()
 	renderer->Reset();
 	renderer->LoadIdentity();
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
-
+	renderer->SetToProj();
 	for (int i = 0; i < LIGHT_TOTAL; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
 
@@ -256,12 +247,10 @@ void SceneCity::Render()
 			Environment[i]->Draw(renderer, true);
 	}
 
-	Waypoints[WP_STADIUM]->Draw(renderer, false);
-
-	for (int i = 0; i < TEXT_TOTAL; i++)
+	for (int i = 0; i < WP_TOTAL; i++)
 	{
-		if (textarr[i])
-			textarr[i]->Draw(renderer, false);
+		if(Waypoints[i])
+			Waypoints[i]->Draw(renderer, false);
 	}
 
 	ui->Draw(renderer, true);

@@ -1,6 +1,7 @@
 #include "Text.h"
 #include "LoadCSV.h"
 #include "MeshBuilder.h"
+#include "MeshList.h"
 
 Text::Text() :
 	countdown(false),
@@ -9,8 +10,7 @@ Text::Text() :
 	color(Color(0, 1, 0)),
 	mode(STATIC_WORLDTEXT)
 {
-	SetMesh(MeshBuilder::GenerateText("Text", 16, 16, TextData::GetInstance()->TextDataArr));
-	SetTexture(0, "Image//Calibri.tga");
+	SetMesh(MeshList::GetInstance()->GetMesh(MeshList::MESH_TEXT));
 }
 
 Text::~Text()

@@ -231,6 +231,7 @@ void SceneStadium::Render()
 	renderer->Reset();
 	renderer->LoadIdentity();
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
+	renderer->SetToProj();
 
 	for (int i = 0; i < 4; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
