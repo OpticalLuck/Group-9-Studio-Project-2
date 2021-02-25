@@ -38,7 +38,11 @@ void SceneNPCTest::Init()
 
 	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->SetColliderBox();
-	npc->Init(meshlist, MainCharacter, Vector3(0, 0, 9.5), Vector3(0, 90, 0));
+	npc->Init(meshlist, MainCharacter, Vector3(0, 0, 0), Vector3(0, 0, 0));
+	npc->PushPathPoint(5, 0, 0);
+	npc->PushPathPoint(5, 0, 4);
+	npc->PushPathPoint(1, 0, 4);
+
 	//npc->SetTranslate(Vector3(0,0,1));
 }
 void SceneNPCTest::InitGL()
@@ -118,7 +122,7 @@ void SceneNPCTest::Render()
 	Quad->Draw(renderer, true);
 
 	MainCharacter->Draw(renderer, false);
-	npc->Draw(renderer, true);
+	npc->Draw(renderer, false);
 
 	//Light
 	renderer->SetLight(lights[0], camera.GetPosition());
