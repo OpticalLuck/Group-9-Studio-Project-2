@@ -497,11 +497,11 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 {
 	if (Dialogue == false)
 	{
-		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
+		if (Player->getSprintState() == false)		//Walking
 		{
 			Info[0]->Draw(renderer, enableLight);
 		}
-		else																			//Sprinting
+		else										//Sprinting
 		{
 			Info[1]->Draw(renderer, enableLight);
 		}
