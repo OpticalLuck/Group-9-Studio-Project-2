@@ -48,7 +48,6 @@ void SceneTrain::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setMeshList(meshlist);
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));

@@ -1,7 +1,8 @@
 #include "UI.h"
 #include "Application.h"
 
-UI::UI()
+UI::UI():
+	KeyPressed(false)
 {
 
 }
@@ -15,6 +16,8 @@ void UI::Init(Character* player)
 {
 	this->Player = player;
 	staminaBar_width = 30;
+	max_X = 30;
+	max_Z = 30;
 
 	interactable = false;
 	mapOpen = false;
@@ -73,47 +76,26 @@ void UI::Init(Character* player)
 
 void UI::Update()
 {
-	if (camera->GetMode() == CameraVer2::FIRST_PERSON)
-	{
-		camera->SetSprintState(false);
-	}
-	else if (camera->GetMode() == CameraVer2::THIRD_PERSON)
-	{
-		Player->setSprintState(false);
-	}
+	staminaBar_width = Player->getStamina() / 2;
 
-	if (Application::IsKeyPressed(VK_SHIFT) && (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D')))
+	if (Application::IsKeyPressed('M') && !KeyPressed)
 	{
-		//Using Stamina Bar
-		if (staminaBar_width >= 0)
-		{
-			if (camera->GetMode() == CameraVer2::FIRST_PERSON)
-			{
-				camera->SetSprintState(true);
-			}
-			else if (camera->GetMode() == CameraVer2::THIRD_PERSON)
-			{
-				Player->setSprintState(true);
-			}
-			staminaBar_width -= 0.3;
-		}
-	}
-	else
-	{
-		//Recharging Stamina Bar
-		if (staminaBar_width <= 30)
-		{
-			staminaBar_width += 0.3;
-		}
-	}
-
-	if (Application::IsKeyPressed('M'))
-	{
+		KeyPressed = true;
 		mapOpen = !mapOpen;
 	}
-	if (Application::IsKeyPressed('T'))
+	else if(!Application::IsKeyPressed('M') && KeyPressed)
+	{
+		KeyPressed = false;
+	}
+
+	if (Application::IsKeyPressed('T') && !KeyPressed)
 	{
 		Dialogue = !Dialogue;
+		KeyPressed = true;
+	}
+	else if (!Application::IsKeyPressed('T') && KeyPressed)
+	{
+	//	KeyPressed = false;
 	}
 }
 
@@ -143,21 +125,21 @@ void UI::UpdateInteractions(GameObject* item)
 
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
-	if (Dialogue == false)
+	if (!Dialogue)
 	{
 		if (mapOpen == false)
 		{
 			//render stamina bar if map is not open
-			renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
 		}
 		else
 		{
 			//render map
-			float x_offset = round(35 * (camera->GetPosX() / 30));
-			float y_offset = round(35 * (camera->GetPosZ() / 30));
+			float x_offset = round(35 * (Player->GetTranslate().x / getMapBoundsX()));	//half of quad's size * (player's pos/30)
+			float z_offset = round(35 * (Player->GetTranslate().z / getMapBoundsZ()));
 
-			renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
-			renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - z_offset, 1, 1);
 		}
 
 		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
@@ -176,7 +158,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 	}
 	else
 	{
-		renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 		text[3]->Draw(renderer, true);
 		text[7]->Draw(renderer, true);
 	}
@@ -192,14 +174,19 @@ GameObject* UI::getItem()
 	return Item;
 }
 
-MeshList* UI::getMeshList()
-{
-	return meshlist;
-}
-
 bool UI::getInteractable()
 {
 	return interactable;
+}
+
+float UI::getMapBoundsX()
+{
+	return max_X;
+}
+
+float UI::getMapBoundsZ()
+{
+	return max_Z;
 }
 
 void UI::setCamera(CameraVer2* camera)
@@ -217,7 +204,9 @@ void UI::setInteractable(bool interactable)
 	this->interactable = interactable;
 }
 
-void UI::setMeshList(MeshList* meshlist)
+void UI::setMapBounds(float max_X, float max_Z)
 {
-	this->meshlist = meshlist;
+	this->max_X = max_X;
+	this->max_Z = max_Z;
 }
+

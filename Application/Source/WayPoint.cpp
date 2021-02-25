@@ -1,7 +1,9 @@
 #include "WayPoint.h"
+#include "Application.h"
 
 WayPoint::WayPoint(std::string name, Vector3 position):
-	isInRange(false)
+	isInRange(false),
+	isEPressed(false)
 {
 	SetMesh(nullptr);
 	SetTranslate(position);
@@ -35,7 +37,7 @@ void WayPoint::Draw(Renderer* renderer, bool enablelight)
 
 }
 
-void WayPoint::inRangeResponse(GameObject* Target)
+bool WayPoint::inRangeResponse(GameObject* Target, SceneManager::SCENE_TYPE NextScene)
 {
 	if (GetInRange(Target, 2.f))
 	{
@@ -45,9 +47,16 @@ void WayPoint::inRangeResponse(GameObject* Target)
 	{
 		isInRange = false;
 	}
-}
 
-bool WayPoint::getisInRange()
-{
+	if (Application::IsKeyPressed('E') && isInRange && !isEPressed)
+	{
+		isEPressed = true;
+		SceneManager::ChangeScene(NextScene);
+	}
+	else if (!Application::IsKeyPressed('E') && isEPressed)
+	{
+		isEPressed = false;
+	}
+
 	return isInRange;
 }

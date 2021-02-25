@@ -13,8 +13,9 @@ public:
 		MESH_QUAD,
 		MESH_CUBE,
 
-		//CHARACTER?
+		//CHARACTER
 		MESH_AYAKA,
+		MESH_WING,
 
 		//Environment
 		MESH_FLOOR,
@@ -27,6 +28,7 @@ public:
 		MESH_SCHOOL,
 		MESH_LIBRARY,
 		MESH_PAGODA,
+		MESH_RING,
 
 
 		//OBJECTS

@@ -20,14 +20,19 @@ public:
 	bool getSprintState();
 	bool getbGrounded();
 	bool getbJump();
+	bool getbGlide();
 	float getVertVelocity();
 	float getVelocity();
+	float getStamina();
+	GameObject* getWing();
 
 	void setSprintState(bool sprintable);
 	void setbGrounded(bool isGrounded);
 	void setVertVelocity(float VertVelocity);
 	void setVelocity(float Velocity);
+	void setStamina(float stamina);
 	void setbjump(bool isJump);
+	void setbGlide(bool isGliding);
 	void IncrementCollectible();
 	void CollisionResolution(GameObject* target);
 
@@ -35,10 +40,11 @@ public:
 private:
 	static int collectibleCount;
 	bool isJump, isGrounded, isSprintable, isGliding;
-	float VertVelocity, Velocity;
+	float VertVelocity, Velocity, Stamina;
+
+	GameObject* Wing;
 
 	Collision* objectStoodOn;
-
 	//private functions
 
 };

@@ -42,13 +42,14 @@ void SceneCity::Init()
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(camera.GetPosition(), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(camera.GetPosition());
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
-	
-	//Ayaka->SetColliderBox( Vector3(0.35, 0.49, 0.35), Vector3(0,0.5,0) ); 
 	Ayaka->SetColliderBox(Vector3(0.7f, 2.f, 0.7f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
 
+	ui = new UI();
+	ui->Init(Ayaka);
+	ui->setCamera(&camera);
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FLOOR));
@@ -117,7 +118,6 @@ void SceneCity::Init()
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
-
 	}
 
 	//Text
@@ -145,9 +145,10 @@ void SceneCity::Update(double dt)
 {
 	fps = 1.f / dt;
 
+	//Movement Update
 	camera.Updatemovement(dt);
-
-	//Collision
+	Ayaka->Update(dt);
+	//Collision Update
 	Ayaka->CollisionResolution(Cube[0]);
 	Ayaka->CollisionResolution(Cube[1]);
 	for (int i = 0; i < EN_TOTAL; i++)
@@ -160,6 +161,42 @@ void SceneCity::Update(double dt)
 	}
 	camera.Updateposition();
 
+	Waypoints[WP_STADIUM]->inRangeResponse(Ayaka, SceneManager::SCENE_STADIUM);
+
+	//Text STuff
+	{
+		std::stringstream FPS;
+		FPS.precision(4);
+		FPS << "FPS: " << fps;
+		textarr[TEXT_FPS]->SetText(FPS.str());
+
+		std::stringstream Pos;
+		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
+		textarr[TEXT_POSITION]->SetText(Pos.str());
+	}
+
+	//UI
+	ui->Update();
+	
+	Vector3 Direction = Vector3(0, 0, 0);
+	if (Application::IsKeyPressed('I'))
+		Direction += Vector3(0, 0, 1);
+	if (Application::IsKeyPressed('K'))
+		Direction += Vector3(0, 0, -1);
+	if (Application::IsKeyPressed('J'))
+		Direction += Vector3(1, 0, 0);
+	if (Application::IsKeyPressed('L'))
+		Direction += Vector3(-1, 0, 0);
+	if (Application::IsKeyPressed('O'))
+		Direction += Vector3(0, 1, 0);
+	if (Application::IsKeyPressed('P'))
+		Direction += Vector3(0, -1, 0);
+
+	float SPEED = 5 * dt;
+	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+	lights[1]->position = Cube[0]->GetTranslate();
+
+	//Debug
 	{
 		if (Application::IsKeyPressed('1'))
 		{
@@ -187,50 +224,6 @@ void SceneCity::Update(double dt)
 			Collision::isRender = false;
 		}
 	}
-
-	if (Application::IsKeyPressed('E'))
-	{
-		if (Waypoints[WP_STADIUM]->getisInRange()) //SWAPPING SCENE
-		{
-			SceneManager::ChangeScene(SceneManager::SCENE_NPCTEST);
-		}
-	}
-
-
-	//Text STuff
-	{
-		//UI TEXT
-		Waypoints[WP_STADIUM]->inRangeResponse(Ayaka);
-
-		std::stringstream FPS;
-		FPS.precision(4);
-		FPS << "FPS: " << fps;
-		textarr[TEXT_FPS]->SetText(FPS.str());
-
-		std::stringstream Pos;
-		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
-		textarr[TEXT_POSITION]->SetText(Pos.str());
-	}
-
-
-	Vector3 Direction = Vector3(0, 0, 0);
-	if (Application::IsKeyPressed('I'))
-		Direction += Vector3(0, 0, 1);
-	if (Application::IsKeyPressed('K'))
-		Direction += Vector3(0, 0, -1);
-	if (Application::IsKeyPressed('J'))
-		Direction += Vector3(1, 0, 0);
-	if (Application::IsKeyPressed('L'))
-		Direction += Vector3(-1, 0, 0);
-	if (Application::IsKeyPressed('O'))
-		Direction += Vector3(0, 1, 0);
-	if (Application::IsKeyPressed('P'))
-		Direction += Vector3(0, -1, 0);
-
-	float SPEED = 5 * dt;
-	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
-	lights[1]->position = Cube[0]->GetTranslate();
-
 }
 
 void SceneCity::Render()
@@ -239,7 +232,7 @@ void SceneCity::Render()
 	renderer->LoadIdentity();
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < LIGHT_TOTAL; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
 
 	Axis->Draw(renderer, false);
@@ -263,8 +256,12 @@ void SceneCity::Render()
 
 	for (int i = 0; i < TEXT_TOTAL; i++)
 	{
-		textarr[i]->Draw(renderer, false);
+		if (textarr[i])
+			textarr[i]->Draw(renderer, false);
 	}
+
+	ui->Draw(renderer, true);
+
 }
 
 void SceneCity::Exit()

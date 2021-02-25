@@ -223,6 +223,10 @@ void Application::Run()
 		{
 			sceneManager->ChangeScene(SceneManager::SCENE_TRAIN);
 		}
+		if (IsKeyPressed(VK_F7))
+		{
+			sceneManager->ChangeScene(SceneManager::SCENE_STADIUM);
+		}
 
 		//Swap buffers
 		glfwSwapBuffers(m_window);
