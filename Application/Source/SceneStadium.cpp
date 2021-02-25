@@ -165,7 +165,7 @@ void SceneStadium::Update(double dt)
 		}
 
 		//if feet touch ground - reset
-		if (Ayaka->getbGrounded())
+		if (Ayaka->getbGrounded() && RingCollected != maxRing)
 		{
 			RingCollected = 0;
 			for (int i = 0; i < maxRing; i++)
@@ -176,7 +176,6 @@ void SceneStadium::Update(double dt)
 	}
 	
 	camera.Updateposition();
-
 	
 	Boost[0]->SetRotate(Boost[0]->GetRotate() + Vector3(0, 100 * dt, 0));
 	Boost[1]->SetRotate(Boost[1]->GetRotate() + Vector3(0, 100 * dt, 0));

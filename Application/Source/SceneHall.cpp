@@ -50,9 +50,9 @@ void SceneHall::Init()
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
 
-	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->SetColliderBox();
-	npc->Init(meshlist, Ayaka, Vector3(0, 3, -3), Vector3(0, 0, 0));
+	npc->Init(meshlist, Ayaka, Vector3(0, 1.5f, -3), Vector3(0, 0, 0));
 	//npc->PushPathPoint(Vector3(4, 3, 0));
 	//npc->PushPathPoint(Vector3(0, 3, -9));
 

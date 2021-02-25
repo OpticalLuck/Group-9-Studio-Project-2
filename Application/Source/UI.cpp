@@ -44,14 +44,15 @@ void UI::Init(Character* player)
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Press E to Interact");
 	text[2]->SetTranslate(Vector3(50.5, 12.5, 0));
-	
-	text[3] = new Text();
-	text[3]->SetMode(Text::STATIC_SCREENTEXT);
-	text[3]->SetTranslate(Vector3(108, 68, 0));
 
 	////Dialogue for everything
 
 	//Characters
+	text[3] = new Text();
+	text[3]->SetMode(Text::STATIC_SCREENTEXT);
+	text[3]->SetText("Ayaka:");
+	text[3]->SetTranslate(Vector3(0, 16, 0));
+
 	text[4] = new Text();
 	text[4]->SetMode(Text::STATIC_SCREENTEXT);
 	text[4]->SetText("City Mayor Mariano:");
@@ -432,6 +433,11 @@ void UI::Update()
 		float posY = y / 10; //convert (600,0) to (0,60)
 		std::cout << "posX:" << posX << " , posY:" << posY << std::endl;
 
+		if (Dialogue == false)
+		{
+			Dialogue = !Dialogue;
+		}
+
 		Button_Count++;
 	}
 }
@@ -463,7 +469,7 @@ void UI::UpdateInteractions(GameObject* item)
 
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
-	if (!Dialogue)
+	if (Dialogue == false)
 	{
 		if (mapOpen == false)
 		{
@@ -493,27 +499,25 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		{
 			text[2]->Draw(renderer, true);
 		}
-
-		text[3]->Draw(renderer, true);
 	}
 	else
 	{
 
-		if (Button_Count == 0 && Quest_1 == true)
+		if (Button_Count == 1 && Dialogue_1 == true)
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			text[3]->Draw(renderer, true);
 			text[6]->Draw(renderer, true);
 		}
-		else if (Button_Count == 1 && Quest_1 == true)
+		else if (Button_Count == 2 && Dialogue_1 == true)
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			text[3]->Draw(renderer, true);
 			text[7]->Draw(renderer, true);
 		}
-		else if (Button_Count == 2 && Quest_1 == true)
+		else if (Button_Count == 3 && Dialogue_1 == true)
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
@@ -521,9 +525,174 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[8]->Draw(renderer, true);
 			text[9]->Draw(renderer, true);
 		}
-		else
+		else if (Button_Count == 1 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[10]->Draw(renderer, true);
+			text[11]->Draw(renderer, true);
+		}
+		else if (Button_Count == 2 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[12]->Draw(renderer, true);
+			text[13]->Draw(renderer, true);
+			text[14]->Draw(renderer, true);
+		}
+		else if (Button_Count == 3 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[15]->Draw(renderer, true);
+			text[16]->Draw(renderer, true);
+			text[17]->Draw(renderer, true);
+		}
+		else if (Button_Count == 4 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[18]->Draw(renderer, true);
+			text[19]->Draw(renderer, true);
+		}
+		else if (Button_Count == 5 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[20]->Draw(renderer, true);
+			text[21]->Draw(renderer, true);
+		}
+		else if (Button_Count == 6 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[22]->Draw(renderer, true);
+		}
+		else if (Button_Count == 7 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[23]->Draw(renderer, true);
+		}
+		else if (Button_Count == 8 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[24]->Draw(renderer, true);
+			text[25]->Draw(renderer, true);
+			text[26]->Draw(renderer, true);
+		}
+		else if (Button_Count == 9 && Dialogue_2 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[27]->Draw(renderer, true);
+		}
+		else if (Button_Count == 1 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[28]->Draw(renderer, true);
+		}
+		else if (Button_Count == 2 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[29]->Draw(renderer, true);
+		}
+		else if (Button_Count == 3 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[30]->Draw(renderer, true);
+			text[31]->Draw(renderer, true);
+		}
+		else if (Button_Count == 4 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[32]->Draw(renderer, true);
+		}
+		else if (Button_Count == 5 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[33]->Draw(renderer, true);
+			text[34]->Draw(renderer, true);
+			text[35]->Draw(renderer, true);
+			text[36]->Draw(renderer, true);
+		}
+		else if (Button_Count == 6 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[37]->Draw(renderer, true);
+		}
+		else if (Button_Count == 7 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[38]->Draw(renderer, true);
+			text[39]->Draw(renderer, true);
+			text[40]->Draw(renderer, true);
+		}
+		else if (Button_Count == 8 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[41]->Draw(renderer, true);
+		}
+		else if (Button_Count == 9 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[42]->Draw(renderer, true);
+		}
+		else if (Button_Count == 10 && Dialogue_3 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			//renderer->RenderMeshOnScreen(getMeshList()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[43]->Draw(renderer, true);
+		}
+		else if (Button_Count == 4 && Dialogue_1 == true)
 		{
 			Dialogue = !Dialogue;
+			Button_Count = 0;
+			Dialogue_1 = false;
+			Dialogue_2 = true;
+		}
+		else if (Button_Count == 10 && Dialogue_2 == true)
+		{
+			Dialogue = !Dialogue;
+			Button_Count = 0;
+			Dialogue_2 = false;
+			Dialogue_3 = true;
+		}
+		else if (Button_Count == 11 && Dialogue_3 == true)
+		{
+			Dialogue = !Dialogue;
+			Button_Count = 0;
+			Dialogue_3 = false;
+			Dialogue_4 = true;
 		}
 	}
 }

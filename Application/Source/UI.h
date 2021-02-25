@@ -48,5 +48,8 @@ private:
 	bool text2active;
 	bool mapOpen;
 	bool Dialogue;
-	bool Quest_1 = true;
+	bool Dialogue_1 = true;
+	bool Dialogue_2 = false;
+	bool Dialogue_3 = false;
+	bool Dialogue_4 = false;
 };
