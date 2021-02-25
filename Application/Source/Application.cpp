@@ -18,6 +18,8 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 bool firstMouse = true;
+
+bool Application::bQuit = false;
 bool Application::Cursor_Off = false;
 unsigned Application::m_width;
 unsigned Application::m_height;
@@ -117,11 +119,14 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	Application::FOV -= (float)yoffset;
-	if (Application::FOV < 1.0f)
-		Application::FOV = 1.0f;
-	if (Application::FOV > 45.0f)
-		Application::FOV = 45.0f;
+	if (Application::Cursor_Off)
+	{
+		Application::FOV -= (float)yoffset;
+		if (Application::FOV < 1.0f)
+			Application::FOV = 1.0f;
+		if (Application::FOV > 45.0f)
+			Application::FOV = 45.0f;
+	}
 }
 
 void Application::Init()
@@ -146,7 +151,7 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_width = 1280;
 	m_height = 720;
-	m_window = glfwCreateWindow(m_width, m_height, "Test Window", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Group 9 Studio Project 2", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	//If the window couldn't be created
@@ -164,7 +169,7 @@ void Application::Init()
 	//glfwSetKeyCallback(m_window, key_callback);
 
 	//Sets the mouse callback
-	DisableCursor();
+	//DisableCursor();
 	glfwSetCursorPosCallback(m_window, mouse_callback);
 	glfwSetScrollCallback(m_window, scroll_callback);
 	
@@ -183,8 +188,6 @@ void Application::Init()
 
 void Application::Run()
 {
-
-
 	//Main Loop
 	//PLEASE REMEMBER TO REPLACE TESTING SCENES ONCE DONE
 	SceneManager* sceneManager = new SceneManager();
@@ -192,7 +195,7 @@ void Application::Run()
 	sceneManager->Init(SceneManager::SCENE_MAINMENU); 
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE) && !bQuit)
 	{
 		sceneManager->Update(&m_timer);
 		Application::xoffset = 0;
