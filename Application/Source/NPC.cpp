@@ -16,7 +16,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	objectToLookAt = NULL;
 	SetRadius(10.f);
 	defaultdirection = GetRotate();
-	
+	SetCurrentFlag(FLAG0);
 
 }
 
@@ -36,7 +36,7 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], 90.f);
+			RotateTowardsCharacter(BodyArr[HEAD], 80.f);
 		}
 
 		else if (getCurrentFlag() == FLAG4) {
@@ -68,7 +68,6 @@ void NPC::Update(double dt)
 						rotationval += 360;
 					}
 					SetRotate(Vector3(0, rotationval, 0));
-					std::cout << rotationval  << "\n";
 				}
 				else {
 					MoveToPos(destinations.front());
@@ -83,6 +82,9 @@ void NPC::Update(double dt)
 
 		}
 	}
+
+	
+
 }
 
 void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3 rot, Vector3 scale, float radius)
@@ -131,15 +133,8 @@ void NPC::BuildMeshes(MeshList* meshlist)
 	}
 
 	BodyArr[HEAD] = new GameObject(GetID(), meshlist->GetMesh(MeshList::MESH_HEAD));
-	BodyArr[LARM] = new GameObject(GetID(), meshlist->GetMesh(MeshList::MESH_HEAD));
-	BodyArr[RARM] = new GameObject(GetID(), meshlist->GetMesh(MeshList::MESH_HEAD));
+	BodyArr[HEAD]->SetTranslate(Vector3(0,1.8,0));
 	this->AddChild(BodyArr[HEAD]); 
-	BodyArr[HEAD]->AddChild(BodyArr[LARM]);
-	BodyArr[HEAD]->AddChild(BodyArr[RARM]);
-	BodyArr[HEAD]->SetTranslate(Vector3(0,0,1));
-	BodyArr[HEAD]->SetScale(Vector3(1,1,0.5));
-	BodyArr[LARM]->SetTranslate(Vector3(0,0,1));
-	BodyArr[RARM]->SetTranslate(Vector3(0,1,0));
 
 }
 
@@ -181,7 +176,7 @@ float NPC::GetAngleToPoint(Vector3 point)
 
 
 
-void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
+void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, float maxX)
 {
 
 	//Reset the origin
@@ -220,6 +215,15 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle)
 	}
 
 	float xangle = AngleBetween(objectdiffx, 0);
+
+	if ((xangle < -maxX)) {
+		xangle = -maxX;
+	}
+	else if (xangle > maxX) {
+		xangle = maxX;
+	}
+
+
 	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
 }
 

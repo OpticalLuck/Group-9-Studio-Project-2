@@ -18,6 +18,11 @@ MeshList::MeshList()
 
 	meshlist[MESH_FLOOR] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));
 	meshlist[MESH_FLOOR]->textureArr[0] = texturelist->Insert("Floor.tga");
+	
+	
+	//// <MAIN CHARACTER>
+	meshlist[MESH_AYAKA] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Ayaka.obj", "OBJ//Ayaka.mtl", texturelist);
+	//// <\MAIN CHARACTER>
 
 	meshlist[MESH_HOUSE1] = MeshBuilder::GenerateOBJMTL("House_1", "OBJ//House/JP_HOUSE_1.obj", "OBJ///House/JP_HOUSE_1.mtl");
 	meshlist[MESH_HOUSE1]->textureArr[0] = texturelist->Insert("House/JP_HOUSE_1_DIFFUSE.tga");
@@ -60,8 +65,11 @@ MeshList::MeshList()
 	//// </UI> 
 
 	//// <NPC> 
-	meshlist[MESH_HEAD] = MeshBuilder::GenerateCube("Head", Color(1.f,1.f,0.f), 1.f, 1.f, 1.f);
-	meshlist[MESH_AYAKA] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Ayaka.obj", "OBJ//Ayaka.mtl", texturelist);
+	meshlist[MESH_NPC] = MeshBuilder::GenerateOBJMTL("Body", "OBJ//NPC/npcbody.obj", "OBJ//NPC/npcbody.mtl");
+	//meshlist[MESH_HEAD] = MeshBuilder::GenerateOBJMTL("Head", "OBJ//NPC/npchead.obj", "OBJ//NPC/npchead.mtl");
+	meshlist[MESH_HEAD] = MeshBuilder::GenerateOBJMTL("Head", "OBJ//NPC/fixedhead.obj", "OBJ//NPC/fixedhead.mtl");
+	//meshlist[MESH_HEAD] = MeshBuilder::GenerateCube("Head", Color(0.f,0.f,1.f), 5.f, 5.f, 5.f);
+	meshlist[MESH_HEAD]->textureArr[0] = texturelist->Insert("NPC/stoopfacenumber2.tga");
 	//// </NPC> 
 
 	////Skybox

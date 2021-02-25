@@ -48,13 +48,15 @@ void Character::Update(double dt)
 bool Character::IsWithinRangeOf(GameObject* item)
 {
 	//getTranslate() by itself access the position of Character, while item->GetTranslate() access the position of the item parameter that is passed in
-	if (GetInRange(item,item->GetRadius()))
+	if (GetInRange(item,item->GetRadius()) && item->getCurrentFlag() == FLAG0)
 	{
 		item->SetCurrentFlag(FLAG1);
 		return true;
 	}
-	item->SetCurrentFlag(FLAG0);
-	return false;
+	else if (item->getCurrentFlag() == FLAG1 && !GetInRange(item, item->GetRadius())) {
+		item->SetCurrentFlag(FLAG0);
+		return false;
+	}
 }
 
 int Character::getCollectibleCount()
