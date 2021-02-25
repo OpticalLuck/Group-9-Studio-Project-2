@@ -267,3 +267,18 @@ void SceneCity::UpdateMousePos(double xoffset, double yoffset)
 {
 	camera.Update(xoffset, yoffset);
 }
+
+void SceneCity::GenerateNPCs(MeshList* meshlist)
+{
+	for (int i = 0; i < NPC_TOTAL; i++) {
+		npc[i] = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
+		npc[i]->Init(meshlist, Ayaka);
+		//Individually set their translations separately
+	}
+	
+
+}
+
+void SceneCity::UpdateNPCs(double dt)
+{
+}

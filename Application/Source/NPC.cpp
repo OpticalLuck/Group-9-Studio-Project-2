@@ -265,10 +265,16 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 	currentAngle = parttorotate->GetRotate().x;
 	temp.SetToRotation(-rotationval, 0, 1, 0);
 	AxisDir = temp * AxisDir;
+
+	std::cout << objectdiff.y << "," << objectdiff.z << " ";
+
 	objectdiff = temp * objectdiff;
 	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
-	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, objectdiff.z)), 1, 0, 0);
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
 	AxisDir = temp * AxisDir;
+
+	std::cout << objectdiff.y << "," << objectdiff.z << "\n";
+
 	float targetpitch = Math::RadianToDegree(atan2(AxisDir.y, AxisDir.z));
 	if (targetpitch < 0)
 		targetpitch += 360;
@@ -311,8 +317,11 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 
 void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 {
-	//Vector3 point = objectToLookAt->GetTranslate() + Vector3(0, 2.5, 0);
+	//Vector3 point = GetTranslate() + Vector3(0, 1.8, 1);
 	Vector3 AxisDir(0, 0, 1);
+
+
+	//Vector3 objectdiff = (point - (GetTranslate() + Vector3(0, 1.8, 0))).Normalized();
 
 	Vector3 objectdiff = Vector3(0, 0, 1).Normalized();
 	Mtx44 rotation;
@@ -322,6 +331,7 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 	objectdiff = rotation * objectdiff;
 	rotation.SetToRotation(rotate.z, 0, 0, 1);
 	objectdiff = rotation * objectdiff;
+
 
 	float currentAngle = parttorotate->GetRotate().y;
 	Mtx44 temp;
@@ -362,14 +372,19 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 	currentAngle = parttorotate->GetRotate().x;
 	temp.SetToRotation(-rotationval, 0, 1, 0);
 	AxisDir = temp * AxisDir;
-	//objectdiff = temp * objectdiff;
+
+	
+
+
+	objectdiff = temp * objectdiff;
 	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
-	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, objectdiff.z)), 1, 0, 0);
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
 	AxisDir = temp * AxisDir;
 	float targetpitch = Math::RadianToDegree(atan2(AxisDir.y, AxisDir.z));
 	if (targetpitch < 0)
 		targetpitch += 360;
 
+	
 
 
 	float smallestpitch = 999.f;
