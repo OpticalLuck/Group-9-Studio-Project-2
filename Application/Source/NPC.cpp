@@ -185,7 +185,7 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
 	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
 	
-	Vector3 objectdiff = (objectToLookAt->GetTranslate() - (BodyArr[HEAD]->GetTranslate() + GetTranslate())) ;
+	Vector3 objectdiff = (objectToLookAt->GetTranslate() + Vector3(0,2.5,0) - (BodyArr[HEAD]->GetTranslate() + GetTranslate())) ;
 	//move object to be at tested position for calculations
 	
 	//Vector3 rotate = GetRotate();
