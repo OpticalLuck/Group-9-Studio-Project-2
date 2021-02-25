@@ -17,7 +17,8 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	SetRadius(10.f);
 	defaultdirection = GetRotate();
 	SetCurrentFlag(FLAG0);
-
+	canDespawn = canRespawn = 0;
+	destinationcopy = NULL;
 }
 
 NPC::~NPC()
@@ -25,28 +26,19 @@ NPC::~NPC()
 	for (int i = 0; i < TOTALPART; i++) {
 		delete BodyArr[i];
 	}
+	delete destinationcopy;
+	delete destinationcopy;
 }
 
 void NPC::Update(double dt)
 {
 	this->dt = dt;
-	
-	if (canMove || true) {
-
+	if (this->getActive()) {
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
 			RotateTowardsCharacter(BodyArr[HEAD], 80.f);
 		}
-
-		else if (getCurrentFlag() == FLAG4) {
-			
-			
-			if (GetRotate().y == GetAngleToPoint(destinations.front()))
-				SetCurrentFlag(FLAG0);
-
-		}
-
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 			
@@ -72,6 +64,7 @@ void NPC::Update(double dt)
 				else {
 					MoveToPos(destinations.front());
 					if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
+						doDespawn();
 						destinations.pop();
 					}
 				}
@@ -81,10 +74,14 @@ void NPC::Update(double dt)
 			}
 
 		}
+
+
+
+
 	}
 
 	
-
+	doRespawn();
 }
 
 void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3 rot, Vector3 scale, float radius)
@@ -116,12 +113,49 @@ void NPC::SetDefaultDir(Vector3 def)
 
 void NPC::PushPathPoint(Vector3 position)
 {
-	destinations.push(position);
+	if (!canDespawn)
+		destinations.push(position);
+	else {
+		std::cout << "Path point not set! Please path it out properly before you push your despawn point!\n";
+	}
 }
 
 void NPC::PushPathPoint(float x, float y, float z)
 {
 	PushPathPoint(Vector3(x, y, z));
+}
+
+void NPC::PushDespawnPoint(Vector3 position)
+{
+	destinations.push(position);
+	canDespawn = true;
+}
+
+void NPC::PushDespawnPoint(float x, float y, float z)
+{
+	PushDespawnPoint(Vector3(x, y, z));
+}
+
+void NPC::SetRespawnPos(Vector3 position)
+{
+	if (canDespawn) {
+		if (destinationcopy == NULL) {
+			destinationcopy = new std::queue<Vector3>;
+			*destinationcopy = destinations;
+		}
+		respawnpos = position;
+		canRespawn = true;
+	}
+	else {
+		std::cout << "Respawn point not set! Did you set the respawn point before pushing the despawn?\n";
+	}
+
+}
+
+
+void NPC::SetRespawnPos(float x, float y, float z)
+{
+	SetRespawnPos(Vector3(x, y, z));
 }
 
 void NPC::BuildMeshes(MeshList* meshlist)
@@ -277,8 +311,26 @@ void NPC::MoveToPos(Vector3 pos)
 	Vector3 currentpos = GetTranslate();
 	Vector3 view = (pos - currentpos).Normalized();
 
-	currentpos = currentpos + view * dt;
+	currentpos = currentpos + view * 10.f * dt;
 	this->SetTranslate(currentpos);
+}
+
+void NPC::doRespawn()
+{
+	if (canDespawn && destinations.empty() && !this->getActive() && canRespawn) {
+		this->SetTranslate(respawnpos);
+		destinations = *destinationcopy;
+
+		this->SetActive(true);
+	}
+}
+
+void NPC::doDespawn()
+{
+	if (canDespawn && destinations.back() == destinations.front()) { //if on the last destination (despawn location)
+		this->SetActive(false);
+	}
+
 }
 
 // 0 = X, 1 = Y, 2 = Z

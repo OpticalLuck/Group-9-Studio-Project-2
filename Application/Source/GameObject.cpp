@@ -178,6 +178,9 @@ void GameObject::CollisionResolution(GameObject* target)
 void GameObject::SetActive(bool IsActive)
 {
 	this->IsActive = IsActive;
+	for (int i = 0; i < static_cast<int>(Child.size()); i++) {
+		Child[i]->SetActive(IsActive);
+	}
 }
 
 const unsigned int GameObject::GetID()
