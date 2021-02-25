@@ -6,14 +6,17 @@ CameraVer2::CameraVer2():
 	target(nullptr),
 	mode(FIRST_PERSON),
 	sensitivity(0.05f),
-	speed(5.f),
+	camspeed(5.f),
 	distance(8.f),
-	IsKeyPressed(false),
+	IsSpacePressed(false),
 	IsJump(false),
 	IsGround(true),
 	Controls(true),
 	IsSprintable(false),
-	yaw(0)
+	yaw(0),
+	gravity(20.f),
+	jumpSpeed(3.f)
+
 {
 }
 
@@ -74,63 +77,63 @@ void CameraVer2::Updatemovement(double dt)
 			{
 				if(mode == FREE_VIEW)
 				{
-					position += view * dt * speed;
+					position += view * dt * camspeed;
 				}
 
-				position.x += direction.x * dt * speed;
-				position.z += direction.z * dt * speed;
+				position.x += direction.x * dt * camspeed;
+				position.z += direction.z * dt * camspeed;
 			}
 			if (Application::IsKeyPressed('S'))
 			{
 				if (mode == FREE_VIEW)
 				{
-					position -= view * dt * speed;
+					position -= view * dt * camspeed;
 				}
 				else
 				{
-					position.x -= direction.x * dt * speed;
-					position.z -= direction.z * dt * speed;
+					position.x -= direction.x * dt * camspeed;
+					position.z -= direction.z * dt * camspeed;
 				}
 			}
 			if (Application::IsKeyPressed('A'))
 			{
-				position -= GetRight() * dt * speed;
+				position -= GetRight() * dt * camspeed;
 			}
 			if (Application::IsKeyPressed('D'))
 			{
-				position += GetRight() * dt * speed;
+				position += GetRight() * dt * camspeed;
 			}
 		
 
 			if (Application::IsKeyPressed(VK_LSHIFT) && IsSprintable == true)
 			{
-				speed = 10.0f;
+				camspeed = 10.0f;
 			}
 			else
 			{
-				speed = 5.0f;
+				camspeed = 5.0f;
 			}
 
 			if (mode == FREE_VIEW) {
 				if (Application::IsKeyPressed(VK_SPACE)) {
-					position += GetUp() * dt * speed;
+					position += GetUp() * dt * camspeed;
 				}
 				if (Application::IsKeyPressed(VK_LCONTROL)) {
-					position -= GetUp() * dt * speed;
+					position -= GetUp() * dt * camspeed;
 				}
 			}
 			else {
-				if (Application::IsKeyPressed(VK_SPACE) && !IsKeyPressed)
+				if (Application::IsKeyPressed(VK_SPACE) && !IsSpacePressed)
 				{
-					IsKeyPressed = true;
+					IsSpacePressed = true;
 					if (IsGround)
 					{
 						IsJump = true;
 					}
 				}
-				else if (!Application::IsKeyPressed(VK_SPACE) && IsKeyPressed)
+				else if (!Application::IsKeyPressed(VK_SPACE) && IsSpacePressed)
 				{
-					IsKeyPressed = false;
+					IsSpacePressed = false;
 				}
 
 				Jump(dt);
@@ -147,46 +150,56 @@ void CameraVer2::Updatemovement(double dt)
 
 			//Jump code
 			{
-				float gravity = -20.f;
-				float jumpSpeed = 3.f;
-				target->setbGlide(false);
+				
+				if (Application::IsKeyPressed(VK_SPACE) && !IsSpacePressed) //TO JUMP
+				{
+					IsSpacePressed = !IsSpacePressed;
+					std::cout << "SPACE PRESSED" << std::endl;
+					if (target->getbGrounded())
+					{
+						target->setbjump(true);
+						target->setbGrounded(false);
+						target->setVertVelocity(std::sqrt(jumpSpeed * 2 * gravity));
 
-				if (target->GetTranslate().y < Math::EPSILON)
+					}
+					else if (target->getVertVelocity() < 0) //only occurs when falling
+					{
+						target->setbGlide(!target->getbGlide());
+					}
+				}
+				else if (!Application::IsKeyPressed(VK_SPACE) && IsSpacePressed)
+				{
+ 					IsSpacePressed = !IsSpacePressed;
+				}
+
+				if (target->getbJump())
+				{
+					gravity = 20.f;
+				}
+				if (target->getbGlide())  //gliding
+				{
+					gravity = 0.5f;
+					SPEED = 8 * dt;
+					target->setVertVelocity(-1);
+				}
+				if (target->getbGrounded())
+				{
+					gravity = 20.f;
+					target->setVertVelocity(0);
+					target->setbGlide(false);
+					target->setbjump(false);
+				}
+				else
+				{
+					target->setVertVelocity(target->getVertVelocity() + gravity * dt * -1); //Falls slowly
+					target->SetTranslate(target->GetTranslate() + Vector3(0, 1, 0) * target->getVertVelocity() * dt); //Set Translate
+				}
+
+				if (target->GetTranslate().y < Math::EPSILON) //when on floor
 				{
 					target->SetTranslate(Vector3(target->GetTranslate().x, 0, target->GetTranslate().z));
 					target->setbGrounded(true);
 				}
-
-				if (target->getbGrounded() && target->getVertVelocity() < 0)  //landed
-				{
-					target->setVertVelocity(0);
-
-					target->getWing()->SetActive(false);
-				}
-				if (Application::IsKeyPressed(VK_SPACE) && target->getbGrounded())
-				{
-					target->setbjump(true);
-					target->setbGrounded(false);
-					target->setVertVelocity(std::sqrt(jumpSpeed * -2 * gravity));
-
-					target->getWing()->SetActive(false);
-
-				}
-				else if (Application::IsKeyPressed(VK_SPACE) && target->getbJump() && target->getVertVelocity() < 0)  //gliding
-				{
-					target->setbGlide(true);
-					gravity = -0.5f;
-					SPEED = 8 * dt;
-					target->setVertVelocity(-1);
-					target->getWing()->SetActive(true);
-				}
-				else
-				{
-
-					target->getWing()->SetActive(false);
-				}
-				target->setVertVelocity(target->getVertVelocity() + gravity * dt);
-				target->SetTranslate(target->GetTranslate() + Vector3(0, 1, 0) * target->getVertVelocity() * dt);
 			}
 
 			//Direction the character is going towards aka direction vector
@@ -513,7 +526,7 @@ const bool CameraVer2::GetSprintState()
 
 const float CameraVer2::GetSpeed()
 {
-	return speed;
+	return camspeed;
 }
 
 const float CameraVer2::GetPosX()
