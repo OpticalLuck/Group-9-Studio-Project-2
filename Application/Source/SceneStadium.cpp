@@ -56,6 +56,7 @@ void SceneStadium::Init()
 	Boost[1]->SetColliderBox(Vector3(2.5f, 50, 2.5f), Vector3(0, 26, 0));
 
 	Waypoint = new WayPoint("City", Vector3(-45, 1, 45));
+	Waypoint->SetRotate(Vector3(0, 135, 0));
 	Waypoint->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 
 	Math::InitRNG();
@@ -149,7 +150,7 @@ void SceneStadium::Update(double dt)
 	//Game Logic
 	{
 		//Fan
-		if (Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[0]->GetColliderBox(0)).Collided || Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[1]->GetColliderBox(0)).Collided)
+		if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Boost[0]->GetColliderBox(0)).Collided || Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[1]->GetColliderBox(0)).Collided)
 		{
 			Ayaka->setVertVelocity(25);
 		}
@@ -157,7 +158,7 @@ void SceneStadium::Update(double dt)
 		//Ring
 		for (int i = 0; i < maxRing; i++)
 		{
-			if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Rings[i]->GetColliderBox(0)).Collided && Rings[i]->getActive())
+			if (Ayaka->GetColliderBox(1)->CheckOBBCollision(Rings[i]->GetColliderBox(0)).Collided && Rings[i]->getActive())
 			{
 				Rings[i]->SetActive(false);
 				RingCollected++;

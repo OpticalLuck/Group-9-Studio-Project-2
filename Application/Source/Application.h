@@ -18,7 +18,8 @@ public:
 	static void DisableCursor();
 	static int GetWindowWidth();
 	static int GetWindowHeight();
-
+	
+	static bool bQuit;
 	static bool Cursor_Off;
 	static unsigned m_width;
 	static unsigned m_height;

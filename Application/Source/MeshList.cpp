@@ -75,7 +75,7 @@ MeshList::MeshList()
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 	meshlist[MESH_DIALOGUEBOX] = MeshBuilder::GenerateCube("For the Dialogue", Color(0.502f, 0.502f, 0.502f), 1.f, 1.f, 1.f);
 
-	meshlist[MESH_ICON] = MeshBuilder::GenerateQuad("Icon", Color(1.f, 0.f, 0.f), 1.0f);
+	meshlist[MESH_ICON] = MeshBuilder::GenerateQuad("Icon", Color(1.f, 0.f, 0.f));
 	//// </UI> 
 
 	//// <NPC> 
@@ -85,22 +85,22 @@ MeshList::MeshList()
 	//// </NPC> 
 
 	////Skybox
-	meshlist[SKYBOX_FRONT] = MeshBuilder::GenerateQuad("Front of Skybox", Color(1, 1, 1), 100.2f);
+	meshlist[SKYBOX_FRONT] = MeshBuilder::GenerateQuad("Front of Skybox", Color(1, 1, 1), 100.2f, 100.2f);
 	meshlist[SKYBOX_FRONT]->textureArr[0] = texturelist->Insert("Skybox/miramar_ft.tga");
 
-	meshlist[SKYBOX_BACK] = MeshBuilder::GenerateQuad("Back of Skybox", Color(1, 1, 1), 100.2f);
+	meshlist[SKYBOX_BACK] = MeshBuilder::GenerateQuad("Back of Skybox", Color(1, 1, 1), 100.2f, 100.2f);
 	meshlist[SKYBOX_BACK]->textureArr[0] = texturelist->Insert("Skybox/miramar_bk.tga");
 
-	meshlist[SKYBOX_TOP] = MeshBuilder::GenerateQuad("Top of Skybox", Color(1, 1, 1), 100.2f);
+	meshlist[SKYBOX_TOP] = MeshBuilder::GenerateQuad("Top of Skybox", Color(1, 1, 1), 100.2f, 100.2f);
 	meshlist[SKYBOX_TOP]->textureArr[0] = texturelist->Insert("Skybox/miramar_up.tga");
 
-	meshlist[SKYBOX_BOTTOM] = MeshBuilder::GenerateQuad("Bottom of Skybox", Color(1, 1, 1), 100.2f);
+	meshlist[SKYBOX_BOTTOM] = MeshBuilder::GenerateQuad("Bottom of Skybox", Color(1, 1, 1), 100.2f, 100.2f);
 	meshlist[SKYBOX_BOTTOM]->textureArr[0] = texturelist->Insert("Skybox/miramar_dn.tga");
 
-	meshlist[SKYBOX_LEFT] = MeshBuilder::GenerateQuad("Left of Skybox", Color(1, 1, 1), 100.2f);
+	meshlist[SKYBOX_LEFT] = MeshBuilder::GenerateQuad("Left of Skybox", Color(1, 1, 1), 100.2f, 100.2f);
 	meshlist[SKYBOX_LEFT]->textureArr[0] = texturelist->Insert("Skybox/miramar_lf.tga");
 
-	meshlist[SKYBOX_RIGHT] = MeshBuilder::GenerateQuad("Right of Skybox", Color(1, 1, 1), 100.2f);
+	meshlist[SKYBOX_RIGHT] = MeshBuilder::GenerateQuad("Right of Skybox", Color(1, 1, 1), 100.2f, 100.2f);
 	meshlist[SKYBOX_RIGHT]->textureArr[0] = texturelist->Insert("Skybox/miramar_rt.tga");
 }
 
