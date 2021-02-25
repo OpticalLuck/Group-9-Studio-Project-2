@@ -67,11 +67,11 @@ void SceneCity::Init()
 		Environment[EN_HOUSE2]->SetColliderBox(Vector3(11, 9.5f, 12), Vector3(6.5f, 1, 1));
 		Environment[EN_HOUSE2]->SetTranslate(Vector3(25, 8.6f, -30));
 		Environment[EN_HOUSE2]->SetRotate(Vector3(0, 180, 0));
-	
+
 		Environment[EN_HOUSE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE3));
 		Environment[EN_HOUSE3]->SetColliderBox(Vector3(9, 8, 11), Vector3(-4, 1, 0));
 		Environment[EN_HOUSE3]->SetTranslate(Vector3(-27, 7, 12));
-	
+
 		Environment[EN_HOUSE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
 		Environment[EN_HOUSE4]->SetColliderBox(Vector3(12, 10, 9), Vector3(-4.4f, 1.6f, 0));
 		Environment[EN_HOUSE4]->SetTranslate(Vector3(-27, 8.6, -30));
@@ -81,7 +81,7 @@ void SceneCity::Init()
 		Environment[EN_HOUSE5]->SetColliderBox(Vector3(11, 9.5f, 11), Vector3(2, 1, -6));
 		Environment[EN_HOUSE5]->SetTranslate(Vector3(-55, 8.6, 18));
 		Environment[EN_HOUSE5]->SetRotate(Vector3(0, -90, 0));
-		
+
 		Environment[EN_STADIUM] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_STADIUM));
 		Environment[EN_STADIUM]->SetColliderBox(Vector3(24, 8, 24), Vector3(0.8f, 1, 0));
 		Environment[EN_STADIUM]->SetTranslate(Vector3(65, 7.5f, 100));
@@ -92,24 +92,24 @@ void SceneCity::Init()
 		Waypoints[WP_STADIUM]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 
 		Environment[EN_GATE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GATE));
-		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(-14.4f,19,0));
-		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(14.4f,19,0));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(-14.4f, 19, 0));
+		Environment[EN_GATE]->SetColliderBox(Vector3(2, 19, 2), Vector3(14.4f, 19, 0));
 		Environment[EN_GATE]->SetColliderBox(Vector3(2, 6, 28), Vector3(0, 37, 0));
 		Environment[EN_GATE]->SetTranslate(Vector3(0, 0, -48));
 		Environment[EN_GATE]->SetRotate(Vector3(0, 90, 0));
 		Environment[EN_GATE]->SetScale(Vector3(8, 8, 8));
 
 		Environment[EN_SCHOOL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_SCHOOL));
-		Environment[EN_SCHOOL]->SetColliderBox(Vector3(20, 13, 31), Vector3(-17,13,0));
-		Environment[EN_SCHOOL]->SetColliderBox(Vector3(3, 13, 8), Vector3(6,13,0.5f));
+		Environment[EN_SCHOOL]->SetColliderBox(Vector3(20, 13, 31), Vector3(-17, 13, 0));
+		Environment[EN_SCHOOL]->SetColliderBox(Vector3(3, 13, 8), Vector3(6, 13, 0.5f));
 		Environment[EN_SCHOOL]->SetTranslate(Vector3(-55, 0, -80));
 		Environment[EN_SCHOOL]->SetScale(Vector3(1.4f, 1.4f, 1.4f));
-		
+
 		Environment[EN_LIBRARY] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LIBRARY));
 		Environment[EN_LIBRARY]->SetColliderBox(Vector3(22, 10, 20), Vector3(4, 10, 0));
 		Environment[EN_LIBRARY]->SetTranslate(Vector3(55, 0, -80));
 		Environment[EN_LIBRARY]->SetRotate(Vector3(0, 90, 0));
-		
+
 		Environment[EN_PAGODA] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PAGODA));
 		Environment[EN_PAGODA]->SetTranslate(Vector3(-100, -0.4f, 65));
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(30, 3, 30), Vector3(2, 2, 0)); //Platform
@@ -119,11 +119,7 @@ void SceneCity::Init()
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
 
-		Environment[EN_TREE] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TREE));
-		Environment[EN_TREE]->SetColliderBox(Vector3(1, 1, 1));
-		Environment[EN_TREE]->SetScale(Vector3(15, 30, 15));
 	}
-
 	//Text
 	{
 		textarr[TEXT_FPS] = new Text();

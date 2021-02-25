@@ -30,7 +30,6 @@ public:
 		EN_SCHOOL,
 		EN_LIBRARY,
 		EN_PAGODA,
-		EN_TREE,
 		EN_TOTAL
 	};
 

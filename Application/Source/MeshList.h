@@ -32,8 +32,6 @@ public:
 		MESH_RING,
 		MESH_FAN,
 
-		MESH_TREE,
-
 		//OBJECTS
 		MESH_TABLE,
 		MESH_PLANT,

@@ -10,7 +10,7 @@ Text::Text() :
 	mode(STATIC_WORLDTEXT)
 {
 	SetMesh(MeshBuilder::GenerateText("Text", 16, 16, TextData::GetInstance()->TextDataArr));
-	SetTexture(0, "Image//Calibri.tga");
+	SetTexture(0, "Image//Gothic.tga");
 }
 
 Text::~Text()
