@@ -4,6 +4,7 @@
 #include "MeshList.h"
 #include "Character.h"
 #include "Text.h"
+#include "Application.h"
 
 class UI
 {
@@ -35,10 +36,14 @@ private:
 	Text* text[400];
 
 	float staminaBar_width;
+
+	int Button_Count = 0;
+
 	bool KeyPressed;
 	bool interactable;
 	bool text2active;
 	bool text3active;
 	bool mapOpen;
 	bool Dialogue;
+	bool Quest_1 = true;
 };
