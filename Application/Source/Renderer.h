@@ -71,6 +71,8 @@ public:
 	void PopTransform();
 
 	void SetCamera(Vector3 position, Vector3 View, Vector3 Up);
+	void SetToProj();
+	void SetToOrtho();
 	void SetLight(Light* light, Vector3 Camera_Offset);
 	void LoadIdentity();
 	unsigned GetprogramID();

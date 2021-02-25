@@ -28,7 +28,7 @@ public:
 		EN_TOWER1,
 		EN_STADIUM,
 		EN_SCHOOL,
-		EN_LIBRARY,
+		EN_FANCYHOUSE,
 		EN_PAGODA,
 		EN_TREE,
 		EN_TOTAL
@@ -41,16 +41,12 @@ public:
 		LIGHT_TOTAL
 	};
 
-	enum TEXT_TYPE
-	{
-		TEXT_FPS,
-		TEXT_POSITION,
-		TEXT_TOTAL
-	};
-
 	enum WP_TYPE //USED TO SET EMPTY GAMEOBJECTS (NOMESH) as way points for us to see where we can change scenes
 	{
 		WP_STADIUM,
+		WP_HALL,
+		WP_LIBRARY,
+		WP_TRAIN,
 		WP_TOTAL
 	};
 	SceneCity();
@@ -78,7 +74,6 @@ private:
 	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
-	Text* textarr[TEXT_TOTAL];
 	UI* ui;
 	//Temp
 	GameObject* Cube[2];

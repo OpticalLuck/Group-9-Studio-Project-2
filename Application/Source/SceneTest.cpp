@@ -186,6 +186,7 @@ void SceneTest::Render()
 
 	//Camera
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
+	renderer->SetToProj();
 	//Light
 	renderer->SetLight(lights[0], camera.GetPosition());
 

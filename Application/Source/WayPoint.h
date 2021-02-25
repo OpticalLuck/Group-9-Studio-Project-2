@@ -13,8 +13,10 @@ public:
 	//Response if target e.g. u are close to waypoint
 	bool inRangeResponse(GameObject* Target, SceneManager::SCENE_TYPE NextScene);
 
+	std::string getLocation();
 private:
 	Text* OnScreenText;
+	std::string name;
 	bool isInRange, isEPressed;
 };
 

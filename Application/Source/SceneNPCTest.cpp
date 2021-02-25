@@ -113,7 +113,7 @@ void SceneNPCTest::Render()
 	renderer->LoadIdentity();
 	//Camera
 	renderer->SetCamera(camera.GetPosition(), camera.GetView(), camera.GetUp());
-
+	renderer->SetToProj();
 	Axis->Draw(renderer, false);
 	Quad->Draw(renderer, true);
 

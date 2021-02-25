@@ -145,8 +145,7 @@ void Renderer::RenderText(Mesh* mesh, std::string text, Color color)
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(Parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
-		if(i != 0)
-			accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
+		accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
 
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
@@ -180,8 +179,8 @@ void Renderer::RenderDialogue(Mesh* mesh, std::string text, Color color, int ind
 		characterSpacing.SetToTranslation(accumulator, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(Parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-
-		accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
+		if (i != 0)
+			accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -227,7 +226,6 @@ void Renderer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 		glUniformMatrix4fv(Parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
-
 		accumulator += TextData::GetInstance()->TextDataArr[text[i]] / 128.0f + TextData::GetInstance()->TextDataArr[text[i + 1]] / 128.0f;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -305,9 +303,21 @@ void Renderer::SetCamera(Vector3 position, Vector3 View, Vector3 Up)
 	viewStack.LookAt(position.x, position.y, position.z,
 					Target.x, Target.y, Target.z,
 					Up.x, Up.y, Up.z);
+	
+}
+
+void Renderer::SetToProj()
+{
 	Mtx44 projection;
 	projection.SetToPerspective(Application::FOV, 16.f / 9.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
+}
+
+void Renderer::SetToOrtho()
+{
+	Mtx44 Ortho;
+	Ortho.SetToOrtho(0.0f, 1280.f, 0.0f, 720.0f, 0.1f, 100.0f);
+	projectionStack.LoadMatrix(Ortho);
 }
 
 void Renderer::SetLight(Light* light, Vector3 Camera_Offset)
