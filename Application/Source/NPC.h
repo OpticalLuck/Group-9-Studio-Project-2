@@ -39,6 +39,14 @@ public:
 	void PushPathPoint(Vector3 position);
 	void PushPathPoint(float x, float y, float z);
 
+	//make npc despawn at this position
+	void PushDespawnPoint(Vector3 position);
+	void PushDespawnPoint(float x, float y, float z);
+
+	void SetRespawnPos(Vector3 position);
+	void SetRespawnPos(float x, float y, float z);
+
+
 	void BuildMeshes(MeshList* meshlist);
 	
 
@@ -62,7 +70,10 @@ private:
 	GameObject* objectToLookAt;
 	std::queue<Vector3> destinations;
 
+	std::queue<Vector3>* destinationcopy;
 
+	bool canDespawn, canRespawn;
+	Vector3 respawnpos;
 
 
 	//Smaller Functions for small processes
@@ -80,4 +91,10 @@ private:
 	void MoveInDir(Vector3 rot);
 	//Move Towards a destination
 	void MoveToPos(Vector3 pos);
+
+
+	//Spawns the player here and activates it
+	void doRespawn();
+	//Despawns the player. Deactivates it.
+	void doDespawn();
 };
