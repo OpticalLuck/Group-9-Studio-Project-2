@@ -65,8 +65,8 @@ MeshList::MeshList()
 
 	meshlist[MESH_FAN] = MeshBuilder::GenerateOBJMTL("Fan", "OBJ//Fan.obj", "OBJ//Fan.mtl");
 
-	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//tree.obj", "OBJ//tree.mtl");
-	meshlist[MESH_TREE]->textureArr[0] = texturelist->Insert("leaftree.tga");
+	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//Trees/tree_pineDefaultA.obj", "OBJ//Trees/tree_pineDefaultA.mtl");
+	//meshlist[MESH_TREE]->textureArr[0] = texturelist->Insert("leaftree.tga");
 
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
