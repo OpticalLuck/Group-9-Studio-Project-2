@@ -27,6 +27,7 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 {
 	isSprintable = false;
 	isGliding = false;
+	isJump = false;
 	Velocity = 5.0f;
 
 	SetTranslate(position);
@@ -36,12 +37,10 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 
 	if (position.y < Math::EPSILON)
 	{
-		isJump = false;
 		isGrounded = true;
 	}
 	else
 	{
-		isJump = true;
 		isGrounded = false;
 	}
 
@@ -164,6 +163,15 @@ void Character::setbjump(bool isJump)
 void Character::setbGlide(bool isGliding)
 {
 	this->isGliding = isGliding;
+
+	if (isGliding)
+	{
+		Wing->SetActive(true);
+	}
+	else
+	{
+		Wing->SetActive(false);
+	}
 }
 
 void Character::IncrementCollectible()

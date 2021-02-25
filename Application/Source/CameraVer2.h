@@ -66,8 +66,11 @@ private:
 	Vector3 up;
 	Character* target;
 	CAMERA_MODE mode, prev_mode;
-	float sensitivity, speed, distance, pos_x, pos_z;
+	float sensitivity, camspeed, distance, pos_x, pos_z; //for fps 
+
+	//for third person
 	float yaw;
-	bool IsKeyPressed, IsJump, IsGround, Controls, IsSprintable;
+	float gravity, jumpSpeed;
+	bool IsSpacePressed, IsJump, IsGround, Controls, IsSprintable;
 };
 
