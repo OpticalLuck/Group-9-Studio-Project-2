@@ -36,7 +36,44 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], 80.f);
+			Vector3 point = objectToLookAt->GetTranslate() + Vector3(0,3,0);
+			Vector3 AxisDir(0, 0, 1);
+			Vector3 objectdiff = (point - GetTranslate()).Normalized();
+			float currentAngle = BodyArr[HEAD]->GetRotate().y;
+			Mtx44 temp;
+			temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
+			AxisDir = temp * AxisDir;
+			temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.x, objectdiff.z)), 0, 1, 0);
+			AxisDir = temp * AxisDir;
+			float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
+			if (targetyaw < 0)
+				targetyaw += 360;
+
+			float smallestyaw = 999.f;
+			for (int i = -1; i <= 1; ++i)
+			{
+				float thisyaw = targetyaw + i * 360.f;
+				if (fabs(thisyaw - currentAngle) < fabs(smallestyaw - currentAngle))
+				{
+					smallestyaw = thisyaw;
+				}
+			}
+			currentAngle = smallestyaw;
+
+			float ROTATIONSPEED = 8 * dt;
+			float rotationval;
+			std::cout << currentAngle << " " << targetyaw << " ";
+			rotationval = (1 - ROTATIONSPEED) * BodyArr[HEAD]->GetRotate().y + ROTATIONSPEED * currentAngle;
+			if (BodyArr[HEAD]->GetRotate().y > 360)
+			{
+				rotationval -= 360;
+			}
+			else if (BodyArr[HEAD]->GetRotate().y < 0)
+			{
+				rotationval += 360;
+			}
+			BodyArr[HEAD]->SetRotate(Vector3(0, rotationval, 0));
+			std::cout << rotationval << " " << BodyArr[HEAD]->GetRotate().y << std::endl;
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
@@ -257,8 +294,8 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 		xangle = maxX;
 	}
 
-
-	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
+	//std::cout << yangle << std::endl;
+	RotateToVector(parttorotate, Vector3(0, yangle, 0));
 }
 
 void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
@@ -267,13 +304,14 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 	partx = parttorotate->GetRotate().x;
 	party = parttorotate->GetRotate().y;
 	partz = parttorotate->GetRotate().z;
-	rotSPEED = 100.f;
+	rotSPEED = 1.f;
 	
 
 	if (party < rotate.y - 1) {
 		party += rotSPEED * dt;
 	}
 	else if (party > rotate.y + 1) {
+		std::cout <<  "hi" << "\n";
 		party -= rotSPEED * dt;
 	}
 
@@ -284,7 +322,6 @@ void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 		partx -= rotSPEED * dt;
 	}
 
-	//std::cout << party << " ";
 	parttorotate->SetRotate(Vector3(partx, party, partz));
 }
 
