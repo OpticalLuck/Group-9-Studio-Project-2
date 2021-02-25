@@ -1,5 +1,6 @@
 #include "UI.h"
 #include "Application.h"
+#include "SceneManager.h"
 
 #include <sstream>
 
@@ -42,6 +43,43 @@ void UI::Init(Character* player)
 	Info[2]->SetMode(Text::STATIC_SCREENTEXT);
 	Info[2]->SetText("Press E to Interact");
 	Info[2]->SetTranslate(Vector3(50.5, 12.5, 0));
+	
+	Info[3] = new Text();
+	Info[3]->SetMode(Text::STATIC_SCREENTEXT);
+	Info[3]->SetText("Hold TAB to see Quests");
+	Info[3]->SetTranslate(Vector3(93, 68.5, 0));
+
+	//Quests
+	Quests[0] = new Text();
+	Quests[0]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[0]->SetText("Get your flying license");
+	Quests[0]->SetTranslate(Vector3(94, 65.5, 0));
+
+	Quests[1] = new Text();
+	Quests[1]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[1]->SetText("- Head to Stadium");
+	Quests[1]->SetTranslate(Vector3(94, 60.5, 0));
+	Quests[1]->SetScale(Vector3(0.05, 0.05, 0.05));
+
+	Quests[2] = new Text();
+	Quests[2]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[2]->SetTranslate(Vector3(94, 55.5, 0));
+	Quests[2]->SetScale(Vector3(0.05, 0.05, 0.05));
+
+	Quests[3] = new Text();
+	Quests[3]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[3]->SetText("idk lol");
+	Quests[3]->SetTranslate(Vector3(94, 50.5, 0));
+	
+	Quests[4] = new Text();
+	Quests[4]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[4]->SetText("Quest 2 lmao eeeeee");
+	Quests[4]->SetTranslate(Vector3(94, 45.5, 0));
+	
+	Quests[5] = new Text();
+	Quests[5]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[5]->SetText("Get Gem from Mayor");
+	Quests[5]->SetTranslate(Vector3(94, 40.5, 0));
 
 	////Dialogue for everything
 
@@ -62,8 +100,8 @@ void UI::Init(Character* player)
 	text[5]->SetTranslate(Vector3(0.f, 16, 0));
 
 	//Dialogue
-
-	//Finding Your Berrings
+	{
+	//Finding Your Bearings
 	text[6] = new Text();
 	text[6]->SetMode(Text::STATIC_SCREENTEXT);
 	text[6]->SetText("Uh... Damn it. Spatial Vortexes are the worst. I even lost my powers! Where is this place even?");
@@ -382,7 +420,7 @@ void UI::Init(Character* player)
 	text[72]->SetMode(Text::STATIC_SCREENTEXT);
 	text[72]->SetText("Well, looks like its time for me to break a sweat.");
 	text[72]->SetTranslate(Vector3(0.f, 12, 0));
-
+	}
 	//
 }
 
@@ -470,8 +508,12 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 
 		if (text2active == true)
 		{
-			text[2]->Draw(renderer, true);
+			Info[2]->Draw(renderer, true);
 		}
+
+		std::stringstream ss;
+		ss << "- " << Player->getCollectibleCount() << "/16 Rings Collected";
+		Quests[2]->SetText(ss.str());
 
 		//Background
 		//Quest tab
@@ -479,7 +521,32 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		//Render Staminabar
 		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
 		//Quest BG
-		renderer->RenderMeshOnScreen(BG, 112, 50, 32, 45);
+		if (Application::IsKeyPressed(VK_TAB))
+		{
+			renderer->RenderMeshOnScreen(BG, 111, 50, 34, 45);
+			
+			//uses scenetest for now, will implement in later once other quests are finalized or wtv
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_TEST) == false) //show text if quest is not done yet
+			{
+				Quests[0]->Draw(renderer, true);
+				Quests[1]->Draw(renderer, true);
+				Quests[2]->Draw(renderer, true);
+
+			}
+
+			Quests[3]->Draw(renderer, true);
+
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false || SceneManager::getCurrentScene() != SceneManager::SCENE_HALL)
+			{
+				Quests[4]->Draw(renderer, true);
+			}
+
+
+		}
+		else
+		{
+			Info[3]->Draw(renderer, true);
+		}
 		renderer->PopTransform();
 		
 	}

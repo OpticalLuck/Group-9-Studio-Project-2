@@ -88,6 +88,16 @@ void SceneManager::ChangeScene(SCENE_TYPE NextScene)
 	}
 }
 
+bool SceneManager::getQuestStatus(SCENE_TYPE NextScene)
+{
+	return SceneArr[NextScene]->getQuestStatus();
+}
+
+SceneManager::SCENE_TYPE SceneManager::getCurrentScene()
+{
+	return CurrentScene;
+}
+
 void SceneManager::Quit()
 {
 }

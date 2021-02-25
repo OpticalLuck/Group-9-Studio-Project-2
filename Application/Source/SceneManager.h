@@ -25,6 +25,8 @@ public:
 	void Update(StopWatch* m_timer);
 	void Render();
 	static void ChangeScene(SCENE_TYPE NextScene);
+	static bool getQuestStatus(SCENE_TYPE NextScene);
+	static SCENE_TYPE getCurrentScene();
 	void Quit();
 
 private:

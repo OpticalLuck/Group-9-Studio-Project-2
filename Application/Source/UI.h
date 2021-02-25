@@ -38,6 +38,7 @@ private:
 
 	Mesh* BG;
 	Text* Info[10];
+	Text* Quests[10];
 	Text* text[400];
 
 	float staminaBar_width;
