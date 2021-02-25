@@ -27,7 +27,6 @@ NPC::~NPC()
 		delete BodyArr[i];
 	}
 	delete destinationcopy;
-	delete destinationcopy;
 }
 
 void NPC::Update(double dt)
@@ -93,6 +92,7 @@ void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3
 	SetScale(scale);
 	SetRadius(radius);
 	SetObjectToLookAt(lookedAtObj);
+
 }
 
 
