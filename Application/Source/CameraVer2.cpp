@@ -186,6 +186,8 @@ void CameraVer2::Updatemovement(double dt)
 				{
 					gravity = 20.f;
 					target->setVertVelocity(0);
+					target->setbGlide(false);
+					target->setbjump(false);
 				}
 				else
 				{
@@ -197,8 +199,6 @@ void CameraVer2::Updatemovement(double dt)
 				{
 					target->SetTranslate(Vector3(target->GetTranslate().x, 0, target->GetTranslate().z));
 					target->setbGrounded(true);
-					target->setbGlide(false);
-					target->setbjump(false);
 				}
 			}
 
