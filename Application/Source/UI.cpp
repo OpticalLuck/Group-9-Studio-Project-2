@@ -1,6 +1,8 @@
 #include "UI.h"
 #include "Application.h"
 
+#include <sstream>
+
 UI::UI():
 	KeyPressed(false)
 {
@@ -42,35 +44,39 @@ void UI::Init(Character* player)
 	text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	text[2]->SetText("Press E to Interact");
 	text[2]->SetTranslate(Vector3(50.5, 12.5, 0));
+	
+	text[3] = new Text();
+	text[3]->SetMode(Text::STATIC_SCREENTEXT);
+	text[3]->SetTranslate(Vector3(108, 68, 0));
 
 	////Dialogue for everything
 
 	//Characters
-	text[3] = new Text();
-	text[3]->SetMode(Text::STATIC_SCREENTEXT);
-	text[3]->SetText("Ayaka:");
-	text[3]->SetTranslate(Vector3(0.f, 16, 0));
-
 	text[4] = new Text();
 	text[4]->SetMode(Text::STATIC_SCREENTEXT);
-	text[4]->SetText("City Mayor:");
+	text[4]->SetText("Ayaka:");
 	text[4]->SetTranslate(Vector3(0.f, 16, 0));
 
 	text[5] = new Text();
 	text[5]->SetMode(Text::STATIC_SCREENTEXT);
-	text[5]->SetText("The Librarian:");
+	text[5]->SetText("City Mayor:");
 	text[5]->SetTranslate(Vector3(0.f, 16, 0));
 
-	//Dialogue
 	text[6] = new Text();
 	text[6]->SetMode(Text::STATIC_SCREENTEXT);
-	text[6]->SetText("Uh... Damn it. Spatial Vortexes are the worst. Where is this place even?");
-	text[6]->SetTranslate(Vector3(0.f, 13, 0));
+	text[6]->SetText("The Librarian:");
+	text[6]->SetTranslate(Vector3(0.f, 16, 0));
 
+	//Dialogue
 	text[7] = new Text();
 	text[7]->SetMode(Text::STATIC_SCREENTEXT);
-	text[7]->SetText("Hmm... From the looks of it, it would seem that I have landed on a Spatial Outpost.");
+	text[7]->SetText("Uh... Damn it. Spatial Vortexes are the worst. Where is this place even?");
 	text[7]->SetTranslate(Vector3(0.f, 13, 0));
+
+	text[8] = new Text();
+	text[8]->SetMode(Text::STATIC_SCREENTEXT);
+	text[8]->SetText("Hmm... From the looks of it, it would seem that I have landed on a Spatial Outpost.");
+	text[8]->SetTranslate(Vector3(0.f, 13, 0));
 		 
 }
 
@@ -97,6 +103,10 @@ void UI::Update()
 	{
 	//	KeyPressed = false;
 	}
+
+	std::stringstream collCount;
+	collCount << "Collectibles: " << Player->getCollectibleCount();
+	text[3]->SetText(collCount.str());
 }
 
 void UI::UpdateInteractions(GameObject* item)
@@ -114,6 +124,7 @@ void UI::UpdateInteractions(GameObject* item)
 			{
 				item->SetActive(false);
 				text2active = false;
+				Player->IncrementCollectible();
 			}
 		}
 	}
@@ -155,11 +166,13 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		{
 			text[2]->Draw(renderer, true);
 		}
+
+		text[3]->Draw(renderer, true);
 	}
 	else
 	{
 		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
-		text[3]->Draw(renderer, true);
+		text[4]->Draw(renderer, true);
 		text[7]->Draw(renderer, true);
 	}
 }

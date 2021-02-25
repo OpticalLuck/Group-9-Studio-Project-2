@@ -46,7 +46,7 @@ private:
 	GameObject* Quad;
 	GameObject* Item[3];
 	
-	Character* character;
+	Character* Ayaka;
 	Text* text[5];
 	Light* lights[LIGHT_TOTAL];
 };

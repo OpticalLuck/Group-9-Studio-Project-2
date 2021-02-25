@@ -42,7 +42,6 @@ private:
 	bool KeyPressed;
 	bool interactable;
 	bool text2active;
-	bool text3active;
 	bool mapOpen;
 	bool Dialogue;
 };
