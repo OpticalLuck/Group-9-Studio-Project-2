@@ -57,6 +57,7 @@ private:
 	MeshList* meshlist;
 	CameraVer2 camera;
 	UI* ui;
+	Text* text;
 	GOManager goManager;
 	GameObject* Axis;
 	Character* MainChar;
