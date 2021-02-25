@@ -10,6 +10,7 @@
 #include "Skybox.h"
 #include "TextureList.h"
 #include "UI.h"
+#include "NPC.h"
 
 class SceneTrain : public Scene
 {
@@ -59,6 +60,7 @@ private:
 	GameObject* Environment[EN_TOTAL];
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
+	NPC* npc;
 
 	//Temp
 	GameObject* Cube[2];

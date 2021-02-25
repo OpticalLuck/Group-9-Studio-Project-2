@@ -44,7 +44,7 @@ void SceneHall::Init()
 	Collectible->SetTranslate(Vector3(0, 3, 0));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
@@ -57,6 +57,7 @@ void SceneHall::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
+	ui->setMapBounds(15, 15);
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -113,6 +114,10 @@ void SceneHall::Init()
 		Environment[EN_PLANT4]->SetColliderBox(Vector3(1, 2, 1));
 		Environment[EN_PLANT4]->SetTranslate(Vector3(14, 0, -14));
 	}
+
+	text = new Text();
+	text->SetMode(Text::STATIC_SCREENTEXT);
+	text->SetTranslate(Vector3(0, 68, 0));
 }
 
 void SceneHall::InitGL()
@@ -129,6 +134,7 @@ void SceneHall::Update(double dt)
 	//have something else update teh cam. to have access to both cam and character
 	
 	camera.Updatemovement(dt);
+	Ayaka->Update(dt);
 
 	ui->setCamera(&camera);
 	ui->Update();
@@ -193,17 +199,18 @@ void SceneHall::Update(double dt)
 		if (Application::IsKeyPressed('P'))
 			Direction += Vector3(0, -1, 0);
 
-		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
-		{
-			setQuestStatus(true);
-		}
+		//if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+		//{
+		//	setQuestStatus(true);
+		//}
+
 		if (getQuestStatus() == false)
 		{
-			std::cout << "Scene2 Quest inactive." << std::endl;
+			std::cout << "Not all quests completed." << std::endl;
 		}
 		else
 		{
-			std::cout << "Scene2 Quest active." << std::endl;
+			std::cout << "All Quests completed. Proceed to Exit." << std::endl;
 		}
 
 		if (Application::IsKeyPressed('T'))
@@ -236,6 +243,10 @@ void SceneHall::Update(double dt)
 		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
+
+	std::stringstream Pos;
+	Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
+	text->SetText(Pos.str());
 
 	Ayaka->IsWithinRangeOf(npc);
 	npc->Update(dt);
@@ -280,18 +291,23 @@ void SceneHall::Render()
 	
 	npc->Draw(renderer, true);
 
-	Collectible->Draw(renderer, true);
-	ui->setItem(Collectible);
-	if (Ayaka->GetInRange(Collectible, 4))
+	if (getQuestStatus() == true) //if all other quests are completed (this scene's quest status set to true from SceneManager), render final item to collect in order for game to end
 	{
-		ui->setInteractable(true);
-		ui->UpdateInteractions(Collectible);
+		Collectible->Draw(renderer, true);
+		ui->setItem(Collectible);
+		if (Ayaka->GetInRange(Collectible, 4))
+		{
+			ui->setInteractable(true);
+			ui->UpdateInteractions(Collectible);
+		}
+		else
+		{
+			ui->setInteractable(false);
+			ui->UpdateInteractions(Collectible);
+		}
 	}
-	else 
-	{
-		ui->setInteractable(false);
-		ui->UpdateInteractions(Collectible);
-	}
+
+	text->Draw(renderer, false);
 
 	ui->Draw(renderer, true);
 }

@@ -27,6 +27,7 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 {
 	isSprintable = false;
 	isGliding = false;
+	isJump = false;
 	Velocity = 5.0f;
 
 	SetTranslate(position);
@@ -36,12 +37,10 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 
 	if (position.y < Math::EPSILON)
 	{
-		isJump = false;
 		isGrounded = true;
 	}
 	else
 	{
-		isJump = true;
 		isGrounded = false;
 	}
 
@@ -69,13 +68,15 @@ void Character::Update(double dt)
 bool Character::IsWithinRangeOf(GameObject* item)
 {
 	//getTranslate() by itself access the position of Character, while item->GetTranslate() access the position of the item parameter that is passed in
-	if (GetInRange(item,item->GetRadius()))
+	if (GetInRange(item,item->GetRadius()) && item->getCurrentFlag() == FLAG0)
 	{
 		item->SetCurrentFlag(FLAG1);
 		return true;
 	}
-	item->SetCurrentFlag(FLAG0);
-	return false;
+	else if (item->getCurrentFlag() == FLAG1 && !GetInRange(item, item->GetRadius())) {
+		item->SetCurrentFlag(FLAG0);
+		return false;
+	}
 }
 
 int Character::getCollectibleCount()
@@ -164,6 +165,15 @@ void Character::setbjump(bool isJump)
 void Character::setbGlide(bool isGliding)
 {
 	this->isGliding = isGliding;
+
+	if (isGliding)
+	{
+		Wing->SetActive(true);
+	}
+	else
+	{
+		Wing->SetActive(false);
+	}
 }
 
 void Character::IncrementCollectible()

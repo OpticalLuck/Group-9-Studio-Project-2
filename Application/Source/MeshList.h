@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "Mesh.h"
 #include "TextureList.h"
 
@@ -13,7 +13,9 @@ public:
 		MESH_QUAD,
 		MESH_CUBE,
 
-		//NPC
+		//CHARACTER
+		MESH_AYAKA,
+		MESH_WING,
 
 		//Environment
 		MESH_FLOOR,
@@ -28,14 +30,14 @@ public:
 		MESH_PAGODA,
 		MESH_RING,
 
+
 		//OBJECTS
 		MESH_TABLE,
 		MESH_PLANT,
 
-		//CHARACTER?
+		//NPC
+		MESH_NPC,
 		MESH_HEAD,
-		MESH_AYAKA,
-		MESH_WING,
 
 		//UI
 		MESH_STAMINABAR,

@@ -39,13 +39,12 @@ public:
 	void PushPathPoint(Vector3 position);
 	void PushPathPoint(float x, float y, float z);
 
+	void BuildMeshes(MeshList* meshlist);
 	
 
 	enum BODYPART
 	{
 		HEAD,
-		LARM,
-		RARM,
 		TOTALPART
 	};
 
@@ -65,7 +64,6 @@ private:
 
 
 
-	void BuildMeshes(MeshList* meshlist);
 
 	//Smaller Functions for small processes
 
@@ -75,7 +73,7 @@ private:
 	//Rotate bodypart towards character
 	//Maximum angle is how many degrees from the front they can move.	
 	//cannot be more than 180	
-	void RotateTowardsCharacter(GameObject* parttorotate,float maximumangle = 180 );
+	void RotateTowardsCharacter(GameObject* parttorotate,float maximumangle = 180, float maxX = 30 );
 	void RotateToVector(GameObject* parttorotate, Vector3 rotate);
 
 	//Move Towards the rotation vector somehow

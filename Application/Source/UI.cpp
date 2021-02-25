@@ -16,6 +16,8 @@ void UI::Init(Character* player)
 {
 	this->Player = player;
 	staminaBar_width = 30;
+	max_X = 30;
+	max_Z = 30;
 
 	interactable = false;
 	mapOpen = false;
@@ -469,11 +471,11 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		else
 		{
 			//render map
-			float x_offset = round(35 * (camera->GetPosX() / 30));
-			float y_offset = round(35 * (camera->GetPosZ() / 30));
+			float x_offset = round(35 * (Player->GetTranslate().x / getMapBoundsX()));	//half of quad's size * (player's pos/30)
+			float z_offset = round(35 * (Player->GetTranslate().z / getMapBoundsZ()));
 
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD), 64, 36, 70, 70);
-			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - y_offset, 1, 1);
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_ICON), 64 + x_offset, 36 - z_offset, 1, 1);
 		}
 
 		if (camera->GetSprintState() == false && Player->getSprintState() == false)		//Walking
@@ -537,6 +539,16 @@ bool UI::getInteractable()
 	return interactable;
 }
 
+float UI::getMapBoundsX()
+{
+	return max_X;
+}
+
+float UI::getMapBoundsZ()
+{
+	return max_Z;
+}
+
 void UI::setCamera(CameraVer2* camera)
 {
 	this->camera = camera;
@@ -550,5 +562,11 @@ void UI::setItem(GameObject* item)
 void UI::setInteractable(bool interactable)
 {
 	this->interactable = interactable;
+}
+
+void UI::setMapBounds(float max_X, float max_Z)
+{
+	this->max_X = max_X;
+	this->max_Z = max_Z;
 }
 

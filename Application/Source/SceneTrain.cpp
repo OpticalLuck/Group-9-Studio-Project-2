@@ -41,13 +41,17 @@ void SceneTrain::Init()
 	Cube[1]->SetColliderBox();
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
 
 	ui = new UI();
 	ui->Init(Ayaka);
+
+	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
+	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
+
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -165,6 +169,9 @@ void SceneTrain::Update(double dt)
 		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
+	Ayaka->IsWithinRangeOf(npc);
+	npc->Update(dt);
+
 }
 
 void SceneTrain::Render()
@@ -199,7 +206,7 @@ void SceneTrain::Render()
 	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
-
+	npc->Draw(renderer, true);
 	ui->Draw(renderer, true);
 }
 

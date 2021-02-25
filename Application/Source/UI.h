@@ -22,10 +22,13 @@ public:
 
 	GameObject* getItem();
 	bool getInteractable();
+	float getMapBoundsX();
+	float getMapBoundsZ();
 
 	void setCamera(CameraVer2* camera);
 	void setItem(GameObject* item);
 	void setInteractable(bool interactable);
+	void setMapBounds(float max_X, float max_Z);
 
 private:
 	CameraVer2* camera;
@@ -36,6 +39,7 @@ private:
 	Text* text[400];
 
 	float staminaBar_width;
+	float max_X, max_Z;
 
 	int Button_Count = 0;
 

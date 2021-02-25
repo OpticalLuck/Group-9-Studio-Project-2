@@ -36,11 +36,11 @@ void SceneNPCTest::Init()
 	MainCharacter->SetRotate(Vector3(0, Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)), 0));
 	camera.SetTarget(MainCharacter);
 
-	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	npc =  goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->SetColliderBox();
-	npc->Init(meshlist, MainCharacter, Vector3(0, 3, 0), Vector3(0, 90, 0));
-	npc->PushPathPoint(Vector3(4, 3, 0));
-	npc->PushPathPoint(Vector3(0, 3, -9));
+	npc->Init(meshlist, MainCharacter, Vector3(0, 0, 0), Vector3(0, 90, 0));
+	npc->PushPathPoint(Vector3(4, 0, 0));
+	npc->PushPathPoint(Vector3(0, 0, -9));
 	//npc->SetTranslate(Vector3(0,0,1));
 }
 void SceneNPCTest::InitGL()
@@ -107,7 +107,6 @@ void SceneNPCTest::Update(double dt)
 
 	//Collision::OBBResolution(npc, MainCharacter);
 	//Collision::OBBResolution(MainCharacter, npc);
-	
 }
 
 void SceneNPCTest::Render()
@@ -121,7 +120,7 @@ void SceneNPCTest::Render()
 	Quad->Draw(renderer, true);
 
 	MainCharacter->Draw(renderer, false);
-	npc->Draw(renderer, false);
+	npc->Draw(renderer, true);
 
 	//Light
 	renderer->SetLight(lights[0], camera.GetPosition());
