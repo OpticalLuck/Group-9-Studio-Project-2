@@ -134,6 +134,9 @@ void SceneCity::Init()
 		Environment[EN_TREE]->SetTranslate(Vector3(-20, 0, -10));
 		Environment[EN_TREE]->SetScale(Vector3(10, 10, 10));
 	}
+
+	GenerateNPCs(meshlist);
+
 }
 
 void SceneCity::InitGL()
@@ -191,6 +194,8 @@ void SceneCity::Update(double dt)
 	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
 	lights[1]->position = Cube[0]->GetTranslate();
 
+	UpdateNPCs(dt);
+
 	//Debug
 	{
 		if (Application::IsKeyPressed('1'))
@@ -219,6 +224,9 @@ void SceneCity::Update(double dt)
 			Collision::isRender = false;
 		}
 	}
+	Vector3 temp = Ayaka->GetTranslate();
+
+	std::cout <<  temp << std::endl;
 }
 
 void SceneCity::Render()
@@ -238,6 +246,7 @@ void SceneCity::Render()
 	}
 		
 	Ayaka->Draw(renderer, true);
+	DrawNPCs();
 	Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);
 
@@ -252,7 +261,7 @@ void SceneCity::Render()
 		if(Waypoints[i])
 			Waypoints[i]->Draw(renderer, false);
 	}
-
+	
 	ui->Draw(renderer, true);
 
 }
@@ -273,12 +282,49 @@ void SceneCity::GenerateNPCs(MeshList* meshlist)
 	for (int i = 0; i < NPC_TOTAL; i++) {
 		npc[i] = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 		npc[i]->Init(meshlist, Ayaka);
+		npc[i]->SetColliderBox(Vector3(0.5,1,0.5), Vector3(0,2,0));
 		//Individually set their translations separately
 	}
 	
+	npc[TRAIN_BUSY1]->SetTranslate(Vector3(23, 0, 9.5));
+	npc[TRAIN_BUSY1]->PushPathPoint(6, 0, 9.5);
+	npc[TRAIN_BUSY1]->PushPathPoint(6, 0, -78);
+	npc[TRAIN_BUSY1]->PushPathPoint(33, 0, -78);
+	npc[TRAIN_BUSY1]->PushPathPoint(35, 1, -78);
+	npc[TRAIN_BUSY1]->PushDespawnPoint(40, 1, -78);
+	npc[TRAIN_BUSY1]->SetRespawnPos(23,0,9.5);
+
+	npc[TRAIN_BUSY2]->SetTranslate(Vector3(36, 0, -88));
+	npc[TRAIN_BUSY2]->PushPathPoint(35.5, 0, -88);
+	npc[TRAIN_BUSY2]->PushDespawnPoint(35.5, 0, -100);
+	npc[TRAIN_BUSY2]->SetRespawnPos(35.5, 0, -99);
+
+	npc[LIBRARY_BUSY1]->SetTranslate(Vector3(-50, 0, 18));
+	npc[LIBRARY_BUSY1]->PushPathPoint(-50,0,35);
+	npc[LIBRARY_BUSY1]->PushPathPoint(-8,0,35);
+	npc[LIBRARY_BUSY1]->PushPathPoint(-8,0,-80);
+	npc[LIBRARY_BUSY1]->PushDespawnPoint(-50, 0, -80);
+	npc[LIBRARY_BUSY1]->SetRespawnPos(-50, 0, 18);
+
+	npc[LIBRARY_REST]->SetTranslate(Vector3(-49, 0, -88));
+	npc[LIBRARY_REST]->SetDefaultDir(Vector3(0, 180, 0));
 
 }
 
 void SceneCity::UpdateNPCs(double dt)
 {
+	for (int i = 0; i < NPC_TOTAL; i++) {
+		Ayaka->IsWithinRangeOf(npc[i]);
+
+		npc[i]->CollisionResolution(Ayaka);
+		npc[i]->Update(dt);
+		
+	}
+}
+
+void SceneCity::DrawNPCs()
+{
+	for (int i = 0; i < NPC_TOTAL; i++) {
+		npc[i]->Draw(renderer, true);
+	}
 }

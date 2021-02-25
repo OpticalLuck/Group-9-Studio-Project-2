@@ -39,7 +39,7 @@ public:
 	{
 		TRAIN_BUSY1,
 		TRAIN_BUSY2,
-		LIBRARY_BUSY,
+		LIBRARY_BUSY1,
 		LIBRARY_REST,
 
 		NPC_TOTAL
@@ -93,6 +93,7 @@ private:
 
 	void GenerateNPCs(MeshList* meshlist);
 	void UpdateNPCs(double dt);
+	void DrawNPCs();
 
 };
 
