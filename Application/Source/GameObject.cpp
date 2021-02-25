@@ -104,6 +104,30 @@ void GameObject::SetTranslate(Vector3 Translate)
 }
 void GameObject::SetRotate(Vector3 Rotate)
 {
+	if (Rotate.x > 360)
+	{
+		Rotate.x -= 360;
+	}
+	if (Rotate.x < 0)
+	{
+		Rotate.x += 360;
+	}
+	if (Rotate.y > 360)
+	{
+		Rotate.y -= 360;
+	}
+	if (Rotate.y < 0)
+	{
+		Rotate.y += 360;
+	}
+	if (Rotate.z > 360)
+	{
+		Rotate.z -= 360;
+	}
+	if (Rotate.z < 0)
+	{
+		Rotate.z += 360;
+	}
 	Rotation = Rotate;
 	for (int i = 0; i < ColliderBox.size(); i++)
 	{

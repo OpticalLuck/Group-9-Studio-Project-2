@@ -18,7 +18,8 @@ public:
 		MESH_WING,
 
 		//Environment
-		MESH_FLOOR,
+		MESH_LAND,
+		MESH_FIELD,
 		MESH_HOUSE1,
 		MESH_HOUSE2,
 		MESH_HOUSE3,
@@ -29,6 +30,7 @@ public:
 		MESH_LIBRARY,
 		MESH_PAGODA,
 		MESH_RING,
+		MESH_FAN,
 
 
 		//OBJECTS

@@ -16,9 +16,11 @@ MeshList::MeshList()
 	//1 is specular
 	//2 is roughness tbc
 
-	meshlist[MESH_FLOOR] = MeshBuilder::GenerateQuad("FloorQuad", Color(1, 1, 1));
-	meshlist[MESH_FLOOR]->textureArr[0] = texturelist->Insert("Floor.tga");
-	
+	meshlist[MESH_LAND] = MeshBuilder::GenerateQuad("CityLand", Color(1, 1, 1));
+	meshlist[MESH_LAND]->textureArr[0] = texturelist->Insert("GrassLand.tga");
+
+	meshlist[MESH_FIELD] = MeshBuilder::GenerateQuad("StadiumField", Color(1, 1, 1));
+	meshlist[MESH_FIELD]->textureArr[0] = texturelist->Insert("Field.tga");
 	
 	//// <MAIN CHARACTER>
 	meshlist[MESH_AYAKA] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Ayaka.obj", "OBJ//Ayaka.mtl", texturelist);
@@ -59,7 +61,9 @@ MeshList::MeshList()
 	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/plant.obj", "OBJ//Hall/plant.mtl");
 	meshlist[MESH_PLANT]->textureArr[0] = texturelist->Insert("plant.tga");
 
-	meshlist[MESH_RING] = MeshBuilder::GenerateOBJMTL("Pagoda", "OBJ//Ring/Ring.obj", "OBJ//Ring/Ring.mtl");
+	meshlist[MESH_RING] = MeshBuilder::GenerateOBJMTL("Ring", "OBJ//Ring/Ring.obj", "OBJ//Ring/Ring.mtl");
+
+	meshlist[MESH_FAN] = MeshBuilder::GenerateOBJMTL("Fan", "OBJ//Fan.obj", "OBJ//Fan.mtl");
 
 	//// <UI> 
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
@@ -70,9 +74,7 @@ MeshList::MeshList()
 
 	//// <NPC> 
 	meshlist[MESH_NPC] = MeshBuilder::GenerateOBJMTL("Body", "OBJ//NPC/npcbody.obj", "OBJ//NPC/npcbody.mtl");
-	//meshlist[MESH_HEAD] = MeshBuilder::GenerateOBJMTL("Head", "OBJ//NPC/npchead.obj", "OBJ//NPC/npchead.mtl");
 	meshlist[MESH_HEAD] = MeshBuilder::GenerateOBJMTL("Head", "OBJ//NPC/fixedhead.obj", "OBJ//NPC/fixedhead.mtl");
-	//meshlist[MESH_HEAD] = MeshBuilder::GenerateCube("Head", Color(0.f,0.f,1.f), 5.f, 5.f, 5.f);
 	meshlist[MESH_HEAD]->textureArr[0] = texturelist->Insert("NPC/stoopfacenumber2.tga");
 
 	//// </NPC> 
