@@ -27,12 +27,17 @@ void SceneTest::Init()
 	lights[0] = new Light(renderer->GetprogramID(), 0);
 
 	camera.Init(Vector3(0, 3, 8), Vector3(0, 0, -1), Vector3(0, 1, 0));
+	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
-	character = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
-	camera.SetTarget(character);
+	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_QUAD));
+	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
+	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0));
+	Ayaka->SetRotate(Vector3(0, Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)), 0));
+	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
+	camera.SetTarget(Ayaka);
 
 	ui = new UI();
-	ui->Init(character);
+	ui->Init(Ayaka);
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -70,12 +75,6 @@ void SceneTest::Init()
 	//text[2]->SetMode(Text::STATIC_SCREENTEXT);
 	//text[2]->SetText("Sprinting");
 	//text[2]->SetTranslate(Vector3(0.f, 4, 0));
-
-	//Interaction
-	text[4] = new Text();
-	text[4]->SetMode(Text::STATIC_SCREENTEXT);
-	text[4]->SetText("Item Acquired.");
-	text[4]->SetTranslate(Vector3(27.5, 12.5, 0));
 
 }
 
@@ -135,20 +134,25 @@ void SceneTest::Update(double dt)
 	{
 		setQuestStatus(true);
 	}
-	if (getQuestStatus() == false)
-	{
-		std::cout << "Scene2 Quest inactive." << std::endl;
-	}
-	else
-	{
-		std::cout << "Scene2 Quest active." << std::endl;
-	}
+	//if (getQuestStatus() == false)
+	//{
+	//	std::cout << "Scene2 Quest inactive." << std::endl;
+	//}
+	//else
+	//{
+	//	std::cout << "Scene2 Quest active." << std::endl;
+	//}
 
 
 
 	camera.Updatemovement(dt);
+	Ayaka->Update(dt);
+
 	ui->setCamera(&camera);
 	ui->Update();
+
+	camera.Updateposition();
+
 	//ui->setCamSprintState(&camera);
 
 	//LMB Click
@@ -164,7 +168,7 @@ void SceneTest::Update(double dt)
 	//Stamina Bar
 	/*camera.SetSprintState(false);*/
 
-	character->SetTranslate(camera.GetPosition());
+	//character->SetTranslate(camera.GetPosition());
 
 	//FPS Update
 	std::ostringstream ss;
@@ -195,6 +199,8 @@ void SceneTest::Render()
 
 	Quad->Draw(renderer, true);
 
+	Ayaka->Draw(renderer, true);
+
 	//Proximity
 	for (int i = 0; i < sizeof(Item) / sizeof(Item[0]); i++)
 	{
@@ -202,7 +208,7 @@ void SceneTest::Render()
 
 		ui->setItem(Item[i]);
 
-		if (character->GetInRange(Item[i], 3))
+		if (Ayaka->GetInRange(Item[i], 4))
 		{
 			ui->setInteractable(true);
 			ui->UpdateInteractions(Item[i]);

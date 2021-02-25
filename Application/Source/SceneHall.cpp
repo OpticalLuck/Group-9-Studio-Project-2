@@ -199,10 +199,10 @@ void SceneHall::Update(double dt)
 		if (Application::IsKeyPressed('P'))
 			Direction += Vector3(0, -1, 0);
 
-		//if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
-		//{
-		//	setQuestStatus(true);
-		//}
+		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+		{
+			setQuestStatus(true);
+		}
 
 		if (getQuestStatus() == false)
 		{
@@ -294,6 +294,7 @@ void SceneHall::Render()
 	if (getQuestStatus() == true) //if all other quests are completed (this scene's quest status set to true from SceneManager), render final item to collect in order for game to end
 	{
 		Collectible->Draw(renderer, true);
+
 		ui->setItem(Collectible);
 		if (Ayaka->GetInRange(Collectible, 4))
 		{
