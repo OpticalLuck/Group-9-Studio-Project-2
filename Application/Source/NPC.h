@@ -25,7 +25,7 @@ public:
 	//A much needed function after creating an NPC
 	void Init(MeshList* meshlist,
 			  GameObject* lookedAtObj,
-			  Vector3 pos,
+			  Vector3 pos = Vector3(0,0,0),
 			  Vector3 rot = Vector3(0,0,0), 
 		      Vector3 scale = Vector3(1,1,1),
 			  float radius = 10.f);

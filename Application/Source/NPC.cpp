@@ -36,10 +36,11 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], 80.f);
+			RotateTowardsCharacter(BodyArr[HEAD], 75, 50);
+			//RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 		}
 		else {
-			RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
+			RotateToVector(BodyArr[HEAD], GetRotate());
 			
 			if (!destinations.empty()) { //Stop moving when all destinations reached
 				
@@ -213,79 +214,206 @@ float NPC::GetAngleToPoint(Vector3 point)
 void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, float maxX)
 {
 
-	//Reset the origin
-	Mtx44 rotationx, rotationy, rotationz;
-	rotationx.SetToRotation(-(GetRotate().x), 1, 0, 0);
-	rotationy.SetToRotation(-GetRotate().y, 0, 1, 0);
-	rotationz.SetToRotation(-(GetRotate().z), 0, 0, 1);
-	
-	Vector3 objectdiff = (objectToLookAt->GetTranslate() + Vector3(0,2.5,0) - (BodyArr[HEAD]->GetTranslate() + GetTranslate())) ;
-	//move object to be at tested position for calculations
-	
-	//Vector3 rotate = GetRotate();
-	Vector3 objectdiffx = rotationx * objectdiff;
-	Vector3 objectdiffy = rotationy * objectdiff;
-	Vector3 objectdiffz = rotationz * objectdiff;
-	//Move projected object with position
-	
 
 
-	//calculations 
+	Vector3 point = objectToLookAt->GetTranslate() +Vector3(0, 2.5, 0);
+	Vector3 AxisDir(0, 0, 1);
+	Vector3 objectdiff = (point - (GetTranslate() + Vector3(0, 1.8, 0))).Normalized();
+	float currentAngle = parttorotate->GetRotate().y;
+	Mtx44 temp;
+	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
+	AxisDir = temp * AxisDir;
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.x, objectdiff.z)), 0, 1, 0);
+	AxisDir = temp * AxisDir;
+	float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
+	if (targetyaw < 0)
+		targetyaw += 360;
 
-
-	float yangle = AngleBetween(objectdiffy, 1) + 90;
-	
-
-	//x angle bounds move with y angle
-	rotationx.SetToRotation(-yangle, 0, 1, 0);
-	objectdiffx = rotationx * objectdiffx;
-	objectdiffx = rotationy * objectdiffx;
-	//y angle boundaries
-	if ( (yangle < -maximumangle && yangle > -180)) {
-		yangle = -maximumangle;
+	if (targetyaw > maximumangle && targetyaw < 180) {
+		targetyaw = maximumangle;
 	}
-	else if ((yangle > maximumangle && yangle < 180)) {
-		yangle = maximumangle;
+	else if (targetyaw < 360 - maximumangle && targetyaw > 180) {
+		targetyaw = 360 - maximumangle;
+	}
+	
+	float smallestyaw = 999.f;
+	for (int i = -1; i <= 1; ++i)
+	{
+		float thisyaw = targetyaw + i * 360.f;
+		if (fabs(thisyaw - currentAngle) < fabs(smallestyaw - currentAngle))
+		{
+			smallestyaw = thisyaw;
+		}
+	}
+	currentAngle = smallestyaw;
+
+	float ROTATIONSPEED = 8 * dt;
+	float rotationval;
+	rotationval = (1 - ROTATIONSPEED) * parttorotate->GetRotate().y + ROTATIONSPEED * currentAngle;
+	if (parttorotate->GetRotate().y > 360)
+	{
+		rotationval -= 360;
+	}
+	else if (parttorotate->GetRotate().y < 0)
+	{
+		rotationval += 360;
 	}
 
-	float xangle = AngleBetween(objectdiffx, 0);
+	
 
-	if ((xangle < -maxX)) {
-		xangle = -maxX;
+	AxisDir = Vector3(0, 0, 1);
+	currentAngle = parttorotate->GetRotate().x;
+	temp.SetToRotation(-rotationval, 0, 1, 0);
+	AxisDir = temp * AxisDir;
+
+	std::cout << objectdiff.y << "," << objectdiff.z << " ";
+
+	objectdiff = temp * objectdiff;
+	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
+	AxisDir = temp * AxisDir;
+
+	std::cout << objectdiff.y << "," << objectdiff.z << "\n";
+
+	float targetpitch = Math::RadianToDegree(atan2(AxisDir.y, AxisDir.z));
+	if (targetpitch < 0)
+		targetpitch += 360;
+	if (targetpitch > maxX && targetpitch < 180) {
+		targetpitch = maxX;
 	}
-	else if (xangle > maxX) {
-		xangle = maxX;
+	else if (targetpitch < 360 - maxX && targetpitch > 180) {
+		targetpitch = 360 - maxX;
+	}
+
+	float smallestpitch = 999.f;
+	for (int i = -1; i <= 1; ++i)
+	{
+		float thispitch = targetpitch + i * 360.f;
+		if (fabs(thispitch - currentAngle) < fabs(smallestpitch - currentAngle))
+		{
+			smallestpitch = thispitch;
+		}
+	}
+	currentAngle = smallestpitch;
+
+	float rotationxval;
+	rotationxval = (1 - ROTATIONSPEED) * parttorotate->GetRotate().x + ROTATIONSPEED * currentAngle;
+	if (parttorotate->GetRotate().x > 360)
+	{
+		rotationxval -= 360;
+	}
+	else if (parttorotate->GetRotate().x < 0)
+	{
+		rotationxval += 360;
 	}
 
 
-	RotateToVector(parttorotate, Vector3(xangle, yangle, 0));
+
+
+	parttorotate->SetRotate(Vector3(rotationxval, rotationval, 0));
+
+
 }
 
 void NPC::RotateToVector(GameObject* parttorotate, Vector3 rotate)
 {
-	float partx, party, partz, rotSPEED;
-	partx = parttorotate->GetRotate().x;
-	party = parttorotate->GetRotate().y;
-	partz = parttorotate->GetRotate().z;
-	rotSPEED = 100.f;
+	//Vector3 point = GetTranslate() + Vector3(0, 1.8, 1);
+	Vector3 AxisDir(0, 0, 1);
+
+
+	//Vector3 objectdiff = (point - (GetTranslate() + Vector3(0, 1.8, 0))).Normalized();
+
+	Vector3 objectdiff = Vector3(0, 0, 1).Normalized();
+	Mtx44 rotation;
+	rotation.SetToRotation(rotate.x, 1, 0, 0);
+	objectdiff = rotation * objectdiff;
+	rotation.SetToRotation(rotate.y, 0, 1, 0);
+	objectdiff = rotation * objectdiff;
+	rotation.SetToRotation(rotate.z, 0, 0, 1);
+	objectdiff = rotation * objectdiff;
+
+
+	float currentAngle = parttorotate->GetRotate().y;
+	Mtx44 temp;
+	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
+	AxisDir = temp * AxisDir;
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.x, objectdiff.z)), 0, 1, 0);
+	AxisDir = temp * AxisDir;
+	float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
+	if (targetyaw < 0)
+		targetyaw += 360;
+
+	float smallestyaw = 999.f;
+	for (int i = -1; i <= 1; ++i)
+	{
+		float thisyaw = targetyaw + i * 360.f;
+		if (fabs(thisyaw - currentAngle) < fabs(smallestyaw - currentAngle))
+		{
+			smallestyaw = thisyaw;
+		}
+	}
+	currentAngle = smallestyaw;
+
+	float ROTATIONSPEED = 8 * dt;
+	float rotationval;
+	rotationval = (1 - ROTATIONSPEED) * parttorotate->GetRotate().y + ROTATIONSPEED * currentAngle;
+	if (parttorotate->GetRotate().y > 360)
+	{
+		rotationval -= 360;
+	}
+	else if (parttorotate->GetRotate().y < 0)
+	{
+		rotationval += 360;
+	}
+
+
+
+	AxisDir = Vector3(0, 0, 1);
+	currentAngle = parttorotate->GetRotate().x;
+	temp.SetToRotation(-rotationval, 0, 1, 0);
+	AxisDir = temp * AxisDir;
+
 	
 
-	if (party < rotate.y - 1) {
-		party += rotSPEED * dt;
+
+	objectdiff = temp * objectdiff;
+	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
+	AxisDir = temp * AxisDir;
+	float targetpitch = Math::RadianToDegree(atan2(AxisDir.y, AxisDir.z));
+	if (targetpitch < 0)
+		targetpitch += 360;
+
+	
+
+
+	float smallestpitch = 999.f;
+	for (int i = -1; i <= 1; ++i)
+	{
+		float thispitch = targetpitch + i * 360.f;
+		if (fabs(thispitch - currentAngle) < fabs(smallestpitch - currentAngle))
+		{
+			smallestpitch = thispitch;
+		}
 	}
-	else if (party > rotate.y + 1) {
-		party -= rotSPEED * dt;
+	currentAngle = smallestpitch;
+
+	float rotationxval;
+	rotationxval = (1 - ROTATIONSPEED) * parttorotate->GetRotate().x + ROTATIONSPEED * currentAngle;
+	if (parttorotate->GetRotate().x > 360)
+	{
+		rotationxval -= 360;
+	}
+	else if (parttorotate->GetRotate().x < 0)
+	{
+		rotationxval += 360;
 	}
 
-	if (partx < rotate.x - 1) {
-		partx += rotSPEED * dt;
-	}
-	else if (partx > rotate.x + 1) {
-		partx -= rotSPEED * dt;
-	}
 
-	//std::cout << party << " ";
-	parttorotate->SetRotate(Vector3(partx, party, partz));
+
+
+	parttorotate->SetRotate(Vector3(rotationxval, rotationval, 0));
+
 }
 
 void NPC::MoveInDir(Vector3 rot)
@@ -361,7 +489,6 @@ float AngleBetween(Vector3 difference, int axis) {
 	float tangent = sine / cosine;
 	float angle = Math::RadianToDegree(std::atanf(tangent));
 
-	//std::cout << tangent << "\n";
 	
 	if (cosine < 0 ) {
 		angle = 180 + angle;

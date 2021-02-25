@@ -79,35 +79,35 @@ Then generate the VBO/IBO and store them in Mesh object
 \return Pointer to mesh storing VBO/IBO of quad
 */
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float size)
+Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float width, float height)
 {
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<unsigned> index_buffer_data;
 	v.normal.Set(0, 1, 0);
 
-	float s = 0.5f * size;
-	float texturesize = 1;
-
-	v.pos.Set(-s, 0, s);
+	float sw = 0.5f * width;
+	float sh = 0.5f * height;
+	float texturesize = 1.f;
+	v.pos.Set(-sw, 0, sh);
 	v.texCoord.Set(0, 0);
 	v.normal = Vector3(0, 1, 0);
 	v.color = color;
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(s, 0, s);
+	v.pos.Set(sw, 0, sh);
 	v.texCoord.Set(texturesize, 0);
 	v.normal = Vector3(0, 1, 0);
 	v.color = color;
 	vertex_buffer_data.push_back(v);
 	
-	v.pos.Set(s, 0, -s);
+	v.pos.Set(sw, 0, -sh);
 	v.texCoord.Set(texturesize, texturesize);
 	v.normal = Vector3(0, 1, 0);
 	v.color = color;
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(-s, 0.f, -s);
+	v.pos.Set(-sw, 0.f, -sh);
 	v.texCoord.Set(0, texturesize);
 	v.normal = Vector3(0, 1, 0);
 	v.color = color;

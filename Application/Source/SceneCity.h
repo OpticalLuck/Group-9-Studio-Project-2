@@ -11,6 +11,7 @@
 #include "TextureList.h"
 #include "Text.h"
 #include "UI.h"
+#include "NPC.h"
 #include "WayPoint.h"
 
 class SceneCity : public Scene
@@ -33,6 +34,17 @@ public:
 		EN_TREE,
 		EN_TOTAL
 	};
+
+	enum NPCLOCATION //USE FOR NPC ID AND IDEA OF WHERE IT SPAWNS
+	{
+		TRAIN_BUSY1,
+		TRAIN_BUSY2,
+		LIBRARY_BUSY1,
+		LIBRARY_REST,
+
+		NPC_TOTAL
+	};
+
 
 	enum LIGHT_LOCATION
 	{
@@ -70,6 +82,7 @@ private:
 	GOManager goManager;
 	GameObject* Axis;
 	Character* Ayaka;
+	NPC* npc[NPC_TOTAL];
 	GameObject* Environment[EN_TOTAL];
 	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
@@ -77,6 +90,11 @@ private:
 	UI* ui;
 	//Temp
 	GameObject* Cube[2];
+
+	void GenerateNPCs(MeshList* meshlist);
+	void UpdateNPCs(double dt);
+	void DrawNPCs();
+
 };
 
 #endif
