@@ -427,16 +427,6 @@ void UI::Update()
 {
 	staminaBar_width = Player->getStamina() / 2;
 
-	if (Application::IsKeyPressed('T') && !KeyPressed)
-	{
-		Dialogue = !Dialogue;
-		KeyPressed = true;
-	}
-	else if (!Application::IsKeyPressed('T') && KeyPressed)
-	{
-	//	KeyPressed = false;
-	}
-
 	static bool bLButtonState = false;
 
 	//Left Mouse Button
