@@ -617,6 +617,7 @@ void UI::Update(double dt)
 
 	if (!bPause)
 	{
+		SceneManager::getCurrentScene()->bPauseGame = false;
 		//QuestTab
 		if (Application::IsKeyPressed(VK_TAB))
 		{
@@ -657,10 +658,10 @@ void UI::Update(double dt)
 	}
 	else
 	{
+		SceneManager::getCurrentScene()->bPauseGame = true;
 		float lerpspeed = 0.2f; //no dt coz er in case of pressing it right after loading
 		float lerptofinalX = (1 - lerpspeed) * PauseBG->GetTranslate().x + lerpspeed * 22;
 		//Lerps
-		std::cout << lerptofinalX << std::endl;
 		PauseBG->SetTranslate(Vector3(lerptofinalX, PauseBG->GetTranslate().y, 0));
 
 		for (int i = 0; i < 3; i++)
@@ -789,7 +790,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 
 			Quests[5]->Draw(renderer, true);
 			
-			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false || SceneManager::getCurrentScene() != SceneManager::SCENE_HALL)
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false || SceneManager::getCurrentSceneType() != SceneManager::SCENE_HALL)
 			{
 			}
 

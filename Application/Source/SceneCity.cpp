@@ -20,6 +20,7 @@ SceneCity::~SceneCity()
 void SceneCity::Init()
 {
 	isInit = true; 
+	bPauseGame = false;
 	//camera.Init(Vector3(0, 5, -5), Vector3(0, 0, 1));
 	camera.Init(Vector3(0, 5, -90), Vector3(0, 0, 1));
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
@@ -150,81 +151,63 @@ void SceneCity::InitGL()
 
 void SceneCity::Update(double dt)
 {
-	fps = 1.f / dt;
-
-	//Movement Update
-	camera.Updatemovement(dt);
-	Ayaka->Update(dt);
-	//Collision Update
-	Ayaka->CollisionResolution(Cube[0]);
-	Ayaka->CollisionResolution(Cube[1]);
-	for (int i = 0; i < EN_TOTAL; i++)
+	if(!bPauseGame)
 	{
-		if (Environment[i])
+		//Movement Update
+		camera.Updatemovement(dt);
+		Ayaka->Update(dt);
+		//Collision Update
+		Ayaka->CollisionResolution(Cube[0]);
+		Ayaka->CollisionResolution(Cube[1]);
+		for (int i = 0; i < EN_TOTAL; i++)
 		{
-			if (Environment[i]->GetCollVecSize() != 0)
-				Ayaka->CollisionResolution(Environment[i]);
+			if (Environment[i])
+			{
+				if (Environment[i]->GetCollVecSize() != 0)
+					Ayaka->CollisionResolution(Environment[i]);
+			}
+		}
+
+		Waypoints[WP_STADIUM]->inRangeResponse(Ayaka, SceneManager::SCENE_STADIUM);
+		Waypoints[WP_LIBRARY]->inRangeResponse(Ayaka, SceneManager::SCENE_LIBRARY);
+		Waypoints[WP_HALL]->inRangeResponse(Ayaka, SceneManager::SCENE_HALL);
+		Waypoints[WP_TRAIN]->inRangeResponse(Ayaka, SceneManager::SCENE_TRAIN);
+
+		//UI
+		UpdateNPCs(dt);
+		//Debug
+		{
+			if (Application::IsKeyPressed('1'))
+			{
+				glEnable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('2'))
+			{
+				glDisable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('3'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			if (Application::IsKeyPressed('4'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+
+			if (Application::IsKeyPressed('9'))
+			{
+				Collision::isRender = true;
+			}
+			if (Application::IsKeyPressed('0'))
+			{
+				Collision::isRender = false;
+			}
 		}
 	}
-	camera.Updateposition();
-
-	Waypoints[WP_STADIUM]->inRangeResponse(Ayaka, SceneManager::SCENE_STADIUM);
-	Waypoints[WP_LIBRARY]->inRangeResponse(Ayaka, SceneManager::SCENE_LIBRARY);
-	Waypoints[WP_HALL]->inRangeResponse(Ayaka, SceneManager::SCENE_HALL);
-	Waypoints[WP_TRAIN]->inRangeResponse(Ayaka, SceneManager::SCENE_TRAIN);
 
 
-	//UI
+	camera.Updateposition(); //update position according to character pos
 	ui->Update(dt);
-	
-	Vector3 Direction = Vector3(0, 0, 0);
-	if (Application::IsKeyPressed('I'))
-		Direction += Vector3(0, 0, 1);
-	if (Application::IsKeyPressed('K'))
-		Direction += Vector3(0, 0, -1);
-	if (Application::IsKeyPressed('J'))
-		Direction += Vector3(1, 0, 0);
-	if (Application::IsKeyPressed('L'))
-		Direction += Vector3(-1, 0, 0);
-	if (Application::IsKeyPressed('O'))
-		Direction += Vector3(0, 1, 0);
-	if (Application::IsKeyPressed('P'))
-		Direction += Vector3(0, -1, 0);
-
-	float SPEED = 5 * dt;
-	Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
-	lights[1]->position = Cube[0]->GetTranslate();
-
-	UpdateNPCs(dt);
-
-	//Debug
-	{
-		if (Application::IsKeyPressed('1'))
-		{
-			glEnable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('2'))
-		{
-			glDisable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('3'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		if (Application::IsKeyPressed('4'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-
-		if (Application::IsKeyPressed('9'))
-		{
-			Collision::isRender = true;
-		}
-		if (Application::IsKeyPressed('0'))
-		{
-			Collision::isRender = false;
-		}
-	}
 }
 
 void SceneCity::Render()
