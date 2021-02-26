@@ -129,7 +129,7 @@ void SceneLibrary::Update(double dt)
 		Ayaka->CollisionResolution(Environment[EN_COUNTER]);
 
 		Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-		if (Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY) == true)
+		if (Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY) == true && Application::IsKeyPressed('E'))
 		{
 			setQuestStatus(true);
 		}
@@ -233,6 +233,12 @@ void SceneLibrary::Render()
 	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
 	{
 		skybox->GetSBX(i)->Draw(renderer, false);
+	}
+
+	for (int i = 0; i < WP_TOTAL; i++)
+	{
+		if (Waypoints[i])
+			Waypoints[i]->DrawLocName(renderer);
 	}
 		
 	/*Cube[0]->Draw(renderer, false);
