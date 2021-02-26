@@ -26,6 +26,7 @@ public:
     // Vector3 halfsize parameter
     // It's basically the radius
     void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f), Vector3 offsetpos = Vector3(0, 0, 0));
+    void AddColliderToRoot();
 
     //Transformation - Orders does not matter as it is handled in renderer
     void SetTranslate(Vector3 Translate);
@@ -52,6 +53,8 @@ public:
     Vector3 GetScale();
     //gets the child from the vector array at a certain id (like an array)
     GameObject* GetChild(int idx);
+    //Get Root GO
+    GameObject* GetRoot();
     //returns whether this object is within a certain range of another
     bool GetInRange(GameObject* obj, float distance);
     //returns colliderbox

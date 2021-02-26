@@ -33,13 +33,13 @@ void SceneCity::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[0]->SetTranslate(Vector3(-20, 3, -15));
-	Cube[0]->SetColliderBox();
+	Cube[0]->SetTranslate(Vector3(0, 0, -80));
+	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetTranslate(Vector3(0, 3, 0));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(5, 0, 0));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
+	Cube[1]->SetTranslate(Vector3(0, 0, 1));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(5, 0, 5));
+	Cube[0]->AddChild(Cube[1]);
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(camera.GetPosition());
@@ -160,6 +160,7 @@ void SceneCity::Update(double dt)
 		Ayaka->Update(dt);
 		//Collision Update
 		Ayaka->CollisionResolution(Cube[0]);
+		//Ayaka->CollisionResolution(Cube[1]);
 		for (int i = 0; i < EN_TOTAL; i++)
 		{
 			if (Environment[i])

@@ -208,7 +208,7 @@ void Character::CollisionResolution(GameObject* target)
 		for (int j = 0; j < target->GetCollVecSize(); j++)
 		{
 			Info CollisionInfo = GetColliderBox(i)->CheckOBBCollision(target->GetColliderBox(j));
-
+			
 			//Standing on checking
 			if (target->GetColliderBox(j) == objectStoodOn && i == 0) {
 				isGrounded = CollisionInfo.Collided;
@@ -216,8 +216,8 @@ void Character::CollisionResolution(GameObject* target)
 					objectStoodOn = NULL;
 					
 				}
-				
 			}
+
 			if (CollisionInfo.Collided)
 			{
 				Collision* objBox = GetColliderBox(i);

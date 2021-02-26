@@ -63,7 +63,6 @@ void GameObject::Draw(Renderer* renderer, bool EnableLight)
 			renderer->AddTransformation(collbox->GetPos(), collbox->GetRotation(), Vector3(1, 1, 1));
 			renderer->RenderMesh(ColliderBox.at(i)->GetCollMesh(), false);
 			renderer->PopTransform();
-
 		}
 	}
 }
@@ -90,6 +89,37 @@ void GameObject::SetColliderBox(Vector3 halfsize, Vector3 offsetpos)
 	Collision* temp = new Collision(Translation, offsetpos, halfsize);
 	temp->setRotation(Rotation);
 	ColliderBox.push_back(temp);
+
+	if (Parent)
+	{
+		AddColliderToRoot();
+	}
+}
+
+void GameObject::AddColliderToRoot()
+{
+	GameObject* Root = GetRoot();
+	GameObject* Current = Parent;
+	bool added = false;
+	for (int colidx = 0; colidx < ColliderBox.size(); colidx++)
+	{
+		while (!added)
+		{
+			ColliderBox.at(colidx)->setTranslate(ColliderBox.at(colidx)->GetTranslate() + Current->GetTranslate());
+			ColliderBox.at(colidx)->setRotation(ColliderBox.at(colidx)->GetRotation() + Current->GetRotate());
+
+			//Push into root collision vector
+			if (Root == Current)
+			{
+				Root->ColliderBox.push_back(this->ColliderBox.at(colidx));
+				added = true;
+			}
+			else
+			{
+				Current = Current->Parent;
+			}
+		}
+	}
 }
 
 void GameObject::SetTranslate(Vector3 Translate)
@@ -143,6 +173,10 @@ void GameObject::SetScale(Vector3 Scale)
 void GameObject::AddChild(GameObject* GO)
 {
 	GO->Parent = this;
+	for (int i = 0; i < GO->ColliderBox.size(); i++)
+	{
+		GO->AddColliderToRoot();
+	}
 	Child.push_back(GO);
 }
 
@@ -211,6 +245,18 @@ Vector3 GameObject::GetScale()
 GameObject* GameObject::GetChild(int idx)
 {
 	return Child.at(idx);
+}
+
+GameObject* GameObject::GetRoot()
+{
+	if (Parent)
+	{
+		Parent->GetRoot();
+	}
+	else
+	{
+		return this;
+	}
 }
 
 bool GameObject::GetInRange(GameObject* obj, float distance)
