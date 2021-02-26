@@ -25,10 +25,9 @@ public:
 	void Updatemovement(double dt);
 	void Updateposition();
 
-
 	void SetPosition(Vector3 position);
 	void SetView(Vector3 view);
-
+	void SetClamp(Vector3 clampVal);
 	void SetSprintState(bool sprintable);
 	
 	//Camera jumps
@@ -64,6 +63,7 @@ private:
 	Vector3 position;
 	Vector3 view;
 	Vector3 up;
+	Vector3 clampVal;
 	Character* target;
 	CAMERA_MODE mode, prev_mode;
 	float sensitivity, camspeed, distance, pos_x, pos_z; //for fps 

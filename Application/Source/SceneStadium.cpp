@@ -40,6 +40,7 @@ void SceneStadium::Init()
 	Ayaka->SetRotate(Vector3(0, Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)), 0));
 	Ayaka->SetColliderBox(Vector3(0.7f, 2.f, 0.7f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
+	camera.SetClamp(Vector3(58, 200, 58));
 
 	//Surroundings
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FIELD));

@@ -16,8 +16,8 @@ CameraVer2::CameraVer2():
 	yaw(0),
 	gravity(20.f),
 	jumpSpeed(3.f)
-
 {
+	clampVal = Vector3(0, 0, 0);
 }
 
 CameraVer2::~CameraVer2()
@@ -150,7 +150,6 @@ void CameraVer2::Updatemovement(double dt)
 
 			//Jump code
 			{
-				
 				if (Application::IsKeyPressed(VK_SPACE) && !IsSpacePressed) //TO JUMP
 				{
 					IsSpacePressed = !IsSpacePressed;
@@ -165,8 +164,6 @@ void CameraVer2::Updatemovement(double dt)
 					{
 						target->setbGlide(!target->getbGlide());
 					}
-
-					
 				}
 				else if (!Application::IsKeyPressed(VK_SPACE) && IsSpacePressed)
 				{
@@ -315,6 +312,15 @@ void CameraVer2::Updatemovement(double dt)
 
 			target->SetRotate(Vector3(0, rotationval, 0));
 
+			if (!clampVal.IsZero())
+			{
+				float ClampX = Math::Clamp(target->GetTranslate().x, clampVal.x * -1, clampVal.x);
+				float ClampY = Math::Clamp(target->GetTranslate().y, clampVal.y * -1, clampVal.y);
+				float ClampZ = Math::Clamp(target->GetTranslate().z, clampVal.z * -1, clampVal.z);
+
+				Vector3 ClampedPosition(ClampX, ClampY, ClampZ);
+				target->SetTranslate(ClampedPosition);
+			}
 			position = target->GetTranslate() + distance * -view + Height;
 		}
 	}
@@ -333,6 +339,11 @@ void CameraVer2::SetPosition(Vector3 position)
 void CameraVer2::SetView(Vector3 view)
 {
 	this->view = view.Normalized();
+}
+
+void CameraVer2::SetClamp(Vector3 clampVal)
+{
+	this->clampVal = clampVal;
 }
 
 void CameraVer2::SetSprintState(bool sprintable)

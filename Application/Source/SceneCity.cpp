@@ -26,7 +26,6 @@ void SceneCity::Init()
 	camera.ToggleMode(CameraVer2::THIRD_PERSON);
 
 	lights[0] = new Light(Shader::GetInstance()->shaderdata, 0);
-	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 	
 	MeshList* meshlist = MeshList::GetInstance();
 
@@ -47,6 +46,7 @@ void SceneCity::Init()
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.7f, 2.f, 0.7f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
+	camera.SetClamp(Vector3(148, 400, 148));
 
 	ui = new UI();
 	ui->Init(Ayaka);
@@ -136,16 +136,18 @@ void SceneCity::Init()
 		Environment[EN_TREE]->SetScale(Vector3(10, 10, 10));
 	}
 
-	GenerateNPCs(meshlist);
+	Boost = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FAN));
+	Boost->SetTranslate(Vector3(25, 0, -60));
+	Boost->SetScale(Vector3(0.6f, 0.6f, 0.6f));
+	Boost->SetColliderBox(Vector3(2.5f, 50, 2.5f), Vector3(0, 26, 0));
 
+	GenerateNPCs(meshlist);
 }
 
 void SceneCity::InitGL()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
-	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 80, -150), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -80, 150));
-	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
-	lights[1]->Set(Light::LIGHT_POINT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	lights[LIGHT_SUN]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 500, -150), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -80, 150));
 }
 
 
@@ -158,7 +160,6 @@ void SceneCity::Update(double dt)
 		Ayaka->Update(dt);
 		//Collision Update
 		Ayaka->CollisionResolution(Cube[0]);
-		Ayaka->CollisionResolution(Cube[1]);
 		for (int i = 0; i < EN_TOTAL; i++)
 		{
 			if (Environment[i])
@@ -168,6 +169,12 @@ void SceneCity::Update(double dt)
 			}
 		}
 
+		Boost->SetRotate(Boost->GetRotate() + Vector3(0, 100 * dt, 0));
+		if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Boost->GetColliderBox(0)).Collided)
+		{
+			Ayaka->setVertVelocity(25);
+		}
+		
 		Waypoints[WP_STADIUM]->inRangeResponse(Ayaka, SceneManager::SCENE_STADIUM);
 		Waypoints[WP_LIBRARY]->inRangeResponse(Ayaka, SceneManager::SCENE_LIBRARY);
 		Waypoints[WP_HALL]->inRangeResponse(Ayaka, SceneManager::SCENE_HALL);
@@ -204,8 +211,6 @@ void SceneCity::Update(double dt)
 			}
 		}
 	}
-
-
 	camera.Updateposition(); //update position according to character pos
 	ui->Update(dt);
 }
@@ -237,6 +242,8 @@ void SceneCity::Render()
 			Environment[i]->Draw(renderer, true);
 	}
 
+	Boost->Draw(renderer, true);
+	
 	for (int i = 0; i < WP_TOTAL; i++)
 	{
 		if (Waypoints[i])

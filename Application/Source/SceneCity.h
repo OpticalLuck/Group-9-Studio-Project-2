@@ -48,8 +48,7 @@ public:
 
 	enum LIGHT_LOCATION
 	{
-		LIGHT_MIDDLE,
-		LIGHT_TEST,
+		LIGHT_SUN,
 		LIGHT_TOTAL
 	};
 
@@ -85,6 +84,7 @@ private:
 	Character* Ayaka;
 	NPC* npc[NPC_TOTAL];
 	GameObject* Environment[EN_TOTAL];
+	GameObject* Boost;
 	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
