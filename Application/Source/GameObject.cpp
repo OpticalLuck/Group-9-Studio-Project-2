@@ -55,18 +55,33 @@ void GameObject::Draw(Renderer* renderer, bool EnableLight)
 
 	if (Collision::isRender)
 	{
+		renderer->PushTransform();
+		renderer->GetMStack()->LoadIdentity();
 		for (int i = 0; i < ColliderBox.size(); i++)
 		{
-
 			Collision* collbox = ColliderBox.at(i);
 			renderer->PushTransform();
 			renderer->AddTransformation(collbox->GetPos(), collbox->GetRotation(), Vector3(1, 1, 1));
 			renderer->RenderMesh(ColliderBox.at(i)->GetCollMesh(), false);
 			renderer->PopTransform();
 		}
+		renderer->PopTransform();
+		//if (Child.size() > 0)
+		//{
+		//	for (int Childidx = 0; Childidx < Child.size(); Childidx++)
+		//	{
+		//		for (int colinChild = 0; colinChild < Child.at(Childidx)->GetCollVecSize(); colinChild++)
+		//		{
+		//			Collision Temp = *Child.at(Childidx)->GetColliderBox(colinChild);
+		//			renderer->PushTransform();
+		//			renderer->AddTransformation(Temp.GetPos(), Temp.GetRotation(), Vector3(1, 1, 1));
+		//			renderer->RenderMesh(Temp.GetCollMesh(), false);
+		//			renderer->PopTransform();
+		//		}
+		//	}
+		//}
 	}
 }
-
 
 
 void GameObject::SetID(unsigned int ID)
@@ -90,29 +105,24 @@ void GameObject::SetColliderBox(Vector3 halfsize, Vector3 offsetpos)
 	temp->setRotation(Rotation);
 	ColliderBox.push_back(temp);
 
-	if (Parent)
-	{
-		AddColliderToRoot();
-	}
+	
 }
 
-void GameObject::AddColliderToRoot()
+void GameObject::LinkColliderToParent()
 {
 	GameObject* Root = GetRoot();
 	GameObject* Current = Parent;
-	bool added = false;
+	bool linked = false;
 	for (int colidx = 0; colidx < ColliderBox.size(); colidx++)
 	{
-		while (!added)
+		while (!linked)
 		{
 			ColliderBox.at(colidx)->setTranslate(ColliderBox.at(colidx)->GetTranslate() + Current->GetTranslate());
 			ColliderBox.at(colidx)->setRotation(ColliderBox.at(colidx)->GetRotation() + Current->GetRotate());
 
-			//Push into root collision vector
 			if (Root == Current)
 			{
-				Root->ColliderBox.push_back(this->ColliderBox.at(colidx));
-				added = true;
+				linked = true;
 			}
 			else
 			{
@@ -175,9 +185,72 @@ void GameObject::AddChild(GameObject* GO)
 	GO->Parent = this;
 	for (int i = 0; i < GO->ColliderBox.size(); i++)
 	{
-		GO->AddColliderToRoot();
+		//GO->LinkColliderToParent();
 	}
 	Child.push_back(GO);
+}
+
+void GameObject::UpdateChildCollision()
+{
+	if (Child.size() > 0)
+	{
+		for (int i = 0; i < Child.size(); i++)
+		{
+			for (int colidx = 0; colidx < Child.at(i)->GetCollVecSize(); colidx++)
+			{
+				GameObject* root = GetRoot();
+				GameObject* current = Child.at(i);
+				Vector3 parentpositioninworld(0,0,0);
+				Vector3 parentTotalRotation;
+				//Calculate position in world space
+				while (current != root)
+				{
+					current = current->Parent;
+
+					parentTotalRotation += current->GetRotate();
+					Mtx44 Temp;
+					Temp.SetToRotation(current->GetRotate().x, 1, 0, 0);
+					parentpositioninworld = Temp * parentpositioninworld;
+					Temp.SetToRotation(current->GetRotate().y, 0, 1, 0);
+					parentpositioninworld = Temp * parentpositioninworld;
+					Temp.SetToRotation(current->GetRotate().z, 0, 0, 1);
+					parentpositioninworld = Temp * parentpositioninworld;
+
+					parentpositioninworld += current->GetTranslate();
+				}
+
+				current = Child.at(i);
+				Collision* temp = Child.at(i)->GetColliderBox(colidx);
+				while (current != root)
+				{
+					Vector3 ParentToChild;
+					Mtx44 Rotate;
+
+					//Get Parent Rotation
+					Vector3 TotalTranslate = current->GetTranslate();
+					Rotate.SetToRotation(parentTotalRotation.x, 1, 0, 0);
+					TotalTranslate = Rotate * TotalTranslate;
+					Rotate.SetToRotation(parentTotalRotation.y, 0, 1, 0);
+					TotalTranslate = Rotate * TotalTranslate;
+					Rotate.SetToRotation(parentTotalRotation.z, 0, 0, 1);
+					TotalTranslate = Rotate * TotalTranslate;
+
+					ParentToChild = parentpositioninworld + TotalTranslate;
+					temp->setTranslate(ParentToChild);
+					temp->setRotation(parentTotalRotation);
+					//temp->setRotation(parentTotalRotation + Child.at(i)->GetRotate());
+
+					current = current->Parent;
+				}
+			}
+
+			if (Child.at(i)->Child.size() > 0)
+			{
+				Child.at(i)->UpdateChildCollision();
+			}
+		}
+	}
+
 }
 
 void GameObject::CollisionResolution(GameObject* target)
@@ -245,6 +318,11 @@ Vector3 GameObject::GetScale()
 GameObject* GameObject::GetChild(int idx)
 {
 	return Child.at(idx);
+}
+
+int GameObject::GetNoOfChild()
+{
+	return Child.size();
 }
 
 GameObject* GameObject::GetRoot()

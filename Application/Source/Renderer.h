@@ -69,7 +69,6 @@ public:
 	//for character 
 	void PushTransform();
 	void PopTransform();
-
 	void SetCamera(Vector3 position, Vector3 View, Vector3 Up);
 	void SetToProj();
 	void SetToOrtho();
@@ -77,6 +76,7 @@ public:
 	void LoadIdentity();
 	unsigned GetprogramID();
 
+	MS* GetMStack();
 private:
 	unsigned programID;
 	unsigned Parameters[U_TOTAL];

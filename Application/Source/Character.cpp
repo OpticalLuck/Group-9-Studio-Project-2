@@ -247,6 +247,13 @@ void Character::CollisionResolution(GameObject* target)
 		}
 	}
 
+	if (target->GetNoOfChild() > 0)
+	{
+		for (int idx = 0; idx < target->GetNoOfChild(); idx++)
+		{
+			CollisionResolution(target->GetChild(idx));
+		}
+	}
 }
 
 

@@ -157,11 +157,8 @@ void SceneTrain::Update(double dt)
 			{
 				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
 			}
-
-			lights[1]->position += Direction * SPEED;
-			Cube[0]->SetTranslate(lights[0]->position);
-			Cube[1]->SetTranslate(lights[1]->position);
-			//Collision::OBBResolution(Cube[0], Cube[1]);
+			 
+			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
 		}
 		Ayaka->IsWithinRangeOf(npc);
 		npc->Update(dt);

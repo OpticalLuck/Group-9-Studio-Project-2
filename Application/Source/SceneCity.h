@@ -90,7 +90,7 @@ private:
 	Skybox* skybox;
 	UI* ui;
 	//Temp
-	GameObject* Cube[2];
+	GameObject* Cube[4];
 
 	void GenerateNPCs(MeshList* meshlist);
 	void UpdateNPCs(double dt);

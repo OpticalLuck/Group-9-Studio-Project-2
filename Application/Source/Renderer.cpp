@@ -352,3 +352,8 @@ unsigned Renderer::GetprogramID()
 {
 	return Shader::GetInstance()->shaderdata;
 }
+
+MS* Renderer::GetMStack()
+{
+	return &modelStack;
+}

@@ -34,13 +34,22 @@ void SceneCity::Init()
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[0]->SetTranslate(Vector3(0, 0, -80));
-	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 5));
+	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->SetTranslate(Vector3(0, 0, 1));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(5, 0, 5));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
 	Cube[0]->AddChild(Cube[1]);
-
+	
+	Cube[2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Cube[2]->SetTranslate(Vector3(0, 0, 1));
+	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	Cube[1]->AddChild(Cube[2]);
+	
+	Cube[3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Cube[3]->SetTranslate(Vector3(0, 0, 1));
+	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	Cube[2]->AddChild(Cube[3]);
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(camera.GetPosition());
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
@@ -155,12 +164,71 @@ void SceneCity::Update(double dt)
 {
 	if(!bPauseGame)
 	{
+		{
+			float SPEED = 5.f * dt;
+			Vector3 Direction = Vector3(0, 0, 0);
+			if (Application::IsKeyPressed('I'))
+				Direction += Vector3(0, 0, 1);
+			if (Application::IsKeyPressed('K'))
+				Direction += Vector3(0, 0, -1);
+			if (Application::IsKeyPressed('J'))
+				Direction += Vector3(1, 0, 0);
+			if (Application::IsKeyPressed('L'))
+				Direction += Vector3(-1, 0, 0);
+			if (Application::IsKeyPressed('O'))
+				Direction += Vector3(0, 1, 0);
+			if (Application::IsKeyPressed('P'))
+				Direction += Vector3(0, -1, 0);
+
+			if (Application::IsKeyPressed('T'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
+			}
+			if (Application::IsKeyPressed('G'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
+			}
+			if (Application::IsKeyPressed('F'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
+			}
+			if (Application::IsKeyPressed('H'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
+			}
+			if (Application::IsKeyPressed('R'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
+			}
+			if (Application::IsKeyPressed('Y'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
+			}
+
+			if (Application::IsKeyPressed('Z'))
+			{
+				Cube[1]->SetRotate(Cube[1]->GetRotate() + Vector3(0, SPEED * 10, 0));
+			}
+			if (Application::IsKeyPressed('X'))
+			{
+				Cube[1]->SetRotate(Cube[1]->GetRotate() + Vector3(0, -SPEED * 10, 0));
+			}
+
+			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+			Cube[0]->UpdateChildCollision();
+			//Vector3 temp1 = Cube[1]->GetColliderBox(0)->GetTranslate();
+			//Vector3 temp2 = Cube[2]->GetColliderBox(0)->GetTranslate();
+			//std::cout << temp1 << std::endl;
+			//std::cout << temp2 << std::endl;
+			//system("CLS");
+		}
+
 		//Movement Update
 		camera.Updatemovement(dt);
 		Ayaka->Update(dt);
 		//Collision Update
 		Ayaka->CollisionResolution(Cube[0]);
-		//Ayaka->CollisionResolution(Cube[1]);
+		Ayaka->CollisionResolution(Cube[1]);
 		for (int i = 0; i < EN_TOTAL; i++)
 		{
 			if (Environment[i])
@@ -235,8 +303,7 @@ void SceneCity::Render()
 	Ayaka->Draw(renderer, true);
 	DrawNPCs();
 	Cube[0]->Draw(renderer, false);
-	Cube[1]->Draw(renderer, false);
-
+	//Cube[1]->Draw(renderer, false);
 	for (int i = 0; i < EN_TOTAL; i++)
 	{
 		if(Environment[i])
