@@ -1,7 +1,7 @@
 #include "UI.h"
 #include "Application.h"
 #include "SceneManager.h"
-
+#include "SceneStadium.h"
 #include <sstream>
 
 UI::UI():
@@ -512,7 +512,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		}
 
 		std::stringstream ss;
-		ss << "- " << Player->getCollectibleCount() << "/16 Rings Collected";
+		ss << "- " << Player->getRingCount() << "/16 Rings Collected";
 		Quests[2]->SetText(ss.str());
 
 		//Background

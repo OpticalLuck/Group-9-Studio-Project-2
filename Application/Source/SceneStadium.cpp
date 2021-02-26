@@ -134,6 +134,8 @@ void SceneStadium::Update(double dt)
 {
 	fps = 1.f / dt;
 
+	Ayaka->setRingCount(RingCollected);
+
 	//Movement Update
 	camera.Updatemovement(dt);
 	Ayaka->Update(dt);
@@ -280,4 +282,9 @@ void SceneStadium::Exit()
 void SceneStadium::UpdateMousePos(double xoffset, double yoffset)
 {
 	camera.Update(xoffset, yoffset);
+}
+
+int SceneStadium::getRingCount()
+{
+	return RingCollected;
 }
