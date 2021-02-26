@@ -30,6 +30,7 @@ public:
 		EN_PLANT2,
 		EN_PLANT3,
 		EN_PLANT4,
+		EN_PORTAL,
 		EN_TOTAL
 	};
 
