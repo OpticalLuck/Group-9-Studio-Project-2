@@ -224,9 +224,9 @@ void SceneCity::Update(double dt)
 			Collision::isRender = false;
 		}
 	}
-	Vector3 temp = Ayaka->GetTranslate();
+	//Vector3 temp = Ayaka->GetTranslate();
 
-	std::cout <<  temp << std::endl;
+	//std::cout <<  temp << std::endl;
 }
 
 void SceneCity::Render()
@@ -307,7 +307,7 @@ void SceneCity::GenerateNPCs(MeshList* meshlist)
 	npc[LIBRARY_BUSY1]->SetRespawnPos(-50, 0, 18);
 
 	npc[LIBRARY_REST]->SetDefaultPos(Vector3(-49, 0, -88));
-	npc[LIBRARY_REST]->SetDefaultDir(Vector3(0, 0, 180));
+	npc[LIBRARY_REST]->SetDefaultDir(Vector3(0, 90, 0));
 
 }
 

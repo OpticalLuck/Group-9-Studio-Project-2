@@ -37,6 +37,7 @@ public:
 		MESH_TABLE,
 		MESH_PLANT,
 		MESH_TRAIN,
+		MESH_TRAINDOOR,
 
 		//NPC
 		MESH_NPC,

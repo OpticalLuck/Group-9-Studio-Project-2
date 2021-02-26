@@ -183,6 +183,9 @@ void CameraVer2::Updatemovement(double dt)
 					SPEED = 8 * dt;
 					target->setVertVelocity(-1);
 				}
+				else {
+					gravity = 20.f;
+				}
 				if (target->getbGrounded())
 				{
 					gravity = 20.f;

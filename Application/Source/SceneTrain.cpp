@@ -50,10 +50,12 @@ void SceneTrain::Init()
 	ui = new UI();
 	ui->Init(Ayaka);
 
+
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
 
 	Train = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TRAIN));
+	Train->SetTranslate(Vector3(0, 0, -5));
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
@@ -209,6 +211,8 @@ void SceneTrain::Render()
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);
 	ui->Draw(renderer, true);
+
+	Train->Draw(renderer, true);
 }
 
 void SceneTrain::Exit()
