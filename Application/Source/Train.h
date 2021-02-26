@@ -13,9 +13,12 @@ public:
 
 	void Init(MeshList* meshlist, GameObject* lookedAtObj);
 
+	GameObject* getDoor();
+	GameObject* getColliderRange();
+
 private:	
-
-
+	GameObject* lookingatobject;
+	GameObject* door, *collisionbox;
 	//also puts down the colliders here
 	void BuildMeshes(MeshList* meshlist);
 };

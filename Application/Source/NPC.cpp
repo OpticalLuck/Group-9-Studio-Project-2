@@ -23,7 +23,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 
 	DefaultIdleSet = movingToDest = talking = 0;
 	objectToLookAt = NULL;
-	SetRadius(5.f);
+	SetRadius(3.f);
 	defaultdirection = GetRotate();
 	SetCurrentFlag(FLAG0);
 	canDespawn = canRespawn = 0;
@@ -125,7 +125,7 @@ void NPC::Init(MeshList* meshlist, GameObject* lookedAtObj, Vector3 pos, Vector3
 	SetScale(scale);
 	SetRadius(radius);
 	SetObjectToLookAt(lookedAtObj);
-
+	SetRadius(5.f);
 }
 
 
@@ -316,7 +316,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 	objectdiff = temp * objectdiff;
 	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
 	objectdiff = temp * objectdiff;
-	std::cout << objectdiff.y << "," << objectdiff.z << "\n";
 	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
 	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
 	AxisDir = temp * AxisDir;

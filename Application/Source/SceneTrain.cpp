@@ -55,8 +55,9 @@ void SceneTrain::Init()
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
 
-	Train = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TRAIN));
-	Train->SetTranslate(Vector3(0, 0, -5));
+	train = goManager.CreateGO<Train>(meshlist->GetMesh(MeshList::MESH_TRAIN));
+	train->Init(meshlist, Ayaka);
+	train->SetTranslate(Vector3(0, 0, -5));
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
@@ -85,11 +86,8 @@ void SceneTrain::Update(double dt)
 		camera.Updatemovement(dt);
 
 		//Collision
-		/*Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
-		Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
-		Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
-		Ayaka->CollisionResolution(Environment[EN_FLOOR5]);*/
-		//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+		Ayaka->CollisionResolution(train);
+		Ayaka->CollisionResolution(train->getDoor());
 		{
 			if (Application::IsKeyPressed('1'))
 			{
@@ -167,6 +165,7 @@ void SceneTrain::Update(double dt)
 		}
 		Ayaka->IsWithinRangeOf(npc);
 		npc->Update(dt);
+		train->Update(dt);
 	}
 
 	camera.Updateposition();
@@ -206,9 +205,9 @@ void SceneTrain::Render()
 
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);
+	train->Draw(renderer, true);
 	ui->Draw(renderer, true);
 
-	Train->Draw(renderer, true);
 }
 
 void SceneTrain::Exit()
