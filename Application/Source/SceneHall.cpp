@@ -39,7 +39,9 @@ void SceneHall::Init()
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetColliderBox();
+	Cube[1]->SetColliderBox(Vector3(1, 1, 1));
+	Cube[1]->SetScale (Vector3(2, 2, 2));
+	Cube[1]->SetTranslate(Vector3(0, 0.5, -3));
 
 	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Collectible->SetTranslate(Vector3(0, 3, 0));
@@ -51,7 +53,7 @@ void SceneHall::Init()
 	camera.SetTarget(Ayaka);
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
-	npc->SetColliderBox();
+	npc->SetColliderBox(Vector3(0.5, 1, 0.5), Vector3(0, 2, 0));
 	npc->Init(meshlist, Ayaka, Vector3(0, 1.5f, -3), Vector3(0, 0, 0));
 	//npc->PushPathPoint(Vector3(4, 3, 0));
 	//npc->PushPathPoint(Vector3(0, 3, -9));
@@ -115,13 +117,17 @@ void SceneHall::Init()
 		Environment[EN_PLANT4]->SetColliderBox(Vector3(1, 2, 1));
 		Environment[EN_PLANT4]->SetTranslate(Vector3(14, 0, -14));
 
+		Environment[EN_PORTAL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PORTAL));
+		Environment[EN_PORTAL]->SetScale(Vector3(4, 4, 4));
+		Environment[EN_PORTAL]->SetRotate(Vector3(90, 1, 1));
+		Environment[EN_PORTAL]->SetTranslate(Vector3(0, 3, -14.5));
+
 		Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
 		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
 
-		Waypoints[WP_PORTAL] = new WayPoint("Portal", Vector3(0, 1, -12));
+		Waypoints[WP_PORTAL] = new WayPoint("Portal", Vector3(0, 1, -14));
 		Waypoints[WP_PORTAL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
-		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 	}
 
@@ -149,6 +155,7 @@ void SceneHall::Update(double dt)
 	ui->Update(dt);
 
 	//Collision
+	Ayaka->CollisionResolution(Cube[1]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
@@ -164,6 +171,11 @@ void SceneHall::Update(double dt)
 	if (getQuestStatus() == true)
 	{
 		Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU); //change to end screen later
+
+		if (Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU) && Application::IsKeyPressed('E'))
+		{
+			Application::bQuit = true;
+		}
 	}
 
 	//Update Camera after updating collision
@@ -247,7 +259,6 @@ void SceneHall::Update(double dt)
 
 		lights[1]->position += Direction * SPEED;
 		Cube[0]->SetTranslate(lights[0]->position);
-		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
 
@@ -275,9 +286,8 @@ void SceneHall::Render()
 	{
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
-		
-	/*Cube[0]->Draw(renderer, false);
-	Cube[1]->Draw(renderer, false);*/
+
+	Cube[1]->Draw(renderer, true);
 	Environment[EN_FLOOR1]->Draw(renderer, true);
 	Environment[EN_FLOOR2]->Draw(renderer, true);
 	Environment[EN_FLOOR3]->Draw(renderer, true);
@@ -289,6 +299,11 @@ void SceneHall::Render()
 	Environment[EN_PLANT2]->Draw(renderer, true);
 	Environment[EN_PLANT3]->Draw(renderer, true);
 	Environment[EN_PLANT4]->Draw(renderer, true);
+
+	if (getQuestStatus() == true)
+	{
+		Environment[EN_PORTAL]->Draw(renderer, false);
+	}
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 

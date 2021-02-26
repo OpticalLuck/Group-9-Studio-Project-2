@@ -13,7 +13,7 @@ WayPoint::WayPoint(std::string name, Vector3 position):
 
 	OnScreenText = new Text();
 	OnScreenText->SetMode(Text::STATIC_SCREENTEXT);
-	OnScreenText->SetText("Press E to go " + name);
+	OnScreenText->SetText("Press E to go to " + name);
 	OnScreenText->SetTranslate(Vector3(70, 72 * 0.5f, 0));
 }
 

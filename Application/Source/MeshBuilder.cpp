@@ -324,7 +324,7 @@ Mesh* MeshBuilder::GenerateCircle(const std::string& meshName, std::string axis,
 			float z = 0.f;
 
 			v.pos.Set(x, y, z);
-			v.color.Set(1.f, 0.f, 0.f);
+			v.color.Set(1.f, 1.f, 1.f);
 			vertex_buffer_data.push_back(v);
 			index_buffer_data.push_back(i);
 		}
