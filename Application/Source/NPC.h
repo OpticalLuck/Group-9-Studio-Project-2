@@ -16,7 +16,7 @@
 class NPC : public GameObject 
 {
 public:
-	//NPC is the body
+	NPC();
 	NPC(unsigned int id, Mesh* mesh);
 	~NPC();
 	
@@ -94,7 +94,9 @@ private:
 	void MoveInDir(Vector3 rot);
 	//Move Towards a destination
 	void MoveToPos(Vector3 pos);
-	void LerpToPos(Vector3 pos);
+	//Linearly Interpolate towards a point
+	void LerpToPos(Vector3 pos, float speed = 8.0f);
+
 
 	//Spawns the player here and activates it
 	void doRespawn();

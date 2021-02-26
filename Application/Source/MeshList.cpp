@@ -9,7 +9,7 @@ MeshList::MeshList()
 
 	//// <PRIMATIVES> 
 	meshlist[MESH_AXIS] = MeshBuilder::GenerateAxes("Axis", 1000, 1000, 1000);
-	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(0.1f, 0.1f, 0.1f));
+	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(0.5f, 0.5f, 0.5f));
 	meshlist[MESH_CUBE] = MeshBuilder::GenerateCube("Cube", Color(1.f, 1.f, 1.f), 1.f, 1.f, 1.f);
 	//// </PRIMATIVES> 
 	
@@ -67,6 +67,9 @@ MeshList::MeshList()
 	meshlist[MESH_FAN] = MeshBuilder::GenerateOBJMTL("Fan", "OBJ//Fan.obj", "OBJ//Fan.mtl");
 
 	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//Trees/tree_pineDefaultA.obj", "OBJ//Trees/tree_pineDefaultA.mtl");
+	
+	meshlist[MESH_TRAIN] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/amazingtram.obj", "OBJ//Train/amazingtram.mtl");
+	meshlist[MESH_TRAINDOOR] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/door.obj", "OBJ//Train/door.mtl");
 
 
 	meshlist[MESH_PORTAL] = MeshBuilder::GenerateQuad("Portal", Color(0, 0.8, 0.8), 1, 2);

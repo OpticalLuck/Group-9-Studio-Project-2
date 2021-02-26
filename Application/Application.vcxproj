@@ -175,6 +175,7 @@
     <ClCompile Include="Source\Skybox.cpp" />
     <ClCompile Include="Source\Text.cpp" />
     <ClCompile Include="Source\TextureList.cpp" />
+    <ClCompile Include="Source\Train.cpp" />
     <ClCompile Include="Source\UI.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\WayPoint.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Source\Skybox.h" />
     <ClInclude Include="Source\Text.h" />
     <ClInclude Include="Source\TextureList.h" />
+    <ClInclude Include="Source\Train.h" />
     <ClInclude Include="Source\UI.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

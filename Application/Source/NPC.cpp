@@ -4,7 +4,16 @@
 //identifier
 //x = 0, y = 1, z = 2
 float AngleBetween(Vector3 difference, int axis);
+float lerp(float a, float b, float t);
 
+NPC::NPC()
+{
+	DefaultIdleSet = movingToDest = talking = 0;
+	objectToLookAt = NULL;
+	canDespawn = canRespawn = 0;
+	defaultdirection = GetRotate();
+	destinationcopy = NULL;
+}
 
 NPC::NPC(unsigned int id, Mesh* mesh)
 {
@@ -14,7 +23,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 
 	DefaultIdleSet = movingToDest = talking = 0;
 	objectToLookAt = NULL;
-	SetRadius(10.f);
+	SetRadius(5.f);
 	defaultdirection = GetRotate();
 	SetCurrentFlag(FLAG0);
 	canDespawn = canRespawn = 0;
@@ -36,7 +45,7 @@ void NPC::Update(double dt)
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
 			//BodyArr[HEAD]->
-			RotateTowardsCharacter(BodyArr[HEAD], 75, 50);
+			RotateTowardsCharacter(BodyArr[HEAD], 75, 180); //50);
 			//RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
 		}
 		else {
@@ -64,13 +73,23 @@ void NPC::Update(double dt)
 				else {
 					MoveToPos(destinations.front());
 					if (abs((GetTranslate() - destinations.front()).Length()) < 1) {
+						LerpToPos(destinations.front(), 10.f);
+						
 						doDespawn();
 						destinations.pop();
+					}
+					else {
 					}
 				}
 			}
 			else if (DefaultIdleSet && GetTranslate() != defaultposition) {
-				float angleToPoint = GetAngleToPoint(defaultposition);
+				
+				//MoveToPos(defaultposition);
+				LerpToPos(defaultposition);
+			}
+
+			else {
+				float angleToPoint = defaultdirection.y; //GetAngleToPoint(defaultposition + Vector3(0,0,1));
 				float ROTATIONSPEED = 2 * dt;
 				float rotationval;
 
@@ -84,12 +103,6 @@ void NPC::Update(double dt)
 					rotationval += 360;
 				}
 				SetRotate(Vector3(0, rotationval, 0));
-				//MoveToPos(defaultposition);
-				LerpToPos(defaultposition);
-			}
-
-			else {
-				RotateToVector(this, defaultdirection);
 			}
 
 		}
@@ -299,7 +312,11 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 	temp.SetToRotation(-rotationval, 0, 1, 0);
 	AxisDir = temp * AxisDir;
 
+
 	objectdiff = temp * objectdiff;
+	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
+	objectdiff = temp * objectdiff;
+	std::cout << objectdiff.y << "," << objectdiff.z << "\n";
 	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
 	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
 	AxisDir = temp * AxisDir;
@@ -472,11 +489,11 @@ void NPC::MoveToPos(Vector3 pos)
 	this->SetTranslate(currentpos);
 }
 
-float lerp(float a, float b, float t);
 
-void NPC::LerpToPos(Vector3 pos)
+
+void NPC::LerpToPos(Vector3 pos, float speed)
 {
-	float distspeed = 8 * dt;
+	float distspeed = speed * dt;
 	Vector3 curr = GetTranslate();
 	float lerpx = lerp(curr.x, pos.x, distspeed);
 	float lerpy = lerp(curr.y, pos.y, distspeed);
