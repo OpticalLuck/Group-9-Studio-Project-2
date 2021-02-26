@@ -290,6 +290,12 @@ void SceneHall::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 
+	for (int i = 0; i < WP_TOTAL; i++)
+	{
+		if (Waypoints[i])
+			Waypoints[i]->DrawLocName(renderer);
+	}
+
 	Cube[1]->Draw(renderer, true);
 	Environment[EN_FLOOR1]->Draw(renderer, true);
 	Environment[EN_FLOOR2]->Draw(renderer, true);
