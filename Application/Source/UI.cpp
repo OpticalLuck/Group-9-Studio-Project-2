@@ -52,12 +52,12 @@ void UI::Init(Character* player)
 	//Quests
 	Quests[0] = new Text();
 	Quests[0]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[0]->SetText("Get your flying license");
+	Quests[0]->SetText("Head over to the City");
 	Quests[0]->SetTranslate(Vector3(94, 65.5, 0));
 
 	Quests[1] = new Text();
 	Quests[1]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[1]->SetText("- Head to Stadium");
+	Quests[1]->SetText("Mayor's Office");
 	Quests[1]->SetTranslate(Vector3(94, 60.5, 0));
 	Quests[1]->SetScale(Vector3(0.05, 0.05, 0.05));
 
@@ -310,7 +310,7 @@ void UI::Init(Character* player)
 
 		text[50] = new Text();
 		text[50]->SetMode(Text::STATIC_SCREENTEXT);
-		text[50]->SetText("Thank You for accepting. If I may also ask, why is the Library so bare?");
+		text[50]->SetText("*Whew* Thank You for accepting. If I may also ask, why is the Library so bare?");
 		text[50]->SetTranslate(Vector3(0.f, 12, 0));
 
 		text[51] = new Text();
@@ -419,8 +419,150 @@ void UI::Init(Character* player)
 		text[73]->SetMode(Text::STATIC_SCREENTEXT);
 		text[73]->SetText("I understand, Thank You. I will gladly take up on that offer");
 		text[73]->SetTranslate(Vector3(0.f, 12, 0));
-		}
-		//
+
+		//3rd Gem
+		text[74] = new Text();
+		text[74]->SetMode(Text::STATIC_SCREENTEXT);
+		text[74]->SetText("Welcome back, Princess. Did you manage to obtain the 2nd Gem?");
+		text[74]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[75] = new Text();
+		text[75]->SetMode(Text::STATIC_SCREENTEXT);
+		text[75]->SetText("As a matter of fact, yes. After talking with the Librarian for a while, he gave me the");
+		text[75]->SetTranslate(Vector3(0.f, 12, 0));
+		text[76] = new Text();
+		text[76]->SetMode(Text::STATIC_SCREENTEXT);
+		text[76]->SetText("Gem.");
+		text[76]->SetTranslate(Vector3(0.f, 8, 0));
+
+		text[77] = new Text();
+		text[77]->SetMode(Text::STATIC_SCREENTEXT);
+		text[77]->SetText("Marvelous! As expected, the Princess is truly a gifted negotiator.");
+		text[77]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[78] = new Text();
+		text[78]->SetMode(Text::STATIC_SCREENTEXT);
+		text[78]->SetText("However, in order to obtain the 3rd and final Gem, you've need to muster more");
+		text[78]->SetTranslate(Vector3(0.f, 12, 0));
+		text[79] = new Text();
+		text[79]->SetMode(Text::STATIC_SCREENTEXT);
+		text[79]->SetText("strength and luck than ever before.");
+		text[79]->SetTranslate(Vector3(0.f, 8, 0));
+
+		text[80] = new Text();
+		text[80]->SetMode(Text::STATIC_SCREENTEXT);
+		text[80]->SetText("Long ago, the Founder of the Outpost collaborated with the Angels to create an");
+		text[80]->SetTranslate(Vector3(0.f, 12, 0));
+		text[81] = new Text();
+		text[81]->SetMode(Text::STATIC_SCREENTEXT);
+		text[81]->SetText("Obstacle Course in order to ward off the greedy intentions of others.");
+		text[81]->SetTranslate(Vector3(0.f, 8, 0));
+
+		text[82] = new Text();
+		text[82]->SetMode(Text::STATIC_SCREENTEXT);
+		text[82]->SetText("However, since it creation, no one has been able to complete it at all.");
+		text[82]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[83] = new Text();
+		text[83]->SetMode(Text::STATIC_SCREENTEXT);
+		text[83]->SetText("Are you confident in completing it, Princess?");
+		text[83]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[84] = new Text();
+		text[84]->SetMode(Text::STATIC_SCREENTEXT);
+		text[84]->SetText("I am confident in facing any challenge that stands in my way.");
+		text[84]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[85] = new Text();
+		text[85]->SetMode(Text::STATIC_SCREENTEXT);
+		text[85]->SetText("Alright, if its you, I believe you can do it.");
+		text[85]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[86] = new Text();
+		text[86]->SetMode(Text::STATIC_SCREENTEXT);
+		text[86]->SetText("The Obstacle Course is revolves around gliding around. One needs to be able to collect");
+		text[86]->SetTranslate(Vector3(0.f, 12, 0));
+		text[87] = new Text();
+		text[87]->SetMode(Text::STATIC_SCREENTEXT);
+		text[87]->SetText("all of the rings. It may seem simple, but if you touch the ground before collecting them");
+		text[87]->SetTranslate(Vector3(0.f, 8, 0));
+		text[88] = new Text();
+		text[88]->SetMode(Text::STATIC_SCREENTEXT);
+		text[88]->SetText("all, the attempt will be deemed invalid.");
+		text[88]->SetTranslate(Vector3(0.f, 4, 0));
+
+		text[89] = new Text();
+		text[89]->SetMode(Text::STATIC_SCREENTEXT);
+		text[89]->SetText("Do take caution. There has been multiple cases of challengers dying of exhaustion while");
+		text[89]->SetTranslate(Vector3(0.f, 12, 0));
+		text[90] = new Text();
+		text[90]->SetMode(Text::STATIC_SCREENTEXT);
+		text[90]->SetText("attempting the course. Falling from a height of 20 stories is also not a pleasant");
+		text[90]->SetTranslate(Vector3(0.f, 8, 0));
+		text[91] = new Text();
+		text[91]->SetMode(Text::STATIC_SCREENTEXT);
+		text[91]->SetText("experience.");
+		text[91]->SetTranslate(Vector3(0.f, 4, 0));
+
+		text[92] = new Text();
+		text[92]->SetMode(Text::STATIC_SCREENTEXT);
+		text[92]->SetText("Understood.");
+		text[92]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[93] = new Text();
+		text[93]->SetMode(Text::STATIC_SCREENTEXT);
+		text[93]->SetText("Also, if possible, use the fans. they will help you ascend heigher in case your current");
+		text[93]->SetTranslate(Vector3(0.f, 12, 0));
+		text[94] = new Text();
+		text[94]->SetMode(Text::STATIC_SCREENTEXT);
+		text[94]->SetText("altitude is too low.");
+		text[94]->SetTranslate(Vector3(0.f, 8, 0));
+
+		text[95] = new Text();
+		text[95]->SetMode(Text::STATIC_SCREENTEXT);
+		text[95]->SetText("Alright, Thank You for the advice, Mayor.");
+		text[95]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[96] = new Text();
+		text[96]->SetMode(Text::STATIC_SCREENTEXT);
+		text[96]->SetText("No problem, Best of luck, Princess.");
+		text[96]->SetTranslate(Vector3(0.f, 12, 0));
+
+		//Epilogue
+		text[97] = new Text();
+		text[97]->SetMode(Text::STATIC_SCREENTEXT);
+		text[97]->SetText("I've heard the news, congradulations on being the first participant to ever complete the");
+		text[97]->SetTranslate(Vector3(0.f, 12, 0));
+		text[98] = new Text();
+		text[98]->SetMode(Text::STATIC_SCREENTEXT);
+		text[98]->SetText("Obstacle Course.");
+		text[98]->SetTranslate(Vector3(0.f, 8, 0));
+
+		text[99] = new Text();
+		text[99]->SetMode(Text::STATIC_SCREENTEXT);
+		text[99]->SetText("With this, you should regain your powers and able to go back home now.");
+		text[99]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[0] = new Text();
+		text[0]->SetMode(Text::STATIC_SCREENTEXT);
+		text[0]->SetText("Thank You, Mayor Mariano. I couldn't have done it without your help.");
+		text[0]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[1] = new Text();
+		text[1]->SetMode(Text::STATIC_SCREENTEXT);
+		text[1]->SetText("Haha. No need, I was merely pointing you in the right direction.");
+		text[1]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[2] = new Text();
+		text[2]->SetMode(Text::STATIC_SCREENTEXT);
+		text[2]->SetText("Anyways it seems like your little adventure here has come to an end.");
+		text[2]->SetTranslate(Vector3(0.f, 12, 0));
+
+		text[100] = new Text();
+		text[100]->SetMode(Text::STATIC_SCREENTEXT);
+		text[100]->SetText("Goodbye, Princess Ayaka. Stay safe.");
+		text[100]->SetTranslate(Vector3(0.f, 12, 0));
+	}
 }
 
 void UI::Update()
@@ -825,6 +967,141 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[3]->Draw(renderer, true);
 			text[73]->Draw(renderer, true);
 		}
+		else if (Button_Count == 1 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[74]->Draw(renderer, true);
+		}
+		else if (Button_Count == 2 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[75]->Draw(renderer, true);
+			text[76]->Draw(renderer, true);
+		}
+		else if (Button_Count == 3 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[77]->Draw(renderer, true);
+		}
+		else if (Button_Count == 4 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[78]->Draw(renderer, true);
+			text[79]->Draw(renderer, true);
+		}
+		else if (Button_Count == 5 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[80]->Draw(renderer, true);
+			text[81]->Draw(renderer, true);
+		}
+		else if (Button_Count == 6 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[82]->Draw(renderer, true);
+		}
+		else if (Button_Count == 7 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[83]->Draw(renderer, true);
+		}
+		else if (Button_Count == 8 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[84]->Draw(renderer, true);
+		}
+		else if (Button_Count == 9 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[85]->Draw(renderer, true);
+		}
+		else if (Button_Count == 10 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[86]->Draw(renderer, true);
+			text[87]->Draw(renderer, true);
+			text[88]->Draw(renderer, true);
+		}
+		else if (Button_Count == 11 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[89]->Draw(renderer, true);
+			text[90]->Draw(renderer, true);
+			text[91]->Draw(renderer, true);
+		}
+		else if (Button_Count == 12 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[92]->Draw(renderer, true);
+		}
+		else if (Button_Count == 13 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[93]->Draw(renderer, true);
+			text[94]->Draw(renderer, true);
+		}
+		else if (Button_Count == 14 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[95]->Draw(renderer, true);
+		}
+		else if (Button_Count == 15 && Dialogue_5 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[96]->Draw(renderer, true);
+		}
+		else if (Button_Count == 1 && Dialogue_6 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[97]->Draw(renderer, true);
+			text[98]->Draw(renderer, true);
+		}
+		else if (Button_Count == 2 && Dialogue_6 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[99]->Draw(renderer, true);
+		}
+		else if (Button_Count == 3 && Dialogue_6 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[3]->Draw(renderer, true);
+			text[0]->Draw(renderer, true);
+		}
+		else if (Button_Count == 4 && Dialogue_6 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[1]->Draw(renderer, true);
+		}
+		else if (Button_Count == 5 && Dialogue_6 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[2]->Draw(renderer, true);
+		}
+		else if (Button_Count == 6 && Dialogue_6 == true)
+		{
+			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+			text[4]->Draw(renderer, true);
+			text[100]->Draw(renderer, true);
+		}
 		else if (Button_Count == 4 && Dialogue_1 == true)
 		{
 			Dialogue = !Dialogue;
@@ -846,9 +1123,30 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			Dialogue_3 = false;
 			Dialogue_4 = true;
 		}
+		else if (Button_Count == 22 && Dialogue_4 == true)
+		{
+			Dialogue = !Dialogue;
+			Button_Count = 0;
+			Dialogue_4 = false;
+			Dialogue_5 = true;
+		}
+		else if (Button_Count == 16 && Dialogue_5 == true)
+		{
+			Dialogue = !Dialogue;
+			Button_Count = 0;
+			Dialogue_5 = false;
+			Dialogue_6 = true;
+		}
+		else if (Button_Count == 16 && Dialogue_5 == true)
+		{
+			Dialogue = !Dialogue;
+			Button_Count = 0;
+			Dialogue_5 = false;
+		}
 		else
 		{
 			Dialogue = !Dialogue;
+			Button_Count = 0;
 		}
 	}
 }
