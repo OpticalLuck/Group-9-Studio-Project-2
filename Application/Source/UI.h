@@ -42,7 +42,7 @@ private:
 	Mesh* BG;
 	Text* Info[10];
 	Text* Quests[10];
-	Text* text[400];
+	Text* text[101];
 
 	float staminaBar_width;
 	float max_X, max_Z;
@@ -56,8 +56,12 @@ private:
 	bool bPause;
 	bool bTab;
 	bool Dialogue;
-	bool Dialogue_1 = false;
+	bool Dialogue_1 = true;
 	bool Dialogue_2 = false;
 	bool Dialogue_3 = false;
-	bool Dialogue_4 = true;
+	bool Dialogue_4 = false;
+	bool Dialogue_5 = false;
+	bool Dialogue_6 = false;
+
+	bool Quest_1 = true;
 };

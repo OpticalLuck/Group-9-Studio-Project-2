@@ -68,6 +68,7 @@ MeshList::MeshList()
 
 	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//Trees/tree_pineDefaultA.obj", "OBJ//Trees/tree_pineDefaultA.mtl");
 
+
 	//// <UI> 
 	meshlist[MESH_TEXT] = MeshBuilder::GenerateText("Text", 16, 16, TextData::GetInstance()->TextDataArr);
 	meshlist[MESH_TEXT]->textureArr[0] = texturelist->Insert("Gothic.tga");

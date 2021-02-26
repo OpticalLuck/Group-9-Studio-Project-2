@@ -96,6 +96,10 @@ void SceneLibrary::Init()
 		Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
 		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
 		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
+
+		Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
+		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
 	}
 }
 
@@ -111,8 +115,9 @@ void SceneLibrary::InitGL()
 void SceneLibrary::Update(double dt)
 {
 	camera.Updatemovement(dt);
-
-	ui->Update(dt);
+	Ayaka->Update(dt);
+	ui->setCamera(&camera);
+	ui->Update();
 
 	//Collision
 	Ayaka->CollisionResolution(Environment[EN_FLOOR1]);
@@ -123,6 +128,12 @@ void SceneLibrary::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_FLOOR6]);
 	Ayaka->CollisionResolution(Environment[EN_COUNTER]);
 	camera.Updateposition();
+
+	Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
+	if (Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY) == true)
+	{
+		setQuestStatus(true);
+	}
 
 	{
 		if (Application::IsKeyPressed('1'))
@@ -238,6 +249,8 @@ void SceneLibrary::Render()
 
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);
+
+	Waypoints[0]->Draw(renderer, false);
 
 	ui->Draw(renderer, true);
 }

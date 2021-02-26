@@ -32,7 +32,10 @@ public:
 
 	//Sets the ObjectToLookAt to allow for calculations revolving around looking
 	void SetObjectToLookAt(GameObject* obj);
+	//Rotation vector that they will always be in
 	void SetDefaultDir(Vector3 def);
+	//Position they'll flock to when idle (if set)
+	void SetDefaultPos(Vector3 def);
 
 	//add a point to go towards
 	//try to keep them on the same y level and straight (only affect one axis at a time)
@@ -60,8 +63,8 @@ private:
 	
 	double dt;
 
-	bool canMove, talking, movingToDest;
-	Vector3 defaultdirection;
+	bool DefaultIdleSet, talking, movingToDest;
+	Vector3 defaultdirection, defaultposition;
 	//Bunch of words they will say
 	std::vector<std::string> speech;
 	//Array pointer pointing to each part as a seperate gameobj
@@ -91,7 +94,7 @@ private:
 	void MoveInDir(Vector3 rot);
 	//Move Towards a destination
 	void MoveToPos(Vector3 pos);
-
+	void LerpToPos(Vector3 pos);
 
 	//Spawns the player here and activates it
 	void doRespawn();

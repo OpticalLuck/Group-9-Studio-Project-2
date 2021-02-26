@@ -161,6 +161,11 @@ void SceneStadium::Update(double dt)
 				Rings[i]->SetActive(false);
 				RingCollected++;
 			}
+
+			if (RingCollected == maxRing)
+			{
+				setQuestStatus(true);
+			}
 		}
 
 		//if feet touch ground - reset

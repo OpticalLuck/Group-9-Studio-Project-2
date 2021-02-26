@@ -11,6 +11,7 @@
 #include "TextureList.h"
 #include "UI.h"
 #include "NPC.h"
+#include "WayPoint.h"
 
 class SceneLibrary : public Scene
 {
@@ -33,6 +34,12 @@ public:
 		LIGHT_MIDDLE,
 		LIGHT_TEST,
 		LIGHT_TOTAL
+	};
+
+	enum WP_TYPE
+	{
+		WP_DOOR,
+		WP_TOTAL
 	};
 	SceneLibrary();
 	~SceneLibrary();
@@ -66,6 +73,7 @@ private:
 	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
+	WayPoint* Waypoints[WP_TOTAL];
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	NPC* npc;

@@ -11,6 +11,7 @@
 #include "TextureList.h"
 #include "UI.h"
 #include "NPC.h"
+#include "WayPoint.h"
 
 class SceneHall : public Scene
 {
@@ -37,6 +38,13 @@ public:
 		LIGHT_MIDDLE,
 		LIGHT_TEST,
 		LIGHT_TOTAL
+	};
+
+	enum WP_TYPE 
+	{
+		WP_DOOR,
+		WP_PORTAL,
+		WP_TOTAL
 	};
 	SceneHall();
 	~SceneHall();
@@ -65,6 +73,7 @@ private:
 	NPC* npc;
 	GameObject* Environment[EN_TOTAL];
 	GameObject* Collectible;
+	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 
