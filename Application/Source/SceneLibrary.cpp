@@ -117,7 +117,7 @@ void SceneLibrary::Update(double dt)
 	camera.Updatemovement(dt);
 	Ayaka->Update(dt);
 	ui->setCamera(&camera);
-	ui->Update();
+	ui->Update(dt);
 
 	//Collision
 	Ayaka->CollisionResolution(Environment[EN_FLOOR1]);

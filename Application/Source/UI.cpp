@@ -56,7 +56,6 @@ void UI::Init(Character* player)
 	Info[4]->SetMode(Text::STATIC_SCREENTEXT);
 	Info[4]->SetText("FPS");
 	Info[4]->SetTranslate(Vector3(0, 0, 0));
-
 	}
 
 	{
@@ -96,6 +95,7 @@ void UI::Init(Character* player)
 	//Pause Menu
 	PauseBG = new GameObject();
 	PauseBG->SetMesh(MeshList::GetInstance()->GetMesh(MeshList::MESH_PAUSEBG));
+	PauseBG->SetTranslate(Vector3(-22, 36, 0));
 
 	PauseButton[0] = new Button(64, 45, 4, 1, 8);
 	PauseButton[0]->SetTexture("Buttons/PlayBtn.tga");
@@ -613,7 +613,6 @@ void UI::Update(double dt)
 	{
 		isEscPressed = false;
 		bTab = false;
-		
 	}
 
 	if (!bPause)
@@ -658,10 +657,10 @@ void UI::Update(double dt)
 	}
 	else
 	{
-		float lerpspeed = 8 * dt;
+		float lerpspeed = 0.2f; //no dt coz er in case of pressing it right after loading
 		float lerptofinalX = (1 - lerpspeed) * PauseBG->GetTranslate().x + lerpspeed * 22;
-		//std::cout << lerptofinalX << std::endl;
-		//Lerp
+		//Lerps
+		std::cout << lerptofinalX << std::endl;
 		PauseBG->SetTranslate(Vector3(lerptofinalX, PauseBG->GetTranslate().y, 0));
 
 		for (int i = 0; i < 3; i++)
@@ -694,6 +693,7 @@ void UI::Update(double dt)
 			}
 			if (PauseButton[1]->isHoveredOn(xpos, ypos) && PauseButton[1]->getbClicked())
 			{
+				std::cout << "LMAO" << std::endl;
 			}
 			else
 			{
