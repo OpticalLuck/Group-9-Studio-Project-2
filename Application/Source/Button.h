@@ -12,6 +12,9 @@ public:
 	void SetTexture(std::string filepath);
 	void SetbClicked(bool bClicked);
 	bool isHoveredOn(double xpos, double ypos);
+	void SetxCoord(float x);
+	void SetyCoord(float y);
+
 	bool getbClicked() const;
 	float getWidth() const;
 	float getHeight() const;

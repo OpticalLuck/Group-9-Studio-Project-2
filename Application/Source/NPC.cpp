@@ -266,14 +266,10 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 	temp.SetToRotation(-rotationval, 0, 1, 0);
 	AxisDir = temp * AxisDir;
 
-	std::cout << objectdiff.y << "," << objectdiff.z << " ";
-
 	objectdiff = temp * objectdiff;
 	temp.SetToRotation(-(GetRotate().y), 0, 1, 0);
 	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
 	AxisDir = temp * AxisDir;
-
-	std::cout << objectdiff.y << "," << objectdiff.z << "\n";
 
 	float targetpitch = Math::RadianToDegree(atan2(AxisDir.y, AxisDir.z));
 	if (targetpitch < 0)

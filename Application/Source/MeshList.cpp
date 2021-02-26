@@ -75,7 +75,8 @@ MeshList::MeshList()
 	meshlist[MESH_STAMINABAR] = MeshBuilder::GenerateCube("Cube", Color(0.f, 1.f, 0.f), 1.f, 1.f, 1.f);
 	meshlist[MESH_DIALOGUEBOX] = MeshBuilder::GenerateCube("For the Dialogue", Color(0.502f, 0.502f, 0.502f), 1.f, 1.f, 1.f);
 
-	meshlist[MESH_ICON] = MeshBuilder::GenerateQuad("Icon", Color(1.f, 0.f, 0.f));
+	meshlist[MESH_PAUSEBG] = MeshBuilder::GenerateQuad("PauseBG", Color(1.f, 1.f, 1.f), 75, 75);
+	meshlist[MESH_PAUSEBG]->textureArr[0] = texturelist->Insert("PauseMenu.tga");
 	//// </UI> 
 
 	//// <NPC> 

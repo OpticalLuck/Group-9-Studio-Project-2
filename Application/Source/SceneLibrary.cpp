@@ -50,6 +50,7 @@ void SceneLibrary::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
+	ui->setCamera(&camera);
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	//Please use the init to apply any initial transformations (position, rotation, scale, radius)
@@ -111,8 +112,7 @@ void SceneLibrary::Update(double dt)
 {
 	camera.Updatemovement(dt);
 
-	ui->setCamera(&camera);
-	ui->Update();
+	ui->Update(dt);
 
 	//Collision
 	Ayaka->CollisionResolution(Environment[EN_FLOOR1]);

@@ -83,7 +83,6 @@ void SceneStadium::Init()
 				{
 					if (Rings[i]->GetColliderBox(0)->CheckOBBCollision(Rings[j]->GetColliderBox(0)).Collided) //collision detected
 					{
-						std::cout << "COLLISION" << std::endl;
 						CoordRand = Vector3(Math::RandFloatMinMax(-40, 40),
 							Math::RandFloatMinMax(10, 80),
 							Math::RandFloatMinMax(-40, 40));
@@ -111,14 +110,11 @@ void SceneStadium::Init()
 
 	//Text
 	{
-		textarr[TEXT_FPS] = new Text();
-		textarr[TEXT_FPS]->SetMode(Text::STATIC_SCREENTEXT);
-		textarr[TEXT_FPS]->SetTranslate(Vector3(0, 0, 0));
-
-		textarr[TEXT_POSITION] = new Text();
-		textarr[TEXT_POSITION]->SetMode(Text::STATIC_SCREENTEXT);
-		textarr[TEXT_POSITION]->SetTranslate(Vector3(0, 68, 0));
+		instructions = new Text();
+		instructions->SetMode(Text::STATIC_SCREENTEXT);
+		instructions->SetTranslate(Vector3(32, 64, 0));
 	}
+
 }
 
 void SceneStadium::InitGL()
@@ -185,19 +181,15 @@ void SceneStadium::Update(double dt)
 
 	//Text STuff
 	{
-		std::stringstream FPS;
-		FPS.precision(4);
-		FPS << "FPS: " << fps;
-		textarr[TEXT_FPS]->SetText(FPS.str());
-
-		std::stringstream Pos;
-		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
-		textarr[TEXT_POSITION]->SetText(Pos.str());
+		std::stringstream ss;
+		ss.precision(4);
+		ss << "Collect All 16 Rings without touching the floor. " << RingCollected << "/" << maxRing;
+		instructions->SetText(ss.str());
 	}
 
 	//UI
 	
-	ui->Update();
+	ui->Update(dt);
 
 	{
 		if (Application::IsKeyPressed('1'))
@@ -257,20 +249,17 @@ void SceneStadium::Render()
 	Boost[0]->Draw(renderer, true);
 	Boost[1]->Draw(renderer, true);
 
-	Waypoint->Draw(renderer, false);
 
 	for (int i = 0; i < maxRing; i++)
 	{
 		Rings[i]->Draw(renderer, true);
 	}
 
-	for (int i = 0; i < TEXT_TOTAL; i++)
-	{
-		if(textarr[i])
-			textarr[i]->Draw(renderer, false);
-	}
-
+	Waypoint->DrawLocName(renderer);
+	instructions->Draw(renderer, false);
 	ui->Draw(renderer, true);
+	Waypoint->Draw(renderer, false);
+
 }
 
 void SceneStadium::Exit()

@@ -22,6 +22,7 @@ public:
 	bool getbGrounded();
 	bool getbJump();
 	bool getbGlide();
+	bool getcanGlide();
 	float getVertVelocity();
 	float getVelocity();
 	float getStamina();
@@ -34,6 +35,7 @@ public:
 	void setStamina(float stamina);
 	void setbjump(bool isJump);
 	void setbGlide(bool isGliding);
+	void setcanGlide(bool canGlide);
 	void setRingCount(int ringCount);
 	void IncrementCollectible();
 	void CollisionResolution(GameObject* target);
@@ -46,6 +48,7 @@ private:
 	float VertVelocity, Velocity, Stamina;
 
 	GameObject* Wing;
+	bool canGlide;
 
 	Collision* objectStoodOn;
 	//private functions

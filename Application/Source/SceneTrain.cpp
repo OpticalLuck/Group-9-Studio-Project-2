@@ -49,6 +49,7 @@ void SceneTrain::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
+	ui->setCamera(&camera);
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
@@ -84,8 +85,7 @@ void SceneTrain::Update(double dt)
 	
 	camera.Updatemovement(dt);
 
-	ui->setCamera(&camera);
-	ui->Update();
+	ui->Update(dt);
 
 	//Collision
 	/*Ayaka->CollisionResolution(Environment[EN_FLOOR2]);

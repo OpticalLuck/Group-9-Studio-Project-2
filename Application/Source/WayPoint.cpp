@@ -24,26 +24,28 @@ WayPoint::~WayPoint()
 
 void WayPoint::Draw(Renderer* renderer, bool enablelight)
 {
+	if (isInRange)
+	{
+		renderer->RenderTextOnScreen(OnScreenText->GetMesh(), OnScreenText->GetText(), Color(1, 1, 1), 4.f, OnScreenText->GetTranslate().x, OnScreenText->GetTranslate().y);
+	}
+}
+
+void WayPoint::DrawLocName(Renderer* renderer)
+{
 	renderer->PushTransform();
 	//scale, translate, rotate
 	renderer->AddTransformation(GetTranslate(), GetRotate());
 	if (getActive() && GetMesh())
 	{
-		renderer->RenderMesh(GetMesh(), enablelight);
+		renderer->RenderMesh(GetMesh(), false);
 	}
-	
+
 	renderer->PushTransform();
 	float textlength = name.length();
 	renderer->AddTransformation(Vector3(textlength * -1, 8, 0), Vector3(0, 0, 0), Vector3(5, 5, 5));
-	renderer->RenderText(MeshList::GetInstance()->GetMesh(MeshList::MESH_TEXT), name, Color(1,1,1));
+	renderer->RenderText(MeshList::GetInstance()->GetMesh(MeshList::MESH_TEXT), name, Color(1, 1, 1));
 	renderer->PopTransform();
 	renderer->PopTransform();
-
-	if (isInRange)
-	{
-		renderer->RenderTextOnScreen(OnScreenText->GetMesh(), OnScreenText->GetText(), Color(1, 1, 1), 4.f, OnScreenText->GetTranslate().x, OnScreenText->GetTranslate().y);
-	}
-
 }
 
 bool WayPoint::inRangeResponse(GameObject* Target, SceneManager::SCENE_TYPE NextScene)

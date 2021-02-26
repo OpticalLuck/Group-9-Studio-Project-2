@@ -195,7 +195,7 @@ void Application::Run()
 	sceneManager->Init(SceneManager::SCENE_MAINMENU); 
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE) && !bQuit)
+	while (!glfwWindowShouldClose(m_window) && !bQuit)
 	{
 		sceneManager->Update(&m_timer);
 		Application::xoffset = 0;

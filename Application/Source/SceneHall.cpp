@@ -58,7 +58,7 @@ void SceneHall::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setMapBounds(15, 15);
+	ui->setCamera(&camera);
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -137,8 +137,7 @@ void SceneHall::Update(double dt)
 	camera.Updatemovement(dt);
 	Ayaka->Update(dt);
 
-	ui->setCamera(&camera);
-	ui->Update();
+	ui->Update(dt);
 
 	//Collision
 	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);

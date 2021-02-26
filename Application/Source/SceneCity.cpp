@@ -105,7 +105,7 @@ void SceneCity::Init()
 		Environment[EN_SCHOOL]->SetColliderBox(Vector3(3, 13, 8), Vector3(6, 13, 0.5f));
 		Environment[EN_SCHOOL]->SetTranslate(Vector3(-55, 0, -80));
 		Environment[EN_SCHOOL]->SetScale(Vector3(1.4f, 1.4f, 1.4f));
-		Waypoints[WP_LIBRARY] = new WayPoint("Library", Vector3(-40, 1, -80));
+		Waypoints[WP_LIBRARY] = new WayPoint("Library", Vector3(-44, 1, -80));
 		Waypoints[WP_LIBRARY]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_LIBRARY]->SetRotate(Vector3(0, 90, 0));
 
@@ -113,19 +113,19 @@ void SceneCity::Init()
 		Environment[EN_FANCYHOUSE]->SetColliderBox(Vector3(22, 10, 20), Vector3(4, 10, 0));
 		Environment[EN_FANCYHOUSE]->SetTranslate(Vector3(55, 0, -80));
 		Environment[EN_FANCYHOUSE]->SetRotate(Vector3(0, 90, 0));
-		Waypoints[WP_TRAIN] = new WayPoint("Train Station", Vector3(30, 1, -80));
+		Waypoints[WP_TRAIN] = new WayPoint("Train Station", Vector3(35, 1, -80));
 		Waypoints[WP_TRAIN]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_TRAIN]->SetRotate(Vector3(0, -90, 0));
 
 		Environment[EN_PAGODA] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PAGODA));
 		Environment[EN_PAGODA]->SetTranslate(Vector3(-100, -0.4f, 65));
-		Environment[EN_PAGODA]->SetColliderBox(Vector3(30, 3, 30), Vector3(2, 2, 0)); //Platform
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(29, 3, 29), Vector3(2, 2.4f, 0)); //Platform
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(15, 40, 15), Vector3(0, 40, 0)); //Pagoda
-		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(31.6f, 1.5, 0)); //Stairs
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(31.6f, 1.4, 0)); //Stairs
 		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
-		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1, 0));
+		Environment[EN_PAGODA]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1.4f, 0));
 		Environment[EN_PAGODA]->SetRotate(Vector3(0, 90, 0));
-		Waypoints[WP_HALL] = new WayPoint("Hall", Vector3(-80, 5, 65));
+		Waypoints[WP_HALL] = new WayPoint("Hall", Vector3(-84, 5, 65));
 		Waypoints[WP_HALL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_HALL]->SetRotate(Vector3(0, 90, 0));
 
@@ -171,10 +171,11 @@ void SceneCity::Update(double dt)
 	Waypoints[WP_STADIUM]->inRangeResponse(Ayaka, SceneManager::SCENE_STADIUM);
 	Waypoints[WP_LIBRARY]->inRangeResponse(Ayaka, SceneManager::SCENE_LIBRARY);
 	Waypoints[WP_HALL]->inRangeResponse(Ayaka, SceneManager::SCENE_HALL);
+	Waypoints[WP_TRAIN]->inRangeResponse(Ayaka, SceneManager::SCENE_TRAIN);
 
 
 	//UI
-	ui->Update();
+	ui->Update(dt);
 	
 	Vector3 Direction = Vector3(0, 0, 0);
 	if (Application::IsKeyPressed('I'))
@@ -224,9 +225,6 @@ void SceneCity::Update(double dt)
 			Collision::isRender = false;
 		}
 	}
-	Vector3 temp = Ayaka->GetTranslate();
-
-	std::cout <<  temp << std::endl;
 }
 
 void SceneCity::Render()
@@ -258,12 +256,17 @@ void SceneCity::Render()
 
 	for (int i = 0; i < WP_TOTAL; i++)
 	{
-		if(Waypoints[i])
-			Waypoints[i]->Draw(renderer, false);
+		if (Waypoints[i])
+			Waypoints[i]->DrawLocName(renderer);
 	}
 	
 	ui->Draw(renderer, true);
-
+	
+	for (int i = 0; i < WP_TOTAL; i++)
+	{
+		if(Waypoints[i])
+			Waypoints[i]->Draw(renderer);
+	}
 }
 
 void SceneCity::Exit()

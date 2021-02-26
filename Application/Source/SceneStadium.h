@@ -20,13 +20,6 @@ public:
 		EN_TOTAL
 	};
 
-	enum TEXT_TYPE
-	{
-		TEXT_FPS,
-		TEXT_POSITION,
-		TEXT_TOTAL
-	};
-
 	SceneStadium();
 	~SceneStadium();
 
@@ -56,7 +49,7 @@ private:
 
 	Light* lights[4];
 	Skybox* skybox;
-	Text* textarr[TEXT_TOTAL];
+	Text* instructions;
 	UI* ui;
 
 	int RingCollected, maxRing;
