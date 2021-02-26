@@ -2,8 +2,8 @@
 #include "MeshBuilder.h"
 Button::Button(float x, float y, float Width, float Height, float Scale)
 {
-	xCoord = x;
-	yCoord = y;
+	xCoord = xdef = x;
+	yCoord = ydef = y;
 	this->Width = Width;
 	this->Height = Height;
 	this->Scale = this->DefaultScale = Scale;
@@ -42,16 +42,12 @@ bool Button::isHoveredOn(double xpos, double ypos)
 	if (xpos > Button_Left && xpos < Button_Right &&
 		ypos < Button_Bot && ypos > Button_Top)
 	{
-		Scale = DefaultScale * 1.2f;
 		return true;
 	}
 	else
 	{
-		Scale = DefaultScale;
+		return false;
 	}
-	
-
-	return false;
 }
 
 void Button::SetxCoord(float x)
@@ -64,6 +60,35 @@ void Button::SetyCoord(float y)
 	yCoord = y;
 }
 
+bool Button::ScaleOnHover(double xpos, double ypos, float UpdatedScale)
+{
+	if (isHoveredOn(xpos, ypos))
+	{
+		Scale = DefaultScale * UpdatedScale;
+		return true;
+	}
+	else
+	{
+		Scale = DefaultScale;
+		return false;
+	}
+}
+
+bool Button::SlideOnHover(double xpos, double ypos, float Distance)
+{
+	if(isHoveredOn(xpos, ypos))
+	{
+		xCoord = (1 - 0.5f) * xCoord + 0.5f * (xdef + Distance);
+		//rotationval = (1 - ROTATIONSPEED) * target->GetRotate().y + ROTATIONSPEED * CharAngle;
+		return true;
+	}
+	else
+	{
+		xCoord = (1 - 0.5f) * xCoord + 0.5f * (xdef);
+	return false;
+	}
+}
+
 bool Button::getbClicked() const
 {
 	return bClicked;
@@ -71,12 +96,12 @@ bool Button::getbClicked() const
 
 float Button::getWidth() const
 {
-	return Width * Scale * 10;
+	return Width * Scale;
 }
 
 float Button::getHeight() const
 {
-	return Height * Scale * 10;
+	return Height * Scale;
 }
 
 float Button::getScale() const
@@ -86,10 +111,10 @@ float Button::getScale() const
 
 float Button::getX() const
 {
-	return xCoord * 10;
+	return xCoord;
 }
 
 float Button::getY() const
 {
-	return yCoord * 10;
+	return yCoord;
 }

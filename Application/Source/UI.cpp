@@ -98,7 +98,7 @@ void UI::Init(Character* player)
 	PauseBG->SetTranslate(Vector3(-22, 36, 0));
 
 	PauseButton[0] = new Button(64, 45, 4, 1, 8);
-	PauseButton[0]->SetTexture("Buttons/PlayBtn.tga");
+	PauseButton[0]->SetTexture("Buttons/ResumeBtn.tga");
 	PauseButton[1] = new Button(64, 30, 4, 1, 8);
 	PauseButton[1]->SetTexture("Buttons/ControlsBtn.tga");
 	PauseButton[2] = new Button(64, 15, 4, 1, 8);
@@ -673,7 +673,7 @@ void UI::Update(double dt)
 		Application::GetCursorPos(&xpos, &ypos);
 		for (int btnidx = 0; btnidx < 3; btnidx++)
 		{
-			if (PauseButton[btnidx]->isHoveredOn(xpos, ypos) && Application::IsMousePressed(0) && !isMousePressed)
+			if (PauseButton[btnidx]->ScaleOnHover(xpos, ypos, 1.2f) && Application::IsMousePressed(0) && !isMousePressed)
 			{
 				PauseButton[btnidx]->SetbClicked((true));
 				isMousePressed = true;

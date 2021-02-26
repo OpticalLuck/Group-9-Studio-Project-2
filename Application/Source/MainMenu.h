@@ -26,6 +26,8 @@ public:
 	};
 private:
 	Renderer* renderer;
+	Mesh* BackGround;
+	Mesh* Logo;
 	Button* MenuBtn[BTN_TOTAL];
 	bool isMousePressed;
 };

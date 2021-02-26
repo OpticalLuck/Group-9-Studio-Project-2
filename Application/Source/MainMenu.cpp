@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "MeshBuilder.h"
 #include "Application.h"
+#include "LoadTGA.h"
 MainMenu::MainMenu()
 {
 }
@@ -15,12 +16,17 @@ void MainMenu::Init()
 {
 	isInit = true;
 	isMousePressed = false;
-	MenuBtn[BTN_START] = new Button(64, 45, 4, 1, 10);
-	MenuBtn[BTN_START]->SetTexture("Buttons/PlayBtn.tga");
-	MenuBtn[BTN_CONTROLS] = new Button(64, 30, 4, 1, 10);
-	MenuBtn[BTN_CONTROLS]->SetTexture("Buttons/ControlsBtn.tga");
-	MenuBtn[BTN_QUIT] = new Button(64, 15, 4, 1, 10);
-	MenuBtn[BTN_QUIT]->SetTexture("Buttons/QuitBtn.tga");
+	float VertAlign = 25;
+	MenuBtn[BTN_START] = new Button(VertAlign, 45, 4, 1, 10);
+	MenuBtn[BTN_START]->SetTexture("Buttons/PlayBtnArrow.tga");
+	MenuBtn[BTN_CONTROLS] = new Button(VertAlign, 30, 4, 1, 10);
+	MenuBtn[BTN_CONTROLS]->SetTexture("Buttons/ControlsBtnArrow.tga");
+	MenuBtn[BTN_QUIT] = new Button(VertAlign, 15, 4, 1, 10);
+	MenuBtn[BTN_QUIT]->SetTexture("Buttons/QuitBtnArrow.tga");
+
+	BackGround = MeshBuilder::GenerateQuad("Background", Color(1, 1, 1), 128, 72);
+	BackGround->textureArr[0] = LoadTGA("Image//MainMenu.tga");
+	Logo = MeshBuilder::GenerateQuad("Logo", Color(1, 1, 1), 60, 18);
 }
 
 void MainMenu::InitGL()
@@ -33,17 +39,17 @@ void MainMenu::Update(double dt)
 	//Application::DisableCursor(); //Disable Cursor when going into scene
 	double xpos, ypos;
 	Application::GetCursorPos(&xpos, &ypos);
-	if (MenuBtn[BTN_START]->isHoveredOn(xpos, ypos) && Application::IsMousePressed(0) && !isMousePressed)
+	if (MenuBtn[BTN_START]->SlideOnHover(xpos, ypos, 3.5f) && Application::IsMousePressed(0) && !isMousePressed)
 	{
 		isMousePressed = true;
 		MenuBtn[BTN_START]->SetbClicked(true);
 	}
-	if (MenuBtn[BTN_CONTROLS]->isHoveredOn(xpos, ypos) && Application::IsMousePressed(0) && !isMousePressed)
+	if (MenuBtn[BTN_CONTROLS]->SlideOnHover(xpos, ypos, 3.5f) && Application::IsMousePressed(0) && !isMousePressed)
 	{
 		isMousePressed = true;
 		MenuBtn[BTN_CONTROLS]->SetbClicked(true);
 	}
-	if (MenuBtn[BTN_QUIT]->isHoveredOn(xpos, ypos) && Application::IsMousePressed(0) && !isMousePressed)
+	if (MenuBtn[BTN_QUIT]->SlideOnHover(xpos, ypos, 3.5f) && Application::IsMousePressed(0) && !isMousePressed)
 	{
 		isMousePressed = true;
 		MenuBtn[BTN_QUIT]->SetbClicked(true);
@@ -88,6 +94,10 @@ void MainMenu::Render()
 	renderer->SetCamera(Vector3(0,0,0), Vector3(0,0,1), Vector3(0,1,0));
 	renderer->SetToOrtho();
 
+	//renderer->PushTransform();
+	renderer->RenderMeshOnScreen(BackGround, 64, 36, 1, 1);
+	renderer->RenderMeshOnScreen(Logo, 34, 61, 1, 1);
+	//renderer->PopTransform();
 	MenuBtn[BTN_START]->Draw(renderer);
 	MenuBtn[BTN_CONTROLS]->Draw(renderer);
 	MenuBtn[BTN_QUIT]->Draw(renderer);

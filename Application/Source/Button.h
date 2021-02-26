@@ -11,10 +11,12 @@ public:
 
 	void SetTexture(std::string filepath);
 	void SetbClicked(bool bClicked);
-	bool isHoveredOn(double xpos, double ypos);
 	void SetxCoord(float x);
 	void SetyCoord(float y);
 
+	bool ScaleOnHover(double xpos, double ypos, float UpdatedScale);
+	bool SlideOnHover(double xpos, double ypos, float Distance);
+	bool isHoveredOn(double xpos, double ypos);
 	bool getbClicked() const;
 	float getWidth() const;
 	float getHeight() const;
@@ -24,6 +26,7 @@ public:
 private:
 	Mesh* ButtonMesh;
 	float xCoord, yCoord;
+	float xdef, ydef;
 	float Width, Height;
 	float DefaultScale, Scale;
 	bool bClicked;
