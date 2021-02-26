@@ -17,6 +17,7 @@ public:
 
 	bool IsWithinRangeOf(GameObject* item);
 	int getCollectibleCount();
+	int getRingCount();
 	bool getSprintState();
 	bool getbGrounded();
 	bool getbJump();
@@ -33,12 +34,14 @@ public:
 	void setStamina(float stamina);
 	void setbjump(bool isJump);
 	void setbGlide(bool isGliding);
+	void setRingCount(int ringCount);
 	void IncrementCollectible();
 	void CollisionResolution(GameObject* target);
 
 
 private:
 	static int collectibleCount;
+	int ringCount;
 	bool isJump, isGrounded, isSprintable, isGliding;
 	float VertVelocity, Velocity, Stamina;
 

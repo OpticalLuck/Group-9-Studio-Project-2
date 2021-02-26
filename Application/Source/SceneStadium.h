@@ -38,6 +38,8 @@ public:
 
 	virtual void UpdateMousePos(double xoffset, double yoffset) override;
 
+	int getRingCount();
+
 private:
 	double fps;
 	Renderer* renderer;

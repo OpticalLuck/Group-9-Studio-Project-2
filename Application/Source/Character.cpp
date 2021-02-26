@@ -84,6 +84,11 @@ int Character::getCollectibleCount()
 	return collectibleCount;
 }
 
+int Character::getRingCount()
+{
+	return ringCount;
+}
+
 bool Character::getSprintState()
 {
 	return isSprintable;
@@ -174,6 +179,11 @@ void Character::setbGlide(bool isGliding)
 	{
 		Wing->SetActive(false);
 	}
+}
+
+void Character::setRingCount(int ringCount)
+{
+	this->ringCount = ringCount;
 }
 
 void Character::IncrementCollectible()
