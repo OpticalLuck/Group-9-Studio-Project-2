@@ -11,6 +11,7 @@
 #include "TextureList.h"
 #include "UI.h"
 #include "NPC.h"
+#include "Train.h"
 
 class SceneTrain : public Scene
 {
@@ -58,7 +59,7 @@ private:
 	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
-	GameObject* Train;
+	Train* train;
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	NPC* npc;
