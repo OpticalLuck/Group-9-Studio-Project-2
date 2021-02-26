@@ -45,7 +45,7 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 		isGrounded = false;
 	}
 
-	SetColliderBox(Vector3(0.3, 0.1, 0.3), Vector3(0, 0.1, 0)); //foot box (always first)
+	SetColliderBox(Vector3(0.6, 0.1, 0.6), Vector3(0, 0.1, 0)); //foot box (always first)
 }
 
 void Character::Update(double dt)

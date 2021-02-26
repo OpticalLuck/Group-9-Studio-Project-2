@@ -17,11 +17,11 @@ void MainMenu::Init()
 	isInit = true;
 	isMousePressed = false;
 	float VertAlign = 25;
-	MenuBtn[BTN_START] = new Button(VertAlign, 45, 4, 1, 10);
+	MenuBtn[BTN_START] = new Button(VertAlign, 40, 4, 1, 10);
 	MenuBtn[BTN_START]->SetTexture("Buttons/PlayBtnArrow.tga");
-	MenuBtn[BTN_CONTROLS] = new Button(VertAlign, 30, 4, 1, 10);
+	MenuBtn[BTN_CONTROLS] = new Button(VertAlign, 25, 4, 1, 10);
 	MenuBtn[BTN_CONTROLS]->SetTexture("Buttons/ControlsBtnArrow.tga");
-	MenuBtn[BTN_QUIT] = new Button(VertAlign, 15, 4, 1, 10);
+	MenuBtn[BTN_QUIT] = new Button(VertAlign, 10, 4, 1, 10);
 	MenuBtn[BTN_QUIT]->SetTexture("Buttons/QuitBtnArrow.tga");
 
 	BackGround = MeshBuilder::GenerateQuad("Background", Color(1, 1, 1), 128, 72);
