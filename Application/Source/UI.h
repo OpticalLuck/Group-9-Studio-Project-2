@@ -50,8 +50,8 @@ private:
 	bool interactable;
 	bool text2active;
 	bool Dialogue;
-	bool Dialogue_1 = true;
+	bool Dialogue_1 = false;
 	bool Dialogue_2 = false;
 	bool Dialogue_3 = false;
-	bool Dialogue_4 = false;
+	bool Dialogue_4 = true;
 };
