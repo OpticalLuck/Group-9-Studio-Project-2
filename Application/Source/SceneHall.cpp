@@ -154,7 +154,6 @@ void SceneHall::Update(double dt)
 		camera.Updatemovement(dt);
 		Ayaka->Update(dt);
 
-
 	//Collision
 	Ayaka->CollisionResolution(Cube[1]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
@@ -336,7 +335,11 @@ void SceneHall::Render()
 	for (int i = 0; i < WP_TOTAL; i++)
 	{
 		if (Waypoints[i])
+		{
 			Waypoints[i]->Draw(renderer, false);
+			Waypoints[i]->DrawLocName(renderer);
+		
+		}
 	}
 
 	text->Draw(renderer, false);
