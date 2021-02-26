@@ -12,7 +12,7 @@ NPC::NPC(unsigned int id, Mesh* mesh)
 	SetMesh(mesh);
 	
 
-	canMove = movingToDest = talking = 0;
+	DefaultIdleSet = movingToDest = talking = 0;
 	objectToLookAt = NULL;
 	SetRadius(10.f);
 	defaultdirection = GetRotate();
@@ -69,8 +69,27 @@ void NPC::Update(double dt)
 					}
 				}
 			}
+			else if (DefaultIdleSet && GetTranslate() != defaultposition) {
+				float angleToPoint = GetAngleToPoint(defaultposition);
+				float ROTATIONSPEED = 2 * dt;
+				float rotationval;
+
+				rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * angleToPoint;
+				if (GetRotate().y > 360)
+				{
+					rotationval -= 360;
+				}
+				else if (GetRotate().y < 0)
+				{
+					rotationval += 360;
+				}
+				SetRotate(Vector3(0, rotationval, 0));
+				//MoveToPos(defaultposition);
+				LerpToPos(defaultposition);
+			}
+
 			else {
-				SetCurrentFlag(FLAG1);
+				RotateToVector(this, defaultdirection);
 			}
 
 		}
@@ -112,6 +131,13 @@ void NPC::SetDefaultDir(Vector3 def)
 	SetRotate(def);
 }
 
+void NPC::SetDefaultPos(Vector3 def)
+{
+	defaultposition = def;
+	DefaultIdleSet = true;
+	SetTranslate(def);
+}
+
 void NPC::PushPathPoint(Vector3 position)
 {
 	if (!canDespawn)
@@ -128,6 +154,12 @@ void NPC::PushPathPoint(float x, float y, float z)
 
 void NPC::PushDespawnPoint(Vector3 position)
 {
+	if (DefaultIdleSet) { //don't set a despawn point if have a default position
+		std::cout << "If you have a default idle set, would you really want to despawn your NPC?\n";
+		return;
+	}
+
+
 	destinations.push(position);
 	canDespawn = true;
 }
@@ -139,6 +171,7 @@ void NPC::PushDespawnPoint(float x, float y, float z)
 
 void NPC::SetRespawnPos(Vector3 position)
 {
+	
 	if (canDespawn) {
 		if (destinationcopy == NULL) {
 			destinationcopy = new std::queue<Vector3>;
@@ -443,6 +476,18 @@ void NPC::MoveToPos(Vector3 pos)
 	this->SetTranslate(currentpos);
 }
 
+float lerp(float a, float b, float t);
+
+void NPC::LerpToPos(Vector3 pos)
+{
+	float distspeed = 8 * dt;
+	Vector3 curr = GetTranslate();
+	float lerpx = lerp(curr.x, pos.x, distspeed);
+	float lerpy = lerp(curr.y, pos.y, distspeed);
+	float lerpz = lerp(curr.z, pos.z, distspeed);
+	SetTranslate(Vector3(lerpx, lerpy, lerpz));
+}
+
 void NPC::doRespawn()
 {
 	if (canDespawn && destinations.empty() && !this->getActive() && canRespawn) {
@@ -460,6 +505,11 @@ void NPC::doDespawn()
 	}
 
 }
+
+float lerp(float a, float b, float t) {
+	return a + t * (b - a);
+}
+
 
 // 0 = X, 1 = Y, 2 = Z
 float AngleBetween(Vector3 difference, int axis) {

@@ -306,8 +306,8 @@ void SceneCity::GenerateNPCs(MeshList* meshlist)
 	npc[LIBRARY_BUSY1]->PushDespawnPoint(-50, 0, -80);
 	npc[LIBRARY_BUSY1]->SetRespawnPos(-50, 0, 18);
 
-	npc[LIBRARY_REST]->SetTranslate(Vector3(-49, 0, -88));
-	npc[LIBRARY_REST]->SetDefaultDir(Vector3(0, 180, 0));
+	npc[LIBRARY_REST]->SetDefaultPos(Vector3(-49, 0, -88));
+	npc[LIBRARY_REST]->SetDefaultDir(Vector3(0, 0, 180));
 
 }
 
