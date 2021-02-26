@@ -77,6 +77,10 @@ bool Character::IsWithinRangeOf(GameObject* item)
 		item->SetCurrentFlag(FLAG0);
 		return false;
 	}
+	else
+	{
+		return false;
+	}
 }
 
 int Character::getCollectibleCount()

@@ -251,7 +251,7 @@ GameObject* GameObject::GetRoot()
 {
 	if (Parent)
 	{
-		Parent->GetRoot();
+		return Parent->GetRoot();
 	}
 	else
 	{

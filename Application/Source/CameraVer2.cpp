@@ -531,6 +531,8 @@ std::string CameraVer2::GetStrMode() const
 		return "Free View";
 	case ANIMATION:
 		return "Animation";
+	default:
+		return "ERROR";
 	};
 }
 
