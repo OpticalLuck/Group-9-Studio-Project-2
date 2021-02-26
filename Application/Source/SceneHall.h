@@ -40,7 +40,7 @@ public:
 		LIGHT_TOTAL
 	};
 
-	enum WP_TYPE //USED TO SET EMPTY GAMEOBJECTS (NOMESH) as way points for us to see where we can change scenes
+	enum WP_TYPE 
 	{
 		WP_DOOR,
 		WP_PORTAL,

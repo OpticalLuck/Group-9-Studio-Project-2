@@ -52,7 +52,7 @@ void UI::Init(Character* player)
 	//Quests
 	Quests[0] = new Text();
 	Quests[0]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[0]->SetText("Get your flying license");
+	Quests[0]->SetText("Get Flying License");
 	Quests[0]->SetTranslate(Vector3(94, 65.5, 0));
 
 	Quests[1] = new Text();
@@ -68,12 +68,12 @@ void UI::Init(Character* player)
 
 	Quests[3] = new Text();
 	Quests[3]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[3]->SetText("idk lol");
+	Quests[3]->SetText("Visit Library");
 	Quests[3]->SetTranslate(Vector3(94, 50.5, 0));
 	
 	Quests[4] = new Text();
 	Quests[4]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[4]->SetText("Quest 2 lmao eeeeee");
+	Quests[4]->SetText("- Talk to Librarian");
 	Quests[4]->SetTranslate(Vector3(94, 45.5, 0));
 	
 	Quests[5] = new Text();
@@ -513,21 +513,25 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		if (Application::IsKeyPressed(VK_TAB))
 		{
 			renderer->RenderMeshOnScreen(BG, 111, 50, 34, 45);
-			
+
 			//uses scenetest for now, will implement in later once other quests are finalized or wtv
-			if (SceneManager::getQuestStatus(SceneManager::SCENE_TEST) == false) //show text if quest is not done yet
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_STADIUM) == false) //show text if quest is not done yet
 			{
 				Quests[0]->Draw(renderer, true);
 				Quests[1]->Draw(renderer, true);
 				Quests[2]->Draw(renderer, true);
 
 			}
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_LIBRARY) == false)
+			{
+				Quests[3]->Draw(renderer, true);
+				Quests[4]->Draw(renderer, true);
+			}
 
-			Quests[3]->Draw(renderer, true);
-
+			Quests[5]->Draw(renderer, true);
+			
 			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false || SceneManager::getCurrentScene() != SceneManager::SCENE_HALL)
 			{
-				Quests[4]->Draw(renderer, true);
 			}
 
 

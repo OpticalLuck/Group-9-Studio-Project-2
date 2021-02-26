@@ -162,7 +162,10 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(npc);
 
 	Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-	Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU);
+	if (getQuestStatus() == true)
+	{
+		Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU); //change to end screen later
+	}
 
 	//Update Camera after updating collision
 	camera.Updateposition();
@@ -217,14 +220,6 @@ void SceneHall::Update(double dt)
 			setQuestStatus(true);
 		}
 
-		if (getQuestStatus() == false)
-		{
-			std::cout << "Not all quests completed." << std::endl;
-		}
-		else
-		{
-			std::cout << "All Quests completed. Proceed to Exit." << std::endl;
-		}
 
 		if (Application::IsKeyPressed('T'))
 		{
