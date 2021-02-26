@@ -114,6 +114,15 @@ void SceneHall::Init()
 		Environment[EN_PLANT4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
 		Environment[EN_PLANT4]->SetColliderBox(Vector3(1, 2, 1));
 		Environment[EN_PLANT4]->SetTranslate(Vector3(14, 0, -14));
+
+		Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
+		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
+
+		Waypoints[WP_PORTAL] = new WayPoint("Portal", Vector3(0, 1, -12));
+		Waypoints[WP_PORTAL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
+		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 	}
 
 	text = new Text();
@@ -151,6 +160,9 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(Environment[EN_PLANT3]);
 	Ayaka->CollisionResolution(Environment[EN_PLANT4]);
 	Ayaka->CollisionResolution(npc);
+
+	Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
+	Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU);
 
 	//Update Camera after updating collision
 	camera.Updateposition();
@@ -307,6 +319,12 @@ void SceneHall::Render()
 			ui->setInteractable(false);
 			ui->UpdateInteractions(Collectible);
 		}
+	}
+
+	for (int i = 0; i < WP_TOTAL; i++)
+	{
+		if (Waypoints[i])
+			Waypoints[i]->Draw(renderer, false);
 	}
 
 	text->Draw(renderer, false);
