@@ -149,7 +149,7 @@ void SceneTest::Update(double dt)
 	Ayaka->Update(dt);
 
 	ui->setCamera(&camera);
-	ui->Update();
+	ui->Update(dt);
 
 	camera.Updateposition();
 

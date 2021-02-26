@@ -5,7 +5,11 @@
 #include <sstream>
 
 UI::UI():
-	KeyPressed(false)
+	KeyPressed(false),
+	bPause(false),
+	Button_Count(0),
+	isEscPressed(false),
+	isMousePressed(false)
 {
 	//Quest Tab
 	BG = MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD);
@@ -24,8 +28,7 @@ void UI::Init(Character* player)
 	interactable = false;
 	Dialogue = false;
 
-	/*Quad = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));*/
-
+	{
 	//Status: Walking
 	Info[0] = new Text();
 	Info[0]->SetMode(Text::STATIC_SCREENTEXT);
@@ -49,10 +52,17 @@ void UI::Init(Character* player)
 	Info[3]->SetText("Hold TAB to see Quests");
 	Info[3]->SetTranslate(Vector3(93, 68.5, 0));
 
+	Info[4] = new Text();
+	Info[4]->SetMode(Text::STATIC_SCREENTEXT);
+	Info[4]->SetText("FPS");
+	Info[4]->SetTranslate(Vector3(0, 0, 0));
+	}
+
+	{
 	//Quests
 	Quests[0] = new Text();
 	Quests[0]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[0]->SetText("Head over to the City");
+	Quests[0]->SetText("Get Flying License");
 	Quests[0]->SetTranslate(Vector3(94, 65.5, 0));
 
 	Quests[1] = new Text();
@@ -68,18 +78,31 @@ void UI::Init(Character* player)
 
 	Quests[3] = new Text();
 	Quests[3]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[3]->SetText("idk lol");
+	Quests[3]->SetText("Visit Library");
 	Quests[3]->SetTranslate(Vector3(94, 50.5, 0));
 	
 	Quests[4] = new Text();
 	Quests[4]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[4]->SetText("Quest 2 lmao eeeeee");
+	Quests[4]->SetText("- Talk to Librarian");
 	Quests[4]->SetTranslate(Vector3(94, 45.5, 0));
 	
 	Quests[5] = new Text();
 	Quests[5]->SetMode(Text::STATIC_SCREENTEXT);
 	Quests[5]->SetText("Get Gem from Mayor");
 	Quests[5]->SetTranslate(Vector3(94, 40.5, 0));
+	}
+
+	//Pause Menu
+	PauseBG = new GameObject();
+	PauseBG->SetMesh(MeshList::GetInstance()->GetMesh(MeshList::MESH_PAUSEBG));
+	PauseBG->SetTranslate(Vector3(-22, 36, 0));
+
+	PauseButton[0] = new Button(64, 45, 4, 1, 8);
+	PauseButton[0]->SetTexture("Buttons/PlayBtn.tga");
+	PauseButton[1] = new Button(64, 30, 4, 1, 8);
+	PauseButton[1]->SetTexture("Buttons/ControlsBtn.tga");
+	PauseButton[2] = new Button(64, 15, 4, 1, 8);
+	PauseButton[2]->SetTexture("Buttons/QuitBtn.tga");
 
 	////Dialogue for everything
 
@@ -565,37 +588,129 @@ void UI::Init(Character* player)
 	}
 }
 
-void UI::Update()
+void UI::Update(double dt)
 {
+	std::stringstream FPS;
+	FPS << "FPS: " << 1 / dt;
+	FPS.precision(3);
+	Info[4]->SetText(FPS.str());
 	staminaBar_width = Player->getStamina() / 2;
 
-	static bool bLButtonState = false;
-
-	//Left Mouse Button
-	if (!bLButtonState && Application::IsMousePressed(0))
+	if (Application::IsKeyPressed(VK_ESCAPE) && !isEscPressed)
 	{
-		bLButtonState = true;
-		std::cout << "LBUTTON DOWN" << std::endl;
-	}
-	else if (bLButtonState && !Application::IsMousePressed(0))
-	{
-		bLButtonState = false;
-		std::cout << "LBUTTON UP" << std::endl;
-
-		double x, y;
-		Application::GetCursorPos(&x, &y);
-		unsigned w = Application::GetWindowWidth();
-		unsigned h = Application::GetWindowHeight();
-		float posX = x / 10; //convert (0,800) to (0,80)
-		float posY = y / 10; //convert (600,0) to (0,60)
-		std::cout << "posX:" << posX << " , posY:" << posY << std::endl;
-
-		if (Dialogue == false)
+		isEscPressed = true;
+		bPause = !bPause;
+		if (Application::Cursor_Off)
 		{
-			Dialogue = !Dialogue;
+			Application::EnableCursor();
+		}
+		else
+		{
+			Application::DisableCursor();
+		}
+	}
+	else if (!Application::IsKeyPressed(VK_ESCAPE) && isEscPressed)
+	{
+		isEscPressed = false;
+		bTab = false;
+	}
+
+	if (!bPause)
+	{
+		SceneManager::getCurrentScene()->bPauseGame = false;
+		//QuestTab
+		if (Application::IsKeyPressed(VK_TAB))
+		{
+			bTab = true;
+		} 
+		else
+		{
+			bTab = false;
 		}
 
-		Button_Count++;
+		//Reset Pause Location
+		PauseBG->SetTranslate(Vector3(-22, 36, 0));
+
+		//Left Mouse Button
+		if (!isMousePressed && Application::IsMousePressed(0))
+		{
+			isMousePressed = true;
+			std::cout << "LBUTTON DOWN" << std::endl;
+		}
+		else if (isMousePressed && !Application::IsMousePressed(0))
+		{
+			isMousePressed = false;
+			std::cout << "LBUTTON UP" << std::endl;
+
+			double x, y;
+			Application::GetCursorPos(&x, &y);
+			unsigned w = Application::GetWindowWidth();
+			unsigned h = Application::GetWindowHeight();
+			float posX = x / 10; //convert (0,800) to (0,80)
+			float posY = y / 10; //convert (600,0) to (0,60)
+
+			if (Dialogue == false)
+			{
+				Dialogue = !Dialogue;
+			}
+			Button_Count++;
+		}
+	}
+	else
+	{
+		SceneManager::getCurrentScene()->bPauseGame = true;
+		float lerpspeed = 0.2f; //no dt coz er in case of pressing it right after loading
+		float lerptofinalX = (1 - lerpspeed) * PauseBG->GetTranslate().x + lerpspeed * 22;
+		//Lerps
+		PauseBG->SetTranslate(Vector3(lerptofinalX, PauseBG->GetTranslate().y, 0));
+
+		for (int i = 0; i < 3; i++)
+		{
+			PauseButton[i]->SetxCoord(lerptofinalX);
+		}
+		
+		double xpos, ypos;
+		Application::GetCursorPos(&xpos, &ypos);
+		for (int btnidx = 0; btnidx < 3; btnidx++)
+		{
+			if (PauseButton[btnidx]->isHoveredOn(xpos, ypos) && Application::IsMousePressed(0) && !isMousePressed)
+			{
+				PauseButton[btnidx]->SetbClicked((true));
+				isMousePressed = true;
+			}
+		}
+		
+		if (isMousePressed && !Application::IsMousePressed(0))
+		{
+			if (PauseButton[0]->isHoveredOn(xpos, ypos) && PauseButton[0]->getbClicked())
+			{
+				Application::DisableCursor();
+				bPause = false;
+			}
+			else
+			{
+				isMousePressed = false;
+				PauseButton[0]->SetbClicked(false);
+			}
+			if (PauseButton[1]->isHoveredOn(xpos, ypos) && PauseButton[1]->getbClicked())
+			{
+				std::cout << "LMAO" << std::endl;
+			}
+			else
+			{
+				isMousePressed = false;
+				PauseButton[1]->SetbClicked(false);
+			}
+			if (PauseButton[2]->isHoveredOn(xpos, ypos) && PauseButton[2]->getbClicked())
+			{
+				Application::bQuit = true;
+			}
+			else
+			{
+				isMousePressed = false;
+				PauseButton[2]->SetbClicked(false);
+			}
+		}
 	}
 }
 
@@ -628,7 +743,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 {
 	if (Dialogue == false)
 	{
-		if (Player->getSprintState() == false)		//Walking
+		if (!Player->getSprintState())		//Walking
 		{
 			Info[0]->Draw(renderer, enableLight);
 		}
@@ -637,10 +752,13 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			Info[1]->Draw(renderer, enableLight);
 		}
 
-		if (text2active == true)
+		if (text2active)
 		{
-			Info[2]->Draw(renderer, true);
+			Info[2]->Draw(renderer, true); //Press E to interact
 		}
+
+		//FPS
+		Info[4]->Draw(renderer, false);
 
 		std::stringstream ss;
 		ss << "- " << Player->getRingCount() << "/16 Rings Collected";
@@ -652,24 +770,28 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		//Render Staminabar
 		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_STAMINABAR), 64, 10, staminaBar_width, 1);
 		//Quest BG
-		if (Application::IsKeyPressed(VK_TAB))
+		if (bTab)
 		{
 			renderer->RenderMeshOnScreen(BG, 111, 50, 34, 45);
-			
+
 			//uses scenetest for now, will implement in later once other quests are finalized or wtv
-			if (SceneManager::getQuestStatus(SceneManager::SCENE_TEST) == false) //show text if quest is not done yet
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_STADIUM) == false) //show text if quest is not done yet
 			{
 				Quests[0]->Draw(renderer, true);
 				Quests[1]->Draw(renderer, true);
 				Quests[2]->Draw(renderer, true);
 
 			}
-
-			Quests[3]->Draw(renderer, true);
-
-			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false || SceneManager::getCurrentScene() != SceneManager::SCENE_HALL)
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_LIBRARY) == false)
 			{
+				Quests[3]->Draw(renderer, true);
 				Quests[4]->Draw(renderer, true);
+			}
+
+			Quests[5]->Draw(renderer, true);
+			
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false || SceneManager::getCurrentSceneType() != SceneManager::SCENE_HALL)
+			{
 			}
 
 
@@ -1148,6 +1270,14 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			Dialogue = !Dialogue;
 			Button_Count = 0;
 		}
+	}
+
+	if (bPause)
+	{
+		renderer->RenderMeshOnScreen(PauseBG->GetMesh(), PauseBG->GetTranslate().x, PauseBG->GetTranslate().y, PauseBG->GetScale().x, PauseBG->GetScale().y);
+		PauseButton[0]->Draw(renderer);
+		PauseButton[1]->Draw(renderer);
+		PauseButton[2]->Draw(renderer);
 	}
 }
 

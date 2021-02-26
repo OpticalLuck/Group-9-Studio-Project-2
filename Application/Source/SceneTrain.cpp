@@ -49,6 +49,7 @@ void SceneTrain::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
+	ui->setCamera(&camera);
 
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
@@ -61,9 +62,6 @@ void SceneTrain::Init()
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR1]->SetRotate(Vector3(0, 180, 0));
 
-		
-
-		
 		//Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 		//Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
 		//Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
@@ -82,99 +80,97 @@ void SceneTrain::InitGL()
 
 void SceneTrain::Update(double dt)
 {
-	//have something else update teh cam. to have access to both cam and character
-	
-	camera.Updatemovement(dt);
+	if (!bPauseGame)
+	{
+		camera.Updatemovement(dt);
 
-	ui->setCamera(&camera);
-	ui->Update();
+		//Collision
+		/*Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
+		Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
+		Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
+		Ayaka->CollisionResolution(Environment[EN_FLOOR5]);*/
+		//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+		{
+			if (Application::IsKeyPressed('1'))
+			{
+				glEnable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('2'))
+			{
+				glDisable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('3'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			if (Application::IsKeyPressed('4'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
 
-	//Collision
-	/*Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
-	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
-	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
-	Ayaka->CollisionResolution(Environment[EN_FLOOR5]);*/
-	//Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+			if (Application::IsKeyPressed('9'))
+			{
+				Collision::isRender = true;
+			}
+			if (Application::IsKeyPressed('0'))
+			{
+				Collision::isRender = false;
+			}
+		}
+
+		// Cube Collision Test stuff
+		{
+			float SPEED = 5.f * dt;
+			Vector3 Direction = Vector3(0, 0, 0);
+			if (Application::IsKeyPressed('I'))
+				Direction += Vector3(0, 0, 1);
+			if (Application::IsKeyPressed('K'))
+				Direction += Vector3(0, 0, -1);
+			if (Application::IsKeyPressed('J'))
+				Direction += Vector3(1, 0, 0);
+			if (Application::IsKeyPressed('L'))
+				Direction += Vector3(-1, 0, 0);
+			if (Application::IsKeyPressed('O'))
+				Direction += Vector3(0, 1, 0);
+			if (Application::IsKeyPressed('P'))
+				Direction += Vector3(0, -1, 0);
+
+			if (Application::IsKeyPressed('T'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
+			}
+			if (Application::IsKeyPressed('G'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
+			}
+			if (Application::IsKeyPressed('F'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
+			}
+			if (Application::IsKeyPressed('H'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
+			}
+			if (Application::IsKeyPressed('R'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
+			}
+			if (Application::IsKeyPressed('Y'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
+			}
+
+			lights[1]->position += Direction * SPEED;
+			Cube[0]->SetTranslate(lights[0]->position);
+			Cube[1]->SetTranslate(lights[1]->position);
+			//Collision::OBBResolution(Cube[0], Cube[1]);
+		}
+		Ayaka->IsWithinRangeOf(npc);
+		npc->Update(dt);
+	}
+
 	camera.Updateposition();
-
-	{
-		if (Application::IsKeyPressed('1'))
-		{
-			glEnable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('2'))
-		{
-			glDisable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('3'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		if (Application::IsKeyPressed('4'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-
-		if (Application::IsKeyPressed('9'))
-		{
-			Collision::isRender = true;
-		}
-		if (Application::IsKeyPressed('0'))
-		{
-			Collision::isRender = false;
-		}
-	}
-
-	// Cube Collision Test stuff
-	{
-		float SPEED = 5.f * dt;
-		Vector3 Direction = Vector3(0,0,0);
-		if (Application::IsKeyPressed('I'))
-			Direction += Vector3(0, 0, 1);
-		if (Application::IsKeyPressed('K'))
-			Direction += Vector3(0, 0, -1);
-		if (Application::IsKeyPressed('J'))
-			Direction += Vector3(1, 0, 0);
-		if (Application::IsKeyPressed('L'))
-			Direction += Vector3(-1, 0, 0);
-		if (Application::IsKeyPressed('O'))
-			Direction += Vector3(0, 1, 0);
-		if (Application::IsKeyPressed('P'))
-			Direction += Vector3(0, -1, 0);
-
-		if (Application::IsKeyPressed('T'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
-		}
-		if (Application::IsKeyPressed('G'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
-		}
-		if (Application::IsKeyPressed('F'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
-		}
-		if (Application::IsKeyPressed('H'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
-		}
-		if (Application::IsKeyPressed('R'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
-		}
-		if (Application::IsKeyPressed('Y'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
-		}
-
-		lights[1]->position += Direction * SPEED;
-		Cube[0]->SetTranslate(lights[0]->position);
-		Cube[1]->SetTranslate(lights[1]->position);
-		//Collision::OBBResolution(Cube[0], Cube[1]);
-	}
-	Ayaka->IsWithinRangeOf(npc);
-	npc->Update(dt);
-
+	ui->Update(dt);
 }
 
 void SceneTrain::Render()

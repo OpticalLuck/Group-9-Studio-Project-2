@@ -321,7 +321,6 @@ void NPC::RotateTowardsCharacter(GameObject* parttorotate, float maximumangle, f
 	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.y, abs(objectdiff.z))), 1, 0, 0);
 	AxisDir = temp * AxisDir;
 
-
 	float targetpitch = Math::RadianToDegree(atan2(AxisDir.y, AxisDir.z));
 	if (targetpitch < 0)
 		targetpitch += 360;

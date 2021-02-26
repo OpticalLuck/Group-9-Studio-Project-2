@@ -83,7 +83,6 @@ void SceneStadium::Init()
 				{
 					if (Rings[i]->GetColliderBox(0)->CheckOBBCollision(Rings[j]->GetColliderBox(0)).Collided) //collision detected
 					{
-						std::cout << "COLLISION" << std::endl;
 						CoordRand = Vector3(Math::RandFloatMinMax(-40, 40),
 							Math::RandFloatMinMax(10, 80),
 							Math::RandFloatMinMax(-40, 40));
@@ -111,14 +110,11 @@ void SceneStadium::Init()
 
 	//Text
 	{
-		textarr[TEXT_FPS] = new Text();
-		textarr[TEXT_FPS]->SetMode(Text::STATIC_SCREENTEXT);
-		textarr[TEXT_FPS]->SetTranslate(Vector3(0, 0, 0));
-
-		textarr[TEXT_POSITION] = new Text();
-		textarr[TEXT_POSITION]->SetMode(Text::STATIC_SCREENTEXT);
-		textarr[TEXT_POSITION]->SetTranslate(Vector3(0, 68, 0));
+		instructions = new Text();
+		instructions->SetMode(Text::STATIC_SCREENTEXT);
+		instructions->SetTranslate(Vector3(32, 64, 0));
 	}
+
 }
 
 void SceneStadium::InitGL()
@@ -132,101 +128,101 @@ void SceneStadium::InitGL()
 
 void SceneStadium::Update(double dt)
 {
-	fps = 1.f / dt;
-
-	Ayaka->setRingCount(RingCollected);
-
-	//Movement Update
-	camera.Updatemovement(dt);
-	Ayaka->Update(dt);
-	//Collision Update
-	for (int i = 0; i < EN_TOTAL; i++)
+	if (!bPauseGame)
 	{
-		if (Environment[i])
-		{
-			if (Environment[i]->GetCollVecSize() != 0)
-				Ayaka->CollisionResolution(Environment[i]);
-		}
-	}
+		Ayaka->setRingCount(RingCollected);
 
-	//Game Logic
-	{
-		//Fan
-		if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Boost[0]->GetColliderBox(0)).Collided || Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[1]->GetColliderBox(0)).Collided)
+		//Movement Update
+		camera.Updatemovement(dt);
+		Ayaka->Update(dt);
+		//Collision Update
+		for (int i = 0; i < EN_TOTAL; i++)
 		{
-			Ayaka->setVertVelocity(25);
-		}
-
-		//Ring
-		for (int i = 0; i < maxRing; i++)
-		{
-			if (Ayaka->GetColliderBox(1)->CheckOBBCollision(Rings[i]->GetColliderBox(0)).Collided && Rings[i]->getActive())
+			if (Environment[i])
 			{
-				Rings[i]->SetActive(false);
-				RingCollected++;
+				if (Environment[i]->GetCollVecSize() != 0)
+					Ayaka->CollisionResolution(Environment[i]);
 			}
 		}
 
-		//if feet touch ground - reset
-		if (Ayaka->getbGrounded() && RingCollected != maxRing)
+		//Game Logic
 		{
-			RingCollected = 0;
+			//Fan
+			if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Boost[0]->GetColliderBox(0)).Collided || Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[1]->GetColliderBox(0)).Collided)
+			{
+				Ayaka->setVertVelocity(25);
+			}
+
+			//Ring
 			for (int i = 0; i < maxRing; i++)
 			{
-				Rings[i]->SetActive(true);
+				if (Ayaka->GetColliderBox(1)->CheckOBBCollision(Rings[i]->GetColliderBox(0)).Collided && Rings[i]->getActive())
+				{
+					Rings[i]->SetActive(false);
+					RingCollected++;
+				}
+
+				if (RingCollected == maxRing)
+				{
+					setQuestStatus(true);
+				}
+			}
+
+			//if feet touch ground - reset
+			if (Ayaka->getbGrounded() && RingCollected != maxRing)
+			{
+				RingCollected = 0;
+				for (int i = 0; i < maxRing; i++)
+				{
+					Rings[i]->SetActive(true);
+				}
 			}
 		}
-	}
-	
-	camera.Updateposition();
-	
-	Boost[0]->SetRotate(Boost[0]->GetRotate() + Vector3(0, 100 * dt, 0));
-	Boost[1]->SetRotate(Boost[1]->GetRotate() + Vector3(0, 100 * dt, 0));
 
-	//Text STuff
-	{
-		std::stringstream FPS;
-		FPS.precision(4);
-		FPS << "FPS: " << fps;
-		textarr[TEXT_FPS]->SetText(FPS.str());
 
-		std::stringstream Pos;
-		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
-		textarr[TEXT_POSITION]->SetText(Pos.str());
+		Boost[0]->SetRotate(Boost[0]->GetRotate() + Vector3(0, 100 * dt, 0));
+		Boost[1]->SetRotate(Boost[1]->GetRotate() + Vector3(0, 100 * dt, 0));
+
+		//Text STuff
+		{
+			std::stringstream ss;
+			ss.precision(4);
+			ss << "Collect All 16 Rings without touching the floor. " << RingCollected << "/" << maxRing;
+			instructions->SetText(ss.str());
+		}
+
+		{
+			if (Application::IsKeyPressed('1'))
+			{
+				glEnable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('2'))
+			{
+				glDisable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('3'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			if (Application::IsKeyPressed('4'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			if (Application::IsKeyPressed('9'))
+			{
+				Collision::isRender = true;
+			}
+			if (Application::IsKeyPressed('0'))
+			{
+				Collision::isRender = false;
+			}
+		}
+		Waypoint->inRangeResponse(Ayaka, SceneManager::SCENE_CITY); //SWAPPING SCENE
 	}
 
 	//UI
-	
-	ui->Update();
-
-	{
-		if (Application::IsKeyPressed('1'))
-		{
-			glEnable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('2'))
-		{
-			glDisable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('3'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		if (Application::IsKeyPressed('4'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-		if (Application::IsKeyPressed('9'))
-		{
-			Collision::isRender = true;
-		}
-		if (Application::IsKeyPressed('0'))
-		{
-			Collision::isRender = false;
-		}
-	}
-	Waypoint->inRangeResponse(Ayaka, SceneManager::SCENE_CITY); //SWAPPING SCENE
-
+	camera.Updateposition();
+	ui->Update(dt);
 }
 
 void SceneStadium::Render()
@@ -257,20 +253,17 @@ void SceneStadium::Render()
 	Boost[0]->Draw(renderer, true);
 	Boost[1]->Draw(renderer, true);
 
-	Waypoint->Draw(renderer, false);
 
 	for (int i = 0; i < maxRing; i++)
 	{
 		Rings[i]->Draw(renderer, true);
 	}
 
-	for (int i = 0; i < TEXT_TOTAL; i++)
-	{
-		if(textarr[i])
-			textarr[i]->Draw(renderer, false);
-	}
-
+	Waypoint->DrawLocName(renderer);
+	instructions->Draw(renderer, false);
 	ui->Draw(renderer, true);
+	Waypoint->Draw(renderer, false);
+
 }
 
 void SceneStadium::Exit()

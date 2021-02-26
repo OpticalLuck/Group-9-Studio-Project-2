@@ -26,7 +26,8 @@ public:
 	void Render();
 	static void ChangeScene(SCENE_TYPE NextScene);
 	static bool getQuestStatus(SCENE_TYPE NextScene);
-	static SCENE_TYPE getCurrentScene();
+	static SCENE_TYPE getCurrentSceneType();
+	static Scene* getCurrentScene();
 	void Quit();
 
 private:

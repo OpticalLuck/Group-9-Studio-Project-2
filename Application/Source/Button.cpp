@@ -54,6 +54,16 @@ bool Button::isHoveredOn(double xpos, double ypos)
 	return false;
 }
 
+void Button::SetxCoord(float x)
+{
+	xCoord = x;
+}
+
+void Button::SetyCoord(float y)
+{
+	yCoord = y;
+}
+
 bool Button::getbClicked() const
 {
 	return bClicked;

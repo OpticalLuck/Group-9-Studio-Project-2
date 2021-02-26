@@ -93,9 +93,14 @@ bool SceneManager::getQuestStatus(SCENE_TYPE NextScene)
 	return SceneArr[NextScene]->getQuestStatus();
 }
 
-SceneManager::SCENE_TYPE SceneManager::getCurrentScene()
+SceneManager::SCENE_TYPE SceneManager::getCurrentSceneType()
 {
 	return CurrentScene;
+}
+
+Scene* SceneManager::getCurrentScene()
+{
+	return mainScene;
 }
 
 void SceneManager::Quit()

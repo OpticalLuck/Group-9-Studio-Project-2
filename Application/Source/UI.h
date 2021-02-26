@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "Text.h"
 #include "Application.h"
+#include "Button.h"
 
 class UI
 {
@@ -13,10 +14,10 @@ public:
 	~UI();
 
 	void Init(Character* player);
-	void Update();
+	void Update(double dt);
 	void UpdateInteractions(GameObject* item);
 	
-	void Draw(Renderer* renderer, bool enableLight);
+	void Draw(Renderer* renderer, bool enableLight = false);
 	
 	void Exit();
 
@@ -35,6 +36,8 @@ private:
 	Character* Player;
 	GameObject* Quad;
 	GameObject* Item; //TODO: Make Item its own class instead of a GO
+	GameObject* PauseBG;
+	Button* PauseButton[3];
 
 	Mesh* BG;
 	Text* Info[10];
@@ -43,13 +46,15 @@ private:
 
 	float staminaBar_width;
 	float max_X, max_Z;
-
-	int Button_Count = 0;
+	int Button_Count;
 
 	bool KeyPressed;
+	bool isMousePressed;
+	bool isEscPressed;
 	bool interactable;
 	bool text2active;
-
+	bool bPause;
+	bool bTab;
 	bool Dialogue;
 	bool Dialogue_1 = true;
 	bool Dialogue_2 = false;

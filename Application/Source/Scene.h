@@ -21,7 +21,7 @@ public:
 	void setQuestStatus(bool status) { questStatus = status; }
 
 	bool isInit;
-
+	bool bPauseGame;
 private:
 	bool questStatus;
 };

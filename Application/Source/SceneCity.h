@@ -72,6 +72,7 @@ public:
 
 	virtual void UpdateMousePos(double xoffset, double yoffset) override;
 
+	//virtual static bool bPauseGame; //Used for pausing
 private:
 	double fps;
 

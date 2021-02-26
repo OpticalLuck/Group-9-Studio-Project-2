@@ -7,7 +7,8 @@ int Character::collectibleCount = 0;
 Character::Character(unsigned int ID, Mesh* mesh):
 	VertVelocity(0),
 	Velocity(0),
-	Stamina(100)
+	Stamina(100),
+	canGlide(false)
 {
 	SetID(ID);
 	SetMesh(mesh);
@@ -45,7 +46,6 @@ void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)
 	}
 
 	SetColliderBox(Vector3(0.3, 0.1, 0.3), Vector3(0, 0.1, 0)); //foot box (always first)
-
 }
 
 void Character::Update(double dt)
@@ -107,6 +107,11 @@ bool Character::getbJump()
 bool Character::getbGlide()
 {
 	return isGliding;
+}
+
+bool Character::getcanGlide()
+{
+	return canGlide;
 }
 
 float Character::getVertVelocity()
@@ -184,6 +189,11 @@ void Character::setbGlide(bool isGliding)
 void Character::setRingCount(int ringCount)
 {
 	this->ringCount = ringCount;
+}
+
+void Character::setcanGlide(bool canGlide)
+{
+	this->canGlide = canGlide;
 }
 
 void Character::IncrementCollectible()

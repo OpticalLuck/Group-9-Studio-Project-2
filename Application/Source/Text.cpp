@@ -7,7 +7,7 @@ Text::Text() :
 	countdown(false),
 	timer(0),
 	index(0),
-	color(Color(0, 1, 0)),
+	color(Color(1, 1, 1)),
 	mode(STATIC_WORLDTEXT)
 {
 	SetMesh(MeshList::GetInstance()->GetMesh(MeshList::MESH_TEXT));

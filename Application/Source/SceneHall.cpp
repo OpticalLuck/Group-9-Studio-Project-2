@@ -39,7 +39,9 @@ void SceneHall::Init()
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetColliderBox();
+	Cube[1]->SetColliderBox(Vector3(1, 1, 1));
+	Cube[1]->SetScale (Vector3(2, 2, 2));
+	Cube[1]->SetTranslate(Vector3(0, 0.5, -3));
 
 	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Collectible->SetTranslate(Vector3(0, 3, 0));
@@ -51,14 +53,14 @@ void SceneHall::Init()
 	camera.SetTarget(Ayaka);
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
-	npc->SetColliderBox();
+	npc->SetColliderBox(Vector3(0.5, 1, 0.5), Vector3(0, 2, 0));
 	npc->Init(meshlist, Ayaka, Vector3(0, 1.5f, -3), Vector3(0, 0, 0));
 	//npc->PushPathPoint(Vector3(4, 3, 0));
 	//npc->PushPathPoint(Vector3(0, 3, -9));
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setMapBounds(15, 15);
+	ui->setCamera(&camera);
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -115,13 +117,17 @@ void SceneHall::Init()
 		Environment[EN_PLANT4]->SetColliderBox(Vector3(1, 2, 1));
 		Environment[EN_PLANT4]->SetTranslate(Vector3(14, 0, -14));
 
+		Environment[EN_PORTAL] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PORTAL));
+		Environment[EN_PORTAL]->SetScale(Vector3(4, 4, 4));
+		Environment[EN_PORTAL]->SetRotate(Vector3(90, 1, 1));
+		Environment[EN_PORTAL]->SetTranslate(Vector3(0, 3, -14.5));
+
 		Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
 		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
 
-		Waypoints[WP_PORTAL] = new WayPoint("Portal", Vector3(0, 1, -12));
+		Waypoints[WP_PORTAL] = new WayPoint("Portal", Vector3(0, 1, -14));
 		Waypoints[WP_PORTAL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
-		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 	}
 
@@ -142,14 +148,14 @@ void SceneHall::InitGL()
 void SceneHall::Update(double dt)
 {
 	//have something else update teh cam. to have access to both cam and character
-	
-	camera.Updatemovement(dt);
-	Ayaka->Update(dt);
+	if (!bPauseGame)
+	{
 
-	ui->setCamera(&camera);
-	ui->Update();
+		camera.Updatemovement(dt);
+		Ayaka->Update(dt);
 
 	//Collision
+	Ayaka->CollisionResolution(Cube[1]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
@@ -162,107 +168,108 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(npc);
 
 	Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-	Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU);
-
-	//Update Camera after updating collision
-	camera.Updateposition();
-
+	if (getQuestStatus() == true)
 	{
-		if (Application::IsKeyPressed('1'))
-		{
-			glEnable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('2'))
-		{
-			glDisable(GL_CULL_FACE);
-		}
-		if (Application::IsKeyPressed('3'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		if (Application::IsKeyPressed('4'))
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
+		Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU); //change to end screen later
 
-		if (Application::IsKeyPressed('9'))
+		if (Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU) && Application::IsKeyPressed('E'))
 		{
-			Collision::isRender = true;
-		}
-		if (Application::IsKeyPressed('0'))
-		{
-			Collision::isRender = false;
+			Application::bQuit = true;
 		}
 	}
 
-	// Cube Collision Test stuff
-	{
-		float SPEED = 5.f * dt;
-		Vector3 Direction = Vector3(0,0,0);
-		if (Application::IsKeyPressed('I'))
-			Direction += Vector3(0, 0, 1);
-		if (Application::IsKeyPressed('K'))
-			Direction += Vector3(0, 0, -1);
-		if (Application::IsKeyPressed('J'))
-			Direction += Vector3(1, 0, 0);
-		if (Application::IsKeyPressed('L'))
-			Direction += Vector3(-1, 0, 0);
-		if (Application::IsKeyPressed('O'))
-			Direction += Vector3(0, 1, 0);
-		if (Application::IsKeyPressed('P'))
-			Direction += Vector3(0, -1, 0);
+		{
+			if (Application::IsKeyPressed('1'))
+			{
+				glEnable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('2'))
+			{
+				glDisable(GL_CULL_FACE);
+			}
+			if (Application::IsKeyPressed('3'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			if (Application::IsKeyPressed('4'))
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
 
-		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
-		{
-			setQuestStatus(true);
-		}
-
-		if (getQuestStatus() == false)
-		{
-			std::cout << "Not all quests completed." << std::endl;
-		}
-		else
-		{
-			std::cout << "All Quests completed. Proceed to Exit." << std::endl;
+			if (Application::IsKeyPressed('9'))
+			{
+				Collision::isRender = true;
+			}
+			if (Application::IsKeyPressed('0'))
+			{
+				Collision::isRender = false;
+			}
 		}
 
-		if (Application::IsKeyPressed('T'))
+		// Cube Collision Test stuff
 		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
-		}
-		if (Application::IsKeyPressed('G'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
-		}
-		if (Application::IsKeyPressed('F'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
-		}
-		if (Application::IsKeyPressed('H'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
-		}
-		if (Application::IsKeyPressed('R'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
-		}
-		if (Application::IsKeyPressed('Y'))
-		{
-			Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
-		}
+			float SPEED = 5.f * dt;
+			Vector3 Direction = Vector3(0,0,0);
+			if (Application::IsKeyPressed('I'))
+				Direction += Vector3(0, 0, 1);
+			if (Application::IsKeyPressed('K'))
+				Direction += Vector3(0, 0, -1);
+			if (Application::IsKeyPressed('J'))
+				Direction += Vector3(1, 0, 0);
+			if (Application::IsKeyPressed('L'))
+				Direction += Vector3(-1, 0, 0);
+			if (Application::IsKeyPressed('O'))
+				Direction += Vector3(0, 1, 0);
+			if (Application::IsKeyPressed('P'))
+				Direction += Vector3(0, -1, 0);
+
+			if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+			{
+				setQuestStatus(true);
+			}
+
+
+			if (Application::IsKeyPressed('T'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
+			}
+			if (Application::IsKeyPressed('G'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
+			}
+			if (Application::IsKeyPressed('F'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
+			}
+			if (Application::IsKeyPressed('H'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
+			}
+			if (Application::IsKeyPressed('R'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
+			}
+			if (Application::IsKeyPressed('Y'))
+			{
+				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
+			}
 
 		lights[1]->position += Direction * SPEED;
 		Cube[0]->SetTranslate(lights[0]->position);
-		Cube[1]->SetTranslate(lights[1]->position);
 		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
 
-	std::stringstream Pos;
-	Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
-	text->SetText(Pos.str());
+		std::stringstream Pos;
+		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
+		text->SetText(Pos.str());
 
-	Ayaka->IsWithinRangeOf(npc);
-	npc->Update(dt);
+		Ayaka->IsWithinRangeOf(npc);
+		npc->Update(dt);
+	}
+
+	camera.Updateposition();
+	ui->Update(dt);
+
 }
 
 void SceneHall::Render()
@@ -281,9 +288,14 @@ void SceneHall::Render()
 	{
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
-		
-	/*Cube[0]->Draw(renderer, false);
-	Cube[1]->Draw(renderer, false);*/
+
+	for (int i = 0; i < WP_TOTAL; i++)
+	{
+		if (Waypoints[i])
+			Waypoints[i]->DrawLocName(renderer);
+	}
+
+	Cube[1]->Draw(renderer, true);
 	Environment[EN_FLOOR1]->Draw(renderer, true);
 	Environment[EN_FLOOR2]->Draw(renderer, true);
 	Environment[EN_FLOOR3]->Draw(renderer, true);
@@ -295,6 +307,11 @@ void SceneHall::Render()
 	Environment[EN_PLANT2]->Draw(renderer, true);
 	Environment[EN_PLANT3]->Draw(renderer, true);
 	Environment[EN_PLANT4]->Draw(renderer, true);
+
+	if (getQuestStatus() == true)
+	{
+		Environment[EN_PORTAL]->Draw(renderer, false);
+	}
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 
@@ -324,7 +341,11 @@ void SceneHall::Render()
 	for (int i = 0; i < WP_TOTAL; i++)
 	{
 		if (Waypoints[i])
+		{
 			Waypoints[i]->Draw(renderer, false);
+			Waypoints[i]->DrawLocName(renderer);
+		
+		}
 	}
 
 	text->Draw(renderer, false);
