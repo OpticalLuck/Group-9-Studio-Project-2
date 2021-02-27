@@ -17,8 +17,11 @@ public:
 	GameObject* getColliderRange();
 
 private:	
+	double dt;
+
 	GameObject* lookingatobject;
-	GameObject* door, *collisionbox;
+	GameObject* door;
+	GameObject* collisionbox;
 	//also puts down the colliders here
 	void BuildMeshes(MeshList* meshlist);
 };

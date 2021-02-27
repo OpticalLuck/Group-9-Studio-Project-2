@@ -87,7 +87,7 @@ void SceneTrain::Update(double dt)
 
 		//Collision
 		Ayaka->CollisionResolution(train);
-		Ayaka->CollisionResolution(train->getDoor());
+		//Ayaka->CollisionResolution(train->getDoor());
 		{
 			if (Application::IsKeyPressed('1'))
 			{
@@ -185,20 +185,9 @@ void SceneTrain::Render()
 	{
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
-		
-	/*Cube[0]->Draw(renderer, false);
-	Cube[1]->Draw(renderer, false);*/
+
 	Environment[EN_FLOOR1]->Draw(renderer, true);
-	//Environment[EN_FLOOR2]->Draw(renderer, true);
-	//Environment[EN_FLOOR3]->Draw(renderer, true);
-	//Environment[EN_FLOOR4]->Draw(renderer, true);
-	//Environment[EN_FLOOR5]->Draw(renderer, true);
-	//Environment[EN_FLOOR6]->Draw(renderer, true);
-	//Environment[EN_COUNTER]->Draw(renderer, true);
 
-	//Environment[EN_HOUSE5]->Draw(renderer, true);
-
-	//Environment[EN_TOWER1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);

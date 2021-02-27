@@ -45,7 +45,7 @@ public:
 	static bool isRender;
 private:
 	Vector3 translate;
-	Vector3 offset;
+	//Vector3 offset;
 	Vector3 halfsize;
 	Vector3 offsetpos;
 	Vector3 DefaultHalfSize;

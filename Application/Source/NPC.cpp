@@ -479,12 +479,15 @@ void NPC::MoveInDir(Vector3 rot)
 	this->SetTranslate(part);
 }
 
-void NPC::MoveToPos(Vector3 pos)
+void NPC::MoveToPos(Vector3 pos, float speed)
 {
+
+	
+
 	Vector3 currentpos = GetTranslate();
 	Vector3 view = (pos - currentpos).Normalized();
 
-	currentpos = currentpos + view * 10.f * dt;
+	currentpos = currentpos + view * speed * dt;
 	this->SetTranslate(currentpos);
 }
 

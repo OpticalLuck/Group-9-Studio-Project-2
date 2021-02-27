@@ -52,6 +52,7 @@ public:
 
 	void BuildMeshes(MeshList* meshlist);
 	
+	
 
 	enum BODYPART
 	{
@@ -93,10 +94,9 @@ private:
 	//Move Towards the rotation vector somehow
 	void MoveInDir(Vector3 rot);
 	//Move Towards a destination
-	void MoveToPos(Vector3 pos);
+	void MoveToPos(Vector3 pos, float speed = 6.f);
 	//Linearly Interpolate towards a point
 	void LerpToPos(Vector3 pos, float speed = 8.0f);
-
 
 	//Spawns the player here and activates it
 	void doRespawn();
