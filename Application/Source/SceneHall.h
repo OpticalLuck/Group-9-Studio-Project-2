@@ -67,6 +67,7 @@ private:
 	CameraVer2 camera;
 	UI* ui;
 	Text* text;
+	Text* Character_Name[1];
 	GOManager goManager;
 	GameObject* Axis;
 	Character* MainChar;

@@ -54,7 +54,13 @@ void SceneLibrary::Init()
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	//Please use the init to apply any initial transformations (position, rotation, scale, radius)
-	npc->Init(meshlist, Ayaka, Vector3(3, 0, 0));
+	npc->Init(meshlist, Ayaka, Vector3(0, 0, -12));
+	npc->SetColliderBox(Vector3(0.5f, 3.f, 0.5f));
+
+	Character_Name[0] = new Text();
+	Character_Name[0]->SetMode(Text::STATIC_WORLDTEXT);
+	Character_Name[0]->SetText("Librarian Morisu");
+	Character_Name[0]->SetTranslate(Vector3(-2.5, 4, -12));
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -96,6 +102,38 @@ void SceneLibrary::Init()
 		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
 		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
 
+		Environment[EN_TABLE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
+		Environment[EN_TABLE1]->SetColliderBox(Vector3(4, 2.5, 1.6));
+		Environment[EN_TABLE1]->SetScale(Vector3(2, 2.5, 1.5));
+		Environment[EN_TABLE1]->SetTranslate(Vector3(10, 0.025, 7.5));
+		Environment[EN_TABLE1]->SetRotate(Vector3(0, 90, 0));
+
+		Environment[EN_TABLE2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
+		Environment[EN_TABLE2]->SetColliderBox(Vector3(4, 2.5, 1.6));
+		Environment[EN_TABLE2]->SetScale(Vector3(2, 2.5, 1.5));
+		Environment[EN_TABLE2]->SetTranslate(Vector3(10, 0.025, -2.5));
+		Environment[EN_TABLE2]->SetRotate(Vector3(0, 90, 0));
+
+		Environment[EN_TABLE3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
+		Environment[EN_TABLE3]->SetColliderBox(Vector3(4, 2.5, 1.6));
+		Environment[EN_TABLE3]->SetScale(Vector3(2, 2.5, 1.5));
+		Environment[EN_TABLE3]->SetTranslate(Vector3(-10, 0.025, 7.5));
+		Environment[EN_TABLE3]->SetRotate(Vector3(0, 90, 0));
+
+		Environment[EN_TABLE4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
+		Environment[EN_TABLE4]->SetColliderBox(Vector3(4, 2.5, 1.6));
+		Environment[EN_TABLE4]->SetScale(Vector3(2, 2.5, 1.5));
+		Environment[EN_TABLE4]->SetTranslate(Vector3(-10, 0.025, -2.5));
+		Environment[EN_TABLE4]->SetRotate(Vector3(0, 90, 0));
+
+		Environment[EN_PLANT1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT1]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT1]->SetTranslate(Vector3(14, 0, 14));
+
+		Environment[EN_PLANT2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLANT));
+		Environment[EN_PLANT2]->SetColliderBox(Vector3(1, 2, 1));
+		Environment[EN_PLANT2]->SetTranslate(Vector3(-14, 0, 14));
+
 		Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
 		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
@@ -120,6 +158,8 @@ void SceneLibrary::Update(double dt)
 		Ayaka->Update(dt);
 
 		//Collision
+		Ayaka->CollisionResolution(npc);
+
 		Ayaka->CollisionResolution(Environment[EN_FLOOR1]);
 		Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
 		Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
@@ -127,6 +167,12 @@ void SceneLibrary::Update(double dt)
 		Ayaka->CollisionResolution(Environment[EN_FLOOR5]);
 		Ayaka->CollisionResolution(Environment[EN_FLOOR6]);
 		Ayaka->CollisionResolution(Environment[EN_COUNTER]);
+		Ayaka->CollisionResolution(Environment[EN_TABLE1]);
+		Ayaka->CollisionResolution(Environment[EN_TABLE2]);
+		Ayaka->CollisionResolution(Environment[EN_TABLE3]);
+		Ayaka->CollisionResolution(Environment[EN_TABLE4]);
+		Ayaka->CollisionResolution(Environment[EN_PLANT1]);
+		Ayaka->CollisionResolution(Environment[EN_PLANT2]);
 
 		Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
 		if (Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY) == true && Application::IsKeyPressed('E'))
@@ -243,6 +289,8 @@ void SceneLibrary::Render()
 		
 	/*Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);*/
+	Character_Name[0]->Draw(renderer, true);
+
 	Environment[EN_FLOOR1]->Draw(renderer, true);
 	Environment[EN_FLOOR2]->Draw(renderer, true);
 	Environment[EN_FLOOR3]->Draw(renderer, true);
@@ -250,6 +298,12 @@ void SceneLibrary::Render()
 	Environment[EN_FLOOR5]->Draw(renderer, true);
 	Environment[EN_FLOOR6]->Draw(renderer, true);
 	Environment[EN_COUNTER]->Draw(renderer, true);
+	Environment[EN_TABLE1]->Draw(renderer, true);
+	Environment[EN_TABLE2]->Draw(renderer, true);
+	Environment[EN_TABLE3]->Draw(renderer, true);
+	Environment[EN_TABLE4]->Draw(renderer, true);
+	Environment[EN_PLANT1]->Draw(renderer, true);
+	Environment[EN_PLANT2]->Draw(renderer, true);
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);
 
