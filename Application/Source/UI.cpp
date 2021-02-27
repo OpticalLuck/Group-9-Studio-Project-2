@@ -1018,11 +1018,6 @@ bool UI::getNPCstate()
 	return NPCDialogue;
 }
 
-void UI::setCamera(CameraVer2* camera)
-{
-	this->camera = camera;
-}
-
 void UI::setItem(GameObject* item)
 {
 	this->Item = item;
