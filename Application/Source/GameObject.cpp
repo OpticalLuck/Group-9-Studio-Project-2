@@ -196,6 +196,10 @@ void GameObject::UpdateChildCollision()
 	{
 		for (int i = 0; i < Child.size(); i++)
 		{
+			if (Child.at(i)->Child.size() > 0)
+			{
+				Child.at(i)->UpdateChildCollision();
+			}
 			for (int colidx = 0; colidx < Child.at(i)->GetCollVecSize(); colidx++)
 			{
 				GameObject* root = GetRoot();
@@ -203,54 +207,54 @@ void GameObject::UpdateChildCollision()
 				Vector3 parentpositioninworld(0,0,0);
 				Vector3 parentTotalRotation;
 				//Calculate position in world space
-				while (current != root)
+				bool loop = true;
+
+				Mtx44 TempX;
+				Mtx44 TempY;
+				Mtx44 TempZ;
+				Mtx44 TotalTemp;
+				TempX.SetToRotation(current->GetRotate().x, 1, 0, 0);
+				TempY.SetToRotation(current->GetRotate().y, 0, 1, 0);
+				TempZ.SetToRotation(current->GetRotate().z, 0, 0, 1);
+				TotalTemp = TempZ * TempY * TempX;
+
+				Vector3 test;
 				{
 					current = current->Parent;
+					TempZ.SetToRotation(current->GetRotate().z, 0, 0, 1);
+					parentpositioninworld += current->GetTranslate();
 
 					parentTotalRotation += current->GetRotate();
 					Mtx44 Temp;
 					Temp.SetToRotation(current->GetRotate().x, 1, 0, 0);
-					parentpositioninworld = Temp * parentpositioninworld;
-					Temp.SetToRotation(current->GetRotate().y, 0, 1, 0);
-					parentpositioninworld = Temp * parentpositioninworld;
 					Temp.SetToRotation(current->GetRotate().z, 0, 0, 1);
-					parentpositioninworld = Temp * parentpositioninworld;
 
 					parentpositioninworld += current->GetTranslate();
+					if (current != root)
+					}
+					else
+					{
+						loop = false;
+					}
 				}
-
 				current = Child.at(i);
-				Collision* temp = Child.at(i)->GetColliderBox(colidx);
-				while (current != root)
-				{
-					Vector3 ParentToChild;
-					Mtx44 Rotate;
+				Collision* temp = current->GetColliderBox(colidx);
+				float x = Math::RadianToDegree(atan2f(TotalTemp.a[6], TotalTemp.a[10]));
+				float y = Math::RadianToDegree(atan2f(-TotalTemp.a[2], std::sqrtf(TotalTemp.a[6] * TotalTemp.a[6] + TotalTemp.a[10] * TotalTemp.a[10])));
+				float z = Math::RadianToDegree(atan2f(TotalTemp.a[1], TotalTemp.a[0]));
 
-					//Get Parent Rotation
-					Vector3 TotalTranslate = current->GetTranslate();
-					Rotate.SetToRotation(parentTotalRotation.x, 1, 0, 0);
-					TotalTranslate = Rotate * TotalTranslate;
-					Rotate.SetToRotation(parentTotalRotation.y, 0, 1, 0);
-					TotalTranslate = Rotate * TotalTranslate;
-					Rotate.SetToRotation(parentTotalRotation.z, 0, 0, 1);
-					TotalTranslate = Rotate * TotalTranslate;
+				//Vector3 Vectemp = Vector3(()
+				//Vectemp = Vector3(Vectemp.x), Math::RadianToDegree(Vectemp.y), Math::RadianToDegree(Vectemp.z));
+				temp->setRotation(Vector3(x,y,z));
+				temp->setTranslate(parentpositioninworld);
 
-					ParentToChild = parentpositioninworld + TotalTranslate;
-					temp->setTranslate(ParentToChild);
-					temp->setRotation(parentTotalRotation);
-					//temp->setRotation(parentTotalRotation + Child.at(i)->GetRotate());
-
-					current = current->Parent;
-				}
 			}
 
-			if (Child.at(i)->Child.size() > 0)
-			{
-				Child.at(i)->UpdateChildCollision();
-			}
+			
 		}
 	}
 
+	
 }
 
 void GameObject::CollisionResolution(GameObject* target)
