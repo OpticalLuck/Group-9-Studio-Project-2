@@ -67,6 +67,7 @@ private:
 	CameraVer2 camera;
 	UI* ui;
 	Text* Character_Name[1];
+	Text* Interaction[1];
 	GOManager goManager;
 	GameObject* Axis;
 	Character* Ayaka;

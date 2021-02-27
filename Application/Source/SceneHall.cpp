@@ -77,6 +77,11 @@ void SceneHall::Init()
 	Character_Name[0]->SetText("City Mayor Mariano");
 	Character_Name[0]->SetTranslate(Vector3(-3, 6, -3));
 
+	Interaction[0] = new Text();
+	Interaction[0]->SetMode(Text::STATIC_SCREENTEXT);
+	Interaction[0]->SetText("Press E to Interact");
+	Interaction[0]->SetTranslate(Vector3(50, 12.5, 0));
+
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
@@ -290,6 +295,15 @@ void SceneHall::Render()
 	if (portalOpen == true)
 	{
 		Environment[EN_PORTAL]->Draw(renderer, false);
+	}
+
+	if (Ayaka->GetInRange(Environment[EN_TABLE], 4))
+	{
+		Interaction[0]->Draw(renderer, true);
+	}
+	else
+	{
+
 	}
 
 	//Environment[EN_HOUSE5]->Draw(renderer, true);

@@ -77,6 +77,11 @@ void SceneLibrary::Init()
 	Character_Name[0]->SetText("Librarian Morisu");
 	Character_Name[0]->SetTranslate(Vector3(-2.5, 4, -12));
 
+	Interaction[0] = new Text();
+	Interaction[0]->SetMode(Text::STATIC_SCREENTEXT);
+	Interaction[0]->SetText("Press E to Interact");
+	Interaction[0]->SetTranslate(Vector3(50, 12.5, 0));
+
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
@@ -114,7 +119,7 @@ void SceneLibrary::Init()
 
 		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
-		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
+		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 0.9));
 		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
 
 		Environment[EN_TABLE1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TABLE));
@@ -292,6 +297,15 @@ void SceneLibrary::Render()
 	Waypoints[0]->Draw(renderer, false);
 
 	ui->Draw(renderer, true);
+
+	if (Ayaka->GetInRange(Environment[EN_COUNTER], 4))
+	{
+		Interaction[0]->Draw(renderer, true);
+	}
+	else
+	{
+
+	}
 }
 
 void SceneLibrary::Exit()

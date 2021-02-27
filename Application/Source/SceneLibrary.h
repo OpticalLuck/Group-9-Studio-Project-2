@@ -75,6 +75,10 @@ private:
 	Skybox* skybox;
 	NPC* npc;
 	Text* Character_Name[1];
+	Text* Interaction[1];
+
+	//Temp
+	GameObject* Cube[2];
 };
 
 #endif

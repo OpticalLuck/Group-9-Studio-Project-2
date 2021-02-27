@@ -54,7 +54,7 @@ void UI::Init(Character* player)
 	staminaBar_width = 30;
 
 	interactable = false;
-	Dialogue = false;
+	Dialogue = true;
 
 	{
 	//Status: Walking
@@ -702,26 +702,26 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		}
 
 		//Dialogue 1
-		if ((Button_Count == 1) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
+		if ((Button_Count == 0) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			text[1]->Draw(renderer, true);
 			text[4]->Draw(renderer, true);
 		}
-		else if ((Button_Count == 2) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
+		else if ((Button_Count == 1) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			text[1]->Draw(renderer, true);
 			text[5]->Draw(renderer, true);
 		}
-		else if ((Button_Count == 3) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
+		else if ((Button_Count == 2) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			text[1]->Draw(renderer, true);
 			text[6]->Draw(renderer, true);
 			text[7]->Draw(renderer, true);
 		}
-		else if ((Button_Count > 3) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
+		else if ((Button_Count > 2) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
 		{
 			Dialogue = !Dialogue;
 			Button_Count = 0;
