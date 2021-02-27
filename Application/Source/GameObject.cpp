@@ -205,34 +205,37 @@ void GameObject::UpdateChildCollision()
 				GameObject* root = GetRoot();
 				GameObject* current = Child.at(i);
 				Vector3 parentpositioninworld(0,0,0);
-				Vector3 parentTotalRotation;
 				//Calculate position in world space
 				bool loop = true;
 
 				Mtx44 TempX;
 				Mtx44 TempY;
 				Mtx44 TempZ;
-				Mtx44 TotalTemp;
+				Mtx44 TotalRotation;
 				TempX.SetToRotation(current->GetRotate().x, 1, 0, 0);
 				TempY.SetToRotation(current->GetRotate().y, 0, 1, 0);
 				TempZ.SetToRotation(current->GetRotate().z, 0, 0, 1);
-				TotalTemp = TempZ * TempY * TempX;
+				TotalRotation = TempZ * TempY * TempX;
 
-				Vector3 test;
+				Vector3 offsettranslate = current->GetColliderBox(colidx)->GetOffsetpos();
 				while (loop) //Handles rotation
 				{
 					TempX.SetToRotation(current->GetRotate().x, 1, 0, 0);
 					TempY.SetToRotation(current->GetRotate().y, 0, 1, 0);
 					TempZ.SetToRotation(current->GetRotate().z, 0, 0, 1);
 					if(current != Child.at(i))
-						TotalTemp = (TempZ * TempY * TempX) * TotalTemp;
+						TotalRotation = (TempZ * TempY * TempX) * TotalRotation;
+
+					offsettranslate = TempX * offsettranslate;
+					offsettranslate = TempY * offsettranslate;
+					offsettranslate = TempZ * offsettranslate;
 
 					parentpositioninworld = TempX * parentpositioninworld;
 					parentpositioninworld = TempY * parentpositioninworld;
 					parentpositioninworld = TempZ * parentpositioninworld;
 					parentpositioninworld += current->GetTranslate();
 
-					test += current->GetRotate();
+					
 
 					if (current != root)
 					{
@@ -245,18 +248,13 @@ void GameObject::UpdateChildCollision()
 				}
 				current = Child.at(i);
 				Collision* temp = current->GetColliderBox(colidx);
-				float x = Math::RadianToDegree(atan2f(TotalTemp.a[6], TotalTemp.a[10]));
-				float y = Math::RadianToDegree(atan2f(-TotalTemp.a[2], std::sqrtf(TotalTemp.a[6] * TotalTemp.a[6] + TotalTemp.a[10] * TotalTemp.a[10])));
-				float z = Math::RadianToDegree(atan2f(TotalTemp.a[1], TotalTemp.a[0]));
+				float x = Math::RadianToDegree(atan2f(TotalRotation.a[6], TotalRotation.a[10]));
+				float y = Math::RadianToDegree(atan2f(-TotalRotation.a[2], std::sqrtf(TotalRotation.a[6] * TotalRotation.a[6] + TotalRotation.a[10] * TotalRotation.a[10])));
+				float z = Math::RadianToDegree(atan2f(TotalRotation.a[1], TotalRotation.a[0]));
 
-				//Vector3 Vectemp = Vector3(()
-				//Vectemp = Vector3(Vectemp.x), Math::RadianToDegree(Vectemp.y), Math::RadianToDegree(Vectemp.z));
 				temp->setRotation(Vector3(x,y,z));
-				temp->setTranslate(parentpositioninworld);
-
+				temp->setTranslate(parentpositioninworld - temp->GetOffsetpos() + offsettranslate);
 			}
-
-			
 		}
 	}
 

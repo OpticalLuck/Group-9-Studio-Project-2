@@ -43,7 +43,7 @@ void SceneCity::Init()
 	
 	Cube[2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[2]->SetTranslate(Vector3(0, 0, 1));
-	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(1, 0, 0));
 	Cube[1]->AddChild(Cube[2]);
 	
 	Cube[3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
