@@ -26,7 +26,6 @@ public:
     // Vector3 halfsize parameter
     // It's basically the radius
     void SetColliderBox(Vector3 halfsize = Vector3(0.5f, 0.5f, 0.5f), Vector3 offsetpos = Vector3(0, 0, 0));
-    void LinkColliderToParent();
 
     //Transformation - Orders does not matter as it is handled in renderer
     void SetTranslate(Vector3 Translate);

@@ -104,32 +104,6 @@ void GameObject::SetColliderBox(Vector3 halfsize, Vector3 offsetpos)
 	Collision* temp = new Collision(Translation, offsetpos, halfsize);
 	temp->setRotation(Rotation);
 	ColliderBox.push_back(temp);
-
-	
-}
-
-void GameObject::LinkColliderToParent()
-{
-	GameObject* Root = GetRoot();
-	GameObject* Current = Parent;
-	bool linked = false;
-	for (int colidx = 0; colidx < ColliderBox.size(); colidx++)
-	{
-		while (!linked)
-		{
-			ColliderBox.at(colidx)->setTranslate(ColliderBox.at(colidx)->GetTranslate() + Current->GetTranslate() + this->GetTranslate());
-			ColliderBox.at(colidx)->setRotation(ColliderBox.at(colidx)->GetRotation() + Current->GetRotate());
-
-			if (Root == Current)
-			{
-				linked = true;
-			}
-			else
-			{
-				Current = Current->Parent;
-			}
-		}
-	}
 }
 
 void GameObject::SetTranslate(Vector3 Translate)
@@ -190,7 +164,7 @@ void GameObject::AddChild(GameObject* GO)
 	Child.push_back(GO);
 }
 
-void GameObject::UpdateChildCollision()
+void GameObject::UpdateChildCollision() // THIS WAS A PAIN - Jeryl :D
 {
 	if (Child.size() > 0)
 	{
@@ -234,8 +208,6 @@ void GameObject::UpdateChildCollision()
 					parentpositioninworld = TempY * parentpositioninworld;
 					parentpositioninworld = TempZ * parentpositioninworld;
 					parentpositioninworld += current->GetTranslate();
-
-					
 
 					if (current != root)
 					{
