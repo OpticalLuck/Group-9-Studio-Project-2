@@ -537,6 +537,8 @@ void UI::Update(double dt)
 			}
 		}
 	}
+
+
 }
 
 void UI::UpdateInteractions(GameObject* item)
@@ -643,6 +645,32 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 	}
 	else
 	{
+		if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL)
+		{
+			Dialogue_1 = false;
+			Dialogue_2 = true;
+			Dialogue_4 = true;
+
+			if (Quest_2 == true)
+			{
+				Dialogue_2 = false;
+			}
+			if (Quest_4 == true)
+			{
+				Dialogue_4 = false;
+			}
+		}
+		if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY)
+		{
+			Dialogue_1 = false;
+			Dialogue_3 = true;
+
+			if (Quest_3 == true)
+			{
+				Dialogue_3 = false;
+			}
+		}
+
 		//Dialogue 1
 		if ((Button_Count == 1) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
 		{
@@ -663,7 +691,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[6]->Draw(renderer, true);
 			text[7]->Draw(renderer, true);
 		}
-		else if ((Button_Count == 4) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY)) //|| ((Button_Count >= 1) && (Dialogue_2 == true) && (SceneManager::getCurrentSceneType() != SceneManager::SCENE_HALL))
+		else if ((Button_Count > 3) && (Dialogue_1 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY))
 		{
 			Dialogue = !Dialogue;
 			Button_Count = 0;
@@ -765,7 +793,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[2]->Draw(renderer, true);
 			text[34]->Draw(renderer, true);
 		}
-		else if ((Button_Count == 14) && (Dialogue_2 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL))
+		else if ((Button_Count > 13) && (Dialogue_2 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL))
 		{
 			Dialogue = !Dialogue;
 			Button_Count = 0;
@@ -846,7 +874,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[3]->Draw(renderer, true);
 			text[54]->Draw(renderer, true);
 		}
-		else if ((Button_Count == 11) && (Dialogue_3 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY))
+		else if ((Button_Count > 10) && (Dialogue_3 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY))
 		{
 			Dialogue = !Dialogue;
 			Button_Count = 0;
@@ -900,7 +928,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[61]->Draw(renderer, true);
 			text[62]->Draw(renderer, true);
 		}
-		else if ((Button_Count == 8) && (Dialogue_4 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL))
+		else if ((Button_Count > 7) && (Dialogue_4 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL))
 		{
 			Dialogue = !Dialogue;
 			Button_Count = 0;
@@ -913,6 +941,11 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		{
 			Dialogue = !Dialogue;
 			Button_Count = 0;
+			
+			if (Dialogue_2 == true)
+			{
+				Dialogue_2 = true;
+			}
 		}
 	}
 
