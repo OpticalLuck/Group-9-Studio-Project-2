@@ -63,6 +63,8 @@ void Character::Update(double dt)
 	{
 		Wing->SetScale(Vector3(0.05f, 0.05, 0.05f));
 	}
+
+	UpdateCollision();
 }
 
 bool Character::IsWithinRangeOf(GameObject* item)

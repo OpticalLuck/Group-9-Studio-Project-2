@@ -9,6 +9,7 @@ TextureList::TextureList()
 
 TextureList::~TextureList()
 {
+	
 }
 
 unsigned TextureList::Insert(std::string filename)

@@ -66,20 +66,6 @@ void GameObject::Draw(Renderer* renderer, bool EnableLight)
 			renderer->PopTransform();
 		}
 		renderer->PopTransform();
-		//if (Child.size() > 0)
-		//{
-		//	for (int Childidx = 0; Childidx < Child.size(); Childidx++)
-		//	{
-		//		for (int colinChild = 0; colinChild < Child.at(Childidx)->GetCollVecSize(); colinChild++)
-		//		{
-		//			Collision Temp = *Child.at(Childidx)->GetColliderBox(colinChild);
-		//			renderer->PushTransform();
-		//			renderer->AddTransformation(Temp.GetPos(), Temp.GetRotation(), Vector3(1, 1, 1));
-		//			renderer->RenderMesh(Temp.GetCollMesh(), false);
-		//			renderer->PopTransform();
-		//		}
-		//	}
-		//}
 	}
 }
 
@@ -143,6 +129,7 @@ void GameObject::SetRotate(Vector3 Rotate)
 		Rotate.z += 360;
 	}
 	Rotation = Rotate;
+
 	for (int i = 0; i < ColliderBox.size(); i++)
 	{
 		ColliderBox.at(i)->setRotation(Rotate);
@@ -157,11 +144,46 @@ void GameObject::SetScale(Vector3 Scale)
 void GameObject::AddChild(GameObject* GO)
 {
 	GO->Parent = this;
-	for (int i = 0; i < GO->ColliderBox.size(); i++)
-	{
-		//GO->LinkColliderToParent();
-	}
 	Child.push_back(GO);
+}
+
+void GameObject::UpdateCollision()
+{
+	for (int i = 0; i < ColliderBox.size(); i++)
+	{
+		Vector3 parentpositioninworld(0, 0, 0);
+		//Calculate position in world space
+		Mtx44 TempX;
+		Mtx44 TempY;
+		Mtx44 TempZ;
+		Mtx44 TotalRotation;
+		TempX.SetToRotation(GetRotate().x, 1, 0, 0);
+		TempY.SetToRotation(GetRotate().y, 0, 1, 0);
+		TempZ.SetToRotation(GetRotate().z, 0, 0, 1);
+		TotalRotation = TempZ * TempY * TempX;
+		Vector3 offsettranslate = GetColliderBox(i)->GetOffsetpos();
+
+		bool loop = true;
+
+		offsettranslate = TempX * offsettranslate;
+		offsettranslate = TempY * offsettranslate;
+		offsettranslate = TempZ * offsettranslate;
+
+		parentpositioninworld = TempX * parentpositioninworld;
+		parentpositioninworld = TempY * parentpositioninworld;
+		parentpositioninworld = TempZ * parentpositioninworld;
+		parentpositioninworld += GetTranslate();
+
+		Collision* temp = GetColliderBox(i);
+		float x = Math::RadianToDegree(atan2f(TotalRotation.a[6], TotalRotation.a[10]));
+		float y = Math::RadianToDegree(atan2f(-TotalRotation.a[2], std::sqrtf(TotalRotation.a[6] * TotalRotation.a[6] + TotalRotation.a[10] * TotalRotation.a[10])));
+		float z = Math::RadianToDegree(atan2f(TotalRotation.a[1], TotalRotation.a[0]));
+
+		temp->setRotation(Vector3(x, y, z));
+		temp->setTranslate(parentpositioninworld - temp->GetOffsetpos() + offsettranslate);
+	}
+
+	UpdateChildCollision();
 }
 
 void GameObject::UpdateChildCollision() // THIS WAS A PAIN - Jeryl :D
@@ -229,8 +251,6 @@ void GameObject::UpdateChildCollision() // THIS WAS A PAIN - Jeryl :D
 			}
 		}
 	}
-
-	
 }
 
 void GameObject::CollisionResolution(GameObject* target)

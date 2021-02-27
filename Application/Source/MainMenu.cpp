@@ -10,6 +10,17 @@ MainMenu::MainMenu()
 
 MainMenu::~MainMenu()
 {
+	Shader::Destroy();
+	TextureList::Destroy();
+
+	delete renderer;
+	delete BackGround;
+	delete Logo;
+	//Delete Buttons
+	for (int i = 0; i < BTN_TOTAL; i++)
+	{
+		delete MenuBtn[i];
+	}
 }
 
 void MainMenu::Init()

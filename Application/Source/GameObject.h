@@ -38,6 +38,7 @@ public:
     //adds child for model hierchy purposes
     void AddChild(GameObject* GO);
     //Update their Collision
+    void UpdateCollision();
     void UpdateChildCollision();
     virtual void CollisionResolution(GameObject* target);
 

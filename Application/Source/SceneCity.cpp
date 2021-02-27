@@ -35,10 +35,12 @@ void SceneCity::Init()
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[0]->SetTranslate(Vector3(0, 0, -80));
 	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 1, 0));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->SetTranslate(Vector3(0, 0, 1));
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 1, 0));
 	Cube[0]->AddChild(Cube[1]);
 	
 	Cube[2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
@@ -50,6 +52,7 @@ void SceneCity::Init()
 	Cube[3]->SetTranslate(Vector3(0, 0, 1));
 	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
 	Cube[2]->AddChild(Cube[3]);
+
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(camera.GetPosition());
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
@@ -218,12 +221,9 @@ void SceneCity::Update(double dt)
 			}
 
 			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
-			Cube[0]->UpdateChildCollision();
-			//Vector3 temp1 = Cube[1]->GetColliderBox(0)->GetTranslate();
-			//Vector3 temp2 = Cube[2]->GetColliderBox(0)->GetTranslate();
-			//std::cout << temp1 << std::endl;
-			//std::cout << temp2 << std::endl;
-			//system("CLS");
+			//Cube[0]->UpdateChildCollision();
+			Cube[0]->UpdateCollision();
+
 		}
 
 		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
