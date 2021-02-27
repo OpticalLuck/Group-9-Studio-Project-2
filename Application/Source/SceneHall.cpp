@@ -62,6 +62,11 @@ void SceneHall::Init()
 	ui->Init(Ayaka);
 	ui->setCamera(&camera);
 
+	Character_Name[0] = new Text();
+	Character_Name[0]->SetMode(Text::STATIC_WORLDTEXT);
+	Character_Name[0]->SetText("City Mayor Mariano");
+	Character_Name[0]->SetTranslate(Vector3(-3, 6, -3));
+
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
@@ -296,6 +301,9 @@ void SceneHall::Render()
 	}
 
 	Cube[1]->Draw(renderer, true);
+
+	Character_Name[0]->Draw(renderer, true);
+
 	Environment[EN_FLOOR1]->Draw(renderer, true);
 	Environment[EN_FLOOR2]->Draw(renderer, true);
 	Environment[EN_FLOOR3]->Draw(renderer, true);
