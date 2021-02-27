@@ -10,6 +10,7 @@
 #pragma once
 #include "GameObject.h"
 #include "MeshList.h"
+#include "UI.h"
 #include <string>
 #include <queue>
 
@@ -49,8 +50,10 @@ public:
 	void SetRespawnPos(Vector3 position);
 	void SetRespawnPos(float x, float y, float z);
 
-
-	void BuildMeshes(MeshList* meshlist);
+	NPC* PushText(std::string text);
+	
+	void SetUI(UI* ui);
+	
 	
 	
 
@@ -79,8 +82,8 @@ private:
 
 	bool canDespawn, canRespawn;
 	Vector3 respawnpos;
-
-
+	UI* ui;
+	bool textset;
 	//Smaller Functions for small processes
 
 	//Rotate NPC
@@ -105,6 +108,7 @@ protected:
 	GameObject* objectToLookAt;
 	bool DefaultIdleSet;
 
+	void BuildMeshes(MeshList* meshlist);
 	float GetAngleToPoint(Vector3 point);
 	//Move Towards the rotation vector somehow
 	void MoveInDir(Vector3 rot);

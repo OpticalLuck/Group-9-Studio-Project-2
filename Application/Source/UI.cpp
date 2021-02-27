@@ -4,12 +4,13 @@
 #include "SceneStadium.h"
 #include <sstream>
 
-UI::UI():
+UI::UI() :
 	KeyPressed(false),
 	bPause(false),
 	Button_Count(0),
 	isEscPressed(false),
-	isMousePressed(false)
+	isMousePressed(false),
+	NPCDialogue(false)
 {
 	//Quest Tab
 	BG = MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD);
@@ -568,7 +569,7 @@ void UI::UpdateInteractions(GameObject* item)
 
 void UI::Draw(Renderer* renderer, bool enableLight)
 {
-	if (Dialogue == false)
+	if (Dialogue == false && !NPCDialogue)
 	{
 		if (!Player->getSprintState())		//Walking
 		{
@@ -642,6 +643,10 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		}
 		renderer->PopTransform();
 		
+	}
+	else if (NPCDialogue)
+	{
+		DrawNPCText(renderer);
 	}
 	else
 	{
@@ -983,6 +988,11 @@ float UI::getMapBoundsZ()
 	return max_Z;
 }
 
+bool UI::getNPCstate()
+{
+	return NPCDialogue;
+}
+
 void UI::setCamera(CameraVer2* camera)
 {
 	this->camera = camera;
@@ -1002,5 +1012,45 @@ void UI::setMapBounds(float max_X, float max_Z)
 {
 	this->max_X = max_X;
 	this->max_Z = max_Z;
+}
+
+void UI::setNPCText(std::vector<std::string>* speechstring)
+{
+	if (!speechstring->empty()) {
+		for (int i = 0; i < static_cast<int>(speechstring->size()); i++) {
+			NPC_Text.push_back(new Text());
+			NPC_Text.back()->SetMode(Text::STATIC_SCREENTEXT);
+			NPC_Text.back()->SetText(speechstring->at(i));
+			NPC_Text.back()->SetTranslate(Vector3(0, 12, 0));
+		}
+		NPCDialogue = true;
+	}
+
+}
+
+void UI::DrawNPCText(Renderer* renderer)
+{
+	if (NPCDialogue && !NPC_Text.empty()) {
+		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
+		if (Button_Count < NPC_Text.size()) {
+			std::cout << Button_Count << std::endl;
+			NPC_Text.at(Button_Count)->Draw(renderer, false);
+		}
+		else {
+			//Delete all the text (backwards) when done with them
+			for (int i = 0; i < static_cast<int>(NPC_Text.size()); i++) {
+				std::cout << "size: " << NPC_Text.size() << std::endl;
+				delete NPC_Text.at(i);
+				
+			}
+			while (!NPC_Text.empty()) {
+				NPC_Text.pop_back();
+			}
+			NPCDialogue = false;
+			Button_Count = 0;
+		}
+
+	}
+
 }
 

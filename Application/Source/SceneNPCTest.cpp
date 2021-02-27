@@ -44,7 +44,7 @@ void SceneNPCTest::Init()
 	npc->PushPathPoint(5, 0, 4);
 	npc->PushPathPoint(1, 0, 4);
 	npc->PushPathPoint(0, 0, -10);
-
+	
 	//npc->SetTranslate(Vector3(0,0,1));
 }
 void SceneNPCTest::InitGL()

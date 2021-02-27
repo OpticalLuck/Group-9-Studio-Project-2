@@ -59,6 +59,8 @@ void SceneLibrary::Init()
 	//Please use the init to apply any initial transformations (position, rotation, scale, radius)
 	npc->Init(meshlist, Ayaka, Vector3(0, 0, -12));
 	npc->SetColliderBox(Vector3(0.5f, 3.f, 0.5f));
+	npc->SetUI(ui);
+	npc->PushText("Hello!")->PushText("I like trains!");
 
 	Character_Name[0] = new Text();
 	Character_Name[0]->SetMode(Text::STATIC_WORLDTEXT);
