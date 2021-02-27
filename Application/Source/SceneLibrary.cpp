@@ -48,6 +48,9 @@ void SceneLibrary::Init()
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
 
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GEM));
+	Collectible->SetScale(Vector3(3, 3, 3));
+
 	ui = new UI();
 	ui->Init(Ayaka);
 	ui->setCamera(&camera);
@@ -175,7 +178,8 @@ void SceneLibrary::Update(double dt)
 		Ayaka->CollisionResolution(Environment[EN_PLANT2]);
 
 		Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-		if (Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY) == true && Application::IsKeyPressed('E'))
+
+		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
 		{
 			setQuestStatus(true);
 		}
@@ -286,7 +290,20 @@ void SceneLibrary::Render()
 		if (Waypoints[i])
 			Waypoints[i]->DrawLocName(renderer);
 	}
-		
+	
+	Collectible->Draw(renderer, true);
+	ui->setItem(Collectible);
+	if (Ayaka->GetInRange(Collectible, 4))
+	{
+		ui->setInteractable(true);
+		ui->UpdateInteractions(Collectible);
+	}
+	else
+	{
+		ui->setInteractable(false);
+		ui->UpdateInteractions(Collectible);
+	}
+
 	/*Cube[0]->Draw(renderer, false);
 	Cube[1]->Draw(renderer, false);*/
 	Character_Name[0]->Draw(renderer, true);

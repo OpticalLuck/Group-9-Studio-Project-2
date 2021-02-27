@@ -42,7 +42,8 @@ void SceneStadium::Init()
 	camera.SetTarget(Ayaka);
 	camera.SetClamp(Vector3(58, 200, 58));
 
-	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GEM));
+	Collectible->SetScale(Vector3(3, 3, 3));
 	Collectible->SetTranslate(Vector3(0, 3, 0));
 
 	//Surroundings

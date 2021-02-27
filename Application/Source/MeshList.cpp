@@ -75,9 +75,11 @@ MeshList::MeshList()
 	meshlist[MESH_TRAIN] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/amazingtram.obj", "OBJ//Train/amazingtram.mtl");
 	meshlist[MESH_TRAINDOOR] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/door.obj", "OBJ//Train/door.mtl");
 
-
 	meshlist[MESH_PORTAL] = MeshBuilder::GenerateQuad("Portal", Color(0, 0.8, 0.8), 1, 2);
 
+	meshlist[MESH_GEM] = MeshBuilder::GenerateOBJMTL("Gem", "OBJ//jewel.obj", "OBJ//jewel.mtl");
+
+	meshlist[MESH_KEY] = MeshBuilder::GenerateOBJMTL("Key", "OBJ//key.obj", "OBJ//key.mtl");
 
 	//// <UI> 
 	meshlist[MESH_TEXT] = MeshBuilder::GenerateText("Text", 16, 16, TextData::GetInstance()->TextDataArr);

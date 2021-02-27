@@ -72,6 +72,7 @@ private:
 	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
+	GameObject* Collectible;
 	WayPoint* Waypoints[WP_TOTAL];
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
