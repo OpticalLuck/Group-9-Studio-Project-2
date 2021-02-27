@@ -67,7 +67,7 @@ void UI::Init(Character* player)
 
 	Quests[1] = new Text();
 	Quests[1]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[1]->SetText("Get Flying License");
+	Quests[1]->SetText("Visit Stadium");
 	Quests[1]->SetTranslate(Vector3(94, 60.5, 0));
 	Quests[1]->SetScale(Vector3(0.05, 0.05, 0.05));
 
