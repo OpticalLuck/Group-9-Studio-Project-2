@@ -19,7 +19,7 @@ Collision::Collision(Vector3 translate, Vector3 offset, Vector3 halfsize) :
     translate(translate),
     halfsize(halfsize),
     DefaultHalfSize(halfsize),
-    offset(offset),
+    offsetpos(offset),
     Front(Vector3(1, 0, 0)),
     Up(Vector3(0, 1, 0)),
     Right(Vector3(0, 0, 1))
@@ -70,7 +70,7 @@ void Collision::setOffsetpos(Vector3 offset)
 
 Vector3 Collision::GetPos()
 {
-    return translate + offset;
+    return translate + offsetpos;
 }
 
 Vector3 Collision::GetTranslate()

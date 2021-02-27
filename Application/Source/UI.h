@@ -60,8 +60,8 @@ private:
 	bool Dialogue_2 = false;
 	bool Dialogue_3 = false;
 	bool Dialogue_4 = false;
-	bool Dialogue_5 = false;
-	bool Dialogue_6 = false;
-
-	bool Quest_1 = true;
+	bool Quest_1 = false; //Meet the City Mayor in City Hall
+	bool Quest_2 = false; //Collect the 3 Gems
+	bool Quest_3 = false; //Head back over to City Hall
+	bool Quest_4 = false; //Enter the portal & return home.
 };

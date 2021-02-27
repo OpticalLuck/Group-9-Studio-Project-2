@@ -61,7 +61,7 @@ void SceneManager::Update(StopWatch* m_timer)
 	mainScene->UpdateMousePos(Application::xoffset, Application::yoffset);
 	mainScene->Update(m_timer->getElapsedTime());
 
-	if (SceneArr[SCENE_TEST]->getQuestStatus() == true)
+	if (SceneArr[SCENE_STADIUM]->getQuestStatus() == true && SceneArr[SCENE_LIBRARY]->getQuestStatus() == true && SceneArr[SCENE_CITY]->getQuestStatus() == true)
 	{
 		SceneArr[SCENE_HALL]->setQuestStatus(true);
 	}

@@ -26,6 +26,12 @@ public:
 		EN_FLOOR5,
 		EN_FLOOR6,
 		EN_COUNTER,
+		EN_TABLE1,
+		EN_TABLE2,
+		EN_TABLE3,
+		EN_TABLE4,
+		EN_PLANT1,
+		EN_PLANT2,
 		EN_TOTAL
 	};
 
@@ -55,13 +61,6 @@ public:
 private:
 	double fps;
 
-	bool Question_1_Done = false;
-	bool Question_1_Correct = false;
-	bool Question_2_Done = false;
-	bool Question_2_Correct = false;
-	bool Question_3_Done = false;
-	bool Question_3_Correct = false;
-
 	Renderer* renderer;
 
 	TextureList* texturelist;
@@ -77,7 +76,7 @@ private:
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	NPC* npc;
-
+	Text* Character_Name[1];
 
 	//Temp
 	GameObject* Cube[2];

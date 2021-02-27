@@ -117,7 +117,7 @@ void GameObject::LinkColliderToParent()
 	{
 		while (!linked)
 		{
-			ColliderBox.at(colidx)->setTranslate(ColliderBox.at(colidx)->GetTranslate() + Current->GetTranslate());
+			ColliderBox.at(colidx)->setTranslate(ColliderBox.at(colidx)->GetTranslate() + Current->GetTranslate() + this->GetTranslate());
 			ColliderBox.at(colidx)->setRotation(ColliderBox.at(colidx)->GetRotation() + Current->GetRotate());
 
 			if (Root == Current)
