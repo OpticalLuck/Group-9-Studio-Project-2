@@ -219,18 +219,24 @@ void GameObject::UpdateChildCollision()
 				TotalTemp = TempZ * TempY * TempX;
 
 				Vector3 test;
+				while (loop) //Handles rotation
 				{
-					current = current->Parent;
+					TempX.SetToRotation(current->GetRotate().x, 1, 0, 0);
+					TempY.SetToRotation(current->GetRotate().y, 0, 1, 0);
 					TempZ.SetToRotation(current->GetRotate().z, 0, 0, 1);
+					if(current != Child.at(i))
+						TotalTemp = (TempZ * TempY * TempX) * TotalTemp;
+
+					parentpositioninworld = TempX * parentpositioninworld;
+					parentpositioninworld = TempY * parentpositioninworld;
+					parentpositioninworld = TempZ * parentpositioninworld;
 					parentpositioninworld += current->GetTranslate();
 
-					parentTotalRotation += current->GetRotate();
-					Mtx44 Temp;
-					Temp.SetToRotation(current->GetRotate().x, 1, 0, 0);
-					Temp.SetToRotation(current->GetRotate().z, 0, 0, 1);
+					test += current->GetRotate();
 
-					parentpositioninworld += current->GetTranslate();
 					if (current != root)
+					{
+						current = current->Parent;
 					}
 					else
 					{
