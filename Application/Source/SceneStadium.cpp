@@ -42,6 +42,9 @@ void SceneStadium::Init()
 	camera.SetTarget(Ayaka);
 	camera.SetClamp(Vector3(58, 200, 58));
 
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible->SetTranslate(Vector3(0, 3, 0));
+
 	//Surroundings
 	Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FIELD));
 	Environment[EN_FLOOR]->SetScale(Vector3(100, 100, 100));
@@ -162,11 +165,6 @@ void SceneStadium::Update(double dt)
 					Rings[i]->SetActive(false);
 					RingCollected++;
 				}
-
-				if (RingCollected == maxRing)
-				{
-					setQuestStatus(true);
-				}
 			}
 
 			//if feet touch ground - reset
@@ -221,6 +219,11 @@ void SceneStadium::Update(double dt)
 		Waypoint->inRangeResponse(Ayaka, SceneManager::SCENE_CITY); //SWAPPING SCENE
 	}
 
+	if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+	{
+		setQuestStatus(true);
+	}
+
 	//UI
 	camera.Updateposition();
 	ui->Update(dt);
@@ -258,6 +261,22 @@ void SceneStadium::Render()
 	for (int i = 0; i < maxRing; i++)
 	{
 		Rings[i]->Draw(renderer, true);
+	}
+
+	if (RingCollected == maxRing)
+	{
+		Collectible->Draw(renderer, true);
+		ui->setItem(Collectible);
+
+		if (Ayaka->GetInRange(Collectible, 4))
+		{
+			ui->setInteractable(true);
+			ui->UpdateInteractions(Collectible);
+		}
+		else {
+			ui->setInteractable(false);
+			ui->UpdateInteractions(Collectible);
+		}
 	}
 
 	Waypoint->DrawLocName(renderer);

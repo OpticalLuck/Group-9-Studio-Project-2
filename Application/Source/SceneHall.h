@@ -80,6 +80,8 @@ private:
 
 	//Temp
 	GameObject* Cube[2];
+
+	bool portalOpen = false;
 };
 
 #endif

@@ -45,6 +45,7 @@ private:
 	GameObject* Environment[EN_TOTAL];
 	GameObject* Boost[2];
 	GameObject* Rings[16];
+	GameObject* Collectible;
 	WayPoint* Waypoint; //For a switching scenes
 
 	Light* lights[4];

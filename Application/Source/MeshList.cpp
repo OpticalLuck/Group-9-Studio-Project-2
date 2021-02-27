@@ -68,6 +68,10 @@ MeshList::MeshList()
 
 	meshlist[MESH_TREE] = MeshBuilder::GenerateOBJMTL("Tree", "OBJ//Trees/tree_pineDefaultA.obj", "OBJ//Trees/tree_pineDefaultA.mtl");
 	
+	meshlist[MESH_INDOORWALL] = MeshBuilder::GenerateQuad("Wall", Color(0.5f, 0.5f, 0.5f));
+	meshlist[MESH_INDOORWALL]->textureArr[0] = texturelist->Insert("jp.tga");
+
+
 	meshlist[MESH_TRAIN] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/amazingtram.obj", "OBJ//Train/amazingtram.mtl");
 	meshlist[MESH_TRAINDOOR] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/door.obj", "OBJ//Train/door.mtl");
 

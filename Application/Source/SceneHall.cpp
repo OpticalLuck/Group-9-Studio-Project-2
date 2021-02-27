@@ -67,29 +67,29 @@ void SceneHall::Init()
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR1]->SetRotate(Vector3(0, 180, 0));
 
-		Environment[EN_FLOOR2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+		Environment[EN_FLOOR2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_INDOORWALL));
 		Environment[EN_FLOOR2]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR2]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR2]->SetTranslate(Vector3(0, 0, -15));
 		Environment[EN_FLOOR2]->SetRotate(Vector3(90, 0, 0));
 
-		Environment[EN_FLOOR3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+		Environment[EN_FLOOR3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_INDOORWALL));
 		Environment[EN_FLOOR3]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR3]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR3]->SetTranslate(Vector3(0, 0, 15));
 		Environment[EN_FLOOR3]->SetRotate(Vector3(90, 180, 0));
 
-		Environment[EN_FLOOR4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+		Environment[EN_FLOOR4] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_INDOORWALL));
 		Environment[EN_FLOOR4]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR4]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR4]->SetTranslate(Vector3(15, 0, 0));
-		Environment[EN_FLOOR4]->SetRotate(Vector3(0, 0, 90));
+		Environment[EN_FLOOR4]->SetRotate(Vector3(0, -90, 90));
 
-		Environment[EN_FLOOR5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
+		Environment[EN_FLOOR5] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_INDOORWALL));
 		Environment[EN_FLOOR5]->SetColliderBox(Vector3(15, 0, 15));
 		Environment[EN_FLOOR5]->SetScale(Vector3(30, 30, 30));
 		Environment[EN_FLOOR5]->SetTranslate(Vector3(-15, 0, 0));
-		Environment[EN_FLOOR5]->SetRotate(Vector3(0, 0, 270));
+		Environment[EN_FLOOR5]->SetRotate(Vector3(0, 90, 270));
 
 		Environment[EN_FLOOR6] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR6]->SetScale(Vector3(30, 30, 30));
@@ -128,7 +128,7 @@ void SceneHall::Init()
 
 		Waypoints[WP_PORTAL] = new WayPoint("Portal", Vector3(0, 1, -14));
 		Waypoints[WP_PORTAL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
-		Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
+		//Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 	}
 
 	text = new Text();
@@ -168,7 +168,8 @@ void SceneHall::Update(double dt)
 	Ayaka->CollisionResolution(npc);
 
 	Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-	if (getQuestStatus() == true)
+
+	if (portalOpen == true)
 	{
 		Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU); //change to end screen later
 
@@ -225,9 +226,8 @@ void SceneHall::Update(double dt)
 
 			if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
 			{
-				setQuestStatus(true);
+				portalOpen = true;
 			}
-
 
 			if (Application::IsKeyPressed('T'))
 			{
@@ -308,7 +308,7 @@ void SceneHall::Render()
 	Environment[EN_PLANT3]->Draw(renderer, true);
 	Environment[EN_PLANT4]->Draw(renderer, true);
 
-	if (getQuestStatus() == true)
+	if (portalOpen == true)
 	{
 		Environment[EN_PORTAL]->Draw(renderer, false);
 	}
