@@ -67,35 +67,43 @@ void UI::Init(Character* player)
 
 	Quests[1] = new Text();
 	Quests[1]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[1]->SetText("Visit Stadium");
+	Quests[1]->SetText("Find Gem in City");
 	Quests[1]->SetTranslate(Vector3(94, 60.5, 0));
 	Quests[1]->SetScale(Vector3(0.05, 0.05, 0.05));
 
 	Quests[2] = new Text();
 	Quests[2]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[2]->SetText("Visit Stadium");
 	Quests[2]->SetTranslate(Vector3(94, 55.5, 0));
-	Quests[2]->SetScale(Vector3(0.05, 0.05, 0.05));
-	
+
 	Quests[3] = new Text();
 	Quests[3]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[3]->SetText("Collect Gem in Stadium");
 	Quests[3]->SetTranslate(Vector3(94, 50.5, 0));
-	Quests[3]->SetScale(Vector3(0.05, 0.05, 0.05));
-
+	
 	Quests[4] = new Text();
 	Quests[4]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[4]->SetText("Visit Library");
+	Quests[4]->SetText("Collect Gem in Stadium");
 	Quests[4]->SetTranslate(Vector3(94, 45.5, 0));
-	
+
 	Quests[5] = new Text();
 	Quests[5]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[5]->SetText("- Talk to Librarian");
+	Quests[5]->SetText("Visit Library");
 	Quests[5]->SetTranslate(Vector3(94, 40.5, 0));
 	
 	Quests[6] = new Text();
 	Quests[6]->SetMode(Text::STATIC_SCREENTEXT);
-	Quests[6]->SetText("Get Gem from Mayor");
+	Quests[6]->SetText("- Talk to Librarian");
 	Quests[6]->SetTranslate(Vector3(94, 35.5, 0));
+	
+	Quests[7] = new Text();
+	Quests[7]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[7]->SetText("Get Gem from Mayor");
+	Quests[7]->SetTranslate(Vector3(94, 30.5, 0));
+	
+	Quests[8] = new Text();
+	Quests[8]->SetMode(Text::STATIC_SCREENTEXT);
+	Quests[8]->SetText("Go Home");
+	Quests[8]->SetTranslate(Vector3(94, 25.5, 0));
 	}
 
 	//Pause Menu
@@ -216,7 +224,7 @@ void UI::Init(Character* player)
 
 		text[22] = new Text();
 		text[22]->SetMode(Text::STATIC_SCREENTEXT);
-		text[22]->SetText("The first Gem is said to be located within the nooks and crannys of the City. Whether it");
+		text[22]->SetText("The 1st Gem is said to be located within the nooks and crannys of the City. Whether it");
 		text[22]->SetTranslate(Vector3(0.f, 12, 0));
 		text[23] = new Text();
 		text[23]->SetMode(Text::STATIC_SCREENTEXT);
@@ -381,7 +389,7 @@ void UI::Init(Character* player)
 
 		text[58] = new Text();
 		text[58]->SetMode(Text::STATIC_SCREENTEXT);
-		text[58]->SetText("With this, you can regain your powers and go back home.");
+		text[58]->SetText("With this Portal Key, you can regain your powers and go back home.");
 		text[58]->SetTranslate(Vector3(0.f, 12, 0));
 
 		text[59] = new Text();
@@ -579,7 +587,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 
 		std::stringstream ss;
 		ss << "- " << Player->getRingCount() << "/16 Rings Collected";
-		Quests[2]->SetText(ss.str());
+		Quests[3]->SetText(ss.str());
 
 		//Background
 		//Quest tab
@@ -589,31 +597,40 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		//Quest BG
 		if (bTab)
 		{
-			renderer->RenderMeshOnScreen(BG, 111, 50, 34, 45);
+			renderer->RenderMeshOnScreen(BG, 111, 48, 34, 45);
 			
 			if (SceneManager::getCurrentSceneType() != SceneManager::SCENE_HALL)
 			{
 				Quests[0]->Draw(renderer, true);
 			}
+			
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_CITY) == false)
+			{
+				Quests[1]->Draw(renderer, true);
+			}
 
 			if (SceneManager::getQuestStatus(SceneManager::SCENE_STADIUM) == false) //show text if quest is not done yet
 			{
-				Quests[1]->Draw(renderer, true);
 				Quests[2]->Draw(renderer, true);
 				Quests[3]->Draw(renderer, true);
+				Quests[4]->Draw(renderer, true);
 
 			}
 			if (SceneManager::getQuestStatus(SceneManager::SCENE_LIBRARY) == false)
 			{
-				Quests[4]->Draw(renderer, true);
 				Quests[5]->Draw(renderer, true);
+				Quests[6]->Draw(renderer, true);
 			}
 
+			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false)
+			{
+				Quests[7]->Draw(renderer, true);
+			}
 			
 			if (SceneManager::getQuestStatus(SceneManager::SCENE_HALL) == false)
 			{
-				Quests[6]->Draw(renderer, true);
-			}
+				Quests[8]->Draw(renderer, true);
+			} 
 
 
 		}

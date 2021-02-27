@@ -85,6 +85,7 @@ private:
 	NPC* npc[NPC_TOTAL];
 	GameObject* Environment[EN_TOTAL];
 	GameObject* Boost;
+	GameObject* Collectible;
 	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
