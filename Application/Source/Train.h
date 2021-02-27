@@ -13,15 +13,17 @@ public:
 
 	void Init(MeshList* meshlist, GameObject* lookedAtObj);
 
-	GameObject* getDoor();
-	GameObject* getColliderRange();
+	void PushStop(Vector3 dest);
+	void PushStop(float x, float y, float z);
+
+
+
 
 private:	
-	double dt;
-
-	GameObject* lookingatobject;
+	std::vector<Vector3> stops;
+	int nextstop;
+	float velocity;
 	GameObject* door;
-	GameObject* collisionbox;
 	//also puts down the colliders here
 	void BuildMeshes(MeshList* meshlist);
 };

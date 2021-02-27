@@ -57,7 +57,10 @@ void SceneTrain::Init()
 
 	train = goManager.CreateGO<Train>(meshlist->GetMesh(MeshList::MESH_TRAIN));
 	train->Init(meshlist, Ayaka);
-	train->SetTranslate(Vector3(0, 0, -5));
+	train->SetDefaultPos(Vector3(0, 0, -5));
+	train->PushStop(0, 5, -10);
+	train->PushStop(0, 5, -10);
+
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));

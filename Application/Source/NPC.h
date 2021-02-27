@@ -62,17 +62,18 @@ public:
 
 private:
 	
-	double dt;
+	
 
-	bool DefaultIdleSet, talking, movingToDest;
+	bool talking, movingToDest;
 	Vector3 defaultdirection, defaultposition;
 	//Bunch of words they will say
 	std::vector<std::string> speech;
 	//Array pointer pointing to each part as a seperate gameobj
 	GameObject* BodyArr[TOTALPART];
 	//Refers to the object it mainly interacts with
-	GameObject* objectToLookAt;
+	
 	std::queue<Vector3> destinations;
+	
 
 	std::queue<Vector3>* destinationcopy;
 
@@ -83,7 +84,7 @@ private:
 	//Smaller Functions for small processes
 
 	//Rotate NPC
-	float GetAngleToPoint(Vector3 point);
+	
 
 	//Rotate bodypart towards character
 	//Maximum angle is how many degrees from the front they can move.	
@@ -91,15 +92,24 @@ private:
 	void RotateTowardsCharacter(GameObject* parttorotate,float maximumangle = 180, float maxX = 30 );
 	void RotateToVector(GameObject* parttorotate, Vector3 rotate);
 
+	
+
+	//Spawns the player here and activates it
+	void doRespawn();
+	//Despawns the player. Deactivates it.
+	void doDespawn();
+
+protected:
+
+	double dt;
+	GameObject* objectToLookAt;
+	bool DefaultIdleSet;
+
+	float GetAngleToPoint(Vector3 point);
 	//Move Towards the rotation vector somehow
 	void MoveInDir(Vector3 rot);
 	//Move Towards a destination
 	void MoveToPos(Vector3 pos, float speed = 6.f);
 	//Linearly Interpolate towards a point
 	void LerpToPos(Vector3 pos, float speed = 8.0f);
-
-	//Spawns the player here and activates it
-	void doRespawn();
-	//Despawns the player. Deactivates it.
-	void doDespawn();
 };

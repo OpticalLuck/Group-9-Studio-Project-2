@@ -6,14 +6,16 @@ Train::Train(unsigned int id, Mesh* mesh)
 	SetID(id);
 	SetRadius(10.f);
 	SetCurrentFlag(FLAG0);
-	SetObjectToLookAt(NULL);
-
+	objectToLookAt = NULL;
+	door = NULL;
+	nextstop = 0;
+	dt = 0;
 }
 
 Train::~Train()
 {
 	delete door;
-	delete collisionbox;
+
 }
 
 void Train::Update(double dt)
@@ -33,10 +35,36 @@ void Train::Update(double dt)
 		}
 		
 	}
-	else if (getCurrentFlag() == FLAG3) {
+	else if (getCurrentFlag() == FLAG3 && !stops.empty() && nextstop < static_cast<int>(stops.size())) { //train movement
+		float speed = 10.f * dt;
+		velocity += Math::Clamp(speed, 0.f, 20.f);
+		Vector3 velocitydir = (stops.at(nextstop) - GetTranslate()).Normalized();
+
+		MoveToPos(stops.at(nextstop), velocity);
+		/*float angleToPoint = GetAngleToPoint(stops.at(nextstop));
+		float offsetangle = 0.9f;
+		float ROTATIONSPEED = 2 * dt;
+		float rotationval;
+
+		rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * angleToPoint;
+		if (GetRotate().y > 360)
+		{
+			rotationval -= 360;
+		}
+		else if (GetRotate().y < 0)
+		{
+			rotationval += 360;
+		}
+		SetRotate(Vector3(0, rotationval, 0));*/
+		objectToLookAt->SetTranslate(objectToLookAt->GetTranslate() + velocitydir * velocity * dt);
 		
+
+		if (abs((GetTranslate() - stops.at(nextstop)).Length()) < 1) {
+			nextstop++;
+		}
+
 	}
-	else if (GetColliderBox(0)->CheckOBBCollision(lookingatobject->GetColliderBox(0)).Collided )
+	else if (GetColliderBox(0)->CheckOBBCollision(objectToLookAt->GetColliderBox(0)).Collided )
 	{
 		SetCurrentFlag(FLAG2);
 	}
@@ -50,18 +78,22 @@ void Train::Update(double dt)
 void Train::Init(MeshList* meshlist, GameObject* lookedAtObj)
 {
 	BuildMeshes(meshlist);
-	lookingatobject = lookedAtObj;
+	objectToLookAt = lookedAtObj;
 }
 
-GameObject* Train::getDoor()
+void Train::PushStop(Vector3 dest)
 {
-	return door;
+	stops.push_back(dest);
 }
 
-GameObject* Train::getColliderRange()
+void Train::PushStop(float x, float y, float z)
 {
-	return collisionbox;
+	PushStop(Vector3(x, y, z));
 }
+
+
+
+
 
 void Train::BuildMeshes(MeshList* meshlist)
 {
