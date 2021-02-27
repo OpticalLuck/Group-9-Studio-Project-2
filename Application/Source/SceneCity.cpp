@@ -60,7 +60,8 @@ void SceneCity::Init()
 	camera.SetTarget(Ayaka);
 	camera.SetClamp(Vector3(148, 400, 148));
 
-	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GEM));
+	Collectible->SetScale(Vector3(3, 3, 3));
 	Collectible->SetTranslate(Vector3(-41, 3, 12));
 
 	ui = new UI();

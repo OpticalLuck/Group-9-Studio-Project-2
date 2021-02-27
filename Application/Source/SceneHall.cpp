@@ -43,7 +43,8 @@ void SceneHall::Init()
 	Cube[1]->SetScale (Vector3(2, 2, 2));
 	Cube[1]->SetTranslate(Vector3(0, 0.5, -3));
 
-	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_KEY));
+	Collectible->SetScale(Vector3(3, 3, 3));
 	Collectible->SetTranslate(Vector3(0, 3, 0));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
@@ -329,6 +330,7 @@ void SceneHall::Render()
 	
 	npc->Draw(renderer, true);
 
+	
 	if (getQuestStatus() == true) //if all other quests are completed (this scene's quest status set to true from SceneManager), render final item to collect in order for game to end
 	{
 		Collectible->Draw(renderer, true);

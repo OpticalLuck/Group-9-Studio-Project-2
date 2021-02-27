@@ -40,6 +40,8 @@ public:
 		MESH_TRAIN,
 		MESH_TRAINDOOR,
 		MESH_PORTAL,
+		MESH_GEM,
+		MESH_KEY,
 
 		//NPC
 		MESH_NPC,

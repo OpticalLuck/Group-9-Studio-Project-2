@@ -57,9 +57,11 @@ void SceneTrain::Init()
 
 	train = goManager.CreateGO<Train>(meshlist->GetMesh(MeshList::MESH_TRAIN));
 	train->Init(meshlist, Ayaka);
-	train->SetDefaultPos(Vector3(0, 0, -5));
-	train->PushStop(0, 5, -10);
-	train->PushStop(0, 5, -10);
+	train->SetDefaultPos(Vector3(0, 2, -5));
+	train->PushStop(0, 2, -10);
+	train->PushStop(5,2,5)->SetStation();
+	train->ExtendStop(20)->ExtendStop(0,0,14);
+	train->PushStop(0, 2, 0);
 
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
@@ -88,8 +90,13 @@ void SceneTrain::Update(double dt)
 	{
 		camera.Updatemovement(dt);
 
+		train->UpdateChildCollision();
 		//Collision
+
+
 		Ayaka->CollisionResolution(train);
+		train->Update(dt);
+
 		//Ayaka->CollisionResolution(train->getDoor());
 		{
 			if (Application::IsKeyPressed('1'))
@@ -165,7 +172,6 @@ void SceneTrain::Update(double dt)
 		}
 		Ayaka->IsWithinRangeOf(npc);
 		npc->Update(dt);
-		train->Update(dt);
 	}
 
 	camera.Updateposition();
