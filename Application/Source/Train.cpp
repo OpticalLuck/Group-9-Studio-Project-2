@@ -8,15 +8,19 @@ Train::Train(unsigned int id, Mesh* mesh)
 	SetCurrentFlag(FLAG0);
 	objectToLookAt = NULL;
 	door = NULL;
+
+	collisionboxes = NULL;
+
 	velocity = 0;
 	nextstop = nextstation = 0;
 	dt = 0;
+	externalCollider = 0;
 }
 
 Train::~Train()
 {
 	delete door;
-
+	delete collisionboxes;
 }
 
 void Train::Update(double dt)
@@ -34,7 +38,6 @@ void Train::Update(double dt)
 		playerpos.z < max.z&&
 		playerpos.z > min.z
 		); 
-
 
 
 	if (getCurrentFlag() == FLAG2) { //close the doors
@@ -72,28 +75,14 @@ void Train::Update(double dt)
 
 		MoveToPos(stops.at(nextstop), velocity);
 		
-		/*
-		float angleToPoint = GetAngleToPoint(stops.at(nextstop));
-		float offsetangle = 0.9f;
-		float ROTATIONSPEED = 2 * dt;
-		float rotationval;
-
-		rotationval = (1 - ROTATIONSPEED) * GetRotate().y + ROTATIONSPEED * angleToPoint;
-		if (GetRotate().y > 360)
-		{
-			rotationval -= 360;
-		}
-		else if (GetRotate().y < 0)
-		{
-			rotationval += 360;
-		}
-		SetRotate(Vector3(0, rotationval, 0)); 
-
-		*/
 		
 		
-		if (inCart)
 
+		RotateToObject(stops.at(nextstop));
+		
+		
+		
+		if (externalCollider)
 			objectToLookAt->SetTranslate(playerpos + velocitydir * velocity * dt);
 		
 
@@ -123,14 +112,14 @@ void Train::Update(double dt)
 
 	}
 	else if (getCurrentFlag() == FLAG5) {
-		if (!inCart) {
+		if (!externalCollider) {
 			SetCurrentFlag(FLAG0);
 
 			if (nextstop >= getStopLen() && nextstation >= getStationLen())
 				nextstop = nextstation = velocity = 0;
 		}
 	}
-	else if (inCart)
+	else if (externalCollider)
 	{
 		SetCurrentFlag(FLAG2);
 	}
@@ -176,6 +165,11 @@ void Train::SetStation()
 	station.push_back(stops.back());
 }
 
+void Train::SetTransparentCollider(bool collision)
+{
+	externalCollider = collision;
+}
+
 
 
 
@@ -193,14 +187,59 @@ void Train::BuildMeshes(MeshList* meshlist)
 	door->SetColliderBox(Vector3(1.75, 1.25, 0) , Vector3(0,1,0)); //, door->GetTranslate() + Vector3(0,1,0)); 
 	//door collider (idx 1)
 	
-	
 	SetColliderBox(Vector3(2, 1.2, 0.2), Vector3(-2.45, 1, 2.7));
 
 	SetColliderBox(Vector3(0.9, 1.2, 0.2), Vector3(3.5, 1, 2.7));
 
+	SetColliderBox(Vector3(0.2, 1.2, 2.1), Vector3(4.5, 1, 0));
+	SetColliderBox(Vector3(0.2, 1.2, 2.1), Vector3(-4.5, 1, 0));
+
+	SetColliderBox(Vector3(4.5, 1.2, 0.2), Vector3(0, 1, -2.7));
+
+}
+
+void Train::RotateToObject(Vector3 point)
+{
+	float rotateofTrain = GetRotate().y + 90;
+
+	Vector3 AxisDir(0, 0, 1);
+
+	Vector3 objectdiff = (point - GetTranslate()).Normalized();
+	float currentAngle = GetRotate().y + 90;
+	Mtx44 temp;
+	temp.SetToRotation(Math::RadianToDegree(atan2(objectdiff.x, objectdiff.z)), 0, 1, 0);
+	AxisDir = temp * AxisDir;
+	float targetyaw = Math::RadianToDegree(atan2(AxisDir.x, AxisDir.z));
+	if (targetyaw < 0)
+		targetyaw += 360;
+
+	float smallestyaw = 999.f;
+	for (int i = -1; i <= 1; ++i)
+	{
+		float thisyaw = targetyaw + i * 360.f;
+		if (fabs(thisyaw - currentAngle) < fabs(smallestyaw - currentAngle))
+		{
+			smallestyaw = thisyaw;
+		}
+	}
+	currentAngle = smallestyaw;
 
 
+	float angleToPoint = GetAngleToPoint(stops.at(nextstop));
+	float offsetangle = 0.9f;
+	float ROTATIONSPEED = 11 * dt;
+	float rotationval;
 
+	rotationval = (1 - ROTATIONSPEED) * rotateofTrain + ROTATIONSPEED * angleToPoint;
+	if (rotateofTrain > 360)
+	{
+		rotationval -= 360;
+	}
+	else if (rotateofTrain < 0)
+	{
+		rotationval += 360;
+	}
+	SetRotate(Vector3(0, rotationval - 90, 0));
 
 }
 
