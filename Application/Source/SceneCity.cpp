@@ -57,6 +57,9 @@ void SceneCity::Init()
 	camera.SetTarget(Ayaka);
 	camera.SetClamp(Vector3(148, 400, 148));
 
+	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Collectible->SetTranslate(Vector3(-41, 3, 12));
+
 	ui = new UI();
 	ui->Init(Ayaka);
 	ui->setCamera(&camera);
@@ -223,6 +226,11 @@ void SceneCity::Update(double dt)
 			//system("CLS");
 		}
 
+		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
+		{
+			setQuestStatus(true);
+		}
+
 		//Movement Update
 		camera.Updatemovement(dt);
 		Ayaka->Update(dt);
@@ -312,6 +320,19 @@ void SceneCity::Render()
 
 	Boost->Draw(renderer, true);
 	
+	Collectible->Draw(renderer, true);
+	ui->setItem(Collectible);
+	if (Ayaka->GetInRange(Collectible, 4))
+	{
+		ui->setInteractable(true);
+		ui->UpdateInteractions(Collectible);
+	}
+	else
+	{
+		ui->setInteractable(false);
+		ui->UpdateInteractions(Collectible);
+	}
+
 	for (int i = 0; i < WP_TOTAL; i++)
 	{
 		if (Waypoints[i])
