@@ -1033,13 +1033,11 @@ void UI::DrawNPCText(Renderer* renderer)
 	if (NPCDialogue && !NPC_Text.empty()) {
 		renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 		if (Button_Count < NPC_Text.size()) {
-			std::cout << Button_Count << std::endl;
 			NPC_Text.at(Button_Count)->Draw(renderer, false);
 		}
 		else {
 			//Delete all the text (backwards) when done with them
 			for (int i = 0; i < static_cast<int>(NPC_Text.size()); i++) {
-				std::cout << "size: " << NPC_Text.size() << std::endl;
 				delete NPC_Text.at(i);
 				
 			}
