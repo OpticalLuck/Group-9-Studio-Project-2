@@ -63,13 +63,10 @@ private:
 
 	Renderer* renderer;
 
-	TextureList* texturelist;
-	MeshList* meshlist;
 	CameraVer2 camera;
 	UI* ui;
 	GOManager goManager;
 	GameObject* Axis;
-	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
 	GameObject* Collectible;
@@ -78,9 +75,6 @@ private:
 	Skybox* skybox;
 	NPC* npc;
 	Text* Character_Name[1];
-
-	//Temp
-	GameObject* Cube[2];
 };
 
 #endif

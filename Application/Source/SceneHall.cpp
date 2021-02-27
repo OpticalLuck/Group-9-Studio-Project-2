@@ -13,6 +13,28 @@ SceneHall::SceneHall() :
 
 SceneHall::~SceneHall()
 {
+	if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL)
+		delete renderer;
+
+	delete ui;
+	delete Character_Name[0];
+	delete Axis;
+	delete Ayaka;
+	delete npc;
+	delete Collectible;
+	delete skybox;
+	for (int ENIdx = 0; ENIdx < EN_TOTAL; ENIdx++)
+	{
+		delete Environment[ENIdx];
+	}
+	for (int WPIdx = 0; WPIdx < WP_TOTAL; WPIdx++)
+	{
+		delete Waypoints[WPIdx];
+	}
+	for (int LtIdx = 0; LtIdx < LIGHT_TOTAL; LtIdx++)
+	{
+		delete lights[LtIdx];
+	}
 }
 
 void SceneHall::Init()
@@ -29,19 +51,7 @@ void SceneHall::Init()
 
 	skybox = new Skybox(goManager, meshlist, 3);
 
-	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	MainChar->SetColliderBox();
-	MainChar->Init(Vector3(0, 3, -40));
-	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
-	//MainChar->SetCamera(&camera);
-
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
-	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-
-	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetColliderBox(Vector3(1, 1, 1));
-	Cube[1]->SetScale (Vector3(2, 2, 2));
-	Cube[1]->SetTranslate(Vector3(0, 0.5, -3));
 
 	Collectible = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_KEY));
 	Collectible->SetScale(Vector3(3, 3, 3));
@@ -61,7 +71,6 @@ void SceneHall::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setCamera(&camera);
 
 	Character_Name[0] = new Text();
 	Character_Name[0]->SetMode(Text::STATIC_WORLDTEXT);
@@ -136,10 +145,6 @@ void SceneHall::Init()
 		Waypoints[WP_PORTAL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		//Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 	}
-
-	text = new Text();
-	text->SetMode(Text::STATIC_SCREENTEXT);
-	text->SetTranslate(Vector3(0, 68, 0));
 }
 
 void SceneHall::InitGL()
@@ -161,7 +166,6 @@ void SceneHall::Update(double dt)
 		Ayaka->Update(dt);
 
 	//Collision
-	Ayaka->CollisionResolution(Cube[1]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR2]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR3]);
 	Ayaka->CollisionResolution(Environment[EN_FLOOR4]);
@@ -234,40 +238,7 @@ void SceneHall::Update(double dt)
 			{
 				portalOpen = true;
 			}
-
-			if (Application::IsKeyPressed('T'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
-			}
-			if (Application::IsKeyPressed('G'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
-			}
-			if (Application::IsKeyPressed('F'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
-			}
-			if (Application::IsKeyPressed('H'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
-			}
-			if (Application::IsKeyPressed('R'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
-			}
-			if (Application::IsKeyPressed('Y'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
-			}
-
-		lights[1]->position += Direction * SPEED;
-		Cube[0]->SetTranslate(lights[0]->position);
-		//Collision::OBBResolution(Cube[0], Cube[1]);
 	}
-
-		std::stringstream Pos;
-		Pos << "Position: " << Ayaka->GetTranslate().x << ", " << Ayaka->GetTranslate().y << ", " << Ayaka->GetTranslate().z;
-		text->SetText(Pos.str());
 
 		Ayaka->IsWithinRangeOf(npc);
 		npc->Update(dt);
@@ -301,7 +272,6 @@ void SceneHall::Render()
 			Waypoints[i]->DrawLocName(renderer);
 	}
 
-	Cube[1]->Draw(renderer, true);
 
 	Character_Name[0]->Draw(renderer, true);
 
@@ -357,8 +327,6 @@ void SceneHall::Render()
 		
 		}
 	}
-
-	text->Draw(renderer, false);
 
 	ui->Draw(renderer, true);
 }

@@ -10,10 +10,10 @@ MainMenu::MainMenu()
 
 MainMenu::~MainMenu()
 {
-	Shader::Destroy();
-	TextureList::Destroy();
-
-	delete renderer;
+	if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_MAINMENU)
+	{
+		delete renderer;
+	}
 	delete BackGround;
 	delete Logo;
 	//Delete Buttons

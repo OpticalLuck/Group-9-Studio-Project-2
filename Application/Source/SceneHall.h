@@ -66,11 +66,9 @@ private:
 	MeshList* meshlist;
 	CameraVer2 camera;
 	UI* ui;
-	Text* text;
 	Text* Character_Name[1];
 	GOManager goManager;
 	GameObject* Axis;
-	Character* MainChar;
 	Character* Ayaka;
 	NPC* npc;
 	GameObject* Environment[EN_TOTAL];
@@ -78,9 +76,6 @@ private:
 	WayPoint* Waypoints[WP_TOTAL]; //For a switching scenes
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
-
-	//Temp
-	GameObject* Cube[2];
 
 	bool portalOpen = false;
 };

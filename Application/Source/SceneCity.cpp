@@ -15,6 +15,34 @@ SceneCity::SceneCity() :
 
 SceneCity::~SceneCity()
 {
+	if(SceneManager::getCurrentSceneType() == SceneManager::SCENE_CITY)
+		delete renderer;
+	delete Axis;
+	delete Ayaka;
+	delete Boost;
+	delete Collectible;
+	delete skybox;
+	delete ui;
+	for (int enIdx = 0; enIdx < EN_TOTAL; enIdx++)
+	{
+		delete Environment[enIdx];
+	}
+	for (int NPCidx = 0; NPCidx < NPC_TOTAL; NPCidx++)
+	{
+		delete npc[NPCidx];
+	}
+	for (int WPIdx = 0; WPIdx < WP_TOTAL; WPIdx++)
+	{
+		delete Waypoints[WPIdx];
+	}
+	for (int LtIdx = 0; LtIdx < LIGHT_TOTAL; LtIdx++)
+	{
+		delete lights[LtIdx];
+	}
+	for (int tempidx = 0; tempidx < 4; tempidx++)
+	{
+		delete Cube[tempidx];
+	}
 }
 
 void SceneCity::Init()
@@ -35,22 +63,31 @@ void SceneCity::Init()
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[0]->SetTranslate(Vector3(0, 0, -80));
 	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
-	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 1, 0));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->SetTranslate(Vector3(0, 0, 1));
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
 	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 1, 0));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -1, 0));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(1, 0, 0));
+	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-1, 0, 0));
 	Cube[0]->AddChild(Cube[1]);
 	
 	Cube[2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[2]->SetTranslate(Vector3(0, 0, 1));
-	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(1, 0, 0));
+	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(2, 0, 0));
+	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-2, 0, 0));
+	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 2, 0));
+	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -2, 0));
 	Cube[1]->AddChild(Cube[2]);
 	
 	Cube[3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[3]->SetTranslate(Vector3(0, 0, 1));
 	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(3, 0, 0));
+	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-3, 0, 0));
+	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 3, 0));
+	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -3, 0));
 	Cube[2]->AddChild(Cube[3]);
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
@@ -66,7 +103,6 @@ void SceneCity::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setCamera(&camera);
 
 	{
 		Environment[EN_FLOOR] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_LAND));
@@ -322,7 +358,6 @@ void SceneCity::Render()
 	Boost->Draw(renderer, true);
 	
 	Collectible->Draw(renderer, true);
-	ui->setItem(Collectible);
 	if (Ayaka->GetInRange(Collectible, 4))
 	{
 		ui->setInteractable(true);

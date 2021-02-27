@@ -31,6 +31,15 @@ GameObject::GameObject(unsigned int ID, Mesh* mesh) :
 
 GameObject::~GameObject()
 {
+	//No need delete Mesh
+	if (ColliderBox.size() > 0)
+	{
+		for (int i = 0; i < ColliderBox.size(); i++)
+		{
+			delete ColliderBox.at(i);
+		}
+		ColliderBox.clear();
+	}
 }
 
 void GameObject::Draw(Renderer* renderer, bool EnableLight)

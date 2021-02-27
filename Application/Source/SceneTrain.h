@@ -50,13 +50,10 @@ private:
 	double fps;
 	Renderer* renderer;
 
-	TextureList* texturelist;
-	MeshList* meshlist;
 	CameraVer2 camera;
 	UI* ui;
 	GOManager goManager;
 	GameObject* Axis;
-	Character* MainChar;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
 	Train* train;
@@ -64,8 +61,6 @@ private:
 	Skybox* skybox;
 	NPC* npc;
 
-	//Temp
-	GameObject* Cube[2];
 };
 
 #endif

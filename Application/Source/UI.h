@@ -26,7 +26,6 @@ public:
 	float getMapBoundsX();
 	float getMapBoundsZ();
 
-	void setCamera(CameraVer2* camera);
 	void setItem(GameObject* item);
 	void setInteractable(bool interactable);
 	void setMapBounds(float max_X, float max_Z);

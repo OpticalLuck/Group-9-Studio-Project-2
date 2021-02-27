@@ -66,9 +66,6 @@
     <ClCompile Include="Source\SceneCity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneNPCTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,9 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Skybox.cpp">
@@ -173,9 +167,6 @@
     <ClInclude Include="Source\SceneCity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneNPCTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -192,9 +183,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Skybox.h">

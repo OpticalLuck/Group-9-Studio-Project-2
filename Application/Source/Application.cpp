@@ -13,6 +13,8 @@
 #include "shader.hpp"
 #include "SceneManager.h"
 
+#include <iostream>
+
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -209,29 +211,20 @@ void Application::Run()
 		}
 		if (IsKeyPressed(VK_F2))
 		{
-			sceneManager->ChangeScene(SceneManager::SCENE_NPCTEST);
+			sceneManager->ChangeScene(SceneManager::SCENE_LIBRARY);
 		}
 		if (IsKeyPressed(VK_F3))
 		{
-			sceneManager->ChangeScene(SceneManager::SCENE_TEST);
+			sceneManager->ChangeScene(SceneManager::SCENE_TRAIN);
 		}
 		if (IsKeyPressed(VK_F4))
 		{
-			sceneManager->ChangeScene(SceneManager::SCENE_LIBRARY);
+			sceneManager->ChangeScene(SceneManager::SCENE_STADIUM);
 		}
 		if (IsKeyPressed(VK_F6))
 		{
-			sceneManager->ChangeScene(SceneManager::SCENE_TRAIN);
-		}
-		if (IsKeyPressed(VK_F7))
-		{
-			sceneManager->ChangeScene(SceneManager::SCENE_STADIUM);
-		}
-		if (IsKeyPressed(VK_F8))
-		{
 			sceneManager->ChangeScene(SceneManager::SCENE_HALL);
 		}
-
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...

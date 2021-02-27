@@ -30,6 +30,8 @@ Collision::Collision(Vector3 translate, Vector3 offset, Vector3 halfsize) :
 
 Collision::~Collision()
 {
+    if(BoxFrame)
+        delete BoxFrame;
 }
 
 void Collision::setTranslate(Vector3 translate)

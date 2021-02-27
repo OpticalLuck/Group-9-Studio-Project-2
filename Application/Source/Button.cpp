@@ -13,6 +13,7 @@ Button::Button(float x, float y, float Width, float Height, float Scale)
 
 Button::~Button()
 {
+	delete ButtonMesh;
 }
 
 void Button::Draw(Renderer* renderer)

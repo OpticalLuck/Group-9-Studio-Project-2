@@ -13,13 +13,40 @@ UI::UI():
 {
 	//Quest Tab
 	BG = MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD);
+
+	Player = nullptr;
+	Quad = nullptr;
+	PauseBG = nullptr;
+	for (int i = 0; i < 10; i++)
+	{
+		Info[i] = nullptr;
+		Quests[i] = nullptr;
+	}
 }
 
 UI::~UI()
 {
-
+	//BG Mesh is from meshlist
+	//delete camera; //referenced from Scene
+	//delete Player; //referenced from Scene
+	//delete Item //within scene
+	delete Quad;
+	delete PauseBG;
+	for (int i = 0; i < 3; i++)
+	{
+		delete PauseButton[i];
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		delete Info[i];
+		delete Quests[i];
+	}
+	for (int i = 0; i < 101; i++)
+	{
+		if(text[i])
+			delete text[i];
+	}
 }
-
 void UI::Init(Character* player)
 {
 	this->Player = player;
@@ -633,8 +660,6 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			{
 				Quests[8]->Draw(renderer, true);
 			} 
-
-
 		}
 		else
 		{
@@ -965,7 +990,7 @@ void UI::Exit()
 
 GameObject* UI::getItem()
 {
-	return Item;
+	return Item; 
 }
 
 bool UI::getInteractable()
@@ -981,11 +1006,6 @@ float UI::getMapBoundsX()
 float UI::getMapBoundsZ()
 {
 	return max_Z;
-}
-
-void UI::setCamera(CameraVer2* camera)
-{
-	this->camera = camera;
 }
 
 void UI::setItem(GameObject* item)

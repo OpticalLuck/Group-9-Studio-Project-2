@@ -12,6 +12,33 @@ SceneStadium::SceneStadium()
 
 SceneStadium::~SceneStadium()
 {
+	if(SceneManager::getCurrentSceneType() == SceneManager::SCENE_STADIUM)
+		delete renderer;
+
+	delete Axis;
+	delete Ayaka;
+	delete Boost[0];
+	delete Boost[1];
+	delete Collectible;
+	delete Waypoint;
+	delete skybox;
+	delete instructions;
+	delete ui;
+
+	for (int enIdx = 0; enIdx < EN_TOTAL; enIdx++)
+	{
+		delete Environment[enIdx];
+	}
+
+	for (int ring = 0; ring < 16; ring++)
+	{
+		delete Rings[ring];
+	}
+
+	for (int LtIdx = 0; LtIdx < 4; LtIdx++)
+	{
+		delete lights[LtIdx];
+	}
 }
 
 void SceneStadium::Init()
@@ -111,7 +138,6 @@ void SceneStadium::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setCamera(&camera);
 
 	//Text
 	{

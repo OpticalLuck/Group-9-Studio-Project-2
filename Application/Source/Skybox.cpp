@@ -34,6 +34,10 @@ Skybox::Skybox(GOManager gomanager, MeshList* meshlist, float Scale)
 
 Skybox::~Skybox()
 {
+	for (int i = 0; i < SBX_TOTAL; i++)
+	{
+		delete SB_ARR[i];
+	}
 }
 
 GameObject* Skybox::GetSBX(int idx)

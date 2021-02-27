@@ -22,6 +22,7 @@ Character::Character(unsigned int ID, Mesh* mesh):
 
 Character::~Character()
 {
+	delete Wing;
 }
 
 void Character::Init(Vector3 position, Vector3 rotation, Vector3 scale)

@@ -6,10 +6,7 @@
 #include "Application.h"
 #include "SceneStadium.h"
 #include "MainMenu.h"
-
-//TO BE REMOVED
-#include "SceneTest.h"
-#include "SceneNPCTest.h"
+#include "shader.hpp"
 
 SceneManager::SCENE_TYPE SceneManager::CurrentScene;
 Scene* SceneManager::mainScene = nullptr;
@@ -27,21 +24,22 @@ SceneManager::SceneManager()
 	
 	SceneArr[SCENE_STADIUM] = new SceneStadium();
 
-	SceneArr[SCENE_NPCTEST] = new SceneNPCTest();
-
-	SceneArr[SCENE_TEST] = new SceneTest();
-
-	SceneArr[SCENE_HALL] = new SceneHall();
-
 	SceneArr[SCENE_TRAIN] = new SceneTrain();
 }
 
 SceneManager::~SceneManager()
 {
-	for (int i = 0; i < SCENE_TOTAL; i++)
-	{
-		delete SceneArr[i];
-	}
+	delete static_cast<MainMenu*>(SceneArr[SCENE_MAINMENU]);
+	delete static_cast<SceneCity*>(SceneArr[SCENE_CITY]);
+	delete static_cast<SceneLibrary*>(SceneArr[SCENE_LIBRARY]);
+	delete static_cast<SceneHall*>(SceneArr[SCENE_HALL]);
+	delete static_cast<SceneStadium*>(SceneArr[SCENE_STADIUM]);
+	delete static_cast<SceneTrain*>(SceneArr[SCENE_TRAIN]);
+
+	Shader::Destroy();
+	TextureList::Destroy();
+	MeshList::Destroy();
+	TextData::Destroy();
 }
 
 void SceneManager::Init(SCENE_TYPE NextScene)

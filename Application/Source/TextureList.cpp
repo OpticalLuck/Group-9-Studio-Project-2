@@ -9,7 +9,7 @@ TextureList::TextureList()
 
 TextureList::~TextureList()
 {
-	
+	textureMap.clear();
 }
 
 unsigned TextureList::Insert(std::string filename)

@@ -120,6 +120,11 @@ MeshList::MeshList()
 
 MeshList::~MeshList()
 {
+	std::cout << "MESH DESTROYED" << std::endl;
+	for (int i = 0; i < TOTAL_MESH; i++)
+	{
+		delete meshlist[i];
+	}
 }
 
 Mesh* MeshList::GetMesh(MESH_TYPE meshtype)

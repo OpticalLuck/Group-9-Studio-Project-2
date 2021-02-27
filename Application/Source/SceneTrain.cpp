@@ -5,7 +5,7 @@
 
 #include "MeshBuilder.h"
 #include "shader.hpp"
-
+#include "SceneManager.h"
 SceneTrain::SceneTrain() :
 	fps(0.f)
 {
@@ -13,6 +13,24 @@ SceneTrain::SceneTrain() :
 
 SceneTrain::~SceneTrain()
 {
+	if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_TRAIN)
+		delete renderer;
+
+	delete ui;
+	delete Axis;
+	delete Ayaka;
+	delete train;
+	delete npc;
+	delete skybox;
+
+	for (int enIdx = 0; enIdx < EN_TOTAL; enIdx++)
+	{
+		delete Environment[enIdx];
+	}
+	for (int LtIdx = 0; LtIdx < LIGHT_TOTAL; LtIdx++)
+	{
+		delete lights[LtIdx];
+	}
 }
 
 void SceneTrain::Init()
@@ -29,18 +47,8 @@ void SceneTrain::Init()
 
 	skybox = new Skybox(goManager, meshlist, 3);
 
-	MainChar = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	MainChar->SetColliderBox();
-	MainChar->Init(Vector3(0, 3, -40));
-	MainChar->SetTranslate(MainChar->GetTranslate() + Vector3(0,30,0));
-	//MainChar->SetCamera(&camera);
-
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
-	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-
-	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-	Cube[1]->SetColliderBox();
-
+	
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
@@ -49,8 +57,6 @@ void SceneTrain::Init()
 
 	ui = new UI();
 	ui->Init(Ayaka);
-	ui->setCamera(&camera);
-
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
@@ -79,7 +85,6 @@ void SceneTrain::InitGL()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
 	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 50, 80), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -50, -80));
-	//lights[0]->Set(Light::LIGHT_SPOT, Vector3(0, 5, 0), Color(1, 1, 1), 2.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 	lights[1]->Set(Light::LIGHT_POINT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 }
 
@@ -126,50 +131,6 @@ void SceneTrain::Update(double dt)
 			}
 		}
 
-		// Cube Collision Test stuff
-		{
-			float SPEED = 5.f * dt;
-			Vector3 Direction = Vector3(0, 0, 0);
-			if (Application::IsKeyPressed('I'))
-				Direction += Vector3(0, 0, 1);
-			if (Application::IsKeyPressed('K'))
-				Direction += Vector3(0, 0, -1);
-			if (Application::IsKeyPressed('J'))
-				Direction += Vector3(1, 0, 0);
-			if (Application::IsKeyPressed('L'))
-				Direction += Vector3(-1, 0, 0);
-			if (Application::IsKeyPressed('O'))
-				Direction += Vector3(0, 1, 0);
-			if (Application::IsKeyPressed('P'))
-				Direction += Vector3(0, -1, 0);
-
-			if (Application::IsKeyPressed('T'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(SPEED * 10, 0, 0));
-			}
-			if (Application::IsKeyPressed('G'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(-SPEED * 10, 0, 0));
-			}
-			if (Application::IsKeyPressed('F'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, -SPEED * 10));
-			}
-			if (Application::IsKeyPressed('H'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, 0, SPEED * 10));
-			}
-			if (Application::IsKeyPressed('R'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, SPEED * 10, 0));
-			}
-			if (Application::IsKeyPressed('Y'))
-			{
-				Cube[0]->SetRotate(Cube[0]->GetRotate() + Vector3(0, -SPEED * 10, 0));
-			}
-			 
-			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
-		}
 		Ayaka->IsWithinRangeOf(npc);
 		npc->Update(dt);
 	}

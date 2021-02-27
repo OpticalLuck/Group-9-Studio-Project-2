@@ -8,5 +8,6 @@ class Shader : public Singleton<Shader>
 public:
 	unsigned shaderdata;
 	Shader() { shaderdata = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader"); };
+	~Shader() {};
 private:
 };
