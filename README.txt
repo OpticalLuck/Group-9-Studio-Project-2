@@ -1,3 +1,7 @@
+Tower Town - Made by Group 9
+
+Group 9 - Jeryl Lah (Leader), Josiah, Douglas, Yeok Hao, Farid(gone)
+
 -------------------- USER GUIDE ----------------------
 
 Objective:
