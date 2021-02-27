@@ -67,8 +67,13 @@ void SceneTrain::Init()
 	train->PushStop(0, 2, -10);
 	train->PushStop(5,2,5)->SetStation();
 	train->ExtendStop(20)->ExtendStop(0,0,14);
-	train->PushStop(0, 2, 0);
+	train->ExtendStop(15, 0, 0);
 
+
+	traincollider = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	traincollider->SetActive(false);
+	traincollider->SetColliderBox(Vector3(4.5, 5, 3), Vector3(0, 4.5, 0));
+	traincollider->SetTranslate(train->GetTranslate());
 	{
 		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
 		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
@@ -96,12 +101,18 @@ void SceneTrain::Update(double dt)
 		camera.Updatemovement(dt);
 
 		train->UpdateChildCollision();
+		train->UpdateCollision();
 		//Collision
 
 
 		Ayaka->CollisionResolution(train);
-		train->Update(dt);
 
+		
+		bool insideTrain = traincollider->GetColliderBox(0)->CheckOBBCollision(Ayaka->GetColliderBox(0)).Collided;
+		train->SetTransparentCollider(insideTrain);
+		train->Update(dt);
+		traincollider->SetTranslate(train->GetTranslate());
+		traincollider->SetRotate(train->GetRotate());
 		//Ayaka->CollisionResolution(train->getDoor());
 		{
 			if (Application::IsKeyPressed('1'))
@@ -162,6 +173,7 @@ void SceneTrain::Render()
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);
 	train->Draw(renderer, true);
+	traincollider->Draw(renderer, false);
 	ui->Draw(renderer, true);
 
 }

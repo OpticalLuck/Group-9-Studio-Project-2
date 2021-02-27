@@ -1,5 +1,6 @@
 #include "NPC.h"
 #include "MeshList.h"
+#include "Application.h"
 
 //identifier
 //x = 0, y = 1, z = 2
@@ -13,6 +14,7 @@ NPC::NPC()
 	canDespawn = canRespawn = 0;
 	defaultdirection = GetRotate();
 	destinationcopy = NULL;
+	textset = 0;
 }
 
 NPC::NPC(unsigned int id, Mesh* mesh)
@@ -44,9 +46,17 @@ void NPC::Update(double dt)
 	if (this->getActive()) {
 		//if objecttolookat is within range
 		if (getCurrentFlag() == FLAG1) {
-			//BodyArr[HEAD]->
+			
 			RotateTowardsCharacter(BodyArr[HEAD], 75, 180); //50);
-			//RotateToVector(BodyArr[HEAD], Vector3(0,0,0));
+
+			if (ui != NULL) {
+				if (Application::IsKeyPressed('E') && GetInRange(objectToLookAt, GetRadius()) && !ui->getNPCstate() && !speech.empty())
+				{
+					ui->setNPCText(&speech);
+				}
+			}
+
+
 		}
 		else {
 			RotateToVector(BodyArr[HEAD], GetRotate());
@@ -203,6 +213,17 @@ void NPC::SetRespawnPos(Vector3 position)
 void NPC::SetRespawnPos(float x, float y, float z)
 {
 	SetRespawnPos(Vector3(x, y, z));
+}
+
+NPC* NPC::PushText(std::string text)
+{
+	speech.push_back(text);
+	return this;
+}
+
+void NPC::SetUI(UI* ui)
+{
+	this->ui = ui;
 }
 
 void NPC::BuildMeshes(MeshList* meshlist)

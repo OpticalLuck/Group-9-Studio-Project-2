@@ -25,10 +25,14 @@ public:
 	bool getInteractable();
 	float getMapBoundsX();
 	float getMapBoundsZ();
+	bool getNPCstate();
 
 	void setItem(GameObject* item);
 	void setInteractable(bool interactable);
 	void setMapBounds(float max_X, float max_Z);
+	void setNPCText(std::vector<std::string> *speechstring); //only set when npc is interacted with!
+
+	
 
 private:
 	CameraVer2* camera;
@@ -42,6 +46,7 @@ private:
 	Text* Info[10];
 	Text* Quests[10];
 	Text* text[101];
+	std::vector<Text*> NPC_Text;
 
 	float staminaBar_width;
 	float max_X, max_Z;
@@ -55,6 +60,7 @@ private:
 	bool bPause;
 	bool bTab;
 	bool Dialogue;
+	bool NPCDialogue;
 	bool Dialogue_1 = true;
 	bool Dialogue_2 = false;
 	bool Dialogue_3 = false;
@@ -63,4 +69,7 @@ private:
 	bool Quest_2 = false; //Collect the 3 Gems
 	bool Quest_3 = false; //Head back over to City Hall
 	bool Quest_4 = false; //Enter the portal & return home.
+
+
+	void DrawNPCText(Renderer* renderer);
 };

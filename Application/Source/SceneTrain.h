@@ -57,6 +57,7 @@ private:
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
 	Train* train;
+	GameObject* traincollider;
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	NPC* npc;

@@ -21,8 +21,10 @@ public:
 	Train* ExtendStop(Vector3 dest);
 	Train* ExtendStop(float x = 0, float y = 0, float z = 0);
 
-	void SetStation();
 
+	void SetStation();
+	//takes the external collision check and does stuff with it
+	void SetTransparentCollider(bool collision);
 
 private:	
 	std::vector<Vector3> stops;
@@ -30,8 +32,14 @@ private:
 	int nextstop, nextstation;
 	float velocity;
 	GameObject* door;
+	GameObject* collisionboxes;
+
+	bool externalCollider;
+
 	//also puts down the colliders here
 	void BuildMeshes(MeshList* meshlist);
+
+	void RotateToObject(Vector3 point);
 
 	int getStationLen();
 	int getStopLen();
