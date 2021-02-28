@@ -189,6 +189,10 @@ void SceneCity::Init()
 		Environment[EN_TREE]->SetScale(Vector3(10, 10, 10));
 	}
 
+	for (int i = 0; i < WP_TOTAL; i++) {
+		Waypoints[i]->SetActive(false);
+	}
+
 	Boost = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_FAN));
 	Boost->SetTranslate(Vector3(25, 0, -60));
 	Boost->SetScale(Vector3(0.6f, 0.6f, 0.6f));

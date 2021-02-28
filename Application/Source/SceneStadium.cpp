@@ -91,6 +91,7 @@ void SceneStadium::Init()
 	Waypoint = new WayPoint("City", Vector3(-45, 1, 45));
 	Waypoint->SetRotate(Vector3(0, 135, 0));
 	Waypoint->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Waypoint->SetActive(false);
 
 	Math::InitRNG();
 	for (int i = 0; i < maxRing; i++)
@@ -155,6 +156,7 @@ void SceneStadium::Init()
 	npc->PushText("These fans are really powerful.")
 		->PushText("I'd bet a light person would be blown up by them...");
 
+	
 }
 
 void SceneStadium::InitGL()

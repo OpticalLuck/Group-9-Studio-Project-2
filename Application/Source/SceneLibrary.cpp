@@ -154,6 +154,11 @@ void SceneLibrary::Init()
 		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
 	}
+
+	for (int i = 0; i < WP_TOTAL; i++) {
+		Waypoints[i]->SetActive(false);
+	}
+
 }
 
 void SceneLibrary::InitGL()
@@ -191,7 +196,7 @@ void SceneLibrary::Update(double dt)
 		Ayaka->CollisionResolution(Environment[EN_PLANT2]);
 
 		Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-
+		
 		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
 		{
 			setQuestStatus(true);
