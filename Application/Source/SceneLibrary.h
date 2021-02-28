@@ -66,7 +66,6 @@ private:
 	CameraVer2 camera;
 	UI* ui;
 	GOManager goManager;
-	GameObject* Axis;
 	Character* Ayaka;
 	GameObject* Environment[EN_TOTAL];
 	GameObject* Collectible;

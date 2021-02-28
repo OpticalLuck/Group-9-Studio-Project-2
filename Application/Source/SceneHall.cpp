@@ -264,8 +264,6 @@ void SceneHall::Render()
 		renderer->SetLight(lights[i], camera.GetPosition());
 	//renderer->SetLight(lights[1]);
 
-	Axis->Draw(renderer, false);
-
 	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
 	{
 		skybox->GetSBX(i)->Draw(renderer, false);

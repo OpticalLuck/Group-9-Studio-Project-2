@@ -16,7 +16,6 @@ SceneLibrary::~SceneLibrary()
 	if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY)
 		delete renderer;
 
-	delete Axis;
 	delete Ayaka;
 	delete Collectible;
 	delete skybox;
@@ -50,8 +49,6 @@ void SceneLibrary::Init()
 	lights[1] = new Light(Shader::GetInstance()->shaderdata, 1);
 
 	skybox = new Skybox(goManager, meshlist, 3);
-
-	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0));
@@ -244,8 +241,6 @@ void SceneLibrary::Render()
 	for (int i = 0; i < 2; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
 	//renderer->SetLight(lights[1]);
-
-	Axis->Draw(renderer, false);
 
 	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
 	{
