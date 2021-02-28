@@ -570,7 +570,11 @@ void UI::Update(double dt)
 		}
 	}
 
-
+	if ((Application::IsKeyPressed('E')) && (Button_Count == 0) && ((SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL) || (SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY)))
+	{
+		Dialogue = !Dialogue;
+		Button_Count++;
+	}
 }
 
 void UI::UpdateInteractions(GameObject* item)
@@ -784,7 +788,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			text[2]->Draw(renderer, true);
 			text[21]->Draw(renderer, true);
 		}
-		else if ((Button_Count) == 8 && (Dialogue_2 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL))
+		else if ((Button_Count == 8) && (Dialogue_2 == true) && (SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL))
 		{
 			renderer->RenderMeshOnScreen(MeshList::GetInstance()->GetMesh(MeshList::MESH_DIALOGUEBOX), 64, 10, 128, 20);
 			text[2]->Draw(renderer, true);

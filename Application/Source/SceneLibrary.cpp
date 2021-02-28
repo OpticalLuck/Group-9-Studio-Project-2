@@ -295,8 +295,6 @@ void SceneLibrary::Render()
 
 	Waypoints[0]->Draw(renderer, false);
 
-	ui->Draw(renderer, true);
-
 	if (Ayaka->GetInRange(Environment[EN_COUNTER], 4))
 	{
 		Interaction[0]->Draw(renderer, true);
@@ -305,6 +303,8 @@ void SceneLibrary::Render()
 	{
 
 	}
+
+	ui->Draw(renderer, true);
 }
 
 void SceneLibrary::Exit()
