@@ -8,8 +8,8 @@
 struct TextData : public Singleton<TextData>
 {
 	int TextDataArr[256];
-	TextData() { LoadTextData(TextDataArr, "Image//Gothic.csv"); std::cout << "TextArr Built" << std::endl; };
-	~TextData() { std::cout << "TEXTDATA DESTROYED" << std::endl; };
+	TextData() { LoadTextData(TextDataArr, "Image//Gothic.csv");  };
+	~TextData() { };
 };
 
 class Renderer

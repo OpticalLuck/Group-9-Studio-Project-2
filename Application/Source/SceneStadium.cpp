@@ -132,7 +132,6 @@ void SceneStadium::Init()
 				if (j == maxRing - 1) //Check coll done
 				{
 					setCoord = true;
-					std::cout << "END LOOP" << std::endl;
 				}
 			}
 		}

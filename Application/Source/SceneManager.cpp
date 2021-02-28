@@ -53,7 +53,6 @@ void SceneManager::Init(SCENE_TYPE NextScene)
 	CurrentScene = NextScene;
 	if (!mainScene->isInit)
 	{
-		std::cout << "INIT SCENE" << std::endl;
 		mainScene->Init();
 	}
 	mainScene->InitGL();

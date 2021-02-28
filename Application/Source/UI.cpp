@@ -501,12 +501,10 @@ void UI::Update(double dt)
 		if (!isMousePressed && Application::IsMousePressed(0))
 		{
 			isMousePressed = true;
-			std::cout << "LBUTTON DOWN" << std::endl;
 		}
 		else if (isMousePressed && !Application::IsMousePressed(0))
 		{
 			isMousePressed = false;
-			std::cout << "LBUTTON UP" << std::endl;
 
 			double x, y;
 			Application::GetCursorPos(&x, &y);

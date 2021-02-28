@@ -5,7 +5,6 @@
 MeshList::MeshList()
 {
 	TextureList* texturelist = TextureList::GetInstance();
-	std::cout << "Mesh Loaded" << std::endl;
 
 	//// <PRIMATIVES> 
 	meshlist[MESH_AXIS] = MeshBuilder::GenerateAxes("Axis", 1000, 1000, 1000);
@@ -130,7 +129,6 @@ MeshList::MeshList()
 
 MeshList::~MeshList()
 {
-	std::cout << "MESH DESTROYED" << std::endl;
 	for (int i = 0; i < TOTAL_MESH; i++)
 	{
 		delete meshlist[i];
