@@ -211,6 +211,7 @@ void SceneTrain::Update(double dt)
 		}
 
 		Ayaka->IsWithinRangeOf(npc);
+		Ayaka->Update(dt);
 		npc->Update(dt);
 	}
 

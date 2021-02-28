@@ -12,6 +12,7 @@
 #include "Text.h"
 #include "UI.h"
 #include "NPC.h"
+#include "Train.h"
 #include "WayPoint.h"
 
 class SceneCity : public Scene
@@ -91,11 +92,13 @@ private:
 	UI* ui;
 	//Temp
 	GameObject* Cube[4];
+	Train* train;
+	GameObject* traincollider;
 
 	void GenerateNPCs(MeshList* meshlist);
 	void UpdateNPCs(double dt);
 	void DrawNPCs();
-
+	void SetTrainPath();
 };
 
 #endif

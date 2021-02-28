@@ -23,6 +23,8 @@ SceneCity::~SceneCity()
 	delete Collectible;
 	delete skybox;
 	delete ui;
+	delete train;
+	delete traincollider;
 	for (int enIdx = 0; enIdx < EN_TOTAL; enIdx++)
 	{
 		delete Environment[enIdx];
@@ -193,6 +195,17 @@ void SceneCity::Init()
 	Boost->SetScale(Vector3(0.6f, 0.6f, 0.6f));
 	Boost->SetColliderBox(Vector3(2.5f, 50, 2.5f), Vector3(0, 26, 0));
 
+
+	train = goManager.CreateGO<Train>(meshlist->GetMesh(MeshList::MESH_TRAIN));
+	train->Init(meshlist, Ayaka);
+	train->SetDefaultPos(Vector3(0, 1, -110));
+	SetTrainPath();
+
+	traincollider = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+	traincollider->SetActive(false);
+	traincollider->SetColliderBox(Vector3(4.5, 5, 3), Vector3(0, 4.5, 0));
+	traincollider->SetTranslate(train->GetTranslate());
+
 	GenerateNPCs(meshlist);
 }
 
@@ -268,10 +281,24 @@ void SceneCity::Update(double dt)
 			setQuestStatus(true);
 		}
 
+		
+
+		bool insideTrain =
+			traincollider->GetColliderBox(0)
+			->CheckOBBCollision(Ayaka->GetColliderBox(0)).Collided;
+
+		train->SetTransparentCollider(insideTrain);
+		train->Update(dt);
+		traincollider->SetTranslate(train->GetTranslate());
+		traincollider->SetRotate(train->GetRotate());
+		train->UpdateChildCollision();
+		train->UpdateCollision();
+
 		//Movement Update
 		camera.Updatemovement(dt);
 		Ayaka->Update(dt);
 		//Collision Update
+		Ayaka->CollisionResolution(train);
 		Ayaka->CollisionResolution(Cube[0]);
 		Ayaka->CollisionResolution(Cube[1]);
 		for (int i = 0; i < EN_TOTAL; i++)
@@ -347,6 +374,8 @@ void SceneCity::Render()
 		
 	Ayaka->Draw(renderer, true);
 	DrawNPCs();
+	train->Draw(renderer, true);
+
 	Cube[0]->Draw(renderer, false);
 	//Cube[1]->Draw(renderer, false);
 	for (int i = 0; i < EN_TOTAL; i++)
@@ -445,4 +474,35 @@ void SceneCity::DrawNPCs()
 	for (int i = 0; i < NPC_TOTAL; i++) {
 		npc[i]->Draw(renderer, true);
 	}
+}
+
+void SceneCity::SetTrainPath()
+{
+	train
+		->ExtendStop(120)
+		->ExtendStop(0, 0, 100)
+		->ExtendStop(-40, 0, 30)
+		->ExtendStop(0,0,40)
+		->SetStation()
+		;
+	train
+		->ExtendStop(40, 0, 30)
+		->ExtendStop(0, 0, 40)
+		->ExtendStop(-10, 0, 10)
+		->ExtendStop(-120)
+		->ExtendStop(-20, 0, -40)
+		->ExtendStop(-35)
+		->SetStation()
+		;
+
+	train
+		->ExtendStop(-30, 0, 30)
+		->ExtendStop(-30)
+		->ExtendStop(-10, 0, -10)
+		->ExtendStop(0,0, -220)
+		->ExtendStop(20, 0, -20)
+		->ExtendStop(50)
+		->PushStop(-10,1,-110)
+		->ExtendStop(10)
+		->SetStation();
 }
