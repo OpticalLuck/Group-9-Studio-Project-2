@@ -113,7 +113,7 @@ void SceneLibrary::Init()
 		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
 		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
 
-		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE2));
 		Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
 		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 0.9));
 		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
