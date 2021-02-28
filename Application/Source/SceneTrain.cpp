@@ -118,6 +118,10 @@ void SceneTrain::Init()
 		Environment[EN_TOWER]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
 		Environment[EN_TOWER]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1.4f, 0));
 
+		Environment[EN_TRAINSTATION] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_HOUSE1));
+		Environment[EN_TRAINSTATION]->SetColliderBox(Vector3(12, 10, 9), Vector3(0, 1.6f, -5.f));
+		Environment[EN_TRAINSTATION]->SetTranslate(Vector3(0, 3, 125));
+		Environment[EN_TRAINSTATION]->SetRotate(Vector3(0, 0, 0));
 
 		for (int i = EN_TREE; i < EN_ENDTREES; i++) { //Set all 13 trees to have the same tree mesh
 			Environment[i] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TREE));
@@ -153,7 +157,7 @@ void SceneTrain::InitGL()
 {
 	renderer = new Renderer(LIGHT_TOTAL);
 	lights[LIGHT_MIDDLE]->Set(Light::LIGHT_DIRECTIONAL, Vector3(0, 50, 80), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, -50, -80));
-	lights[1]->Set(Light::LIGHT_POINT, Vector3(10, 5, 10), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
+	lights[1]->Set(Light::LIGHT_POINT, Vector3(5, 9, 102), Color(1, 1, 1), 1.f, 1.f, 0.1f, 0.001f, Vector3(0, 1, 0));
 }
 
 
@@ -181,8 +185,9 @@ void SceneTrain::Update(double dt)
 		train->Update(dt);
 		traincollider->SetTranslate(train->GetTranslate());
 		traincollider->SetRotate(train->GetRotate());
-		for (int i = EN_PLATFORM; i < EN_ENDTREES; i++)
+		for (int i = EN_PLATFORM; i < EN_ENDTREES; i++) {
 			Ayaka->CollisionResolution(Environment[i]);
+		}
 		{
 			if (Application::IsKeyPressed('1'))
 			{

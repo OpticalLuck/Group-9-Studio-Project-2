@@ -21,9 +21,12 @@ public:
 	enum Environment_Type
 	{
 		EN_FLOOR1 = 0,
-		EN_TOWER,
-		EN_SAKURA,
+		EN_HOUSE1,
+		EN_HOUSE2,
+		EN_HOUSE3,
 		EN_PLATFORM,
+		EN_TRAINSTATION,
+		EN_TOWER,
 		//TREES
 		EN_TREE,
 		EN_TREEBOTL1,

@@ -41,7 +41,8 @@ public:
 		TRAIN_BUSY2,
 		LIBRARY_BUSY1,
 		LIBRARY_REST,
-
+		NPC_TRAIN,
+		NPC_BEGIN,
 		NPC_TOTAL
 	};
 

@@ -430,6 +430,7 @@ void SceneCity::GenerateNPCs(MeshList* meshlist)
 		npc[i] = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 		npc[i]->Init(meshlist, Ayaka);
 		npc[i]->SetColliderBox(Vector3(0.5,1,0.5), Vector3(0,2,0));
+		npc[i]->SetUI(ui);
 		//Individually set their translations separately
 	}
 	
@@ -439,12 +440,18 @@ void SceneCity::GenerateNPCs(MeshList* meshlist)
 	npc[TRAIN_BUSY1]->PushPathPoint(33, 0, -78);
 	npc[TRAIN_BUSY1]->PushPathPoint(35, 1, -78);
 	npc[TRAIN_BUSY1]->PushDespawnPoint(40, 1, -78);
-	npc[TRAIN_BUSY1]->SetRespawnPos(23,0,9.5);
+	npc[TRAIN_BUSY1]->SetRespawnPos(23,0,9.5)
+		->PushText("You look new!")
+		->PushText("Want to view the city from a distance? Go to the train station!")
+		;
 
 	npc[TRAIN_BUSY2]->SetTranslate(Vector3(36, 0, -88));
 	npc[TRAIN_BUSY2]->PushPathPoint(35.5, 0, -88);
 	npc[TRAIN_BUSY2]->PushDespawnPoint(35.5, 0, -100);
-	npc[TRAIN_BUSY2]->SetRespawnPos(35.5, 0, -99);
+	npc[TRAIN_BUSY2]->SetRespawnPos(35.5, 0, -99)
+		->PushText("The train is usually busy but it is awfully clear today.")
+		;
+	
 
 	npc[LIBRARY_BUSY1]->SetTranslate(Vector3(-50, 0, 18));
 	npc[LIBRARY_BUSY1]->PushPathPoint(-50,0,35);
@@ -452,10 +459,25 @@ void SceneCity::GenerateNPCs(MeshList* meshlist)
 	npc[LIBRARY_BUSY1]->PushPathPoint(-8,0,-80);
 	npc[LIBRARY_BUSY1]->PushDespawnPoint(-50, 0, -80);
 	npc[LIBRARY_BUSY1]->SetRespawnPos(-50, 0, 18);
+	npc[LIBRARY_BUSY1]
+		->PushText("I'm going to go read!")
+		->PushText("I heard the librarian has some kind of gem..")
+		->PushText("Okay you got me, I just wanted to check it out.");
 
 	npc[LIBRARY_REST]->SetDefaultPos(Vector3(-49, 0, -88));
 	npc[LIBRARY_REST]->SetDefaultDir(Vector3(0, 90, 0));
+	npc[LIBRARY_REST]->PushText("This is my corner. Leave me alone.");
 
+
+	npc[NPC_BEGIN]->SetDefaultPos(Vector3(5, 0, -87));
+	npc[NPC_BEGIN]->SetDefaultDir(Vector3(0, 210, 0));
+	npc[NPC_BEGIN]->PushText("Did you know?")
+		->PushText("You can talk to us by pressing E when nearby!")
+		->PushText("Huh? How did you know already?");
+
+	npc[NPC_TRAIN]->SetDefaultPos(Vector3(-5, 0, -105));
+	npc[NPC_TRAIN]->PushText("Hop onto this tram!")
+		->PushText("It will bring you to every special landmark in town!");
 }
 
 void SceneCity::UpdateNPCs(double dt)
@@ -479,8 +501,9 @@ void SceneCity::DrawNPCs()
 void SceneCity::SetTrainPath()
 {
 	train
-		->ExtendStop(120)
-		->ExtendStop(0, 0, 100)
+		->ExtendStop(100)
+		->ExtendStop(20, 0, 20)
+		->ExtendStop(0, 0, 80)
 		->ExtendStop(-40, 0, 30)
 		->ExtendStop(0,0,40)
 		->SetStation()
