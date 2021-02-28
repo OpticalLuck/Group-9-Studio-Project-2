@@ -648,10 +648,13 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			Info[1]->Draw(renderer, enableLight);
 		}
 
-		if (text2active)
+		if (text2active || isNearNPC)
 		{
 			Info[2]->Draw(renderer, true); //Press E to interact
+
 		}
+
+		
 
 		//FPS
 		Info[4]->Draw(renderer, false);
@@ -708,7 +711,7 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 			Info[3]->Draw(renderer, true);
 		}
 		renderer->PopTransform();
-		
+		isNearNPC = false;
 	}
 	else if (NPCDialogue)
 	{
@@ -1065,6 +1068,12 @@ bool UI::getNPCstate()
 	return NPCDialogue;
 }
 
+bool UI::getIsNearNPC()
+{
+	return isNearNPC;
+}
+
+
 void UI::setItem(GameObject* item)
 {
 	this->Item = item;
@@ -1094,6 +1103,12 @@ void UI::setNPCText(std::vector<std::string>* speechstring)
 	}
 
 }
+
+void UI::setIsNearNPC(bool yn)
+{
+	isNearNPC = yn;
+}
+
 
 void UI::DrawNPCText(Renderer* renderer)
 {

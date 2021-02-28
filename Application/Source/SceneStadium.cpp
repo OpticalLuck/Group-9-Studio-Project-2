@@ -24,6 +24,7 @@ SceneStadium::~SceneStadium()
 	delete skybox;
 	delete instructions;
 	delete ui;
+	delete npc;
 
 	for (int enIdx = 0; enIdx < EN_TOTAL; enIdx++)
 	{
@@ -146,6 +147,14 @@ void SceneStadium::Init()
 		instructions->SetTranslate(Vector3(32, 64, 0));
 	}
 
+	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
+	npc->Init(meshlist, Ayaka);
+	npc->SetDefaultPos(Vector3(-40, 0, 30));
+	npc->SetDefaultDir(Vector3(0, 60, 0));
+	npc->SetUI(ui);
+	npc->PushText("These fans are really powerful.")
+		->PushText("I'd bet a light person would be blown up by them...");
+
 }
 
 void SceneStadium::InitGL()
@@ -181,7 +190,8 @@ void SceneStadium::Update(double dt)
 			//Fan
 			if (Ayaka->GetColliderBox(0)->CheckOBBCollision(Boost[0]->GetColliderBox(0)).Collided || Ayaka->GetColliderBox(1)->CheckOBBCollision(Boost[1]->GetColliderBox(0)).Collided)
 			{
-				Ayaka->setVertVelocity(25);
+				Ayaka->setVertVelocity(25.f);
+				
 			}
 
 			//Ring
@@ -246,6 +256,9 @@ void SceneStadium::Update(double dt)
 		Waypoint->inRangeResponse(Ayaka, SceneManager::SCENE_CITY); //SWAPPING SCENE
 	}
 
+	Ayaka->IsWithinRangeOf(npc);
+	npc->Update(dt);
+
 	if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
 	{
 		setQuestStatus(true);
@@ -272,6 +285,7 @@ void SceneStadium::Render()
 	}
 
 	Ayaka->Draw(renderer, true);
+	npc->Draw(renderer, true);
 
 	for (int i = 0; i < EN_TOTAL; i++)
 	{

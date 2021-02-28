@@ -8,6 +8,7 @@
 #include "Skybox.h"
 #include "TextureList.h"
 #include "Text.h"
+#include "NPC.h"
 #include "UI.h"
 #include "WayPoint.h"
 
@@ -47,6 +48,7 @@ private:
 	GameObject* Rings[16];
 	GameObject* Collectible;
 	WayPoint* Waypoint; //For a switching scenes
+	NPC* npc;
 
 	Light* lights[4];
 	Skybox* skybox;
