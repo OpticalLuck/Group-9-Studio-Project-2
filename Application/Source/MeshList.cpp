@@ -23,6 +23,8 @@ MeshList::MeshList()
 	meshlist[MESH_FIELD] = MeshBuilder::GenerateQuad("StadiumField", Color(1, 1, 1));
 	meshlist[MESH_FIELD]->textureArr[0] = texturelist->Insert("Field.tga");
 	
+	meshlist[MESH_GRASS] = MeshBuilder::GenerateQuad("GrassFloor", Color(1, 1, 1));
+	meshlist[MESH_GRASS]->textureArr[0] = texturelist->Insert("Lush.tga");
 	//// <MAIN CHARACTER>
 	meshlist[MESH_AYAKA] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Ayaka.obj", "OBJ//Ayaka.mtl", texturelist);
 	meshlist[MESH_WING] = MeshBuilder::GenerateOBJMTL("Ayaka", "OBJ//Wing/Wing.obj", "OBJ//Wing/Wing.mtl");
@@ -59,7 +61,7 @@ MeshList::MeshList()
 	meshlist[MESH_TABLE] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/table.obj", "OBJ//Hall/table.mtl");
 	meshlist[MESH_TABLE]->textureArr[0] = texturelist->Insert("table.tga");
 	
-	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//Hall/plant.obj", "OBJ//Hall/plant.mtl");
+	meshlist[MESH_PLANT] = MeshBuilder::GenerateOBJMTL("Plant", "OBJ//Hall/plant.obj", "OBJ//Hall/plant.mtl");
 	meshlist[MESH_PLANT]->textureArr[0] = texturelist->Insert("plant.tga");
 
 	meshlist[MESH_RING] = MeshBuilder::GenerateOBJMTL("Ring", "OBJ//Ring/Ring.obj", "OBJ//Ring/Ring.mtl");
@@ -71,6 +73,8 @@ MeshList::MeshList()
 	meshlist[MESH_INDOORWALL] = MeshBuilder::GenerateQuad("Wall", Color(0.5f, 0.5f, 0.5f));
 	meshlist[MESH_INDOORWALL]->textureArr[0] = texturelist->Insert("jp.tga");
 
+	meshlist[MESH_PLATFORM] = MeshBuilder::GenerateCube("Platform", Color(1.0f, 1.f, 1.0f), 1 , 1, 1);
+	meshlist[MESH_PLATFORM]->textureArr[0] = texturelist->Insert("table.tga");
 
 	meshlist[MESH_TRAIN] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/amazingtram.obj", "OBJ//Train/amazingtram.mtl");
 	meshlist[MESH_TRAINDOOR] = MeshBuilder::GenerateOBJMTL("train", "OBJ//Train/door.obj", "OBJ//Train/door.mtl");

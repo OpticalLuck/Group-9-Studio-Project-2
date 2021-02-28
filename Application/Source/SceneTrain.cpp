@@ -20,6 +20,7 @@ SceneTrain::~SceneTrain()
 	delete Axis;
 	delete Ayaka;
 	delete train;
+	delete traincollider;
 	delete npc;
 	delete skybox;
 
@@ -30,6 +31,10 @@ SceneTrain::~SceneTrain()
 	for (int LtIdx = 0; LtIdx < LIGHT_TOTAL; LtIdx++)
 	{
 		delete lights[LtIdx];
+	}
+	for (int WPIdx = 0; WPIdx < WP_TOTAL; WPIdx++)
+	{
+		delete Waypoints[WPIdx];
 	}
 }
 
@@ -50,7 +55,7 @@ void SceneTrain::Init()
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
-	Ayaka->Init(Vector3(0, 0, 5), Vector3(0, 0, 0));
+	Ayaka->Init(Vector3(0, 2, 100), Vector3(0, 0, 0));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
@@ -60,6 +65,7 @@ void SceneTrain::Init()
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
 	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
+
 
 	train = goManager.CreateGO<Train>(meshlist->GetMesh(MeshList::MESH_TRAIN));
 	train->Init(meshlist, Ayaka);
@@ -75,15 +81,17 @@ void SceneTrain::Init()
 	traincollider->SetColliderBox(Vector3(4.5, 5, 3), Vector3(0, 4.5, 0));
 	traincollider->SetTranslate(train->GetTranslate());
 	{
-		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_QUAD));
-		Environment[EN_FLOOR1]->SetScale(Vector3(30, 30, 30));
+		Environment[EN_FLOOR1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_GRASS));
+		Environment[EN_FLOOR1]->SetScale(Vector3(300, 300, 300));
 		Environment[EN_FLOOR1]->SetRotate(Vector3(0, 180, 0));
 
-		//Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
-		//Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
-		//Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 1));
-		//Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
+		//Environment
 	}
+
+	Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
+	Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
+	Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
+	Waypoints[WP_DOOR]->SetTranslate(Vector3(0, 0, 110));
 }
 
 void SceneTrain::InitGL()
@@ -99,6 +107,8 @@ void SceneTrain::Update(double dt)
 	if (!bPauseGame)
 	{
 		camera.Updatemovement(dt);
+
+
 
 		train->UpdateChildCollision();
 		train->UpdateCollision();
@@ -146,6 +156,7 @@ void SceneTrain::Update(double dt)
 		npc->Update(dt);
 	}
 
+	Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
 	camera.Updateposition();
 	ui->Update(dt);
 }
@@ -167,11 +178,20 @@ void SceneTrain::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 
-	Environment[EN_FLOOR1]->Draw(renderer, true);
 
+	Environment[EN_FLOOR1]->Draw(renderer, true);
 
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);
+	for (int i = 0; i < WP_TOTAL; i++)
+	{
+		if (Waypoints[i])
+		{
+			Waypoints[i]->Draw(renderer, false);
+			Waypoints[i]->DrawLocName(renderer);
+
+		}
+	}
 	train->Draw(renderer, true);
 	traincollider->Draw(renderer, false);
 	ui->Draw(renderer, true);

@@ -20,6 +20,7 @@ public:
 		//Environment
 		MESH_LAND,
 		MESH_FIELD,
+		MESH_GRASS,
 		MESH_HOUSE1,
 		MESH_HOUSE2,
 		MESH_HOUSE3,
@@ -32,6 +33,7 @@ public:
 		MESH_FAN,
 		MESH_TREE,
 		MESH_INDOORWALL,
+		MESH_PLATFORM,
 
 		//OBJECTS
 		MESH_TABLE,

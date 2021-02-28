@@ -47,6 +47,10 @@ UI::~UI()
 		if(text[i])
 			delete text[i];
 	}
+	while (!NPC_Text.empty()) {
+		delete NPC_Text.back();
+		NPC_Text.pop_back();
+	}
 }
 void UI::Init(Character* player)
 {

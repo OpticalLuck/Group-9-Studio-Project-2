@@ -12,6 +12,7 @@
 #include "UI.h"
 #include "NPC.h"
 #include "Train.h"
+#include "WayPoint.h"
 
 class SceneTrain : public Scene
 {
@@ -35,6 +36,13 @@ public:
 		LIGHT_TEST,
 		LIGHT_TOTAL
 	};
+
+	enum WP_TYPE
+	{
+		WP_DOOR,
+		WP_TOTAL
+	};
+
 	SceneTrain();
 	~SceneTrain();
 
@@ -61,7 +69,7 @@ private:
 	Light* lights[LIGHT_TOTAL];
 	Skybox* skybox;
 	NPC* npc;
-
+	WayPoint* Waypoints[WP_TOTAL];
 };
 
 #endif
