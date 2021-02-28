@@ -94,6 +94,11 @@ MeshList::MeshList()
 
 	meshlist[MESH_PAUSEBG] = MeshBuilder::GenerateQuad("PauseBG", Color(1.f, 1.f, 1.f), 75, 75);
 	meshlist[MESH_PAUSEBG]->textureArr[0] = texturelist->Insert("PauseMenu.tga");
+
+	meshlist[MESH_CONTROLS] = MeshBuilder::GenerateQuad("Quad", Color(0.5f, 0.5f, 0.5f), 128, 72);
+	meshlist[MESH_CONTROLS]->textureArr[0] = texturelist->Insert("Controls.tga");
+
+
 	//// </UI> 
 
 	//// <NPC> 

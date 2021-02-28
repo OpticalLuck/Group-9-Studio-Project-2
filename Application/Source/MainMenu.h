@@ -22,13 +22,15 @@ public:
 		BTN_START = 0,
 		BTN_CONTROLS,
 		BTN_QUIT,
+		BTN_CLOSE,
 		BTN_TOTAL
 	};
 private:
 	Renderer* renderer;
 	Mesh* BackGround;
 	Mesh* Logo;
+	Mesh* Controls;
 	Button* MenuBtn[BTN_TOTAL];
-	bool isMousePressed;
+	bool isMousePressed, isControlOpen;
 };
 

@@ -40,7 +40,8 @@ private:
 	GameObject* Quad;
 	GameObject* Item; //TODO: Make Item its own class instead of a GO
 	GameObject* PauseBG;
-	Button* PauseButton[3];
+	GameObject* ControlsPage;
+	Button* PauseButton[4];
 
 	Mesh* BG;
 	Text* Info[10];
@@ -58,6 +59,7 @@ private:
 	bool interactable;
 	bool text2active;
 	bool bPause;
+	bool bControlMenu;
 	bool bTab;
 	bool Dialogue;
 	bool NPCDialogue;

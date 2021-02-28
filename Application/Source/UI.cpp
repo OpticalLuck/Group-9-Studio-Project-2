@@ -10,7 +10,8 @@ UI::UI() :
 	Button_Count(0),
 	isEscPressed(false),
 	isMousePressed(false),
-	NPCDialogue(false)
+	NPCDialogue(false),
+	bControlMenu(false)
 {
 	//Quest Tab
 	BG = MeshList::GetInstance()->GetMesh(MeshList::MESH_QUAD);
@@ -143,12 +144,19 @@ void UI::Init(Character* player)
 	PauseBG->SetMesh(MeshList::GetInstance()->GetMesh(MeshList::MESH_PAUSEBG));
 	PauseBG->SetTranslate(Vector3(-22, 36, 0));
 
+	ControlsPage = new GameObject();
+	ControlsPage->SetMesh(MeshList::GetInstance()->GetMesh(MeshList::MESH_CONTROLS));
+	ControlsPage->SetTranslate(Vector3(64, 36, 0));
+	ControlsPage->SetScale(Vector3(0.8f, 0.8f, 0.8f));
+
 	PauseButton[0] = new Button(64, 45, 4, 1, 8);
 	PauseButton[0]->SetTexture("Buttons/ResumeBtn.tga");
 	PauseButton[1] = new Button(64, 30, 4, 1, 8);
 	PauseButton[1]->SetTexture("Buttons/ControlsBtn.tga");
 	PauseButton[2] = new Button(64, 15, 4, 1, 8);
 	PauseButton[2]->SetTexture("Buttons/QuitBtn.tga");
+	PauseButton[3] = new Button(115, 65, 1, 1, 5);
+	PauseButton[3]->SetTexture("Buttons/CloseBtn.tga");
 
 	////Dialogue for everything
 
@@ -528,45 +536,70 @@ void UI::Update(double dt)
 		
 		double xpos, ypos;
 		Application::GetCursorPos(&xpos, &ypos);
-		for (int btnidx = 0; btnidx < 3; btnidx++)
+		if (!bControlMenu)
 		{
-			if (PauseButton[btnidx]->ScaleOnHover(xpos, ypos, 1.2f) && Application::IsMousePressed(0) && !isMousePressed)
+			for (int btnidx = 0; btnidx < 3; btnidx++) //0 - 2 only
 			{
-				PauseButton[btnidx]->SetbClicked((true));
-				isMousePressed = true;
+				if (PauseButton[btnidx]->ScaleOnHover(xpos, ypos, 1.2f) && Application::IsMousePressed(0) && !isMousePressed)
+				{
+					PauseButton[btnidx]->SetbClicked((true));
+					isMousePressed = true;
+				}
+			}
+		
+			if (isMousePressed && !Application::IsMousePressed(0))
+			{
+				if (PauseButton[0]->isHoveredOn(xpos, ypos) && PauseButton[0]->getbClicked())
+				{
+					Application::DisableCursor();
+					bPause = false;
+				}
+				else
+				{
+					isMousePressed = false;
+					PauseButton[0]->SetbClicked(false);
+				}
+				if (PauseButton[1]->isHoveredOn(xpos, ypos) && PauseButton[1]->getbClicked())
+				{
+					bControlMenu = true;
+				}
+				else
+				{
+					isMousePressed = false;
+					PauseButton[1]->SetbClicked(false);
+				}
+				if (PauseButton[2]->isHoveredOn(xpos, ypos) && PauseButton[2]->getbClicked())
+				{
+					Application::bQuit = true;
+				}
+				else
+				{
+					isMousePressed = false;
+					PauseButton[2]->SetbClicked(false);
+				}
 			}
 		}
-		
-		if (isMousePressed && !Application::IsMousePressed(0))
+		else
 		{
-			if (PauseButton[0]->isHoveredOn(xpos, ypos) && PauseButton[0]->getbClicked())
+			if (PauseButton[3]->ScaleOnHover(xpos, ypos, 1.2f) && Application::IsMousePressed(0) && !isMousePressed)
 			{
-				Application::DisableCursor();
-				bPause = false;
+				PauseButton[3]->SetbClicked((true));
+				isMousePressed = true;
 			}
-			else
+
+			if (isMousePressed && !Application::IsMousePressed(0))
 			{
-				isMousePressed = false;
-				PauseButton[0]->SetbClicked(false);
+				if (PauseButton[3]->isHoveredOn(xpos, ypos) && PauseButton[3]->getbClicked())
+				{
+					bControlMenu = false;
+				}
+				else
+				{
+					isMousePressed = false;
+					PauseButton[0]->SetbClicked(false);
+				}
 			}
-			if (PauseButton[1]->isHoveredOn(xpos, ypos) && PauseButton[1]->getbClicked())
-			{
-				std::cout << "LMAO" << std::endl;
-			}
-			else
-			{
-				isMousePressed = false;
-				PauseButton[1]->SetbClicked(false);
-			}
-			if (PauseButton[2]->isHoveredOn(xpos, ypos) && PauseButton[2]->getbClicked())
-			{
-				Application::bQuit = true;
-			}
-			else
-			{
-				isMousePressed = false;
-				PauseButton[2]->SetbClicked(false);
-			}
+
 		}
 	}
 
@@ -993,6 +1026,12 @@ void UI::Draw(Renderer* renderer, bool enableLight)
 		PauseButton[0]->Draw(renderer);
 		PauseButton[1]->Draw(renderer);
 		PauseButton[2]->Draw(renderer);
+
+		if (bControlMenu)
+		{
+			renderer->RenderMeshOnScreen(ControlsPage->GetMesh(), ControlsPage->GetTranslate().x, ControlsPage->GetTranslate().y, ControlsPage->GetScale().x, ControlsPage->GetScale().y);
+			PauseButton[3]->Draw(renderer);
+		}
 	}
 }
 
