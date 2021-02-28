@@ -64,7 +64,7 @@ void Train::Update(double dt)
 			velocity += speed;
 		}
 
-		velocity = Math::Clamp(velocity, 3.f, 20.f);
+		velocity = Math::Clamp(velocity, 3.f, 30.f);
 
 		MoveToPos(stops.at(nextstop), velocity);
 
@@ -138,6 +138,9 @@ Train* Train::PushStop(float x, float y, float z)
 
 Train* Train::ExtendStop(Vector3 dest)
 {
+	if (stops.empty()) {
+		return PushStop(GetTranslate() + dest);
+	}
 
 	return PushStop(stops.back() + dest);
 }

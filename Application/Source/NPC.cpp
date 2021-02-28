@@ -161,38 +161,41 @@ void NPC::SetDefaultPos(Vector3 def)
 	SetTranslate(def);
 }
 
-void NPC::PushPathPoint(Vector3 position)
+NPC* NPC::PushPathPoint(Vector3 position)
 {
 	if (!canDespawn)
 		destinations.push(position);
 	else {
 		std::cout << "Path point not set! Please path it out properly before you push your despawn point!\n";
 	}
+	return this;
 }
 
-void NPC::PushPathPoint(float x, float y, float z)
+NPC* NPC::PushPathPoint(float x, float y, float z)
 {
-	PushPathPoint(Vector3(x, y, z));
+	return PushPathPoint(Vector3(x, y, z));
+	
 }
 
-void NPC::PushDespawnPoint(Vector3 position)
+NPC* NPC::PushDespawnPoint(Vector3 position)
 {
 	if (DefaultIdleSet) { //don't set a despawn point if have a default position
 		std::cout << "If you have a default idle set, would you really want to despawn your NPC?\n";
-		return;
+		return this;
 	}
 
 
 	destinations.push(position);
 	canDespawn = true;
+	return this;
 }
 
-void NPC::PushDespawnPoint(float x, float y, float z)
+NPC* NPC::PushDespawnPoint(float x, float y, float z)
 {
-	PushDespawnPoint(Vector3(x, y, z));
+	return PushDespawnPoint(Vector3(x, y, z));
 }
 
-void NPC::SetRespawnPos(Vector3 position)
+NPC* NPC::SetRespawnPos(Vector3 position)
 {
 	
 	if (canDespawn) {
@@ -207,12 +210,13 @@ void NPC::SetRespawnPos(Vector3 position)
 		std::cout << "Respawn point not set! Did you set the respawn point before pushing the despawn?\n";
 	}
 
+	return this;
 }
 
 
-void NPC::SetRespawnPos(float x, float y, float z)
+NPC* NPC::SetRespawnPos(float x, float y, float z)
 {
-	SetRespawnPos(Vector3(x, y, z));
+	return SetRespawnPos(Vector3(x, y, z));
 }
 
 NPC* NPC::PushText(std::string text)

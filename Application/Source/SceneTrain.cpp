@@ -54,6 +54,11 @@ void SceneTrain::Init()
 
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	
+	//point all Environment to NULL for unused environment enums
+	for (int i = 0; i < EN_TOTAL; i++) {
+		Environment[i] = NULL;
+	}
+
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
 	Ayaka->Init(Vector3(0, 2, 100), Vector3(0, 0, 0));
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
@@ -64,16 +69,30 @@ void SceneTrain::Init()
 	ui->Init(Ayaka);
 
 	npc = goManager.CreateGO<NPC>(meshlist->GetMesh(MeshList::MESH_NPC));
-	npc->Init(meshlist, Ayaka, Vector3(2, 0, 2));
-
+	npc->Init(meshlist, Ayaka, Vector3(5, 3, 98), Vector3(0, 330, 0));
+	npc->SetUI(ui);
+	npc->SetColliderBox();
+	npc
+		->PushText("Welcome to the train station!")
+		->PushText("Hop into the train and get an amazing view of our city!")
+	;
 
 	train = goManager.CreateGO<Train>(meshlist->GetMesh(MeshList::MESH_TRAIN));
 	train->Init(meshlist, Ayaka);
-	train->SetDefaultPos(Vector3(0, 2, -5));
-	train->PushStop(0, 2, -10);
-	train->PushStop(5,2,5)->SetStation();
-	train->ExtendStop(20)->ExtendStop(0,0,14);
-	train->ExtendStop(15, 0, 0);
+	train->SetDefaultPos(Vector3(0, 1.85, 90));
+	train->ExtendStop(80)
+		->ExtendStop(20, 0, -20)
+		->ExtendStop(0, 0, -160)
+		->ExtendStop(-20, 0, -20)
+		->ExtendStop(-160,0,0)
+		->ExtendStop(-20, 0, 20)
+		->ExtendStop(0, 0, 160)
+		->ExtendStop(20, 0, 20)
+		->ExtendStop(30)
+		->ExtendStop(15)
+		->ExtendStop(35)
+		->SetStation()
+		;
 
 
 	traincollider = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
@@ -86,12 +105,47 @@ void SceneTrain::Init()
 		Environment[EN_FLOOR1]->SetRotate(Vector3(0, 180, 0));
 
 		//Environment
+		Environment[EN_PLATFORM] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PLATFORM));
+		Environment[EN_PLATFORM]->SetScale(Vector3(40, 2, 20));
+		Environment[EN_PLATFORM]->SetColliderBox(Vector3(20, 1, 10));
+		Environment[EN_PLATFORM]->SetTranslate(Vector3(0, 2, 105));
+
+		Environment[EN_TOWER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_PAGODA));
+		Environment[EN_TOWER]->SetColliderBox(Vector3(29, 3, 29), Vector3(2, 2.4f, 0)); //Platform
+		Environment[EN_TOWER]->SetColliderBox(Vector3(15, 40, 15), Vector3(0, 40, 0)); //Pagoda
+		Environment[EN_TOWER]->SetColliderBox(Vector3(7, 3, 1), Vector3(31.6f, 1.4, 0)); //Stairs
+		Environment[EN_TOWER]->SetColliderBox(Vector3(7, 3, 1), Vector3(33.5f, 0, 0));
+		Environment[EN_TOWER]->SetColliderBox(Vector3(7, 3, 1), Vector3(35.5f, -1.4f, 0));
+
+
+		for (int i = EN_TREE; i < EN_ENDTREES; i++) { //Set all 13 trees to have the same tree mesh
+			Environment[i] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TREE));
+			float randomscale = std::rand() % 4 + 5;
+
+			Environment[i]->SetScale(Vector3(randomscale, randomscale, randomscale));
+		}
+
+		//
+		Environment[EN_TREE]->SetTranslate(Vector3(35,0,-35));
+		Environment[EN_TREEBOTL1]->SetTranslate(Vector3(-34, 0 , 50));
+		Environment[EN_TREEBOTL2]->SetTranslate(Vector3(-60, 0 , 10));
+		Environment[EN_TREEBOTL3]->SetTranslate(Vector3(-13, 0, 80));
+		Environment[EN_TREEBOTR1]->SetTranslate(Vector3(20, 0, 40));
+		Environment[EN_TREEBOTR2]->SetTranslate(Vector3(60, 0, 60));
+		Environment[EN_TREEBOTR3]->SetTranslate(Vector3(90, 0, -5));
+		Environment[EN_TREETOPR1]->SetTranslate(Vector3(35, 0, -70));
+		Environment[EN_TREETOPR2]->SetTranslate(Vector3(50, 0, -30));
+		Environment[EN_TREETOPR3]->SetTranslate(Vector3(4, 0, -55));
+		Environment[EN_TREETOPL1]->SetTranslate(Vector3(-5, 0, -90 ));
+		Environment[EN_TREETOPL2]->SetTranslate(Vector3(-90, 0, -50));
+		Environment[EN_TREETOPL3]->SetTranslate(Vector3(-70, 0, -10));
+
 	}
 
 	Waypoints[WP_DOOR] = new WayPoint("City", Vector3(0, 1, 12));
 	Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
-	Waypoints[WP_DOOR]->SetTranslate(Vector3(0, 0, 110));
+	Waypoints[WP_DOOR]->SetTranslate(Vector3(0, 2, 110));
 }
 
 void SceneTrain::InitGL()
@@ -118,12 +172,16 @@ void SceneTrain::Update(double dt)
 		Ayaka->CollisionResolution(train);
 
 		
-		bool insideTrain = traincollider->GetColliderBox(0)->CheckOBBCollision(Ayaka->GetColliderBox(0)).Collided;
+		bool insideTrain = 
+			traincollider->GetColliderBox(0)
+			->CheckOBBCollision(Ayaka->GetColliderBox(0)).Collided;
+
 		train->SetTransparentCollider(insideTrain);
 		train->Update(dt);
 		traincollider->SetTranslate(train->GetTranslate());
 		traincollider->SetRotate(train->GetRotate());
-		//Ayaka->CollisionResolution(train->getDoor());
+		for (int i = EN_PLATFORM; i < EN_ENDTREES; i++)
+			Ayaka->CollisionResolution(Environment[i]);
 		{
 			if (Application::IsKeyPressed('1'))
 			{
@@ -178,9 +236,11 @@ void SceneTrain::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 
-
-	Environment[EN_FLOOR1]->Draw(renderer, true);
-
+	for (int i = 0; i < EN_TOTAL; i++) {
+		if (Environment[i]) {
+			Environment[i]->Draw(renderer, true);
+		}
+	}
 	Ayaka->Draw(renderer, true);
 	npc->Draw(renderer, true);
 	for (int i = 0; i < WP_TOTAL; i++)

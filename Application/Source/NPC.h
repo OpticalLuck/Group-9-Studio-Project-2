@@ -40,15 +40,15 @@ public:
 
 	//add a point to go towards
 	//try to keep them on the same y level and straight (only affect one axis at a time)
-	void PushPathPoint(Vector3 position);
-	void PushPathPoint(float x, float y, float z);
+	NPC* PushPathPoint(Vector3 position);
+	NPC* PushPathPoint(float x, float y, float z);
 
 	//make npc despawn at this position
-	void PushDespawnPoint(Vector3 position);
-	void PushDespawnPoint(float x, float y, float z);
+	NPC* PushDespawnPoint(Vector3 position);
+	NPC* PushDespawnPoint(float x, float y, float z);
 
-	void SetRespawnPos(Vector3 position);
-	void SetRespawnPos(float x, float y, float z);
+	NPC* SetRespawnPos(Vector3 position);
+	NPC* SetRespawnPos(float x, float y, float z);
 
 	NPC* PushText(std::string text);
 	
