@@ -50,15 +50,21 @@ void NPC::Update(double dt)
 			RotateTowardsCharacter(BodyArr[HEAD], 75, 180); //50);
 
 			if (ui != NULL) {
-				if (Application::IsKeyPressed('E') && GetInRange(objectToLookAt, GetRadius()) && !ui->getNPCstate() && !speech.empty())
+				if (GetInRange(objectToLookAt, GetRadius()) && !ui->getNPCstate() && !speech.empty())
 				{
-					ui->setNPCText(&speech);
+					ui->setIsNearNPC(true);
+					if (Application::IsKeyPressed('E')) {
+						ui->setNPCText(&speech);
+					}
 				}
+				
 			}
 
 
 		}
 		else {
+
+			
 			RotateToVector(BodyArr[HEAD], GetRotate());
 			
 			if (!destinations.empty()) { //Stop moving when all destinations reached

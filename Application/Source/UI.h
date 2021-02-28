@@ -2,6 +2,7 @@
 #include "CameraVer2.h"
 #include "Renderer.h"
 #include "MeshList.h"
+#include "GameObject.h"
 #include "Character.h"
 #include "Text.h"
 #include "Application.h"
@@ -26,13 +27,13 @@ public:
 	float getMapBoundsX();
 	float getMapBoundsZ();
 	bool getNPCstate();
+	bool getIsNearNPC();
 
 	void setItem(GameObject* item);
 	void setInteractable(bool interactable);
 	void setMapBounds(float max_X, float max_Z);
 	void setNPCText(std::vector<std::string> *speechstring); //only set when npc is interacted with!
-
-	
+	void setIsNearNPC(bool yn);
 
 private:
 	CameraVer2* camera;
@@ -61,6 +62,7 @@ private:
 	bool bTab;
 	bool Dialogue;
 	bool NPCDialogue;
+	bool isNearNPC;
 	bool Dialogue_1 = true;
 	bool Dialogue_2 = false;
 	bool Dialogue_3 = false;
