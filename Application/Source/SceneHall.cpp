@@ -190,7 +190,7 @@ void SceneHall::Update(double dt)
 
 		if (Waypoints[WP_PORTAL]->inRangeResponse(Ayaka, SceneManager::SCENE_MAINMENU) && Application::IsKeyPressed('E'))
 		{
-			Application::bQuit = true;
+			SceneManager::ChangeScene(SceneManager::SCENE_GAMEOVER);
 		}
 	}
 

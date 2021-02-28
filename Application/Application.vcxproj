@@ -151,6 +151,7 @@
     <ClCompile Include="Source\Character.cpp" />
     <ClCompile Include="Source\Collision.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
+    <ClCompile Include="Source\GameOver.cpp" />
     <ClCompile Include="Source\GOManager.cpp" />
     <ClCompile Include="source\Light.cpp" />
     <ClCompile Include="Source\LoadCSV.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Source\Character.h" />
     <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\GameOver.h" />
     <ClInclude Include="Source\GOManager.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadCSV.h" />

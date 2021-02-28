@@ -5,7 +5,6 @@
 
 #include "MeshBuilder.h"
 #include "shader.hpp"
-
 #include "SceneManager.h"
 
 SceneCity::SceneCity() :

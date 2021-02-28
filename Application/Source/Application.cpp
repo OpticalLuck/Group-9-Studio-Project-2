@@ -225,6 +225,10 @@ void Application::Run()
 		{
 			sceneManager->ChangeScene(SceneManager::SCENE_HALL);
 		}
+		if (IsKeyPressed(VK_F7))
+		{
+			sceneManager->ChangeScene(SceneManager::SCENE_GAMEOVER);
+		}
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...

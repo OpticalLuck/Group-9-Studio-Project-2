@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "SceneStadium.h"
 #include "MainMenu.h"
+#include "GameOver.h"
 #include "shader.hpp"
 
 SceneManager::SCENE_TYPE SceneManager::CurrentScene;
@@ -25,6 +26,9 @@ SceneManager::SceneManager()
 	SceneArr[SCENE_STADIUM] = new SceneStadium();
 
 	SceneArr[SCENE_TRAIN] = new SceneTrain();
+
+	SceneArr[SCENE_GAMEOVER] = new GameOver();
+
 }
 
 SceneManager::~SceneManager()
@@ -83,6 +87,18 @@ void SceneManager::ChangeScene(SCENE_TYPE NextScene)
 			mainScene->Init();
 		}
 		mainScene->InitGL();
+
+
+		if (getCurrentSceneType() == SCENE_MAINMENU || getCurrentSceneType() == SCENE_GAMEOVER)
+		{
+			if (Application::Cursor_Off)
+			Application::EnableCursor();
+		}
+		else
+		{
+			if(!Application::Cursor_Off)
+				Application::DisableCursor();
+		}
 	}
 }
 
