@@ -1,0 +1,294 @@
+Author:josiah Commit:White Waypoint Boxes Removed
+Author:douglas Commit:Added color to SceneLibrary's counter & fixed press e bug
+Author:josiah Commit:Removed the cube crown
+Author:jeryl lah Commit:Game Over Added
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Controls added
+Author:josiah Commit:Fixed Fan Bug
+Author:josiah Commit:Now NPCs show if they are interactable
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Gave NPCs dialogue in SceneCity
+Author:douglas Commit:Removed Axis from scenes
+Author:josiah Commit:Made Trees Bigger in Scene Train
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Added train to SceneCity
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Dialogue bug fixed
+Author:josiah Commit:SceneTrain now has trees
+Author:josiah Commit:Added Waypoint to SceneTrain
+Author:jeryl lah Commit:Update README.txt
+Author:jeryl lah Commit:Readme ADded
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Remove some unnecessary stuff
+Author:douglas Commit:Dialogue Designation Done
+Author:jeryl lah Commit:Resolved merging mem leaks
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:No more memory leaks
+Author:josiah Commit:removed debugging
+Author:josiah Commit:NPCs can now be talked to
+Author:josiah Commit:Train is done
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:more collision fixes
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Changed models of collectibles to Gem and Key
+Author:josiah Commit:Train can move to destinations!
+Author:jeryl lah Commit:Removed some unnecessary stuff
+Author:jeryl lah Commit:Offset is taken into account in child collision
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Update GameObject.cpp
+Author:jeryl lah Commit:Collsion child shit works yay
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Train moves your character
+Author:douglas Commit:Dialogue allocation should be fixed
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Train door moves
+Author:yeokhao Commit:updated questlist & progression
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:changed ui text
+Author:douglas Commit:Update
+Author:yeokhao Commit:Edited final gem to only spawn if stadium and library quest are done
+Author:yeokhao Commit:Added textures to SceneHall, added collectible to SceneStadium that updates quest
+Author:jeryl lah Commit:Full Collision Compatibility with child Objects
+Author:jeryl lah Commit:Some Not returning value issues resolved
+Author:jeryl lah Commit:Added Parenting to Collision
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:some small edits
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Train Added to Scene Train
+Author:jeryl lah Commit:Designed Main Menu
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Camera Clamp & Boost added to City
+Author:josiah Commit:Added Train Models
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Added DrawLocName in SceneHall & SceneLibrary
+Author:jeryl lah Commit:Update SceneHall.cpp
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Pause Menu stops updating game other than ui and camera position
+Author:yeokhao Commit:Added portal rendering on collecting test collectible in SceneTest and collectible in SceneHall. Game ends when player interacts with portal
+Author:jeryl lah Commit:Pause Menu Bugfix
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Pause Menu Added
+Author:yeokhao Commit:solved merge conflicts
+Author:yeokhao Commit:Added waypoints to SceneLibrary and linked some scenes together
+Author:douglas Commit:Storyline finally done
+Author:yeokhao Commit:Added waypoints into SceneHall (Portal doesnt do anything atm)
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:NPCs that are still will band back to their original spot
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:quest list now updates ring count
+Author:douglas Commit:Removed T toggle from UI
+Author:douglas Commit:Updated dialogue up to current storyline to accommodate new font
+Author:yeokhao Commit:Fixed issue where it would crash on entering SceneLibrary as it was trying to access camera->getSprintState which was NULL
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Added simple quest list (ring count currently set to player->getcollectiblecount)
+Author:josiah Commit:Added 4 NPCs
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:heads fixed again
+Author:jeryl lah Commit:Basic MainMenu Done Ur welcome
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Head Rotation fully fixed
+Author:jeryl lah Commit:MainMenu Start
+Author:jeryl lah Commit:oops
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:New Text
+Author:yeokhao Commit:Added tree to scenecity
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:NPC Head rotation sort of works now
+Author:yeokhao Commit:solved merge conflict
+Author:yeokhao Commit:added basic skeleton of tree into scenecity
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Update SceneStadium.cpp
+Author:douglas Commit:3 Dialogues done
+Author:josiah Commit:added npc to library
+Author:jeryl lah Commit:is init added to all scenes
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Stadium Game done
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Added NPC Spawning and Despawning
+Author:yeokhao Commit:solve merge conflicts
+Author:yeokhao Commit:Added collectible count text in UI
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Half of Storyline Dialogue Done
+Author:jeryl lah Commit:Update CameraVer2.cpp
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Fixed NPC looking problem Problem
+Author:jeryl lah Commit:Jump Change
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Giving NPC a model and mesh
+Author:yeokhao Commit:Edited map code in UI to always show icon within map (bounds for map can be set using ui->setMapBounds() func)
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Basic functionality of linked quests in SceneManager updated
+Author:jeryl lah Commit:Base Stadium Scene & update waypoint system
+Author:jeryl lah Commit:Update
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Added model and Update Sprint and glide
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Added Collectible into SceneHall for testing purposes. Will delete later
+Author:douglas Commit:Start of a Long & arduous storyline
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Added test NPC to SceneHall
+Author:douglas Commit:Start of Dialogue Box for Library
+Author:yeokhao Commit:Fixed error with file directory for MESH_TABLE and MESH_PLANT
+Author:yeokhao Commit:removed old camera update code in SceneHall
+Author:yeokhao Commit:solved merge conflicts
+Author:yeokhao Commit:Added more stuff to SceneHall
+Author:josiah Commit:Added SceneTrain and Improved NPC
+Author:josiah Commit:added scene train
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Camera function moved
+Author:josiah Commit:Character always has foot hitbox
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Fixed NPC Pathing Error
+Author:yeokhao Commit:Added SceneHall
+Author:douglas Commit:Added Collision to SceneLibrary Ceiling
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Update SceneCity.cpp
+Author:jeryl lah Commit:Added a lot of models
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Removed Useless calculations and functions
+Author:jeryl lah Commit:Added Waypoint Class and clean up TextArrData
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Small change to shader,  added some objs and textures
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Sprintbar can now be used in both first person and third person
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Can jump on object
+Author:douglas Commit:Small Comment
+Author:douglas Commit:SceneLibrary Collision Done
+Author:jeryl lah Commit:Update GameObject.cpp
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:added back some variables lol
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Update
+Author:yeokhao Commit:solved merge conflicts
+Author:yeokhao Commit:Edited Character, UI and SceneLibrary so that 3rd Person can now sprint
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Implemented Basic Gliding
+Author:jeryl lah Commit:Collision Update
+Author:jeryl lah Commit:Update SceneLibrary.cpp
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Basic Stuff for SceneLibrary done
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Collision BugFix, Texture and Mesh init optimized
+Author:josiah Commit:Set it back to normal nontesting version
+Author:josiah Commit:Fixed Offset positioning
+Author:yeokhao Commit:merge accidentally moved Scene.h's bool isInit from public to private. Has been moved back to public
+Author:yeokhao Commit:resolved merge conflicts
+Author:yeokhao Commit:Basic skeleton of Quest System done
+Author:jeryl lah Commit:SceneManager Implemented
+Author:josiah Commit:Set player back to ground (house still weird)
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Very Basic Jump Implemented
+Author:douglas Commit:Adjustments to current SceneCity OBJs
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Problem Solved
+Author:jeryl lah Commit:Merging
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:NEW MODELS & MAIN SCENE UPDATE
+Author:josiah Commit:goes to destination
+Author:josiah Commit:NPC rotates to path point
+Author:josiah Commit:Got rotation to point working
+Author:josiah Commit:Added Groundmesh to SceneNPCTest
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:ColliderBox Change, More flexibility
+Author:josiah Commit:Added Pathing Queue
+Author:jeryl lah Commit:Camera movement is done
+Author:jeryl lah Commit:Camera Update, WIP
+Author:jeryl lah Commit:Update SceneTest.cpp
+Author:jeryl lah Commit:Shader Update
+Author:jeryl lah Commit:Add texturelist into scenes
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Edited NPC to not make new Meshlist
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:MultiTexturing Added
+Author:yeokhao Commit:Edited UI to not create a new MeshList and instead get passed in mesh from scene using getMeshList and setMeshList
+Author:jeryl lah Commit:Update Shaders & Textures
+Author:josiah Commit:Added jumping
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Very Primitive Gravity implemented to character
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Added more Houses to SceneCity
+Author:yeokhao Commit:Added toggle map to UI
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Item interaction and text done
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Giving Character Collision in SceneCity
+Author:douglas Commit:Fixed Orientation of existing Houses
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Character now moves with camera
+Author:jeryl lah Commit:Added some models into meshlist
+Author:jeryl lah Commit:Skybox Improvement, ScreenSize change
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Skybox Class
+Author:josiah Commit:allow switching between more than 2 scenes
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Update vcxproject Filters
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Fixed Skybox orientation
+Author:josiah Commit:UI points to character
+Author:yeokhao Commit:Readded SceneTest again
+Author:yeokhao Commit:Readded SceneTest to solution
+Author:yeokhao Commit:solved merge conflicts
+Author:yeokhao Commit:uh forgot to commit the vcxproj or whatever idk
+Author:yeokhao Commit:Added UI Class, moved UI elements (sprint bar, textonscreen) from SceneTest over to UI
+Author:jeryl lah Commit:Framework Optimization
+Author:jeryl lah Commit:Collision Works
+Author:josiah Commit:Added NPC movement - Basic
+Author:josiah Commit:objects enter FLAG1 when nearby object radius
+Author:josiah Commit:character now activates flags when near item
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:Skybox for main scene added
+Author:jeryl lah Commit:Update SceneRender()
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Added Floor Mesh, Fixed Light
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Interaction partially done
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Adding Interaction States/Flags
+Author:yeokhao Commit:object interaction now works somewhat
+Author:josiah Commit:Formatting Meshlist
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Revert "Can now interact with item to "pick up" and stop rendering it (need to solve issue where text still appears if player walks over to spot where item was picked up)"
+Author:yeokhao Commit:Can now interact with item to "pick up" and stop rendering it (need to solve issue where text still appears if player walks over to spot where item was picked up)
+Author:josiah Commit:minor improvement
+Author:josiah Commit:Finalized Head Rotation
+Author:jeryl lah Commit:Improvement of OBB Detection
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:OBB WIP Update
+Author:douglas Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:douglas Commit:FPS Counter Implemented
+Author:yeokhao Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:yeokhao Commit:Moved some code from camera to character (sprint bar), but changing the speed is still in camera
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Changes to Rotatation. Only rotates on y axis
+Author:douglas Commit:Proper Comments for SceneTest
+Author:douglas Commit:Minor Adjustments to walking/sprinting status
+Author:douglas Commit:Minor Changes to on screen text
+Author:yeokhao Commit:Edited SceneTest to use Character instead of Camera for proximity text calculations
+Author:josiah Commit:NPC Now rotates head
+Author:josiah Commit:improved rotation. Can now rotate any part.
+Author:josiah Commit:Added Up and Down movement to free cam
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:OBB Collision WIP
+Author:josiah Commit:Rotation now has proper limits
+Author:josiah Commit:Adding Rotatation Based on Character Position
+Author:yeokhao Commit:Rough implementation of map and player icon (no camera bounds yet)
+Author:yeokhao Commit:Added stuff to CameraVer2 to implement stamina bar in SceneTest
+Author:jeryl lah Commit:Simple AABB Collision Implementation
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:jeryl lah Commit:Imcomplete aabb collsion & minor updates
+Author:josiah Commit:Fixed Visual Studio issue
+Author:josiah Commit:Merge branch 'main' of https://github.com/OpticalLuck/Group-9-Studio-Project-2 into main
+Author:josiah Commit:Added NPC Class
+Author:douglas Commit:Added SceneTest & TextonScreen
+Author:josiah Commit:final comments and minor fix
+Author:josiah Commit:Comments for Camera
+Author:jeryl lah Commit:Added Text
+Author:jeryl lah Commit:Problems again
+Author:jeryl lah Commit:Update
+Author:jeryl lah Commit:ECS Removal
+Author:jeryl lah Commit:Woops
+Author:jeryl lah Commit:Start
+Author:jeryl lah Commit:Initial commit
