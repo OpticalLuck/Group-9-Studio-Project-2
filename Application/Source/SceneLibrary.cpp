@@ -22,6 +22,7 @@ SceneLibrary::~SceneLibrary()
 	delete npc;
 	delete Character_Name[0];
 	delete ui;
+	delete Interaction[0];
 	for (int enIdx = 0; enIdx < EN_TOTAL; enIdx++)
 	{
 		delete Environment[enIdx];
@@ -34,6 +35,7 @@ SceneLibrary::~SceneLibrary()
 	{
 		delete lights[LtIdx];
 	}
+
 }
 
 void SceneLibrary::Init()

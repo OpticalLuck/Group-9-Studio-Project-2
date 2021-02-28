@@ -7,6 +7,7 @@ WayPoint::WayPoint(std::string name, Vector3 position):
 	isEPressed(false)
 {
 	SetMesh(nullptr);
+	SetActive(false);
 	SetTranslate(position);
 
 	this->name = name;

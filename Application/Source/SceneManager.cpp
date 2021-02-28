@@ -39,6 +39,7 @@ SceneManager::~SceneManager()
 	delete static_cast<SceneHall*>(SceneArr[SCENE_HALL]);
 	delete static_cast<SceneStadium*>(SceneArr[SCENE_STADIUM]);
 	delete static_cast<SceneTrain*>(SceneArr[SCENE_TRAIN]);
+	delete static_cast<GameOver*>(SceneArr[SCENE_GAMEOVER]);
 
 	Shader::Destroy();
 	TextureList::Destroy();

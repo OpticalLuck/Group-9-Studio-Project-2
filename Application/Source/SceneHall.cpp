@@ -23,6 +23,7 @@ SceneHall::~SceneHall()
 	delete npc;
 	delete Collectible;
 	delete skybox;
+	delete Interaction[0];
 	for (int ENIdx = 0; ENIdx < EN_TOTAL; ENIdx++)
 	{
 		delete Environment[ENIdx];

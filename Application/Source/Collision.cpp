@@ -3,7 +3,7 @@
 #include "MeshBuilder.h"
 #include "GameObject.h"
 
-bool Collision::isRender = true;
+bool Collision::isRender = false;
 
 Collision::Collision():
     translate(NULL),

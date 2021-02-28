@@ -11,11 +11,10 @@ MainMenu::MainMenu()
 MainMenu::~MainMenu()
 {
 	if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_MAINMENU)
-	{
 		delete renderer;
-	}
 	delete BackGround;
 	delete Logo;
+	delete Controls;
 	//Delete Buttons
 	for (int i = 0; i < BTN_TOTAL; i++)
 	{

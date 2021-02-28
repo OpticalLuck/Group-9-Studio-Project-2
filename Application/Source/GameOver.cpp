@@ -2,12 +2,24 @@
 #include "MeshBuilder.h"
 #include "Application.h"
 #include "LoadTGA.h"
+#include "SceneManager.h"
 GameOver::GameOver()
 {
 }
 
 GameOver::~GameOver()
 {
+	if (SceneManager::getCurrentSceneType() == SceneManager::SCENE_GAMEOVER)
+	{
+		delete renderer;
+	}
+	delete TheEnd;
+	delete Background;
+	//Delete Buttons
+	for (int i = 0; i < BTN_TOTAL; i++)
+	{
+		delete MenuBtn[i];
+	}
 }
 
 void GameOver::Init()
@@ -67,6 +79,7 @@ void GameOver::Render()
 
 void GameOver::Exit()
 {
+	delete renderer;
 }
 
 void GameOver::UpdateMousePos(double xoffset, double yoffset)

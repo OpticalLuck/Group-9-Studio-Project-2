@@ -34,7 +34,8 @@ UI::~UI()
 	//delete Item //within scene
 	delete Quad;
 	delete PauseBG;
-	for (int i = 0; i < 3; i++)
+	delete ControlsPage;
+	for (int i = 0; i < 4; i++)
 	{
 		delete PauseButton[i];
 	}
