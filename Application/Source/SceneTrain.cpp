@@ -64,6 +64,7 @@ void SceneTrain::Init()
 	Ayaka->SetRotate(Vector3(0,Math::RadianToDegree(atan2(camera.GetView().x, camera.GetView().z)) ,0));
 	Ayaka->SetColliderBox(Vector3(0.8f, 2.f, 0.8f), Vector3(0, 2, 0));
 	camera.SetTarget(Ayaka);
+	camera.SetClamp(Vector3(148, 400, 148));
 
 	ui = new UI();
 	ui->Init(Ayaka);
@@ -120,7 +121,7 @@ void SceneTrain::Init()
 
 		for (int i = EN_TREE; i < EN_ENDTREES; i++) { //Set all 13 trees to have the same tree mesh
 			Environment[i] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_TREE));
-			float randomscale = std::rand() % 4 + 5;
+			float randomscale = std::rand() % 4 + 15;
 
 			Environment[i]->SetScale(Vector3(randomscale, randomscale, randomscale));
 		}
