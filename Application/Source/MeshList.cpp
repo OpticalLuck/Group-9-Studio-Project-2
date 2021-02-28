@@ -11,6 +11,7 @@ MeshList::MeshList()
 	meshlist[MESH_AXIS] = MeshBuilder::GenerateAxes("Axis", 1000, 1000, 1000);
 	meshlist[MESH_QUAD] = MeshBuilder::GenerateQuad("Quad", Color(0.5f, 0.5f, 0.5f));
 	meshlist[MESH_CUBE] = MeshBuilder::GenerateCube("Cube", Color(1.f, 1.f, 1.f), 1.f, 1.f, 1.f);
+	meshlist[MESH_CUBE2] = MeshBuilder::GenerateCube("Cube", Color(0.545f, 0.271f, 0.075f), 1.f, 1.f, 1.f);
 	//// </PRIMATIVES> 
 	
 	//0 is diffuse

@@ -151,6 +151,10 @@ void SceneTrain::Init()
 	Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
 	Waypoints[WP_DOOR]->SetTranslate(Vector3(0, 2, 110));
+
+	for (int i = 0; i < WP_TOTAL; i++) {
+		Waypoints[i]->SetActive(false);
+	}
 }
 
 void SceneTrain::InitGL()

@@ -113,7 +113,7 @@ void SceneLibrary::Init()
 		Environment[EN_FLOOR6]->SetTranslate(Vector3(0, 15, 0));
 		Environment[EN_FLOOR6]->SetRotate(Vector3(180, 0, 0));
 
-		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
+		Environment[EN_COUNTER] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE2));
 		Environment[EN_COUNTER]->SetColliderBox(Vector3(15, 1.25, 0.5));
 		Environment[EN_COUNTER]->SetScale(Vector3(30, 2.5, 0.9));
 		Environment[EN_COUNTER]->SetTranslate(Vector3(0, 1.125, -10));
@@ -154,6 +154,11 @@ void SceneLibrary::Init()
 		Waypoints[WP_DOOR]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		Waypoints[WP_DOOR]->SetRotate(Vector3(0, 180, 0));
 	}
+
+	for (int i = 0; i < WP_TOTAL; i++) {
+		Waypoints[i]->SetActive(false);
+	}
+
 }
 
 void SceneLibrary::InitGL()
@@ -191,7 +196,7 @@ void SceneLibrary::Update(double dt)
 		Ayaka->CollisionResolution(Environment[EN_PLANT2]);
 
 		Waypoints[WP_DOOR]->inRangeResponse(Ayaka, SceneManager::SCENE_CITY);
-
+		
 		if (Application::IsKeyPressed('E') && ui->getInteractable() == true)
 		{
 			setQuestStatus(true);

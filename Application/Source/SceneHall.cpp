@@ -150,6 +150,11 @@ void SceneHall::Init()
 		Waypoints[WP_PORTAL]->SetMesh(meshlist->GetMesh(MeshList::MESH_CUBE));
 		//Waypoints[WP_PORTAL]->SetRotate(Vector3(0, 180, 0));
 	}
+
+	for (int i = 0; i < WP_TOTAL; i++) {
+		Waypoints[i]->SetActive(false);
+	}
+
 }
 
 void SceneHall::InitGL()
@@ -269,12 +274,6 @@ void SceneHall::Render()
 		skybox->GetSBX(i)->Draw(renderer, false);
 	}
 
-	for (int i = 0; i < WP_TOTAL; i++)
-	{
-		if (Waypoints[i])
-			Waypoints[i]->DrawLocName(renderer);
-	}
-
 
 	Character_Name[0]->Draw(renderer, true);
 
@@ -334,9 +333,11 @@ void SceneHall::Render()
 	{
 		if (Waypoints[i])
 		{
-			Waypoints[i]->Draw(renderer, false);
-			Waypoints[i]->DrawLocName(renderer);
-		
+			if (i != WP_PORTAL || portalOpen)
+			{
+				Waypoints[i]->Draw(renderer, false);
+				Waypoints[i]->DrawLocName(renderer);
+			}
 		}
 	}
 

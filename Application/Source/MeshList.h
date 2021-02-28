@@ -13,6 +13,8 @@ public:
 		MESH_QUAD,
 		MESH_CUBE,
 
+		MESH_CUBE2,
+
 		//CHARACTER
 		MESH_AYAKA,
 		MESH_WING,

@@ -603,7 +603,7 @@ void UI::Update(double dt)
 		}
 	}
 
-	if ((Application::IsKeyPressed('E')) && (Button_Count == 0) && ((SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL) || (SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY)))
+	if ((Application::IsKeyPressed('E')) && (Button_Count == 0) && (((SceneManager::getCurrentSceneType() == SceneManager::SCENE_HALL) && ((Dialogue_2 == true) || (Dialogue_4 == true))) || ((SceneManager::getCurrentSceneType() == SceneManager::SCENE_LIBRARY)) && (Dialogue_3 == true)))
 	{
 		Dialogue = !Dialogue;
 		Button_Count++;
