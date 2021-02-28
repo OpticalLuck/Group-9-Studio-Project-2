@@ -178,7 +178,11 @@ void CameraVer2::Updatemovement(double dt)
 				{
 					gravity = 0.5f;
 					SPEED = 8 * dt;
-					target->setVertVelocity(-1);
+					if (target->getVertVelocity() < -1)
+						target->setVertVelocity(-1);
+					else {
+						target->setVertVelocity(target->getVertVelocity() - gravity);
+					}
 				}
 				else {
 					gravity = 20.f;
