@@ -63,32 +63,32 @@ void SceneCity::Init()
 	Axis = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_AXIS));
 	Cube[0] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[0]->SetTranslate(Vector3(0, 0, -80));
-	Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	//Cube[0]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
 
 	Cube[1] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[1]->SetTranslate(Vector3(0, 0, 1));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 1, 0));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -1, 0));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(1, 0, 0));
-	Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-1, 0, 0));
+	//Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	//Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 1, 0));
+	//Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -1, 0));
+	//Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(1, 0, 0));
+	//Cube[1]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-1, 0, 0));
 	Cube[0]->AddChild(Cube[1]);
 	
 	Cube[2] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[2]->SetTranslate(Vector3(0, 0, 1));
-	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(2, 0, 0));
-	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-2, 0, 0));
-	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 2, 0));
-	Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -2, 0));
+	//Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(2, 0, 0));
+	//Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-2, 0, 0));
+	//Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 2, 0));
+	//Cube[2]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -2, 0));
 	Cube[1]->AddChild(Cube[2]);
 	
 	Cube[3] = goManager.CreateGO<GameObject>(meshlist->GetMesh(MeshList::MESH_CUBE));
 	Cube[3]->SetTranslate(Vector3(0, 0, 1));
-	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
-	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(3, 0, 0));
-	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-3, 0, 0));
-	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 3, 0));
-	Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -3, 0));
+	//Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 0, 0));
+	//Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(3, 0, 0));
+	//Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(-3, 0, 0));
+	//Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, 3, 0));
+	//Cube[3]->SetColliderBox(Vector3(0.5f, 0.5f, 0.5f), Vector3(0, -3, 0));
 	Cube[2]->AddChild(Cube[3]);
 
 	Ayaka = goManager.CreateGO<Character>(meshlist->GetMesh(MeshList::MESH_AYAKA));
@@ -269,9 +269,9 @@ void SceneCity::Update(double dt)
 				Cube[1]->SetRotate(Cube[1]->GetRotate() + Vector3(0, -SPEED * 10, 0));
 			}
 
-			Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
+			//Cube[0]->SetTranslate(Cube[0]->GetTranslate() + Direction * SPEED);
 			//Cube[0]->UpdateChildCollision();
-			Cube[0]->UpdateCollision();
+			//Cube[0]->UpdateCollision();
 
 		}
 
@@ -373,7 +373,7 @@ void SceneCity::Render()
 	DrawNPCs();
 	train->Draw(renderer, true);
 
-	Cube[0]->Draw(renderer, false);
+	//Cube[0]->Draw(renderer, false);
 	//Cube[1]->Draw(renderer, false);
 	for (int i = 0; i < EN_TOTAL; i++)
 	{
