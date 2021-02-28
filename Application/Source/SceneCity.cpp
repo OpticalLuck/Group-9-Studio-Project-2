@@ -365,8 +365,6 @@ void SceneCity::Render()
 	for (int i = 0; i < LIGHT_TOTAL; i++)
 		renderer->SetLight(lights[i], camera.GetPosition());
 
-	Axis->Draw(renderer, false);
-
 	for (int i = 0; i < Skybox::SBX_TOTAL; i++)
 	{
 		skybox->GetSBX(i)->Draw(renderer, false);
